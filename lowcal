@@ -1,0 +1,102 @@
+#!/usr/bin/env bash
+
+set -e
+
+command=$1
+args=${@:2}
+
+export ROOT_TASKS_FILE=`basename "$0"`
+#export LOWCAL_ROOT=$(pwd)
+
+export SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
+  LOWCAL_ROOT="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ $SOURCE != /* ]] && SOURCE="$LOWCAL_ROOT/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+done
+
+export LOWCAL_ROOT="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+export SERVICES_ROOT=${LOWCAL_ROOT}/services
+
+# docker-machine detection
+if [ -x "$(command -v docker-machine)" ]; then
+	export DOCKER_MACHINE_IP=$(docker-machine ip $(docker-machine ls | grep \* | awk '{ print $1 }'))
+fi
+
+
+if [ ${DOCKER_MACHINE_IP} ]; then
+	export NAMESERVER_IP=${DOCKER_MACHINE_IP}
+else
+	export NAMESERVER_IP="127.0.0.1"
+fi
+
+if [ ! ${TRAEFIK_HTTP_PORT} ]; then
+	export TRAEFIK_HTTP_PORT=80
+fi
+
+if [ ! ${TRAEFIK_HTTPS_PORT} ]; then
+	export TRAEFIK_HTTPS_PORT=443
+fi
+
+
+#if [ ! ${COMPOSE_PROJECT_NAME} ]; then
+#	export COMPOSE_PROJECT_NAME="lowcal"
+#fi
+
+source ${LOWCAL_ROOT}/core/help.sh
+source ${SERVICES_ROOT}/services.sh
+
+case "$command" in
+	docker-compose|dc) ## <arg>...	%% 🐳  Run docker-compose in the lowcal environment
+		docker-compose ${args} ;;
+
+	env) ## %% Show environment variables
+		env ;;
+
+	show-nameserver-ip)
+		echo ${NAMESERVER_IP} ;;
+
+	install) ## %% Install lowcal
+		docker network create lowcal --subnet 10.254.253.0/24 || true
+		docker-compose pull
+		docker-compose up -d cadvisor dnsmasq consul
+		sleep 10
+		docker-compose run --rm traefik storeconfig
+		docker-compose up -d traefik
+
+		sudo mkdir -p /etc/resolver
+
+		# Add fixed loopback alias for container connectivity to services running locally (when running Docker for Mac)
+		uname | grep Darwin && sudo ifconfig lo0 alias 10.254.252.1/32 || true
+
+		#sudo ifconfig lo:0 10.254.253.1/32
+
+		echo "nameserver ${NAMESERVER_IP}" | sudo tee -a /etc/resolver/lowcal
+		echo "nameserver ${NAMESERVER_IP}" | sudo tee -a /etc/resolver/consul
+		echo "port 8600" | sudo tee -a /etc/resolver/consul
+		;;
+
+	clean) ## %% Uninstall lowcal
+		docker-compose down --rmi all -v
+		docker network rm lowcal || true
+		sudo rm -f /etc/resolver/lowcal
+		sudo rm -f /etc/resolver/consul
+		;;
+
+	services:list) ## %% List services available in lowcal
+		services ;;
+
+	mysql*)
+		handle_service mysql ${command} "-f ${LOWCAL_ROOT}/services/mysql/mysql.yml" ;;
+
+	localstack*)
+		handle_service localstack ${command} "-f ${LOWCAL_ROOT}/services/localstack/localstack.yml" ;;
+
+	help|*) ## Get help
+		echo "Usage: ./${ROOT_TASKS_FILE} command [<arg>...]"
+		echo ""
+		print_help ${ROOT_TASKS_FILE}
+		printf "\t\033[36m%-34s\033[0m %s\n" "(service):help" "Get help for a particular service"
+		echo ""
+		exit 1
+esac

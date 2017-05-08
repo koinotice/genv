@@ -1,0 +1,87 @@
+version: '2'
+
+services:
+  dnsmasq:
+    build: core/dnsmasq
+    environment:
+      - USER=dev
+      - PASS=lowcal
+      - NAMESERVER_IP
+    ports:
+      - "53:53/udp"
+      - "5380:8080"
+    logging:
+      options:
+        max-size: 100m
+
+  cadvisor:
+    image: google/cadvisor:latest
+    ports:
+      - "8070:8080"
+    labels:
+      - "traefik.backend=cadvisor"
+      - "traefik.port=8080"
+      - "traefik.frontend.rule=Host:cadvisor.lowcal"
+      - "traefik.docker.network=lowcal"
+      - "traefik.tags=lowcal"
+    networks:
+      default:
+        aliases:
+          - cadvisor.lowcal
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+
+  consul:
+    image: progrium/consul
+    command: -server -bootstrap -log-level debug -ui-dir /ui
+    ports:
+      - "8400:8400"
+      - "8500:8500"
+      - "8600:53/udp"
+    expose:
+      - "8300"
+      - "8301"
+      - "8301/udp"
+      - "8302"
+      - "8302/udp"
+    labels:
+      - "traefik.backend=consul"
+      - "traefik.port=8500"
+      - "traefik.frontend.rule=Host:consul.lowcal"
+      - "traefik.docker.network=lowcal"
+      - "traefik.tags=lowcal"
+    networks:
+      default:
+        aliases:
+          - consul.lowcal
+
+  traefik:
+    image: traefik:latest
+    command: --consul --consul.endpoint=consul:8500
+    ports:
+      - "${TRAEFIK_HTTP_PORT}:80"
+      - "${TRAEFIK_HTTPS_PORT}:443"
+      - "8075"
+    links:
+      - consul
+    labels:
+      - "traefik.backend=traefik"
+      - "traefik.port=8075"
+      - "traefik.frontend.rule=Host:traefik.lowcal"
+      - "traefik.docker.network=lowcal"
+      - "traefik.tags=lowcal"
+    networks:
+      default:
+        aliases:
+          - traefik.lowcal
+    volumes:
+      - ./core/traefik/:/etc/traefik/
+      - /var/run/docker.sock:/var/run/docker.sock
+
+networks:
+  default:
+    external:
+      name: lowcal
