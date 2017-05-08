@@ -3,7 +3,12 @@
 set -e
 
 services() {
-	echo "mysql localstack"
+	for f in `ls ${SERVICES_ROOT}/${1}`; do
+		if [[ "$f" = "services.sh" ]]; then
+			continue
+		fi
+		echo -e "$f"
+	done
 }
 
 # $1 service name
