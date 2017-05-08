@@ -38,6 +38,9 @@ handle_service() {
 		${1}:rm)
 			docker-compose ${3} rm ${args} ${1} ;;
 
+		${1}:port)
+			docker-compose ${3} port ${1} ${PRIVATE_PORT} ;;
+
 		${1}:ps)
 			docker-compose ${3} ps ${1} ;;
 
@@ -62,6 +65,7 @@ ${1}:stop) ## %% Stop ${1}
 ${1}:start) ## %% Start ${1}
 ${1}:restart) ## %% Restart ${1}
 ${1}:rm) ## %% Remove stopped ${1} container(s)
+${1}:port) ## %% Print the public port for a port binding
 ${1}:ps) ## %% List ${1} container(s)
 ${1}:logs) ## %% View ${1} container output
 ${1}:sh) ## %% Enter a shell on the ${1} container

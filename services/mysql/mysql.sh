@@ -16,4 +16,5 @@ fi
 
 if [ ! ${MYSQL_PORT} ]; then
 	export MYSQL_PORT=3306
+	export PRIVATE_PORT=${MYSQL_PORT}
 fi

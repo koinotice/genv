@@ -4,8 +4,7 @@
 
 _Lowcal_ is essentially a wrapper around a set of `docker-compose`
 configurations that make it easy to up a local development environment
-for Docker. It's an ideal choice for developing containerized
-microservices, for those that don't wish to run a full
+for Docker. It's an ideal choice for those that don't wish to run a full
 management/orchestration platform on their workstation.
 
 ## Core Services
@@ -91,12 +90,6 @@ networks:
 2. Then copy/paste the `networks` block to the bottom of your
    `docker-compose.yml`.
 
-### Optional Services
-
-* Run `./lowcal services:list` to get a list of the included optional
-  services.
-* Run `./lowcal (service):help` to get help for a particular service.
-
 ### Restart
 
 `make restart`
@@ -105,6 +98,12 @@ networks:
 
 * Run `make clean`
   * On OS X, you'll be asked for your password
+
+## Optional Services
+
+* Run `./lowcal services:list` to get a list of the included optional
+  services.
+* Run `./lowcal (service):help` to get help for a particular service.
 
 ## TODO
 
