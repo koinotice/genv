@@ -1,0 +1,32 @@
+version: '2'
+
+services:
+  localstack:
+    image: atlassianlabs/localstack
+    environment:
+      - TERM=xterm
+      - SERVICES=${LOCALSTACK_SERVICES}
+      - DEFAULT_REGION
+      - HOSTNAME=${NAMESERVER_IP}
+      - KINESIS_ERROR_PROBABILITY
+      - DYNAMODB_ERROR_PROBABILITY
+      - LAMBDA_EXECUTOR
+      - DATA_DIR
+      - DOCKER_HOST="unix:///var/run/docker.sock"
+    labels:
+      - "traefik.backend=localstack"
+      - "traefik.port=8080"
+      - "traefik.frontend.rule=Host:localstack.lowcal"
+      - "traefik.docker.network=lowcal"
+      - "traefik.tags=lowcal"
+    ports:
+      - "8080"
+      - ${PORT_MAPPINGS}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${TMP_DIR}:${TMP_DIR}
+
+networks:
+  default:
+    external:
+      name: lowcal
