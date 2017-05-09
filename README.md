@@ -3,14 +3,15 @@
 **A lightweight toolkit for local development with Docker**
 
 _Lowcal_ is essentially a wrapper around a set of `docker-compose`
-configurations that make it easy to up a local development environment
-for Docker. It's an ideal choice for those that don't wish to run a full
-management/orchestration platform on their workstation.
+configurations that make it easy to up a local/offline development
+environment for Docker. It's an ideal choice for those that don't wish
+to run a full container management or orchestration platform on their
+workstation.
 
 ## Core Services
 
 * **[Dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html)** enables
-  DNS lookups for the `.lowcal` and your own custom domain.
+  DNS lookups for the `lowcal.dev` and your own custom domain.
 * **[Consul](https://consul.io)** is used for service discovery. When
   you register a service via the
   **[Consul Agent HTTP API](https://www.consul.io/api/agent.html)**, it
@@ -33,13 +34,19 @@ management/orchestration platform on their workstation.
 ## Usage
 
 **Make sure you don't have any other containers exposing or local
-services running on ports 80 or 443.** If you must run _Traefik_ on
-different ports, run the following with the ports of your choice:
+services running on ports 80 or 443.**
+
+### Traefik Port Overrides (optional)
+
+If you must run _Traefik_ on different ports, export the following
+environment variables with the ports of your choice:
 
 ```bash
 export TRAEFIK_HTTP_PORT=8880
 export TRAEFIK_HTTPS_PORT=8843
 ```
+
+### Installation
 
 1. Clone this repository
 2. Run `cd lowcal && make install`
@@ -52,11 +59,35 @@ export TRAEFIK_HTTPS_PORT=8843
 
 ### Web UIs
 
-* **Consul:** http://consul.lowcal
-* **Traefik:** http://traefik.lowcal
-* **cAdvisor:** http://cadvisor.lowcal
+* **Consul:** http://consul.lowcal.dev
+* **Traefik:** http://traefik.lowcal.dev
+* **cAdvisor:** http://cadvisor.lowcal.dev
 
 ### Configuration
+
+#### Custom Domain
+
+_TODO_
+
+##### HTTPS with Let's Encrypt
+
+Example configuration:
+
+```bash
+export TRAEFIK_ACME=true
+#export TRAEFIK_ACME_STAGING=true
+export TRAEFIK_ACME_LOGGING=true
+export TRAEFIK_ACME_DNSPROVIDER=route53
+export TRAEFIK_ACME_EMAIL=you@example.com
+export TRAEFIK_ACME_ONDEMAND=false
+export TRAEFIK_ACME_ONHOSTRULE=true
+
+export AWS_ACCESS_KEY_ID=XXXXXXXXXXXXXXX
+export AWS_SECRET_ACCESS_KEY=XXXXXXXXXXXXXXX
+export AWS_REGION=us-east-1
+```
+
+#### Docker Compose Projects
 
 If your project uses `docker-compose`, here's an example
 `docker-compose.yml`:
@@ -72,6 +103,7 @@ services:
       - "traefik.backend=app"
       - "traefik.port=9000"
       - "traefik.frontend.rule=Host:app.example.com"
+      - "traefik.frontend.entryPoints=http" # add ',https' for HTTPS support
       - "traefik.docker.network=lowcal"
       - "traefik.tags=lowcal"
     ports:
@@ -85,14 +117,11 @@ networks:
       name: lowcal
 ```
 
-1. You'll need to specify all the `traefik.*` labels your web service,
-   customizing the `backend`, `port`, and `frontend` labels accordingly.
+1. You'll need to specify all the `traefik.*` labels for your web
+   service, customizing the `backend`, `port`, and `frontend` labels
+   accordingly.
 2. Then copy/paste the `networks` block to the bottom of your
    `docker-compose.yml`.
-
-### Restart
-
-`make restart`
 
 ### Removal
 
@@ -107,4 +136,6 @@ networks:
 
 ## TODO
 
-* More docs, tips
+* Finish support for custom domain
+* Add ssh-agent (https://github.com/whilp/ssh-agent)
+* Support HTTPS with static certificates

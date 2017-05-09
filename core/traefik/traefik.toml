@@ -128,7 +128,6 @@ debug = true
 # Required
 #
 # storage = "acme.json" # or "traefik/acme/account" if using KV store
-#storage = "traefik/acme/account"
 
 # Entrypoint to proxy acme challenge/apply certificates to.
 # WARNING, must point to an entrypoint on port 443
@@ -307,8 +306,6 @@ debug = true
 #
 # attempts = 3
 
-defaultEntryPoints = ["http"]
-#defaultEntryPoints = ["http", "https"]
 [entryPoints]
   [entryPoints.http]
   address = ":80"
@@ -318,8 +315,8 @@ defaultEntryPoints = ["http"]
 #  address = ":443"
 #    [entryPoints.https.tls]
 #      [[entryPoints.https.tls.certificates]]
-#      certFile = "/etc/traefik/lowcal.nl.crt"
-#      keyFile = "/etc/traefik/lowcal.nl.key"
+#      certFile = "/etc/traefik/lowcal.crt"
+#      keyFile = "/etc/traefik/lowcal.key"
 
 ################################################################
 # Web configuration backend
@@ -522,10 +519,10 @@ constraints = ["tag==lowcal"]
 ################################################################
 # Consul KV configuration backend
 ################################################################
-[consul]
-	endpoint = "consul:8500"
-	watch = true
-	prefix = "traefik"
+#[consul]
+#	endpoint = "consul:8500"
+#	watch = true
+#	prefix = "traefik"
 
 ################################################################
 # Consul Catalog configuration backend

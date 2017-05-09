@@ -19,6 +19,14 @@ start: ## Start all services
 restart: ## Restart all services
 	./lowcal dc restart
 
+rm: ## Remove all services
+	./lowcal dc rm -f -v
+
+refresh:
+	./lowcal dc stop
+	./lowcal dc rm -f -v
+	./lowcal dc up -d
+
 logs: ## Tail output from containers
 	./lowcal dc logs -f
 
