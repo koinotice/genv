@@ -1,14 +1,38 @@
 # Lowcal
 
-**A lightweight toolkit for local development with Docker**
+**A lightweight toolkit for local development with
+[Docker](https://www.docker.com/)**
 
-_Lowcal_ is essentially a wrapper around a set of `docker-compose`
-configurations that make it easy to up a local/offline development
-environment for Docker. It's an ideal choice for those that don't wish
-to run a full container management or orchestration platform on their
-workstation.
+_Lowcal_ is essentially a wrapper around a set of
+[Docker Compose](https://docs.docker.com/compose/) configurations that
+make it easy to run a local/offline development environment for Docker.
+It's an ideal choice for those that don't wish to run a full container
+management or orchestration platform on their workstation. _Lowcal_ has
+been tested with [Docker for Mac](https://www.docker.com/docker-mac) and
+[Docker Toolbox](https://www.docker.com/products/docker-toolbox) on
+MacOS, though due to
+[I/O performance issues with Docker for Mac](https://docs.docker.com/docker-for-mac/osxfs/#performance-issues-solutions-and-roadmap),
+you may find the best experience using Docker Machine with [Parallels
+Desktop Pro/Business](http://www.parallels.com/products/desktop/) and
+the
+[corresponding Docker Machine driver](https://github.com/Parallels/docker-machine-parallels).
+
+## Pro Tip
+
+This is a tool for convenience, and it should not be used to substitute
+knowledge of how to use Docker or `docker-compose`.
+
+## Requirements
+
+* Bash (`bash`)
+* Make (`make`)
+* Docker (`docker`)
+* Docker Compose (`docker-compose`)
 
 ## Core Services
+
+_Lowcal_ provides the following core services that are essential to its
+operation:
 
 * **[Dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html)** enables
   DNS lookups for the `lowcal.dev` and your own custom domain.
@@ -23,13 +47,6 @@ workstation.
 * **[cAdvisor](https://github.com/google/cadvisor)** provides a web UI
   for analyzing the resource usage and performance characteristics of
   running containers.
-
-## Requirements
-
-* Bash
-* Make
-* Docker
-* Docker Compose
 
 ## Usage
 
@@ -50,7 +67,7 @@ export TRAEFIK_HTTPS_PORT=8843
 
 1. Clone this repository
 2. Run `cd lowcal && make install`
-   * On OS X, you'll be asked for your password
+   * On MacOS, you'll be asked for your password
 
 ### Help
 
@@ -65,11 +82,25 @@ export TRAEFIK_HTTPS_PORT=8843
 
 ### Configuration
 
+#### Environment Variables
+
+_Lowcal_ uses environment variables exclusively for all configuration
+parameters, many of which are passed directly to the underlying
+containers.
+
+For details, explore the [`docker-compose.yml`](docker-compose.yml) at
+the root of this repository, and the `.yml` files for each included
+service in `services/*`.
+
 #### Custom Domain
 
-_TODO_
+You can configure _Lowcal_ to use your own domain:
 
-##### HTTPS with Let's Encrypt
+```bash
+export CUSTOM_DOMAIN="example.com"
+```
+
+##### HTTPS with Let's Encrypt (Internet connection required)
 
 Example configuration:
 
@@ -86,6 +117,14 @@ export AWS_ACCESS_KEY_ID=XXXXXXXXXXXXXXX
 export AWS_SECRET_ACCESS_KEY=XXXXXXXXXXXXXXX
 export AWS_REGION=us-east-1
 ```
+
+Refer to
+[Traefik's documentation](https://docs.traefik.io/toml/#acme-lets-encrypt-configuration)
+for more information.
+
+##### HTTPS with static (or self-signed) certificates
+
+_TODO_
 
 #### Docker Compose Projects
 
@@ -126,16 +165,34 @@ networks:
 ### Removal
 
 * Run `make clean`
-  * On OS X, you'll be asked for your password
+  * On MacOS, you'll be asked for your password
 
-## Optional Services
+## Supporting Services
 
-* Run `./lowcal services:list` to get a list of the included optional
-  services.
+For your convenience, _Lowcal_ includes a handful of `docker-compose`
+configurations for commonly used databases, DevOps tools, etc:
+
+* MySQL
+* [LocalStack](https://bitbucket.org/atlassian/localstack) (Local AWS
+  cloud stack)
+
+### Controlling services
+
+* Run `./lowcal services:list` to get a list of the included services.
 * Run `./lowcal (service):help` to get help for a particular service.
+
 
 ## TODO
 
-* Finish support for custom domain
-* Add ssh-agent (https://github.com/whilp/ssh-agent)
 * Support HTTPS with static certificates
+* Add Services:
+  * ssh-agent (https://github.com/whilp/ssh-agent)
+  * Couchbase + provisioner
+  * MailHog
+  * ELK Stack
+  * Postgres
+* Consul + Traefik tips
+
+## Contributing
+
+PRs are welcome 🙂

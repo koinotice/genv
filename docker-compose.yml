@@ -7,6 +7,7 @@ services:
       - USER=dev
       - PASS=lowcal
       - NAMESERVER_IP
+      - CUSTOM_DOMAIN
     ports:
       - "53:53/udp"
       - "5380:8080"
@@ -65,30 +66,49 @@ services:
     command: ${TRAEFIK_COMMAND}
     environment:
     # cloudflare
-#      - CLOUDFLARE_EMAIL
-#      - CLOUDFLARE_API_KEY
+      - CLOUDFLARE_EMAIL
+      - CLOUDFLARE_API_KEY
     # digitalocean
-#      - DO_AUTH_TOKEN
+      - DO_AUTH_TOKEN
     # dnsimple
-#      - DNSIMPLE_EMAIL
-#      - DNSIMPLE_API_KEY
+      - DNSIMPLE_EMAIL
+      - DNSIMPLE_API_KEY
     # dnsmadeeasy
-#      - DNSMADEEASY_API_KEY
-#      - DNSMADEEASY_API_SECRET
-    #  - exoscale: EXOSCALE_API_KEY, EXOSCALE_API_SECRET
-    #  - gandi: GANDI_API_KEY
-    #  - linode: LINODE_API_KEY
-    #  - manual: none, but run traefik interactively & turn on acmeLogging to see instructions & press Enter
-    #  - namecheap: NAMECHEAP_API_USER, NAMECHEAP_API_KEY
-    #  - rfc2136: RFC2136_TSIG_KEY, RFC2136_TSIG_SECRET, RFC2136_TSIG_ALGORITHM, RFC2136_NAMESERVER
+      - DNSMADEEASY_API_KEY
+      - DNSMADEEASY_API_SECRET
+    # exoscale
+      - EXOSCALE_API_KEY
+      - EXOSCALE_API_SECRET
+    # gandi
+      - GANDI_API_KEY
+    # linode
+      - LINODE_API_KEY
+    # namecheap
+      - NAMECHEAP_API_USER
+      - NAMECHEAP_API_KEY
+    # rfc2136
+      - RFC2136_TSIG_KEY
+      - RFC2136_TSIG_SECRET
+      - RFC2136_TSIG_ALGORITHM
+      - RFC2136_NAMESERVER
     # route53
       - AWS_ACCESS_KEY_ID
       - AWS_SECRET_ACCESS_KEY
       - AWS_REGION
-    #  - dyn: DYN_CUSTOMER_NAME, DYN_USER_NAME, DYN_PASSWORD
-    #  - vultr: VULTR_API_KEY
-    #  - ovh: OVH_ENDPOINT, OVH_APPLICATION_KEY, OVH_APPLICATION_SECRET, OVH_CONSUMER_KEY
-    #  - pdns: PDNS_API_KEY, PDNS_API_URL
+    # dyn
+      - DYN_CUSTOMER_NAME
+      - DYN_USER_NAME
+      - DYN_PASSWORD
+    # vultr
+      - VULTR_API_KEY
+    # ovh
+      - OVH_ENDPOINT
+      - OVH_APPLICATION_KEY
+      - OVH_APPLICATION_SECRET
+      - OVH_CONSUMER_KEY
+    # pdns
+      - PDNS_API_KEY
+      - PDNS_API_URL
     ports:
       - "${TRAEFIK_HTTP_PORT}:80"
       - "${TRAEFIK_HTTPS_PORT}:443"

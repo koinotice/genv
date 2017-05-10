@@ -58,6 +58,10 @@ case "$command" in
 
 		#sudo ifconfig lo:0 10.254.253.1/32
 
+		if [ ${CUSTOM_DOMAIN} ]; then
+			echo "nameserver ${NAMESERVER_IP}" | sudo tee -a /etc/resolver/${CUSTOM_DOMAIN}
+		fi
+
 		echo "nameserver ${NAMESERVER_IP}" | sudo tee -a /etc/resolver/lowcal.dev
 		echo "nameserver ${NAMESERVER_IP}" | sudo tee -a /etc/resolver/consul
 		echo "port 8600" | sudo tee -a /etc/resolver/consul
@@ -66,6 +70,11 @@ case "$command" in
 	clean) ## %% Uninstall lowcal
 		docker-compose down --rmi all -v
 		docker network rm lowcal || true
+
+		if [ ${CUSTOM_DOMAIN} ]; then
+			sudo rm -f /etc/resolver/${CUSTOM_DOMAIN}
+		fi
+
 		sudo rm -f /etc/resolver/lowcal.dev
 		sudo rm -f /etc/resolver/consul
 		;;
@@ -81,6 +90,9 @@ case "$command" in
 
 	localstack*)
 		handle_service localstack ${command} "-f ${LOWCAL_ROOT}/services/localstack/localstack.yml" ;;
+
+	foo*)
+		handle_service foo ${command} "-f ${LOWCAL_ROOT}/services/foo/foo.yml" ;;
 
 	help|*) ## Get help
 		echo "Usage: ./${ROOT_TASKS_FILE} command [<arg>...]"

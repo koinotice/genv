@@ -51,7 +51,7 @@ if [ ${TRAEFIK_ACME} ]; then
 "
 fi
 
-if [ ! ${TRAEFIK_ACME_STAGING} ]; then
+if [ ${TRAEFIK_ACME_STAGING} ]; then
 	export TRAEFIK_COMMAND="
 ${TRAEFIK_COMMAND}
 --acme.caserver='https://acme-staging.api.letsencrypt.org/directory'
