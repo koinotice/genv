@@ -190,6 +190,14 @@ For your convenience, _Lowcal_ includes a handful of `docker-compose`
 configurations for commonly used databases, DevOps tools, etc:
 
 * MySQL
+    * Environment Variables (with defaults)
+        ```bash
+        export MYSQL_VERSION=5
+        export MYSQL_ROOT_PASSWORD="abc123"
+        export MYSQL_DATABASE="lowcal"
+        export MYSQL_PORT=3306 # exposed to Docker host
+        ```
+
 * [LocalStack](https://bitbucket.org/atlassian/localstack) (Local AWS
   cloud stack)
 * ssh-agent (https://github.com/whilp/ssh-agent)
