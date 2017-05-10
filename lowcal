@@ -5,9 +5,6 @@ set -e
 command=$1
 args=${@:2}
 
-export ROOT_TASKS_FILE=`basename "$0"`
-#export LOWCAL_ROOT=$(pwd)
-
 export SOURCE="${BASH_SOURCE[0]}"
 while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
   LOWCAL_ROOT="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
@@ -18,16 +15,21 @@ done
 export LOWCAL_ROOT="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 export SERVICES_ROOT=${LOWCAL_ROOT}/services
 
-source core/vars/vars.sh
-source core/help.sh
-source services/services.sh
+export ROOT_TASKS_FILE="${LOWCAL_ROOT}/lowcal"
+
+export LOWCAL_DOCKER_COMPOSE_CFG="${LOWCAL_ROOT}/docker-compose.yml"
+export LOWCAL_DOCKER_COMPOSE="docker-compose -f ${LOWCAL_DOCKER_COMPOSE_CFG}"
+
+source ${LOWCAL_ROOT}/core/vars/vars.sh
+source ${LOWCAL_ROOT}/core/help.sh
+source ${LOWCAL_ROOT}/services/services.sh
 
 traefik_storeconfig() {
 	if [ ! -f core/traefik/acme/acme.json ]; then
 		echo "{ }" > core/traefik/acme/acme.json
 	fi
 	chmod 600 core/traefik/acme/acme.json
-	docker-compose run --rm traefik storeconfig
+	${LOWCAL_DOCKER_COMPOSE} run --rm traefik storeconfig
 }
 
 case "$command" in
@@ -35,7 +37,7 @@ case "$command" in
 		docker ${args} ;;
 
 	docker-compose|dc) ## <arg>...	%% 🐳  Run docker-compose in the lowcal environment
-		docker-compose ${args} ;;
+		${LOWCAL_DOCKER_COMPOSE} ${args} ;;
 
 	env) ## %% Show environment variables
 		env ;;
@@ -45,11 +47,11 @@ case "$command" in
 
 	install) ## %% Install lowcal
 		docker network create lowcal --subnet 10.254.253.0/24 || true
-		docker-compose pull
-		docker-compose up -d cadvisor dnsmasq consul
+		${LOWCAL_DOCKER_COMPOSE} pull
+		${LOWCAL_DOCKER_COMPOSE} up -d cadvisor dnsmasq consul
 #		sleep 10
 #		traefik_storeconfig
-		docker-compose up -d traefik
+		${LOWCAL_DOCKER_COMPOSE} up -d traefik
 
 		sudo mkdir -p /etc/resolver
 
@@ -68,7 +70,7 @@ case "$command" in
 		;;
 
 	clean) ## %% Uninstall lowcal
-		docker-compose down --rmi all -v
+		${LOWCAL_DOCKER_COMPOSE} down --rmi all -v
 		docker network rm lowcal || true
 
 		if [ ${CUSTOM_DOMAIN} ]; then
@@ -95,7 +97,7 @@ case "$command" in
 		handle_service ssh-agent ${command} "-f ${LOWCAL_ROOT}/services/ssh-agent/ssh-agent.yml" ;;
 
 	help|*) ## Get help
-		echo "Usage: ./${ROOT_TASKS_FILE} command [<arg>...]"
+		echo "Usage: lowcal command [<arg>...]"
 		echo ""
 		print_help ${ROOT_TASKS_FILE}
 		printf "\t\033[36m%-34s\033[0m %s\n" "(service):help" "Get help for a particular service"
