@@ -10,9 +10,9 @@ It's an ideal choice for those that don't wish to run a full container
 management or orchestration platform on their workstation. _Lowcal_ has
 been tested with [Docker for Mac](https://www.docker.com/docker-mac) and
 [Docker Toolbox](https://www.docker.com/products/docker-toolbox) on
-MacOS, though due to
+MacOS. However, due to
 [I/O performance issues with Docker for Mac](https://docs.docker.com/docker-for-mac/osxfs/#performance-issues-solutions-and-roadmap),
-you may find the best experience using Docker Machine with [Parallels
+you may have the best experience using Docker Machine with [Parallels
 Desktop Pro/Business](http://www.parallels.com/products/desktop/) and
 the
 [corresponding Docker Machine driver](https://github.com/Parallels/docker-machine-parallels).
@@ -20,7 +20,8 @@ the
 ## Pro Tip
 
 This is a tool for convenience, and it should not be used to substitute
-knowledge of how to use Docker or `docker-compose`.
+knowledge of how to use Docker, Docker Compose, or any of the related
+tools.
 
 ## Requirements
 
@@ -68,6 +69,8 @@ export TRAEFIK_HTTPS_PORT=8843
 1. Clone this repository
 2. Run `cd lowcal && make install`
    * On MacOS, you'll be asked for your password
+3. Optional: add `lowcal` to your `$PATH`. Edit your `.bash_profile`,
+   `.bashrc`, or `.zshrc` accordingly.
 
 ### Help
 
@@ -192,7 +195,12 @@ configurations for commonly used databases, DevOps tools, etc:
   * ELK Stack
   * Postgres
 * Consul + Traefik tips
+* Test with Linux
 
 ## Contributing
 
-PRs are welcome 🙂
+* If you experience an issue and are relatively certain that `lowcal` is
+  the culprit, please report it.
+* Issues requesting support specifically
+  for any of the core or supporting services will not be processed.
+* PRs are welcome 🙂
