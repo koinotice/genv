@@ -1,0 +1,16 @@
+version: '2'
+
+services:
+  ssh-agent:
+    image: whilp/ssh-agent:latest
+    user: "1001"
+    volumes:
+      - ssh:/ssh
+
+volumes:
+    ssh:
+
+networks:
+  default:
+    external:
+      name: lowcal

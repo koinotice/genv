@@ -49,12 +49,17 @@ if [ ${TRAEFIK_ACME} ]; then
 --acme.storage=${TRAEFIK_ACME_STORAGE}
 --entryPoints='Name:https Address::443 TLS'
 "
-fi
-
-if [ ${TRAEFIK_ACME_STAGING} ]; then
-	export TRAEFIK_COMMAND="
+	if [ ${TRAEFIK_ACME_STAGING} ]; then
+		export TRAEFIK_COMMAND="
 ${TRAEFIK_COMMAND}
 --acme.caserver='https://acme-staging.api.letsencrypt.org/directory'
+	"
+	fi
+fi
+
+if [[ ${TRAEFIK_TLS_CERTFILE} && ${TRAEFIK_TLS_KEYFILE} ]]; then
+	export TRAEFIK_COMMAND="
+--entryPoints='Name:https Address::443 TLS:/etc/traefik/certs/${TRAEFIK_TLS_CERTFILE},/etc/traefik/certs/${TRAEFIK_TLS_KEYFILE}'
 "
 fi
 

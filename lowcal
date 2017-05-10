@@ -79,8 +79,8 @@ case "$command" in
 		sudo rm -f /etc/resolver/consul
 		;;
 
-	traefik:storeconfig) ## %% Upload the Traefik configuration to Consul
-		traefik_storeconfig ;;
+	#traefik:storeconfig) ## %% Upload the Traefik configuration to Consul
+	#	traefik_storeconfig ;;
 
 	services:list) ## %% List services available in lowcal
 		services ;;
@@ -91,8 +91,8 @@ case "$command" in
 	localstack*)
 		handle_service localstack ${command} "-f ${LOWCAL_ROOT}/services/localstack/localstack.yml" ;;
 
-	foo*)
-		handle_service foo ${command} "-f ${LOWCAL_ROOT}/services/foo/foo.yml" ;;
+	ssh-agent*)
+		handle_service ssh-agent ${command} "-f ${LOWCAL_ROOT}/services/ssh-agent/ssh-agent.yml" ;;
 
 	help|*) ## Get help
 		echo "Usage: ./${ROOT_TASKS_FILE} command [<arg>...]"

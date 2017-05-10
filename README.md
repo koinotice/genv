@@ -19,9 +19,9 @@ the
 
 ## Pro Tip
 
-This is a tool for convenience, and it should not be used to substitute
-knowledge of how to use Docker, Docker Compose, or any of the related
-tools.
+_Lowcal_ stands on the shoulders of giants. This is a tool for
+convenience, and it should not be used to substitute knowledge of how to
+use Docker, Docker Compose, or any of the related tools.
 
 ## Requirements
 
@@ -36,7 +36,7 @@ _Lowcal_ provides the following core services that are essential to its
 operation:
 
 * **[Dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html)** enables
-  DNS lookups for the `lowcal.dev` and your own custom domain.
+  DNS lookups for `lowcal.dev` and your own custom domain.
 * **[Consul](https://consul.io)** is used for service discovery. When
   you register a service via the
   **[Consul Agent HTTP API](https://www.consul.io/api/agent.html)**, it
@@ -74,8 +74,8 @@ export TRAEFIK_HTTPS_PORT=8843
 
 ### Help
 
-* `make help`
 * `./lowcal help`
+* (`make help`)
 
 ### Web UIs
 
@@ -103,7 +103,12 @@ You can configure _Lowcal_ to use your own domain:
 export CUSTOM_DOMAIN="example.com"
 ```
 
-##### HTTPS with Let's Encrypt (Internet connection required)
+If you would like to use HTTPS, you may choose _one_ of the following
+options:
+
+##### HTTPS with Let's Encrypt
+
+_Internet connection required_
 
 Example configuration:
 
@@ -127,7 +132,16 @@ for more information.
 
 ##### HTTPS with static (or self-signed) certificates
 
-_TODO_
+_Works offline_
+
+1. Copy your certificate and key files to `core/traefik/certs`.
+2. Set the following environment variables, replacing the values with
+   the appropriate file names:
+
+   ```bash
+   export TRAEFIK_TLS_CERTFILE=example.crt
+   export TRAEFIK_TLS_KEYFILE=example.key
+   ```
 
 #### Docker Compose Projects
 
@@ -178,6 +192,9 @@ configurations for commonly used databases, DevOps tools, etc:
 * MySQL
 * [LocalStack](https://bitbucket.org/atlassian/localstack) (Local AWS
   cloud stack)
+* ssh-agent (https://github.com/whilp/ssh-agent)
+    * Run: `./lowcal ssh-agent:up`
+    * Add your key: `./lowcal ssh-agent:add <filename>`, where `<filename>` is located in `~/.ssh/`.
 
 ### Controlling services
 
@@ -187,10 +204,8 @@ configurations for commonly used databases, DevOps tools, etc:
 
 ## TODO
 
-* Support HTTPS with static certificates
 * Add Services:
-  * ssh-agent (https://github.com/whilp/ssh-agent)
-  * Couchbase + provisioner
+  * Couchbase
   * MailHog
   * ELK Stack
   * Postgres
@@ -201,6 +216,6 @@ configurations for commonly used databases, DevOps tools, etc:
 
 * If you experience an issue and are relatively certain that `lowcal` is
   the culprit, please report it.
-* Issues requesting support specifically
-  for any of the core or supporting services will not be processed.
+  * Issues requesting support specifically for any of the core or
+    supporting services will not be processed.
 * PRs are welcome 🙂
