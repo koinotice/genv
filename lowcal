@@ -21,7 +21,12 @@ export LOWCAL_DOCKER_COMPOSE_CFG="${LOWCAL_ROOT}/docker-compose.yml"
 export LOWCAL_DOCKER_COMPOSE="docker-compose -f ${LOWCAL_DOCKER_COMPOSE_CFG}"
 
 source ${LOWCAL_ROOT}/core/vars/vars.sh
-source ${LOWCAL_ROOT}/core/help.sh
+
+print_help() {
+	help=$(grep -E '^\t[a-zA-Z:|_-]+\)\s##\s.*$' ${1} | sort | awk 'BEGIN {FS = "\\).*?## |%%"}; {c=$1" "$2; printf "\033[36m%-34s\033[0m %s\n", c, $3}')
+	echo -e "$help"
+}
+
 source ${LOWCAL_ROOT}/services/services.sh
 
 traefik_storeconfig() {
@@ -36,7 +41,7 @@ case "$command" in
 	docker) ## <arg>...	%% 🐳  Run docker in the lowcal environment
 		docker ${args} ;;
 
-	docker-compose|dc) ## <arg>...	%% 🐳  Run docker-compose in the lowcal environment
+	docker-compose|dc) ## <arg>... %% 🐳  Run docker-compose in the lowcal environment
 		${LOWCAL_DOCKER_COMPOSE} ${args} ;;
 
 	env) ## %% Show environment variables
@@ -87,11 +92,14 @@ case "$command" in
 	services:list) ## %% List services available in lowcal
 		services ;;
 
-	mysql*)
-		handle_service mysql ${command} "-f ${LOWCAL_ROOT}/services/mysql/mysql.yml" ;;
+	couchbase*)
+		handle_service couchbase ${command} "-f ${LOWCAL_ROOT}/services/couchbase/couchbase.yml" ;;
 
 	localstack*)
 		handle_service localstack ${command} "-f ${LOWCAL_ROOT}/services/localstack/localstack.yml" ;;
+
+	mysql*)
+		handle_service mysql ${command} "-f ${LOWCAL_ROOT}/services/mysql/mysql.yml" ;;
 
 	ssh-agent*)
 		handle_service ssh-agent ${command} "-f ${LOWCAL_ROOT}/services/ssh-agent/ssh-agent.yml" ;;

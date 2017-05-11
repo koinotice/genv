@@ -23,8 +23,8 @@ MacOS.
 
 ## TODO
 
+* Couchbase Provisioner
 * Add Services:
-  * Couchbase
   * MailHog
   * ELK Stack
   * Postgres

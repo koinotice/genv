@@ -60,7 +60,7 @@
     <link rel="next" href="./" />
     
     
-    <link rel="prev" href="../configuration.html" />
+    <link rel="prev" href="../docker_compose.html" />
     
 
     </head>
@@ -318,6 +318,19 @@
             
         </li>
     
+        <li class="chapter " data-level="2.4.6.3" data-path="../docker_compose.html">
+            
+                <a href="../docker_compose.html">
+            
+                    
+                    Docker Compose Projects
+            
+                </a>
+            
+
+            
+        </li>
+    
 
             </ul>
             
@@ -339,10 +352,10 @@
     
         <li class="chapter " data-level="2.4.7.1" data-path="./">
             
-                <a href="./#mysql">
+                <a href="./#couchbase">
             
                     
-                    MySQL
+                    Couchbase
             
                 </a>
             
@@ -364,6 +377,19 @@
         </li>
     
         <li class="chapter " data-level="2.4.7.3" data-path="./">
+            
+                <a href="./#mysql">
+            
+                    
+                    MySQL
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4.7.4" data-path="./">
             
                 <a href="./#ssh-agent">
             
@@ -447,15 +473,19 @@
                                 <h1 id="supporting-services">Supporting Services</h1>
 <p>For your convenience, <em>Lowcal</em> includes a handful of <code>docker-compose</code>
 configurations for commonly used databases, DevOps tools, etc:</p>
-<h2 id="mysql">MySQL</h2>
-<h3 id="environment-variables-with-defaults">Environment Variables (with defaults)</h3>
+<h2 id="couchbase"><a href="https://hub.docker.com/_/couchbase/" target="_blank">Couchbase</a></h2>
+<p><strong>Environment Variables (with defaults):</strong></p>
+<pre><code class="lang-bash"><span class="hljs-built_in">export</span> COUCHBASE_VERSION=<span class="hljs-string">&quot;latest&quot;</span>
+</code></pre>
+<h2 id="localstack"><a href="https://bitbucket.org/atlassian/localstack" target="_blank">LocalStack</a></h2>
+<p>Local AWS cloud stack</p>
+<h2 id="mysql"><a href="https://hub.docker.com/_/mysql/" target="_blank">MySQL</a></h2>
+<p><strong>Environment Variables (with defaults):</strong></p>
 <pre><code class="lang-bash"><span class="hljs-built_in">export</span> MYSQL_VERSION=5
 <span class="hljs-built_in">export</span> MYSQL_ROOT_PASSWORD=<span class="hljs-string">&quot;abc123&quot;</span>
 <span class="hljs-built_in">export</span> MYSQL_DATABASE=<span class="hljs-string">&quot;lowcal&quot;</span>
 <span class="hljs-built_in">export</span> MYSQL_PORT=3306 <span class="hljs-comment"># exposed to Docker host</span>
 </code></pre>
-<h2 id="localstack"><a href="https://bitbucket.org/atlassian/localstack" target="_blank">LocalStack</a></h2>
-<p>Local AWS cloud stack</p>
 <h2 id="ssh-agent"><a href="https://github.com/whilp/ssh-agent" target="_blank">ssh-agent</a></h2>
 <ol>
 <li>Run: <code>./lowcal ssh-agent:up</code></li>
@@ -493,12 +523,12 @@ configurations for commonly used databases, DevOps tools, etc:</p>
 
             
                 
-                <a href="../configuration.html#https-with-static-or-self-signed-certificates" class="navigation navigation-prev " aria-label="Previous page: HTTPS with Static Certificates">
+                <a href="../docker_compose.html" class="navigation navigation-prev " aria-label="Previous page: Docker Compose Projects">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="./#mysql" class="navigation navigation-next " aria-label="Next page: MySQL">
+                <a href="./#couchbase" class="navigation navigation-next " aria-label="Next page: Couchbase">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -509,7 +539,7 @@ configurations for commonly used databases, DevOps tools, etc:</p>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Supporting Services","level":"2.4.7","depth":2,"next":{"title":"MySQL","level":"2.4.7.1","depth":3,"anchor":"#mysql","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#mysql","articles":[]},"previous":{"title":"HTTPS with Static Certificates","level":"2.4.6.2.2","depth":4,"anchor":"#https-with-static-or-self-signed-certificates","path":"usage/configuration.md","ref":"usage/configuration.md#https-with-static-or-self-signed-certificates","articles":[]},"dir":"ltr"},"config":{"plugins":[],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Ben Getsug","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"The Lite Guide to Lowcal","gitbook":"*"},"file":{"path":"usage/supporting_services/README.md","mtime":"2017-05-11T02:36:53.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-05-11T03:01:12.418Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Supporting Services","level":"2.4.7","depth":2,"next":{"title":"Couchbase","level":"2.4.7.1","depth":3,"anchor":"#couchbase","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#couchbase","articles":[]},"previous":{"title":"Docker Compose Projects","level":"2.4.6.3","depth":3,"path":"usage/docker_compose.md","ref":"usage/docker_compose.md","articles":[]},"dir":"ltr"},"config":{"plugins":[],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Ben Getsug","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"The Lite Guide to Lowcal","gitbook":"*"},"file":{"path":"usage/supporting_services/README.md","mtime":"2017-05-11T04:25:28.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-05-11T05:01:33.402Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

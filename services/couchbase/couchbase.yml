@@ -1,0 +1,15 @@
+version: '2'
+
+services:
+  couchbase:
+    image: couchbase:${COUCHBASE_VERSION}
+    environment:
+      - TERM=xterm
+    ports:
+      - "8091-8094:8091-8094"
+      - "11210:11210"
+
+networks:
+  default:
+    external:
+      name: lowcal

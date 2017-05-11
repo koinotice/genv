@@ -15,16 +15,20 @@ services() {
 # $2 command
 # $3 docker-compose file
 handle_service() {
-	source ${SERVICES_ROOT}/${1}/${1}.sh
+	source ${SERVICES_ROOT}/${1}/bootstrap.sh
 
 	case "$2" in
 		${1}:up)
 			docker-compose ${3} up -d ${1}
+
+			# execute service up hook
 			if [ -n "$(type -t ${1}_up)" ] && [ "$(type -t ${1}_up)" = function ]; then ${1}_up; fi
 			;;
 
 		${1}:down)
 			docker-compose ${3} down --rmi all -v
+
+			# execute service down hook
 			if [ -n "$(type -t ${1}_down)" ] && [ "$(type -t ${1}_down)" = function ]; then ${1}_down; fi
 			;;
 
@@ -59,13 +63,8 @@ handle_service() {
 			docker-compose ${3} exec ${1} sh ;;
 
 		${1}:help)
-			for f in `ls ${SERVICES_ROOT}/${1}`; do
-				if [[ $(echo ${f} | grep yml) ]]; then
-					continue
-				fi
-
-				echo "${1}:"
-		HELP="
+			echo "${1}:"
+			HELP="
 ${1}:up) ## %% Create and start ${1} container(s)
 ${1}:down) ## %% Stop and remove ${1} container(s), image(s), and volume(s)
 ${1}:kill) ## %% Kill ${1}
@@ -80,16 +79,20 @@ ${1}:logs) ## %% View ${1} container output
 ${1}:sh) ## %% Enter a shell on the ${1} container
 ${1}) ## [<arg>...] %% Execute a command in the ${1} container
 		"
-				service_help "${HELP}"
-				print_help ${SERVICES_ROOT}/${1}/${f}
-				echo ""
-			done
+			service_help "${HELP}"
+			print_help ${SERVICES_ROOT}/${1}/handler.sh
+			echo ""
 			;;
 
 		${1})
 			docker-compose ${3} exec ${1} ${args} ;;
 		${1}:*)
-			if [ -n "$(type -t ${command})" ] && [ "$(type -t ${command})" = function ]; then ${command} "${3}" "${args}"; fi
-			;;
+			SERVICE_COMPOSE_FILE=${3}
+			source ${SERVICES_ROOT}/${1}/handler.sh
 	esac
+}
+
+service_help() {
+	help=$(echo -e "${1}" | grep -E '^[a-zA-Z:|_-]+\)\s##\s.*$' | sort | awk 'BEGIN {FS = "\\).*?## |%%"}; {c=$1" "$2; printf "\t\033[36m%-34s\033[0m%s\n", c, $3}')
+	echo -e "$help"
 }
