@@ -45,7 +45,7 @@ Refer to
 [Traefik's documentation](https://docs.traefik.io/toml/#acme-lets-encrypt-configuration)
 for more information.
 
-### HTTPS with static (or self-signed) certificates
+### HTTPS with Static (or self-signed) Certificates
 
 _Works offline_
 
