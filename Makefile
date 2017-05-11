@@ -44,5 +44,11 @@ list-services: ## List services available in lowcal
 sh-dns: ## Enter a shell on the dnsmasq container
 	./tasks dc exec dnsmasq sh
 
+docs-build:
+	gitbook build gitbook docs
+
+docs-serve:
+	gitbook serve gitbook docs
+
 help: ## Print usage
 	@for i in $(MAKEFILE_LIST); do grep -E '^[a-zA-Z_-]+:.*?## .*$$' $${i} | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'; done
