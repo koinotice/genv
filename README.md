@@ -19,10 +19,7 @@ MacOS.
    * On MacOS, you'll be asked for your password
 3. _Optional:_ add `lowcal` to your `$PATH`.
 
-## Documentation
-
-_will return shortly_
-
+## [Documentation](https://wheniwork.github.io/lowcal/)
 
 ## TODO
 
