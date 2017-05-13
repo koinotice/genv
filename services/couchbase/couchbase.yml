@@ -5,9 +5,41 @@ services:
     image: couchbase:${COUCHBASE_VERSION}
     environment:
       - TERM=xterm
+    labels:
+      - "traefik.backend=couchbase"
+      - "traefik.port=8091"
+      - "traefik.frontend.rule=Host:couchbase.lowcal.dev"
+      - "traefik.frontend.entryPoints=http"
+      - "traefik.docker.network=lowcal"
+      - "traefik.tags=lowcal"
+    networks:
+      default:
+        aliases:
+          - couchbase.lowcal.dev
     ports:
       - "8091-8094:8091-8094"
       - "11210:11210"
+
+  couchbase-provisioner:
+    image: wheniwork/couchbase-provisioner:master
+    environment:
+      - TERM=xterm
+    labels:
+      - "traefik.backend=couchbase-provisioner"
+      - "traefik.port=8080"
+      - "traefik.frontend.rule=Host:couchbase-provisioner.lowcal.dev, cbpvr.lowcal.dev"
+      - "traefik.frontend.entryPoints=http"
+      - "traefik.docker.network=lowcal"
+      - "traefik.tags=lowcal"
+    networks:
+      default:
+        aliases:
+          - couchbase-provisioner.lowcal.dev
+          - cbpvr.lowcal.dev
+    ports:
+      - "8080"
+    volumes:
+      - ./config.yaml:/etc/couchbase-provisioner/config.yaml
 
 networks:
   default:

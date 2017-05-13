@@ -16,7 +16,8 @@ services:
     labels:
       - "traefik.backend=localstack"
       - "traefik.port=8080"
-      - "traefik.frontend.rule=Host:localstack.lowcal"
+      - "traefik.frontend.rule=Host:localstack.lowcal.dev"
+      - "traefik.frontend.entryPoints=http"
       - "traefik.docker.network=lowcal"
       - "traefik.tags=lowcal"
     ports:

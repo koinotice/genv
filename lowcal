@@ -29,6 +29,8 @@ print_help() {
 
 source ${LOWCAL_ROOT}/services/services.sh
 
+export TRAEFIK_COMMAND="-h"
+
 traefik_storeconfig() {
 	if [ ! -f core/traefik/acme/acme.json ]; then
 		echo "{ }" > core/traefik/acme/acme.json
@@ -37,20 +39,25 @@ traefik_storeconfig() {
 	${LOWCAL_DOCKER_COMPOSE} run --rm traefik storeconfig
 }
 
+export HTTPIE="docker run --rm -i -v ${PWD}:${PWD} -w ${PWD} --net=lowcal -e 'TERM=xterm' alpine/httpie"
+
 case "$command" in
-	docker) ## <arg>...	%% 🐳  Run docker in the lowcal environment
+	docker) ## <arg>...	%% 🐳  Run docker in the Lowcal environment
 		docker ${args} ;;
 
-	docker-compose|dc) ## <arg>... %% 🐳  Run docker-compose in the lowcal environment
+	docker-compose|dc) ## <arg>... %% 🐳  Run docker-compose in the Lowcal environment
 		${LOWCAL_DOCKER_COMPOSE} ${args} ;;
 
 	env) ## %% Show environment variables
 		env ;;
 
+	http) ## <arg...> %% 🌎  HTTPie
+		${HTTPIE} ${args} ;;
+
 	show-nameserver-ip)
 		echo ${NAMESERVER_IP} ;;
 
-	install) ## %% Install lowcal
+	install) ## %% ▶️  Install Lowcal
 		docker network create lowcal --subnet 10.254.253.0/24 || true
 		${LOWCAL_DOCKER_COMPOSE} pull
 		${LOWCAL_DOCKER_COMPOSE} up -d cadvisor dnsmasq consul
@@ -74,7 +81,7 @@ case "$command" in
 		echo "port 8600" | sudo tee -a /etc/resolver/consul
 		;;
 
-	clean) ## %% Uninstall lowcal
+	clean) ## %% 🗑  Uninstall Lowcal
 		${LOWCAL_DOCKER_COMPOSE} down --rmi all -v
 		docker network rm lowcal || true
 
@@ -89,7 +96,7 @@ case "$command" in
 	#traefik:storeconfig) ## %% Upload the Traefik configuration to Consul
 	#	traefik_storeconfig ;;
 
-	services:list) ## %% List services available in lowcal
+	services:list) ## %% List services available in Lowcal
 		services ;;
 
 	couchbase*)

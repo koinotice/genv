@@ -11,6 +11,12 @@ configurations for commonly used databases, DevOps tools, etc:
 export COUCHBASE_VERSION="latest"
 ```
 
+### Admin Web UI
+
+* **URL:** http://couchbase.lowcal.dev
+* **Username:** Administrator
+* **Password:** abc123
+
 ## [LocalStack](https://bitbucket.org/atlassian/localstack)
 
 Local AWS cloud stack

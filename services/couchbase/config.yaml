@@ -1,0 +1,2 @@
+disable_log_colors: false
+env: local

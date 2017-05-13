@@ -62,7 +62,3 @@ if [[ ${TRAEFIK_TLS_CERTFILE} && ${TRAEFIK_TLS_KEYFILE} ]]; then
 --entryPoints='Name:https Address::443 TLS:/etc/traefik/certs/${TRAEFIK_TLS_CERTFILE},/etc/traefik/certs/${TRAEFIK_TLS_KEYFILE}'
 "
 fi
-
-if [ ${TRAEFIK_HELP} ]; then
-	export TRAEFIK_COMMAND="-h"
-fi

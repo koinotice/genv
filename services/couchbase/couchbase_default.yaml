@@ -1,0 +1,17 @@
+---
+clusters:
+  - name: Lowcal
+    hosts:
+      - couchbase.lowcal.dev
+    adminUsername: Administrator
+    adminPassword: abc123
+    clusterRamsize: 1024
+    clusterIndexRamsize: 256
+    clusterIndexStorageMode: forestdb
+    services: kv,index,n1ql
+    buckets:
+      - name: default
+        password: 
+        type: couchbase
+        ramsize: 128
+        flush: true
