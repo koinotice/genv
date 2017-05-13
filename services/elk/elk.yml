@@ -1,0 +1,28 @@
+version: '2'
+
+services:
+  elk:
+    image: sebp/elk
+    environment:
+      - TERM=xterm
+    labels:
+      - "traefik.backend=elk"
+      - "traefik.port=5601"
+      - "traefik.frontend.rule=Host:elk.lowcal.dev, kibana.lowcal.dev"
+      - "traefik.frontend.entryPoints=http"
+      - "traefik.docker.network=lowcal"
+      - "traefik.tags=lowcal"
+    networks:
+      default:
+        aliases:
+          - elk.lowcal.dev
+          - kibana.lowcal.dev
+    ports:
+      - "5601"
+      - "9200:9200"
+      - "5044:5044"
+
+networks:
+  default:
+    external:
+      name: lowcal

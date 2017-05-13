@@ -1,0 +1,26 @@
+version: '2'
+
+services:
+  mailhog:
+    image: mailhog/mailhog
+    environment:
+      - TERM=xterm
+    labels:
+      - "traefik.backend=mailhog"
+      - "traefik.port=8025"
+      - "traefik.frontend.rule=Host:mailhog.lowcal.dev"
+      - "traefik.frontend.entryPoints=http"
+      - "traefik.docker.network=lowcal"
+      - "traefik.tags=lowcal"
+    networks:
+      default:
+        aliases:
+          - mailhog.lowcal.dev
+    ports:
+      - "1025:1025"
+      - "8025"
+
+networks:
+  default:
+    external:
+      name: lowcal

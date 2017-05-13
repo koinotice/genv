@@ -22,14 +22,14 @@ handle_service() {
 			docker-compose ${3} up -d ${args}
 
 			# execute service up hook
-			if [ -n "$(type -t ${1}_up)" ] && [ "$(type -t ${1}_up)" = function ]; then ${1}_up; fi
+			if [ -n "$(type -t ${1}_up)" ] && [ "$(type -t ${1}_up)" = function ]; then ${1}_up "${3}"; fi
 			;;
 
 		${1}:down)
 			docker-compose ${3} down ${args} --rmi all -v
 
 			# execute service down hook
-			if [ -n "$(type -t ${1}_down)" ] && [ "$(type -t ${1}_down)" = function ]; then ${1}_down; fi
+			if [ -n "$(type -t ${1}_down)" ] && [ "$(type -t ${1}_down)" = function ]; then ${1}_down "${3}"; fi
 			;;
 
 		${1}:kill)

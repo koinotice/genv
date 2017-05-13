@@ -102,8 +102,14 @@ case "$command" in
 	couchbase*)
 		handle_service couchbase ${command} "-f ${LOWCAL_ROOT}/services/couchbase/couchbase.yml" ;;
 
+	elk*)
+		handle_service elk ${command} "-f ${LOWCAL_ROOT}/services/elk/elk.yml" ;;
+
 	localstack*)
 		handle_service localstack ${command} "-f ${LOWCAL_ROOT}/services/localstack/localstack.yml" ;;
+
+	mailhog*)
+		handle_service mailhog ${command} "-f ${LOWCAL_ROOT}/services/mailhog/mailhog.yml" ;;
 
 	mysql*)
 		handle_service mysql ${command} "-f ${LOWCAL_ROOT}/services/mysql/mysql.yml" ;;

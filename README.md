@@ -23,10 +23,8 @@ MacOS.
 
 ## TODO
 
-* Couchbase Provisioner
+* ssh-agent add all keys
 * Add Services:
-  * MailHog
-  * ELK Stack
   * Postgres
 * Consul + Traefik tips
 * Test with Linux
