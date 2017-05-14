@@ -2,6 +2,8 @@
 
 set -e
 
+export TRAEFIK_COMMAND=""
+
 if [ ! ${TRAEFIK_HTTP_PORT} ]; then
 	export TRAEFIK_HTTP_PORT=80
 fi

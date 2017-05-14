@@ -29,8 +29,6 @@ print_help() {
 
 source ${LOWCAL_ROOT}/services/services.sh
 
-export TRAEFIK_COMMAND="-h"
-
 traefik_storeconfig() {
 	if [ ! -f core/traefik/acme/acme.json ]; then
 		echo "{ }" > core/traefik/acme/acme.json
