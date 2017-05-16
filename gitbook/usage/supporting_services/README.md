@@ -1,6 +1,6 @@
 # Supporting Services
 
-For your convenience, _Lowcal_ includes a handful of `docker-compose`
+For your convenience, _Harpoon_ includes a handful of `docker-compose`
 configurations for commonly used databases, DevOps tools, etc:
 
 ## [Couchbase](https://hub.docker.com/_/couchbase/)
@@ -13,7 +13,7 @@ export COUCHBASE_VERSION="latest"
 
 ### Admin Web UI
 
-* **URL:** http://couchbase.lowcal.dev
+* **URL:** http://couchbase.harpoon.dev
 * **Username:** Administrator
 * **Password:** abc123
 
@@ -28,17 +28,17 @@ Local AWS cloud stack
 ```bash
 export MYSQL_VERSION=5
 export MYSQL_ROOT_PASSWORD="abc123"
-export MYSQL_DATABASE="lowcal"
+export MYSQL_DATABASE="harpoon"
 export MYSQL_PORT=3306 # exposed to Docker host
 ```
 
 ## [ssh-agent](https://github.com/whilp/ssh-agent)
 
-1. Run: `./lowcal ssh-agent:up`
-2. Add your key: `./lowcal ssh-agent:add <filename>`, where `<filename>` is located in `~/.ssh/`.
+1. Run: `./harpoon ssh-agent:up`
+2. Add your key: `./harpoon ssh-agent:add <filename>`, where `<filename>` is located in `~/.ssh/`.
 
 # Service Management
 
-* Run `./lowcal services:list` to get a list of the included services.
-* Run `./lowcal (service):help` to get help for a particular service.
+* Run `./harpoon services:list` to get a list of the included services.
+* Run `./harpoon (service):help` to get help for a particular service.
 

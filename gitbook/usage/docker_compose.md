@@ -15,8 +15,8 @@ services:
       - "traefik.port=9000"
       - "traefik.frontend.rule=Host:app.example.com"
       - "traefik.frontend.entryPoints=http" # add ',https' for HTTPS support
-      - "traefik.docker.network=lowcal"
-      - "traefik.tags=lowcal"
+      - "traefik.docker.network=harpoon"
+      - "traefik.tags=harpoon"
     ports:
       - "9000:9000"
     volumes:
@@ -25,7 +25,7 @@ services:
 networks:
   default:
     external:
-      name: lowcal
+      name: harpoon
 ```
 
 1. You'll need to specify all the `traefik.*` labels for your web

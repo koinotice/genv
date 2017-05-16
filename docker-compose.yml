@@ -5,7 +5,7 @@ services:
     build: core/dnsmasq
     environment:
       - USER=dev
-      - PASS=lowcal
+      - PASS=harpoon
       - NAMESERVER_IP
       - CUSTOM_DOMAIN
     ports:
@@ -22,14 +22,14 @@ services:
     labels:
       - "traefik.backend=cadvisor"
       - "traefik.port=8080"
-      - "traefik.frontend.rule=Host:cadvisor.lowcal.dev"
+      - "traefik.frontend.rule=Host:cadvisor.harpoon.dev"
       - "traefik.frontend.entryPoints=http"
-      - "traefik.docker.network=lowcal"
-      - "traefik.tags=lowcal"
+      - "traefik.docker.network=harpoon"
+      - "traefik.tags=harpoon"
     networks:
       default:
         aliases:
-          - cadvisor.lowcal.dev
+          - cadvisor.harpoon.dev
     volumes:
       - /:/rootfs:ro
       - /var/run:/var/run:rw
@@ -52,14 +52,14 @@ services:
     labels:
       - "traefik.backend=consul"
       - "traefik.port=8500"
-      - "traefik.frontend.rule=Host:consul.lowcal.dev"
+      - "traefik.frontend.rule=Host:consul.harpoon.dev"
       - "traefik.frontend.entryPoints=http"
-      - "traefik.docker.network=lowcal"
-      - "traefik.tags=lowcal"
+      - "traefik.docker.network=harpoon"
+      - "traefik.tags=harpoon"
     networks:
       default:
         aliases:
-          - consul.lowcal.dev
+          - consul.harpoon.dev
 
   traefik:
     image: traefik:1.2.3
@@ -118,14 +118,14 @@ services:
     labels:
       - "traefik.backend=traefik"
       - "traefik.port=8075"
-      - "traefik.frontend.rule=Host:traefik.lowcal.dev"
+      - "traefik.frontend.rule=Host:traefik.harpoon.dev"
       - "traefik.frontend.entryPoints=http"
-      - "traefik.docker.network=lowcal"
-      - "traefik.tags=lowcal"
+      - "traefik.docker.network=harpoon"
+      - "traefik.tags=harpoon"
     networks:
       default:
         aliases:
-          - traefik.lowcal.dev
+          - traefik.harpoon.dev
     volumes:
       - ./core/traefik/:/etc/traefik/
       - /var/run/docker.sock:/var/run/docker.sock
@@ -133,4 +133,4 @@ services:
 networks:
   default:
     external:
-      name: lowcal
+      name: harpoon

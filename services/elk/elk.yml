@@ -8,15 +8,15 @@ services:
     labels:
       - "traefik.backend=elk"
       - "traefik.port=5601"
-      - "traefik.frontend.rule=Host:elk.lowcal.dev, kibana.lowcal.dev"
+      - "traefik.frontend.rule=Host:elk.harpoon.dev, kibana.harpoon.dev"
       - "traefik.frontend.entryPoints=http"
-      - "traefik.docker.network=lowcal"
-      - "traefik.tags=lowcal"
+      - "traefik.docker.network=harpoon"
+      - "traefik.tags=harpoon"
     networks:
       default:
         aliases:
-          - elk.lowcal.dev
-          - kibana.lowcal.dev
+          - elk.harpoon.dev
+          - kibana.harpoon.dev
     ports:
       - "5601"
       - "9200:9200"
@@ -25,4 +25,4 @@ services:
 networks:
   default:
     external:
-      name: lowcal
+      name: harpoon

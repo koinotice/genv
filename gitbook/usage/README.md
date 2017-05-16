@@ -16,21 +16,21 @@ export TRAEFIK_HTTPS_PORT=8843
 ## Installation
 
 1. Clone this repository
-2. Run `cd lowcal && make install`
+2. Run `cd harpoon && make install`
    * On MacOS, you'll be asked for your password
-3. Optional: add `lowcal` to your `$PATH`. Edit your `.bash_profile`,
+3. Optional: add `harpoon` to your `$PATH`. Edit your `.bash_profile`,
    `.bashrc`, or `.zshrc` accordingly.
 
 ## Help
 
-* `./lowcal help`
+* `./harpoon help`
 * (`make help`)
 
 ## Web UIs
 
-* **Consul:** http://consul.lowcal.dev
-* **Traefik:** http://traefik.lowcal.dev
-* **cAdvisor:** http://cadvisor.lowcal.dev
+* **Consul:** http://consul.harpoon.dev
+* **Traefik:** http://traefik.harpoon.dev
+* **cAdvisor:** http://cadvisor.harpoon.dev
 
 ## Removal
 

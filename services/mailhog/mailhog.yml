@@ -8,14 +8,14 @@ services:
     labels:
       - "traefik.backend=mailhog"
       - "traefik.port=8025"
-      - "traefik.frontend.rule=Host:mailhog.lowcal.dev"
+      - "traefik.frontend.rule=Host:mailhog.harpoon.dev"
       - "traefik.frontend.entryPoints=http"
-      - "traefik.docker.network=lowcal"
-      - "traefik.tags=lowcal"
+      - "traefik.docker.network=harpoon"
+      - "traefik.tags=harpoon"
     networks:
       default:
         aliases:
-          - mailhog.lowcal.dev
+          - mailhog.harpoon.dev
     ports:
       - "1025:1025"
       - "8025"
@@ -23,4 +23,4 @@ services:
 networks:
   default:
     external:
-      name: lowcal
+      name: harpoon

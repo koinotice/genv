@@ -16,10 +16,10 @@ services:
     labels:
       - "traefik.backend=localstack"
       - "traefik.port=8080"
-      - "traefik.frontend.rule=Host:localstack.lowcal.dev"
+      - "traefik.frontend.rule=Host:localstack.harpoon.dev"
       - "traefik.frontend.entryPoints=http"
-      - "traefik.docker.network=lowcal"
-      - "traefik.tags=lowcal"
+      - "traefik.docker.network=harpoon"
+      - "traefik.tags=harpoon"
     ports:
       - "8080"
       - ${PORT_MAPPINGS}
@@ -30,4 +30,4 @@ services:
 networks:
   default:
     external:
-      name: lowcal
+      name: harpoon

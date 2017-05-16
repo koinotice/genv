@@ -1,10 +1,10 @@
 # Core Services
 
-_Lowcal_ provides the following core services that are essential to its
+_Harpoon_ provides the following core services that are essential to its
 operation:
 
 * **[Dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html)** enables
-  DNS lookups for `lowcal.dev` and your own custom domain.
+  DNS lookups for `harpoon.dev` and your own custom domain.
 * **[Consul](https://consul.io)** is used for service discovery. When
   you register a service via the
   **[Consul Agent HTTP API](https://www.consul.io/api/agent.html)**, it

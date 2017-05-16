@@ -2,17 +2,17 @@
 
 ## Environment Variables
 
-_Lowcal_ uses environment variables exclusively for all configuration
+_Harpoon_ uses environment variables exclusively for all configuration
 parameters, many of which are passed directly to the underlying
 containers.
 
-For details, explore the [`docker-compose.yml`](docker-compose.yml) at
+For details, explore the [`docker-compose.yml`](../../docker-compose.yml) at
 the root of this repository, and the `.yml` files for each included
 service in `services/*`.
 
 ## Custom Domain
 
-You can configure _Lowcal_ to use your own domain:
+You can configure _Harpoon_ to use your own domain:
 
 ```bash
 export CUSTOM_DOMAIN="example.com"

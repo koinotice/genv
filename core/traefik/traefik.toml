@@ -315,8 +315,8 @@ debug = true
 #  address = ":443"
 #    [entryPoints.https.tls]
 #      [[entryPoints.https.tls.certificates]]
-#      certFile = "/etc/traefik/lowcal.crt"
-#      keyFile = "/etc/traefik/lowcal.key"
+#      certFile = "/etc/traefik/harpoon.crt"
+#      keyFile = "/etc/traefik/harpoon.key"
 
 ################################################################
 # Web configuration backend
@@ -417,7 +417,7 @@ endpoint = "unix:///var/run/docker.sock"
 #
 # Required
 #
-domain = "lowcal"
+domain = "harpoon"
 
 # Enable watch docker changes
 #
@@ -514,7 +514,7 @@ watch = true
 # constraints = ["tag==api", "tag==he*ld"]
 # Matching with containers having the label "traefik.tags" set to "api,helloworld"
 # ex: $ docker run -d -P --label traefik.tags=api,helloworld emilevauge/whoami
-constraints = ["tag==lowcal"]
+constraints = ["tag==harpoon"]
 
 ################################################################
 # Consul KV configuration backend
@@ -529,7 +529,7 @@ constraints = ["tag==lowcal"]
 ################################################################
 [consulCatalog]
 	endpoint = "consul:8500"
-	domain = "lowcal"
+	domain = "harpoon"
 	prefix = "traefik"
 
 

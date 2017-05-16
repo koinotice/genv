@@ -2,7 +2,7 @@
 
 ----
 
-* [Lowcal](http://lowcal.io)
+* [Harpoon](http://harpoon.io)
 
 ----
 

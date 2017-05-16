@@ -1,45 +1,45 @@
 .PHONY: all
 .DEFAULT_GOAL := help
 
-install: ## Install lowcal
-	./lowcal install
+install: ## Install harpoon
+	./harpoon install
 
 env: ## Show environment variables
-	./lowcal env
+	./harpoon env
 
-show-nameserver-ip: ## Display the lowcal nameserver IP
-	@./lowcal show-nameserver-ip
+show-nameserver-ip: ## Display the harpoon nameserver IP
+	@./harpoon show-nameserver-ip
 
 stop: ## Stop all services
-	./lowcal dc stop
+	./harpoon dc stop
 
 start: ## Start all services
-	./lowcal dc start
+	./harpoon dc start
 
 restart: ## Restart all services
-	./lowcal dc restart
+	./harpoon dc restart
 
 rm: ## Remove all services
-	./lowcal dc rm -f -v
+	./harpoon dc rm -f -v
 
 refresh:
-	./lowcal dc stop
-	./lowcal dc rm -f -v
-	./lowcal dc up -d
+	./harpoon dc stop
+	./harpoon dc rm -f -v
+	./harpoon dc up -d
 
 logs: ## Tail output from containers
-	./lowcal dc logs -f
+	./harpoon dc logs -f
 
 ps: ## List containers
-	./lowcal dc ps
+	./harpoon dc ps
 
-clean: ## Uninstall lowcal
-	./lowcal clean
+clean: ## Uninstall harpoon
+	./harpoon clean
 
-uninstall: clean ## Uninstall lowcal
+uninstall: clean ## Uninstall harpoon
 
-list-services: ## List services available in lowcal
-	./lowcal services:list
+list-services: ## List services available in harpoon
+	./harpoon services:list
 
 sh-dns: ## Enter a shell on the dnsmasq container
 	./tasks dc exec dnsmasq sh

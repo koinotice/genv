@@ -11,7 +11,7 @@ if [ ! ${MYSQL_ROOT_PASSWORD} ]; then
 fi
 
 if [ ! ${MYSQL_DATABASE} ]; then
-	export MYSQL_DATABASE="lowcal"
+	export MYSQL_DATABASE="harpoon"
 fi
 
 if [ ! ${MYSQL_PORT} ]; then

@@ -8,14 +8,14 @@ services:
     labels:
       - "traefik.backend=couchbase"
       - "traefik.port=8091"
-      - "traefik.frontend.rule=Host:couchbase.lowcal.dev"
+      - "traefik.frontend.rule=Host:couchbase.harpoon.dev"
       - "traefik.frontend.entryPoints=http"
-      - "traefik.docker.network=lowcal"
-      - "traefik.tags=lowcal"
+      - "traefik.docker.network=harpoon"
+      - "traefik.tags=harpoon"
     networks:
       default:
         aliases:
-          - couchbase.lowcal.dev
+          - couchbase.harpoon.dev
     ports:
       - "8091-8094:8091-8094"
       - "11210:11210"
@@ -27,15 +27,15 @@ services:
     labels:
       - "traefik.backend=couchbase-provisioner"
       - "traefik.port=8080"
-      - "traefik.frontend.rule=Host:couchbase-provisioner.lowcal.dev, cbpvr.lowcal.dev"
+      - "traefik.frontend.rule=Host:couchbase-provisioner.harpoon.dev, cbpvr.harpoon.dev"
       - "traefik.frontend.entryPoints=http"
-      - "traefik.docker.network=lowcal"
-      - "traefik.tags=lowcal"
+      - "traefik.docker.network=harpoon"
+      - "traefik.tags=harpoon"
     networks:
       default:
         aliases:
-          - couchbase-provisioner.lowcal.dev
-          - cbpvr.lowcal.dev
+          - couchbase-provisioner.harpoon.dev
+          - cbpvr.harpoon.dev
     ports:
       - "8080"
     volumes:
@@ -44,4 +44,4 @@ services:
 networks:
   default:
     external:
-      name: lowcal
+      name: harpoon

@@ -13,4 +13,4 @@ else
 	export NAMESERVER_IP="127.0.0.1"
 fi
 
-source ${LOWCAL_ROOT}/core/vars/traefik.sh
+source ${HARPOON_ROOT}/core/vars/traefik.sh

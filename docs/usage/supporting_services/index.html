@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Supporting Services · The Lite Guide to Lowcal</title>
+        <title>Supporting Services · The Lite Guide to Harpoon</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.2">
@@ -91,10 +91,10 @@
     
         <li class="chapter " data-level="1.1" >
             
-                <a target="_blank" href="http://lowcal.io">
+                <a target="_blank" href="http://harpoon.io">
             
                     
-                    Lowcal
+                    Harpoon
             
                 </a>
             
@@ -471,7 +471,7 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="supporting-services">Supporting Services</h1>
-<p>For your convenience, <em>Lowcal</em> includes a handful of <code>docker-compose</code>
+<p>For your convenience, <em>Harpoon</em> includes a handful of <code>docker-compose</code>
 configurations for commonly used databases, DevOps tools, etc:</p>
 <h2 id="couchbase"><a href="https://hub.docker.com/_/couchbase/" target="_blank">Couchbase</a></h2>
 <p><strong>Environment Variables (with defaults):</strong></p>
@@ -479,7 +479,7 @@ configurations for commonly used databases, DevOps tools, etc:</p>
 </code></pre>
 <h3 id="admin-web-ui">Admin Web UI</h3>
 <ul>
-<li><strong>URL:</strong> <a href="http://couchbase.lowcal.dev" target="_blank">http://couchbase.lowcal.dev</a></li>
+<li><strong>URL:</strong> <a href="http://couchbase.harpoon.dev" target="_blank">http://couchbase.harpoon.dev</a></li>
 <li><strong>Username:</strong> Administrator</li>
 <li><strong>Password:</strong> abc123</li>
 </ul>
@@ -489,18 +489,18 @@ configurations for commonly used databases, DevOps tools, etc:</p>
 <p><strong>Environment Variables (with defaults):</strong></p>
 <pre><code class="lang-bash"><span class="hljs-built_in">export</span> MYSQL_VERSION=5
 <span class="hljs-built_in">export</span> MYSQL_ROOT_PASSWORD=<span class="hljs-string">&quot;abc123&quot;</span>
-<span class="hljs-built_in">export</span> MYSQL_DATABASE=<span class="hljs-string">&quot;lowcal&quot;</span>
+<span class="hljs-built_in">export</span> MYSQL_DATABASE=<span class="hljs-string">&quot;harpoon&quot;</span>
 <span class="hljs-built_in">export</span> MYSQL_PORT=3306 <span class="hljs-comment"># exposed to Docker host</span>
 </code></pre>
 <h2 id="ssh-agent"><a href="https://github.com/whilp/ssh-agent" target="_blank">ssh-agent</a></h2>
 <ol>
-<li>Run: <code>./lowcal ssh-agent:up</code></li>
-<li>Add your key: <code>./lowcal ssh-agent:add &lt;filename&gt;</code>, where <code>&lt;filename&gt;</code> is located in <code>~/.ssh/</code>.</li>
+<li>Run: <code>./harpoon ssh-agent:up</code></li>
+<li>Add your key: <code>./harpoon ssh-agent:add &lt;filename&gt;</code>, where <code>&lt;filename&gt;</code> is located in <code>~/.ssh/</code>.</li>
 </ol>
 <h1 id="service-management">Service Management</h1>
 <ul>
-<li>Run <code>./lowcal services:list</code> to get a list of the included services.</li>
-<li>Run <code>./lowcal (service):help</code> to get help for a particular service.</li>
+<li>Run <code>./harpoon services:list</code> to get a list of the included services.</li>
+<li>Run <code>./harpoon (service):help</code> to get help for a particular service.</li>
 </ul>
 
                                 
@@ -545,7 +545,7 @@ configurations for commonly used databases, DevOps tools, etc:</p>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Supporting Services","level":"2.4.7","depth":2,"next":{"title":"Couchbase","level":"2.4.7.1","depth":3,"anchor":"#couchbase","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#couchbase","articles":[]},"previous":{"title":"Docker Compose Projects","level":"2.4.6.3","depth":3,"path":"usage/docker_compose.md","ref":"usage/docker_compose.md","articles":[]},"dir":"ltr"},"config":{"plugins":[],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Ben Getsug","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"The Lite Guide to Lowcal","gitbook":"*"},"file":{"path":"usage/supporting_services/README.md","mtime":"2017-05-13T08:00:46.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-05-13T09:41:12.515Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Supporting Services","level":"2.4.7","depth":2,"next":{"title":"Couchbase","level":"2.4.7.1","depth":3,"anchor":"#couchbase","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#couchbase","articles":[]},"previous":{"title":"Docker Compose Projects","level":"2.4.6.3","depth":3,"path":"usage/docker_compose.md","ref":"usage/docker_compose.md","articles":[]},"dir":"ltr"},"config":{"plugins":[],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Ben Getsug","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"The Lite Guide to Harpoon","gitbook":"*"},"file":{"path":"usage/supporting_services/README.md","mtime":"2017-05-16T23:13:04.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-05-16T23:24:04.044Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
