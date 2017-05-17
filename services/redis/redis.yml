@@ -1,0 +1,14 @@
+version: '2'
+
+services:
+  redis:
+    image: redis:${REDIS_VERSION}
+    environment:
+      - TERM=xterm
+    ports:
+      - "${REDIS_PORT}:6379"
+
+networks:
+  default:
+    external:
+      name: ${HARPOON_DOCKER_NETWORK}

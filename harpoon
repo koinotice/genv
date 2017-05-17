@@ -104,23 +104,32 @@ case "${command:-}" in
 	services:list) ## %% List services available in Harpoon
 		services ;;
 
+	services:status) ## %% Display the status for all supporting services
+		services_status ;;
+
 	couchbase*)
-		handle_service couchbase ${command} "-f ${HARPOON_ROOT}/services/couchbase/couchbase.yml" ;;
+		handle_service couchbase ${command} ;;
 
 	elk*)
-		handle_service elk ${command} "-f ${HARPOON_ROOT}/services/elk/elk.yml" ;;
+		handle_service elk ${command} ;;
 
 	localstack*)
-		handle_service localstack ${command} "-f ${HARPOON_ROOT}/services/localstack/localstack.yml" ;;
+		handle_service localstack ${command} ;;
 
 	mailhog*)
-		handle_service mailhog ${command} "-f ${HARPOON_ROOT}/services/mailhog/mailhog.yml" ;;
+		handle_service mailhog ${command} ;;
 
 	mysql*)
-		handle_service mysql ${command} "-f ${HARPOON_ROOT}/services/mysql/mysql.yml" ;;
+		handle_service mysql ${command} ;;
+
+	postgres*)
+		handle_service postgres ${command} ;;
+
+	redis*)
+		handle_service redis ${command} ;;
 
 	ssh-agent*)
-		handle_service ssh-agent ${command} "-f ${HARPOON_ROOT}/services/ssh-agent/ssh-agent.yml" ;;
+		handle_service ssh-agent ${command} ;;
 
 	help|*) ## Get help
 		echo "Usage: harpoon command [<arg>...]"

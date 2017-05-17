@@ -32,7 +32,7 @@ export MYSQL_DATABASE="harpoon"
 export MYSQL_PORT=3306 # exposed to Docker host
 ```
 
-## [ssh-agent](https://github.com/whilp/ssh-agent)
+## ssh-agent
 
 1. Run: `./harpoon ssh-agent:up`
 2. Add your key: `./harpoon ssh-agent:add <filename>`, where `<filename>` is located in `~/.ssh/`.

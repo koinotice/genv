@@ -1,0 +1,19 @@
+version: '2'
+
+services:
+  postgres:
+    image: postgres:${POSTGRES_VERSION}
+    environment:
+      - TERM=xterm
+      - POSTGRES_PASSWORD
+      - POSTGRES_USER
+      - POSTGRES_DB
+      - POSTGRES_INITDB_ARGS
+      - POSTGRES_INITDB_XLOGDIR
+    ports:
+      - "${POSTGRES_PORT}:3306"
+
+networks:
+  default:
+    external:
+      name: ${HARPOON_DOCKER_NETWORK}

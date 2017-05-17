@@ -23,9 +23,6 @@ MacOS.
 
 ## TODO
 
-* ssh-agent add all keys
-* Add Services:
-  * Postgres
 * Consul + Traefik tips
 * Test with Linux
 
