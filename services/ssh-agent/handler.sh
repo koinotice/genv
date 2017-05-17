@@ -3,12 +3,12 @@
 set -euo pipefail
 
 case "${command:-}" in
-	ssh-agent:add)
+	ssh-agent:add) ## <keyfile> %% Add a key
 		file=${args}
 		echo "Adding ${file}..."
 		docker run --rm --volumes-from=ssh-agent -v ${file}:/root/.ssh/id_rsa -it sshagent_ssh-agent ssh-add /root/.ssh/id_rsa
 		;;
-	ssh-agent:list)
+	ssh-agent:list) ## %% List your keys
 		docker-compose ${DKR_COMPOSE_FILE} exec ssh-agent ssh-add -l
 		;;
 	*)
