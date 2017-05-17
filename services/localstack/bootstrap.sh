@@ -1,26 +1,26 @@
 #!/usr/bin/env bash
 
-set -e
+set -euo pipefail
 
-if [ ! ${LOCALSTACK_SERVICES} ]; then
+if [ ! ${LOCALSTACK_SERVICES:-} ]; then
 	export LOCALSTACK_SERVICES=""
 fi
 
-if [ ! ${PORT_MAPPINGS} ]; then
+if [ ! ${PORT_MAPPINGS:-} ]; then
 	export PORT_MAPPINGS="4567-4581:4567-4581"
 #	export PORT_MAPPINGS=$(echo ${SERVICES} | sed 's/[^0-9]/ /g' | sed 's/\([0-9][0-9]*\)/-p \1:\1/g' | sed 's/  */ /g')
 fi
 
 
-if [ ! ${DEFAULT_REGION} ]; then
+if [ ! ${DEFAULT_REGION:-} ]; then
 	export DEFAULT_REGION="us-east-1"
 fi
 
-if [ ! ${KINESIS_ERROR_PROBABILITY} ]; then
+if [ ! ${KINESIS_ERROR_PROBABILITY:-} ]; then
 	export KINESIS_ERROR_PROBABILITY=0.0
 fi
 
-if [ ! ${DYNAMODB_ERROR_PROBABILITY} ]; then
+if [ ! ${DYNAMODB_ERROR_PROBABILITY:-} ]; then
 	export DYNAMODB_ERROR_PROBABILITY=0.0
 fi
 

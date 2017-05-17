@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-set -e
+set -euo pipefail
 
-command=$1
+command=${1:-}
 args=${@:2}
 
 export SOURCE="${BASH_SOURCE[0]}"
@@ -12,15 +12,16 @@ while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symli
   [[ ${SOURCE} != /* ]] && SOURCE="$HARPOON_ROOT/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
 done
 
+# roots
 export HARPOON_ROOT="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 export SERVICES_ROOT=${HARPOON_ROOT}/services
 
 export ROOT_TASKS_FILE="${HARPOON_ROOT}/harpoon"
 
-export HARPOON_DOCKER_COMPOSE_CFG="${HARPOON_ROOT}/docker-compose.yml"
-export HARPOON_DOCKER_COMPOSE="docker-compose -f ${HARPOON_DOCKER_COMPOSE_CFG}"
-
-source ${HARPOON_ROOT}/core/vars/vars.sh
+# variables
+source ${HARPOON_ROOT}/core/vars/env.sh
+source ${HARPOON_ROOT}/core/vars/docker.sh
+source ${HARPOON_ROOT}/core/vars/traefik.sh
 
 print_help() {
 	help=$(grep -E '^\t[a-zA-Z:|_-]+\)\s##\s.*$' ${1} | sort | awk 'BEGIN {FS = "\\).*?## |%%"}; {c=$1" "$2; printf "\033[36m%-34s\033[0m %s\n", c, $3}')
@@ -39,7 +40,7 @@ traefik_storeconfig() {
 
 export HTTPIE="docker run --rm -i -v ${PWD}:${PWD} -w ${PWD} --net=harpoon -e 'TERM=xterm' alpine/httpie"
 
-case "$command" in
+case "${command:-}" in
 	docker) ## <arg>...	%% 🐳  Run docker in the Harpoon environment
 		docker ${args} ;;
 
@@ -47,7 +48,7 @@ case "$command" in
 		${HARPOON_DOCKER_COMPOSE} ${args} ;;
 
 	env) ## %% Show environment variables
-		env ;;
+		env | ${PAGER} ;;
 
 	http) ## <arg...> %% 🌎  HTTPie
 		${HTTPIE} ${args} ;;
@@ -56,7 +57,7 @@ case "$command" in
 		echo ${NAMESERVER_IP} ;;
 
 	install) ## %% ▶️  Install Harpoon
-		docker network create harpoon --subnet 10.254.253.0/24 || true
+		docker network create ${HARPOON_DOCKER_NETWORK} --subnet 10.254.253.0/24 || true
 		${HARPOON_DOCKER_COMPOSE} pull
 		${HARPOON_DOCKER_COMPOSE} up -d cadvisor dnsmasq consul
 #		sleep 10
@@ -70,20 +71,26 @@ case "$command" in
 
 		#sudo ifconfig lo:0 10.254.253.1/32
 
-		if [ ${CUSTOM_DOMAIN} ]; then
-			echo "nameserver ${NAMESERVER_IP}" | sudo tee -a /etc/resolver/${CUSTOM_DOMAIN}
+		if [ ${CUSTOM_DOMAIN:-} ]; then
+			echo "nameserver ${NAMESERVER_IP}" | sudo tee /etc/resolver/${CUSTOM_DOMAIN}
 		fi
 
-		echo "nameserver ${NAMESERVER_IP}" | sudo tee -a /etc/resolver/harpoon.dev
-		echo "nameserver ${NAMESERVER_IP}" | sudo tee -a /etc/resolver/consul
+		echo "nameserver ${NAMESERVER_IP}" | sudo tee /etc/resolver/harpoon.dev
+		echo "nameserver ${NAMESERVER_IP}" | sudo tee /etc/resolver/consul
 		echo "port 8600" | sudo tee -a /etc/resolver/consul
+		;;
+
+	restart) ## %% 🔄  Restart Harpoon Core Services
+		${HARPOON_DOCKER_COMPOSE} stop
+		${HARPOON_DOCKER_COMPOSE} rm -f -v
+		${HARPOON_DOCKER_COMPOSE} up -d
 		;;
 
 	clean) ## %% 🗑  Uninstall Harpoon
 		${HARPOON_DOCKER_COMPOSE} down --rmi all -v
-		docker network rm harpoon || true
+		docker network rm ${HARPOON_DOCKER_NETWORK} || true
 
-		if [ ${CUSTOM_DOMAIN} ]; then
+		if [ ${CUSTOM_DOMAIN:-} ]; then
 			sudo rm -f /etc/resolver/${CUSTOM_DOMAIN}
 		fi
 

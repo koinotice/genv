@@ -18,8 +18,8 @@ services:
       - "traefik.port=8080"
       - "traefik.frontend.rule=Host:localstack.harpoon.dev"
       - "traefik.frontend.entryPoints=http"
-      - "traefik.docker.network=harpoon"
-      - "traefik.tags=harpoon"
+      - "traefik.docker.network=${HARPOON_DOCKER_NETWORK}"
+      - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
     ports:
       - "8080"
       - ${PORT_MAPPINGS}
@@ -30,4 +30,4 @@ services:
 networks:
   default:
     external:
-      name: harpoon
+      name: ${HARPOON_DOCKER_NETWORK}

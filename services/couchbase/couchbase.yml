@@ -10,8 +10,8 @@ services:
       - "traefik.port=8091"
       - "traefik.frontend.rule=Host:couchbase.harpoon.dev"
       - "traefik.frontend.entryPoints=http"
-      - "traefik.docker.network=harpoon"
-      - "traefik.tags=harpoon"
+      - "traefik.docker.network=${HARPOON_DOCKER_NETWORK}"
+      - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
     networks:
       default:
         aliases:
@@ -29,8 +29,8 @@ services:
       - "traefik.port=8080"
       - "traefik.frontend.rule=Host:couchbase-provisioner.harpoon.dev, cbpvr.harpoon.dev"
       - "traefik.frontend.entryPoints=http"
-      - "traefik.docker.network=harpoon"
-      - "traefik.tags=harpoon"
+      - "traefik.docker.network=${HARPOON_DOCKER_NETWORK}"
+      - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
     networks:
       default:
         aliases:
@@ -44,4 +44,4 @@ services:
 networks:
   default:
     external:
-      name: harpoon
+      name: ${HARPOON_DOCKER_NETWORK}

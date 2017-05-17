@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-set -e
+set -euo pipefail
 
 services() {
-	for f in `ls ${SERVICES_ROOT}/${1}`; do
+	for f in `ls ${SERVICES_ROOT}/${1:-}`; do
 		if [[ "$f" = "services.sh" ]]; then
 			continue
 		fi
@@ -15,7 +15,7 @@ services() {
 # $2 command
 # $3 docker-compose file
 handle_service() {
-	source ${SERVICES_ROOT}/${1}/bootstrap.sh
+	source ${SERVICES_ROOT}/${1:-}/bootstrap.sh
 
 	case "$2" in
 		${1}:up)
@@ -85,7 +85,7 @@ ${1}:sh) ## <docker-compose-service-name> %% Enter a shell on a ${1} container
 		"
 			service_help "${HELP}"
 			echo ""
-			print_help ${SERVICES_ROOT}/${1}/handler.sh
+			print_help ${SERVICES_ROOT}/${1:-}/handler.sh
 			echo ""
 			;;
 

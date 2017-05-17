@@ -3,3 +3,4 @@ core/traefik/acme/acme.json
 core/traefik/certs/*.crt
 core/traefik/certs/*.pem
 core/traefik/certs/*.key
+harpoon.env.sh

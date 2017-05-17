@@ -10,6 +10,14 @@ For details, explore the [`docker-compose.yml`](../../docker-compose.yml) at
 the root of this repository, and the `.yml` files for each included
 service in `services/*`.
 
+## `harpoon.env.sh`
+
+Harpoon will look for and `source` files named `harpoon.env.sh` in the following directories:
+
+* The directory where Harpoon is located (`$HARPOON_ROOT`)
+* `$PWD`
+* `$HOME`
+
 ## Custom Domain
 
 You can configure _Harpoon_ to use your own domain:

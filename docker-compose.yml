@@ -24,8 +24,8 @@ services:
       - "traefik.port=8080"
       - "traefik.frontend.rule=Host:cadvisor.harpoon.dev"
       - "traefik.frontend.entryPoints=http"
-      - "traefik.docker.network=harpoon"
-      - "traefik.tags=harpoon"
+      - "traefik.docker.network=${HARPOON_DOCKER_NETWORK}"
+      - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
     networks:
       default:
         aliases:
@@ -54,8 +54,8 @@ services:
       - "traefik.port=8500"
       - "traefik.frontend.rule=Host:consul.harpoon.dev"
       - "traefik.frontend.entryPoints=http"
-      - "traefik.docker.network=harpoon"
-      - "traefik.tags=harpoon"
+      - "traefik.docker.network=${HARPOON_DOCKER_NETWORK}"
+      - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
     networks:
       default:
         aliases:
@@ -120,8 +120,8 @@ services:
       - "traefik.port=8075"
       - "traefik.frontend.rule=Host:traefik.harpoon.dev"
       - "traefik.frontend.entryPoints=http"
-      - "traefik.docker.network=harpoon"
-      - "traefik.tags=harpoon"
+      - "traefik.docker.network=${HARPOON_DOCKER_NETWORK}"
+      - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
     networks:
       default:
         aliases:
@@ -133,4 +133,4 @@ services:
 networks:
   default:
     external:
-      name: harpoon
+      name: ${HARPOON_DOCKER_NETWORK}

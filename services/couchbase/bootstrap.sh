@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-set -e
+set -euo pipefail
 
-if [ ! ${COUCHBASE_VERSION} ]; then
+if [ ! ${COUCHBASE_VERSION:-} ]; then
 	export COUCHBASE_VERSION="latest"
 fi
 

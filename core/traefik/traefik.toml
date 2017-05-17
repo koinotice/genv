@@ -417,7 +417,7 @@ endpoint = "unix:///var/run/docker.sock"
 #
 # Required
 #
-domain = "harpoon"
+domain = "harpoon.dev"
 
 # Enable watch docker changes
 #
@@ -514,7 +514,7 @@ watch = true
 # constraints = ["tag==api", "tag==he*ld"]
 # Matching with containers having the label "traefik.tags" set to "api,helloworld"
 # ex: $ docker run -d -P --label traefik.tags=api,helloworld emilevauge/whoami
-constraints = ["tag==harpoon"]
+#constraints = ["tag==harpoon"]
 
 ################################################################
 # Consul KV configuration backend
@@ -529,7 +529,7 @@ constraints = ["tag==harpoon"]
 ################################################################
 [consulCatalog]
 	endpoint = "consul:8500"
-	domain = "harpoon"
+	domain = "harpoon.dev"
 	prefix = "traefik"
 
 

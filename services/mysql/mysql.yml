@@ -13,4 +13,4 @@ services:
 networks:
   default:
     external:
-      name: harpoon
+      name: ${HARPOON_DOCKER_NETWORK}

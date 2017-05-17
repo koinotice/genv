@@ -1,20 +1,20 @@
 #!/usr/bin/env bash
 
-set -e
+set -euo pipefail
 
-if [ ! ${MYSQL_VERSION} ]; then
+if [ ! ${MYSQL_VERSION:-} ]; then
 	export MYSQL_VERSION=5
 fi
 
-if [ ! ${MYSQL_ROOT_PASSWORD} ]; then
+if [ ! ${MYSQL_ROOT_PASSWORD:-} ]; then
 	export MYSQL_ROOT_PASSWORD="abc123"
 fi
 
-if [ ! ${MYSQL_DATABASE} ]; then
+if [ ! ${MYSQL_DATABASE:-} ]; then
 	export MYSQL_DATABASE="harpoon"
 fi
 
-if [ ! ${MYSQL_PORT} ]; then
+if [ ! ${MYSQL_PORT:-} ]; then
 	export MYSQL_PORT=3306
 	export PRIVATE_PORT=${MYSQL_PORT}
 fi
