@@ -86,6 +86,10 @@ case "${command:-}" in
 		${HARPOON_DOCKER_COMPOSE} up -d
 		;;
 
+	status) ## %% Display the status of Harpoon Core Services
+		${HARPOON_DOCKER_COMPOSE} ps
+		;;
+
 	clean) ## %% 🗑  Uninstall Harpoon
 		${HARPOON_DOCKER_COMPOSE} down --rmi all -v
 		docker network rm ${HARPOON_DOCKER_NETWORK} || true
