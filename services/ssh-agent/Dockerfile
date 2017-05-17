@@ -1,4 +1,4 @@
-FROM alpine-3.5
+FROM alpine:3.5
 MAINTAINER Daniel Olfelt <dolfelt@gmail.com>
 
 # Install dependencies
