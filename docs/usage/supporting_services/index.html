@@ -483,15 +483,27 @@ configurations for commonly used databases, DevOps tools, etc:</p>
 <li><strong>Username:</strong> Administrator</li>
 <li><strong>Password:</strong> abc123</li>
 </ul>
+<h2 id="elk-stack"><a href="https://hub.docker.com/r/sebp/elk/" target="_blank">ELK Stack</a></h2>
+<ul>
+<li>Elasticsearch, Logstach, &amp; Kibana</li>
+<li><a href="http://elk-docker.readthedocs.io/" target="_blank">http://elk-docker.readthedocs.io/</a></li>
+</ul>
 <h2 id="localstack"><a href="https://bitbucket.org/atlassian/localstack" target="_blank">LocalStack</a></h2>
 <p>Local AWS cloud stack</p>
+<h2 id="mailhog"><a href="https://hub.docker.com/r/mailhog/mailhog/" target="_blank">Mailhog</a></h2>
+<p>Web and API based SMTP testing</p>
 <h2 id="mysql"><a href="https://hub.docker.com/_/mysql/" target="_blank">MySQL</a></h2>
+<p>MySQL is a widely used, open-source relational database management system (RDBMS).</p>
 <p><strong>Environment Variables (with defaults):</strong></p>
 <pre><code class="lang-bash"><span class="hljs-built_in">export</span> MYSQL_VERSION=5
 <span class="hljs-built_in">export</span> MYSQL_ROOT_PASSWORD=<span class="hljs-string">&quot;abc123&quot;</span>
 <span class="hljs-built_in">export</span> MYSQL_DATABASE=<span class="hljs-string">&quot;harpoon&quot;</span>
 <span class="hljs-built_in">export</span> MYSQL_PORT=3306 <span class="hljs-comment"># exposed to Docker host</span>
 </code></pre>
+<h2 id="postgres"><a href="https://hub.docker.com/_/postgres/" target="_blank">Postgres</a></h2>
+<p>The PostgreSQL object-relational database system provides reliability and data integrity.</p>
+<h2 id="redis"><a href="https://hub.docker.com/_/redis/" target="_blank">Redis</a></h2>
+<p>Redis is an open source key-value store that functions as a data structure server.</p>
 <h2 id="ssh-agent">ssh-agent</h2>
 <ol>
 <li>Run: <code>./harpoon ssh-agent:up</code></li>
@@ -499,7 +511,8 @@ configurations for commonly used databases, DevOps tools, etc:</p>
 </ol>
 <h1 id="service-management">Service Management</h1>
 <ul>
-<li>Run <code>./harpoon services:list</code> to get a list of the included services.</li>
+<li>Run <code>./harpoon services:list</code> to get a list of the supporting services.</li>
+<li>Run <code>./harpoon services:status</code> to display the state of all supporting services.</li>
 <li>Run <code>./harpoon (service):help</code> to get help for a particular service.</li>
 </ul>
 
@@ -545,7 +558,7 @@ configurations for commonly used databases, DevOps tools, etc:</p>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Supporting Services","level":"2.4.7","depth":2,"next":{"title":"Couchbase","level":"2.4.7.1","depth":3,"anchor":"#couchbase","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#couchbase","articles":[]},"previous":{"title":"Docker Compose Projects","level":"2.4.6.3","depth":3,"path":"usage/docker_compose.md","ref":"usage/docker_compose.md","articles":[]},"dir":"ltr"},"config":{"plugins":[],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Ben Getsug","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"A Whale of a Guide to Harpoon","gitbook":"*"},"file":{"path":"usage/supporting_services/README.md","mtime":"2017-05-17T17:38:24.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-05-17T21:44:53.197Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Supporting Services","level":"2.4.7","depth":2,"next":{"title":"Couchbase","level":"2.4.7.1","depth":3,"anchor":"#couchbase","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#couchbase","articles":[]},"previous":{"title":"Docker Compose Projects","level":"2.4.6.3","depth":3,"path":"usage/docker_compose.md","ref":"usage/docker_compose.md","articles":[]},"dir":"ltr"},"config":{"plugins":[],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Ben Getsug","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"A Whale of a Guide to Harpoon","gitbook":"*"},"file":{"path":"usage/supporting_services/README.md","mtime":"2017-05-18T01:42:19.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-05-18T01:43:43.552Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

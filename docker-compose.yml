@@ -22,8 +22,8 @@ services:
     labels:
       - "traefik.backend=cadvisor"
       - "traefik.port=8080"
-      - "traefik.frontend.rule=Host:cadvisor.harpoon.dev"
-      - "traefik.frontend.entryPoints=http"
+      - "traefik.frontend.rule=Host:${CADVISOR_HOSTS}"
+      - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
       - "traefik.docker.network=${HARPOON_DOCKER_NETWORK}"
       - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
     networks:
@@ -52,8 +52,8 @@ services:
     labels:
       - "traefik.backend=consul"
       - "traefik.port=8500"
-      - "traefik.frontend.rule=Host:consul.harpoon.dev"
-      - "traefik.frontend.entryPoints=http"
+      - "traefik.frontend.rule=Host:${CONSUL_HOSTS}"
+      - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
       - "traefik.docker.network=${HARPOON_DOCKER_NETWORK}"
       - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
     networks:
@@ -118,8 +118,8 @@ services:
     labels:
       - "traefik.backend=traefik"
       - "traefik.port=8075"
-      - "traefik.frontend.rule=Host:traefik.harpoon.dev"
-      - "traefik.frontend.entryPoints=http"
+      - "traefik.frontend.rule=Host:${TRAEFIK_HOSTS}"
+      - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
       - "traefik.docker.network=${HARPOON_DOCKER_NETWORK}"
       - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
     networks:

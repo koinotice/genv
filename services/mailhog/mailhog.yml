@@ -8,8 +8,8 @@ services:
     labels:
       - "traefik.backend=mailhog"
       - "traefik.port=8025"
-      - "traefik.frontend.rule=Host:mailhog.harpoon.dev"
-      - "traefik.frontend.entryPoints=http"
+      - "traefik.frontend.rule=Host:${MH_HOSTS}"
+      - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
       - "traefik.docker.network=${HARPOON_DOCKER_NETWORK}"
       - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
     networks:

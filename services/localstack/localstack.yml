@@ -16,8 +16,8 @@ services:
     labels:
       - "traefik.backend=localstack"
       - "traefik.port=8080"
-      - "traefik.frontend.rule=Host:localstack.harpoon.dev"
-      - "traefik.frontend.entryPoints=http"
+      - "traefik.frontend.rule=Host:${LS_HOSTS}"
+      - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
       - "traefik.docker.network=${HARPOON_DOCKER_NETWORK}"
       - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
     ports:

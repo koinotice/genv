@@ -28,6 +28,14 @@ export LAMBDA_EXECUTOR="docker"
 export DATA_DIR="/tmp/localstack/data"
 export TMP_DIR="/tmp/localstack"
 
+# Localstack hostnames
+export LS_HOSTS=localstack.harpoon.dev
+
+if [ ${CUSTOM_DOMAIN} ]; then
+	export LS_HOSTS+=",localstack.${CUSTOM_DOMAIN}"
+fi
+
+
 localstack_up() {
 	mkdir -p ${TMP_DIR}; chmod -R 777 ${TMP_DIR}
 }

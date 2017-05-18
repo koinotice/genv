@@ -8,8 +8,8 @@ services:
     labels:
       - "traefik.backend=elk"
       - "traefik.port=5601"
-      - "traefik.frontend.rule=Host:elk.harpoon.dev, kibana.harpoon.dev"
-      - "traefik.frontend.entryPoints=http"
+      - "traefik.frontend.rule=Host:${ELK_HOSTS}"
+      - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
       - "traefik.docker.network=${HARPOON_DOCKER_NETWORK}"
       - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
     networks:

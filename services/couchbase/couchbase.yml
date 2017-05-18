@@ -8,8 +8,8 @@ services:
     labels:
       - "traefik.backend=couchbase"
       - "traefik.port=8091"
-      - "traefik.frontend.rule=Host:couchbase.harpoon.dev"
-      - "traefik.frontend.entryPoints=http"
+      - "traefik.frontend.rule=Host:${CB_HOSTS}"
+      - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
       - "traefik.docker.network=${HARPOON_DOCKER_NETWORK}"
       - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
     networks:
@@ -27,8 +27,8 @@ services:
     labels:
       - "traefik.backend=couchbase-provisioner"
       - "traefik.port=8080"
-      - "traefik.frontend.rule=Host:couchbase-provisioner.harpoon.dev, cbpvr.harpoon.dev"
-      - "traefik.frontend.entryPoints=http"
+      - "traefik.frontend.rule=Host:${CBPVR_HOSTS}"
+      - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
       - "traefik.docker.network=${HARPOON_DOCKER_NETWORK}"
       - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
     networks:
