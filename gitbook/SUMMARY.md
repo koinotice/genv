@@ -2,7 +2,7 @@
 
 ----
 
-* [Harpoon](http://harpoon.io)
+* [Harpoon](https://github.com/wheniwork/harpoon)
 
 ----
 
