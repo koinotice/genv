@@ -57,7 +57,7 @@ case "${command:-}" in
 		echo ${NAMESERVER_IP} ;;
 
 	install) ## %% ▶️  Install Harpoon
-		docker network create ${HARPOON_DOCKER_NETWORK} --subnet 10.254.253.0/24 || true
+		docker network create ${HARPOON_DOCKER_NETWORK} --subnet 10.254.254.0/24 || true
 		${HARPOON_DOCKER_COMPOSE} pull
 		${HARPOON_DOCKER_COMPOSE} up -d cadvisor dnsmasq consul
 #		sleep 10
