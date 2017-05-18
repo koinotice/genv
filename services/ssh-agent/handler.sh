@@ -2,15 +2,34 @@
 
 set -euo pipefail
 
+add() {
+	FILE=${1}
+	NAME=$(basename ${FILE})
+	echo "Adding ${FILE}..."
+	docker run --rm --volumes-from=ssh-agent -v ${FILE}:/root/.ssh/${NAME} -it sshagent_ssh-agent ssh-add /root/.ssh/${NAME}
+}
+
+add_all() {
+	find ~/.ssh -type f -name 'id_*' -a ! -name '*.pub' | while read file; do
+		(add "$file") < /dev/tty
+	done
+}
+
+
 case "${command:-}" in
 	ssh-agent:add) ## <keyfile> %% Add a key
 		file=${args}
-		echo "Adding ${file}..."
-		docker run --rm --volumes-from=ssh-agent -v ${file}:/root/.ssh/id_rsa -it sshagent_ssh-agent ssh-add /root/.ssh/id_rsa
+		if [ -z "${file}" ]
+		then
+			add_all
+		else
+			add ${file}
+		fi
 		;;
+	ssh-agent:add:all) ## %% Add all your keys
+		add_all ;;
 	ssh-agent:list) ## %% List your keys
-		docker-compose ${DKR_COMPOSE_FILE} exec ssh-agent ssh-add -l
-		;;
+		docker-compose ${DKR_COMPOSE_FILE} exec ssh-agent ssh-add -l ;;
 	*)
 		service_help ssh-agent;;
 esac
