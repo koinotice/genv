@@ -67,7 +67,7 @@ case "${command:-}" in
 		sudo mkdir -p /etc/resolver
 
 		# Add fixed loopback alias for container connectivity to services running locally (when running Docker for Mac)
-		uname | grep Darwin && sudo ifconfig lo0 alias 10.254.252.1/32 || true
+		uname | grep Darwin && sudo ifconfig lo0 alias 10.254.253.1/32 || true
 
 		#sudo ifconfig lo:0 10.254.253.1/32
 
