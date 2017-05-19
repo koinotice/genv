@@ -38,7 +38,7 @@ traefik_storeconfig() {
 	${HARPOON_DOCKER_COMPOSE} run --rm traefik storeconfig
 }
 
-export HTTPIE="docker run --rm -i -v ${PWD}:${PWD} -w ${PWD} --net=harpoon -e 'TERM=xterm' alpine/httpie"
+export HTTPIE="docker run --rm -i -v ${PWD}:${PWD} -w ${PWD} --net=${HARPOON_DOCKER_NETWORK} -e 'TERM=xterm' alpine/httpie"
 
 case "${command:-}" in
 	docker) ## <arg>...	%% 🐳  Run docker in the Harpoon environment
@@ -111,29 +111,10 @@ case "${command:-}" in
 	services:status) ## %% Display the status for all supporting services
 		services_status ;;
 
-	couchbase*)
-		handle_service couchbase ${command} ;;
-
-	elk*)
-		handle_service elk ${command} ;;
-
-	localstack*)
-		handle_service localstack ${command} ;;
-
-	mailhog*)
-		handle_service mailhog ${command} ;;
-
-	mysql*)
-		handle_service mysql ${command} ;;
-
-	postgres*)
-		handle_service postgres ${command} ;;
-
-	redis*)
-		handle_service redis ${command} ;;
-
-	ssh-agent*)
-		handle_service ssh-agent ${command} ;;
+	*:*)
+		SERVICE_NAME=${command%:*}
+		handle_service ${SERVICE_NAME} ${command}
+		;;
 
 	help|*) ## Get help
 		echo "Usage: harpoon command [<arg>...]"

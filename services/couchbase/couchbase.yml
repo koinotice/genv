@@ -39,7 +39,7 @@ services:
     ports:
       - "8080"
     volumes:
-      - ./config.yaml:/etc/couchbase-provisioner/config.yaml
+      - ./provisioner_config.yaml:/etc/couchbase-provisioner/config.yaml
 
 networks:
   default:
