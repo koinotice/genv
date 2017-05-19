@@ -6,7 +6,7 @@ add() {
 	FILE=${1}
 	NAME=$(basename ${FILE})
 	echo "Adding ${FILE}..."
-	docker run --rm --volumes-from=ssh-agent -v ${FILE}:/root/.ssh/${NAME} -it ssh-agent ssh-add /root/.ssh/${NAME}
+	docker run --rm --volumes-from=harpoon_ssh-agent -v ${FILE}:/root/.ssh/${NAME} -it harpoon_ssh-agent ssh-add /root/.ssh/${NAME}
 }
 
 add_all() {
