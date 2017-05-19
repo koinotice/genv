@@ -2,6 +2,7 @@ version: '2'
 
 services:
   mailhog:
+    container_name: harpoon_mailhog
     image: mailhog/mailhog
     environment:
       - TERM=xterm

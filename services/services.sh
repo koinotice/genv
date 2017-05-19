@@ -43,7 +43,7 @@ service_status() {
 
 	SERVICE_STATUS="$(echo $1 | sed 's/-/_/g')_status"
 
-	IS_UP=$(docker-compose -f ${SERVICE_ROOT}/${1}.yml ps | grep 'Up') || true
+	IS_UP=$(${DOCKER_COMPOSE_CMD} -f ${SERVICE_ROOT}/${1}.yml ps | grep 'Up') || true
 	if [[ ${IS_UP} ]]; then
 		printf "%-15s%s\n" "${1}" 'Up'
 		export $SERVICE_STATUS='Up'
@@ -108,7 +108,7 @@ service_up() {
 	# execute service pre_up hook
 	if [ -n "$(type -t ${1}_pre_up)" ] && [ "$(type -t ${1}_pre_up)" = function ]; then ${1}_pre_up "${2}"; fi
 
-	docker-compose ${2} up -d ${3}
+	${DOCKER_COMPOSE_CMD} ${2} up -d ${3}
 
 	# execute service post_up hook
 	if [ -n "$(type -t ${1}_post_up)" ] && [ "$(type -t ${1}_post_up)" = function ]; then ${1}_post_up "${2}"; fi
@@ -121,7 +121,7 @@ service_down() {
 	# execute service pre_down hook
 	if [ -n "$(type -t ${1}_pre_down)" ] && [ "$(type -t ${1}_pre_down)" = function ]; then ${1}_pre_down "${2}"; fi
 
-	docker-compose ${2} down ${3} --rmi all -v
+	${DOCKER_COMPOSE_CMD} ${2} down ${3} --rmi all -v
 
 	# execute service post_down hook
 	if [ -n "$(type -t ${1}_post_down)" ] && [ "$(type -t ${1}_post_down)" = function ]; then ${1}_post_down "${2}"; fi
@@ -144,42 +144,42 @@ handle_service() {
 			service_down ${1} "${DKR_COMPOSE_FILE}" "${args}" ;;
 
 		${1}:kill)
-			docker-compose ${DKR_COMPOSE_FILE} kill ${args} ;;
+			${DOCKER_COMPOSE_CMD} ${DKR_COMPOSE_FILE} kill ${args} ;;
 
 		${1}:stop)
-			docker-compose ${DKR_COMPOSE_FILE} stop ${args} ;;
+			${DOCKER_COMPOSE_CMD} ${DKR_COMPOSE_FILE} stop ${args} ;;
 
 		${1}:start)
-			docker-compose ${DKR_COMPOSE_FILE} start ${args} ;;
+			${DOCKER_COMPOSE_CMD} ${DKR_COMPOSE_FILE} start ${args} ;;
 
 		${1}:restart)
-			docker-compose ${DKR_COMPOSE_FILE} restart ${args} ;;
+			${DOCKER_COMPOSE_CMD} ${DKR_COMPOSE_FILE} restart ${args} ;;
 
 		${1}:reset)
-			docker-compose ${DKR_COMPOSE_FILE} stop
-			docker-compose ${DKR_COMPOSE_FILE} rm -f -v
+			${DOCKER_COMPOSE_CMD} ${DKR_COMPOSE_FILE} stop
+			${DOCKER_COMPOSE_CMD} ${DKR_COMPOSE_FILE} rm -f -v
 			# execute service post_down hook
 			if [ -n "$(type -t ${1}_post_reset)" ] && [ "$(type -t ${1}_post_reset)" = function ]; then ${1}_post_reset "${DKR_COMPOSE_FILE}"; fi
 			service_up ${1} "${DKR_COMPOSE_FILE}" "${args}"
 			;;
 
 		${1}:rm)
-			docker-compose ${DKR_COMPOSE_FILE} rm ${args} ;;
+			${DOCKER_COMPOSE_CMD} ${DKR_COMPOSE_FILE} rm ${args} ;;
 
 		${1}:run)
-			docker-compose ${DKR_COMPOSE_FILE} run ${args} ;;
+			${DOCKER_COMPOSE_CMD} ${DKR_COMPOSE_FILE} run ${args} ;;
 
 		${1}:port:primary)
-			docker-compose ${DKR_COMPOSE_FILE} port ${1} ${PRIVATE_PORT:-} ;;
+			${DOCKER_COMPOSE_CMD} ${DKR_COMPOSE_FILE} port ${1} ${PRIVATE_PORT:-} ;;
 
 		${1}:port)
-			docker-compose ${DKR_COMPOSE_FILE} port ${args} ;;
+			${DOCKER_COMPOSE_CMD} ${DKR_COMPOSE_FILE} port ${args} ;;
 
 		${1}:ps)
-			docker-compose ${DKR_COMPOSE_FILE} ps ${args} ;;
+			${DOCKER_COMPOSE_CMD} ${DKR_COMPOSE_FILE} ps ${args} ;;
 
 		${1}:logs)
-			docker-compose ${DKR_COMPOSE_FILE} logs ${args} ;;
+			${DOCKER_COMPOSE_CMD} ${DKR_COMPOSE_FILE} logs ${args} ;;
 
 		${1}:status)
 			service_status ${1}
@@ -190,7 +190,7 @@ handle_service() {
 			;;
 
 		${1}:sh)
-			docker-compose ${DKR_COMPOSE_FILE} exec ${args} sh ;;
+			${DOCKER_COMPOSE_CMD} ${DKR_COMPOSE_FILE} exec ${args} sh ;;
 
 		${1}:help)
 			echo "${1}:"
@@ -198,7 +198,7 @@ handle_service() {
 			;;
 
 		${1}:exec)
-			docker-compose ${DKR_COMPOSE_FILE} exec ${args} ;;
+			${DOCKER_COMPOSE_CMD} ${DKR_COMPOSE_FILE} exec ${args} ;;
 
 		${1}:*)
 			source "${SERVICE_ROOT}/handler.sh"

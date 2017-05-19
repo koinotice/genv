@@ -2,6 +2,7 @@ version: '2'
 
 services:
   postgres:
+    container_name: harpoon_postgres
     image: postgres:${POSTGRES_VERSION}
     environment:
       - TERM=xterm

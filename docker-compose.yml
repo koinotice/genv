@@ -2,6 +2,7 @@ version: '2'
 
 services:
   dnsmasq:
+    container_name: harpoon_dnsmasq
     build: core/dnsmasq
     environment:
       - USER=dev
@@ -16,6 +17,7 @@ services:
         max-size: 100m
 
   cadvisor:
+    container_name: harpoon_cadvisor
     image: google/cadvisor:latest
     ports:
       - "8070:8080"
@@ -37,6 +39,7 @@ services:
       - /var/lib/docker/:/var/lib/docker:ro
 
   consul:
+    container_name: harpoon_consul
     image: progrium/consul
     command: -server -bootstrap -log-level debug -ui-dir /ui
     ports:
@@ -62,6 +65,7 @@ services:
           - consul.harpoon.dev
 
   traefik:
+    container_name: harpoon_traefik
     image: traefik:1.2.3
     command: ${TRAEFIK_COMMAND}
     environment:

@@ -6,7 +6,7 @@ add() {
 	FILE=${1}
 	NAME=$(basename ${FILE})
 	echo "Adding ${FILE}..."
-	docker run --rm --volumes-from=ssh-agent -v ${FILE}:/root/.ssh/${NAME} -it sshagent_ssh-agent ssh-add /root/.ssh/${NAME}
+	docker run --rm --volumes-from=harpoon_ssh-agent -v ${FILE}:/root/.ssh/${NAME} -it harpoon_ssh-agent ssh-add /root/.ssh/${NAME}
 }
 
 add_all() {
@@ -29,7 +29,7 @@ case "${command:-}" in
 	ssh-agent:add:all) ## %% Add all your keys
 		add_all ;;
 	ssh-agent:list) ## %% List your keys
-		docker-compose ${DKR_COMPOSE_FILE} exec ssh-agent ssh-add -l ;;
+		${DOCKER_COMPOSE_CMD} ${DKR_COMPOSE_FILE} exec ssh-agent ssh-add -l ;;
 	*)
 		service_help ssh-agent;;
 esac

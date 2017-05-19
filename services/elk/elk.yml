@@ -2,6 +2,7 @@ version: '2'
 
 services:
   elk:
+    container_name: harpoon_elk
     image: sebp/elk
     environment:
       - TERM=xterm

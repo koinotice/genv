@@ -2,6 +2,7 @@ version: '2'
 
 services:
   couchbase:
+    container_name: harpoon_couchbase
     image: couchbase:${COUCHBASE_VERSION}
     environment:
       - TERM=xterm
@@ -21,6 +22,7 @@ services:
       - "11210:11210"
 
   couchbase-provisioner:
+    container_name: harpoon_couchbase-provisioner
     image: wheniwork/couchbase-provisioner:master
     environment:
       - TERM=xterm

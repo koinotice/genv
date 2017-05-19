@@ -7,9 +7,9 @@ couchbase_cli() {
 	opts=${2:-}
 
 	if [ ${cmd} ]; then
-		docker-compose ${DKR_COMPOSE_FILE} exec couchbase couchbase-cli ${cmd} -c localhost:8091 ${opts} -u Administrator -p abc123
+		${DOCKER_COMPOSE_CMD} ${DKR_COMPOSE_FILE} exec couchbase couchbase-cli ${cmd} -c localhost:8091 ${opts} -u Administrator -p abc123
 	else
-		docker-compose ${DKR_COMPOSE_FILE} exec couchbase couchbase-cli
+		${DOCKER_COMPOSE_CMD} ${DKR_COMPOSE_FILE} exec couchbase couchbase-cli
 	fi
 }
 
@@ -18,7 +18,7 @@ case "${command:-}" in
 		couchbase_provisioner_run ;;
 
 	couchbase:cbq) ## <arg>... %% Couchbase N1QL query CLI
-		docker-compose ${DKR_COMPOSE_FILE} exec couchbase cbq ${args} ;;
+		${DOCKER_COMPOSE_CMD} ${DKR_COMPOSE_FILE} exec couchbase cbq ${args} ;;
 
 	couchbase:cli) ## <command> <options...> ## Run a couchbase-cli command
 		read -r -a argarray <<< "$args"

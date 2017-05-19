@@ -2,6 +2,7 @@ version: '2'
 
 services:
   redis:
+    container_name: harpoon_redis
     image: redis:${REDIS_VERSION}
     environment:
       - TERM=xterm
