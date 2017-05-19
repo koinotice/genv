@@ -3,23 +3,26 @@ version: '2'
 services:
   couchbase:
     container_name: harpoon_couchbase
+    hostname: ${CB_HOST}
     image: couchbase:${COUCHBASE_VERSION}
     environment:
       - TERM=xterm
     labels:
       - "traefik.backend=couchbase"
       - "traefik.port=8091"
-      - "traefik.frontend.rule=Host:${CB_HOSTS}"
+      - "traefik.frontend.rule=Host:${CB_HOST}"
       - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
       - "traefik.docker.network=${HARPOON_DOCKER_NETWORK}"
       - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
-    networks:
-      default:
-        aliases:
-          - couchbase.harpoon.dev
+#    networks:
+#      default:
+#        aliases:
+#          - couchbase.harpoon.dev
     ports:
       - "8091-8094:8091-8094"
-      - "11210:11210"
+      - "11207:11207"
+      - "11210-11211:11210-11211"
+      - "18091-18093:18091-18093"
 
   couchbase-provisioner:
     container_name: harpoon_couchbase-provisioner

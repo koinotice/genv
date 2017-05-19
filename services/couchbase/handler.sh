@@ -45,7 +45,7 @@ case "${command:-}" in
 			ramsize=128
 		fi
 
-		couchbase_cli bucket-create "--bucket=${argarray[0]} --bucket-type=couchbase --bucket-ramsize=${ramsize} --enable-flush=1 --wait"
+		couchbase_cli bucket-create "--bucket=${argarray[0]} --bucket-type=couchbase --bucket-ramsize=${ramsize} --enable-flush=1 --bucket-replica=0 --wait"
 		;;
 
 	couchbase:bucket-delete) ## <name> %% Delete a bucket
