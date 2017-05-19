@@ -3,7 +3,7 @@ version: '2'
 services:
   ssh-agent:
     build: .
-    container_name: harpoon_ssh-agent
+    container_name: ssh-agent
 
 networks:
   default:
