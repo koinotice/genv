@@ -182,7 +182,12 @@ handle_service() {
 			docker-compose ${DKR_COMPOSE_FILE} logs ${args} ;;
 
 		${1}:status)
-			service_status ${1} ;;
+			service_status ${1}
+			SERVICE_STATUS="$(echo $1 | sed 's/-/_/g')_status"
+			if [ ${!SERVICE_STATUS} == "Down" ]; then
+				exit 1
+			fi
+			;;
 
 		${1}:sh)
 			docker-compose ${DKR_COMPOSE_FILE} exec ${args} sh ;;
