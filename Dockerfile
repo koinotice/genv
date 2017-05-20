@@ -8,6 +8,8 @@ rm -rf /var/cache/apk/* /var/tmp/* /tmp/*
 
 COPY . /harpoon
 
+ENV PATH /harpoon:$PATH
+
 WORKDIR /harpoon
 
 ENTRYPOINT ["./harpoon"]
