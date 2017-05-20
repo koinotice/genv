@@ -28,7 +28,7 @@ export CADVISOR_HOSTS=cadvisor.harpoon.dev
 export CONSUL_HOSTS=consul.harpoon.dev
 export TRAEFIK_HOSTS=traefik.harpoon.dev
 
-if [ ${CUSTOM_DOMAIN} ]; then
+if [ ${CUSTOM_DOMAIN:-} ]; then
 	export CADVISOR_HOSTS+=",cadvisor.${CUSTOM_DOMAIN}"
 	export CONSUL_HOSTS+=",consul.${CUSTOM_DOMAIN}"
 	export TRAEFIK_HOSTS+=",traefik.${CUSTOM_DOMAIN}"
