@@ -48,7 +48,12 @@ case "${command:-}" in
 		${HARPOON_DOCKER_COMPOSE} ${args} ;;
 
 	env) ## %% Show environment variables
-		env | ${PAGER} ;;
+		if [ ${PAGER:-} ]; then
+			env | ${PAGER}
+		else
+			env
+		fi
+		;;
 
 	http) ## <arg...> %% 🌎  HTTPie
 		${HTTPIE} ${args} ;;

@@ -10,4 +10,4 @@ COPY . /harpoon
 
 WORKDIR /harpoon
 
-ENTRYPOINT ["bash", "-c", "./harpoon"]
+ENTRYPOINT ["./harpoon"]
