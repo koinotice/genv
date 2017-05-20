@@ -1,7 +1,5 @@
 FROM docker:17.03
 
-ENV CUSTOM_DOMAIN
-
 RUN apk update && \
 apk add bash && \
 apk add --no-cache py-pip && \
