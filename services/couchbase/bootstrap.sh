@@ -10,9 +10,9 @@ fi
 export CB_HOST=couchbase.harpoon.dev
 export CBPVR_HOSTS="couchbase-provisioner.harpoon.dev,cbpvr.harpoon.dev"
 
-if [ ${CUSTOM_DOMAIN} ]; then
-	export CB_HOST="couchbase.${CUSTOM_DOMAIN}"
-	export CBPVR_HOSTS+=",couchbase-provisioner.${CUSTOM_DOMAIN},cbpvr.${CUSTOM_DOMAIN}"
+if [ ${CUSTOM_COUCHBASE_DOMAIN:-} ]; then
+	export CB_HOST="couchbase.${CUSTOM_COUCHBASE_DOMAIN}"
+	export CBPVR_HOSTS+=",couchbase-provisioner.${CUSTOM_COUCHBASE_DOMAIN},cbpvr.${CUSTOM_COUCHBASE_DOMAIN}"
 fi
 
 couchbase_provisioner_run() {

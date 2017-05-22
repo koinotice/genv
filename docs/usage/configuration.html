@@ -475,19 +475,23 @@
 <p><em>Harpoon</em> uses environment variables exclusively for all configuration
 parameters, many of which are passed directly to the underlying
 containers.</p>
-<p>For details, explore the <a href="../../docker-compose.yml"><code>docker-compose.yml</code></a> at
-the root of this repository, and the <code>.yml</code> files for each included
-service in <code>services/*</code>.</p>
+<p>For details, explore the
+<a href="../../docker-compose.yml"><code>docker-compose.yml</code></a> at the root of this
+repository, and the <code>.yml</code> files for each included service in
+<code>services/*</code>.</p>
 <h2 id="harpoonenvsh"><code>harpoon.env.sh</code></h2>
-<p>Harpoon will look for and <code>source</code> files named <code>harpoon.env.sh</code> in the following directories:</p>
+<p>Harpoon will look for and <code>source</code> files named <code>harpoon.env.sh</code> in the
+following directories:</p>
 <ul>
 <li>The directory where Harpoon is located (<code>$HARPOON_ROOT</code>)</li>
 <li><code>$PWD</code></li>
 <li><code>$HOME</code></li>
 </ul>
-<h2 id="custom-domain">Custom Domain</h2>
-<p>You can configure <em>Harpoon</em> to use your own domain:</p>
-<pre><code class="lang-bash"><span class="hljs-built_in">export</span> CUSTOM_DOMAIN=<span class="hljs-string">&quot;example.com&quot;</span>
+<h2 id="custom-domains">Custom Domains</h2>
+<p>You can configure <em>Harpoon</em> to use your own domains:</p>
+<pre><code class="lang-bash">CUSTOM_DOMAINS[0]=example.com
+CUSTOM_DOMAINS[1]=example.net
+<span class="hljs-built_in">export</span> CUSTOM_DOMAINS
 </code></pre>
 <p>If you would like to use HTTPS, you may choose <em>one</em> of the following
 options:</p>
@@ -511,15 +515,12 @@ options:</p>
 for more information.</p>
 <h3 id="https-with-static-or-self-signed-certificates">HTTPS with Static (or self-signed) Certificates</h3>
 <p><em>Works offline</em></p>
-<ol>
-<li>Copy your certificate and key files to <code>core/traefik/certs</code>.</li>
-<li><p>Set the following environment variables, replacing the values with
-the appropriate file names:</p>
-<pre><code class="lang-bash"><span class="hljs-built_in">export</span> TRAEFIK_TLS_CERTFILE=example.crt
-<span class="hljs-built_in">export</span> TRAEFIK_TLS_KEYFILE=example.key
-</code></pre>
-</li>
-</ol>
+<p>For each of your custom domains, copy the certificate (<code>.crt</code>) and key (<code>.key</code>) files to
+<code>core/traefik/certs</code>. The filenames should be based on the domain name, for example:</p>
+<ul>
+<li><code>example.com.crt</code></li>
+<li><code>example.com.key</code></li>
+</ul>
 
                                 
                                 </section>
@@ -563,7 +564,7 @@ the appropriate file names:</p>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Configuration","level":"2.4.6","depth":2,"next":{"title":"Environment Variables","level":"2.4.6.1","depth":3,"anchor":"#environment-variables","path":"usage/configuration.md","ref":"usage/configuration.md#environment-variables","articles":[]},"previous":{"title":"Removal","level":"2.4.5","depth":2,"anchor":"#removal","path":"usage/README.md","ref":"usage/README.md#removal","articles":[]},"dir":"ltr"},"config":{"plugins":[],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Ben Getsug","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"A Whale of a Guide to Harpoon","gitbook":"*"},"file":{"path":"usage/configuration.md","mtime":"2017-05-17T04:24:55.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-05-18T02:03:20.549Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Configuration","level":"2.4.6","depth":2,"next":{"title":"Environment Variables","level":"2.4.6.1","depth":3,"anchor":"#environment-variables","path":"usage/configuration.md","ref":"usage/configuration.md#environment-variables","articles":[]},"previous":{"title":"Removal","level":"2.4.5","depth":2,"anchor":"#removal","path":"usage/README.md","ref":"usage/README.md#removal","articles":[]},"dir":"ltr"},"config":{"plugins":[],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Ben Getsug","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"A Whale of a Guide to Harpoon","gitbook":"*"},"file":{"path":"usage/configuration.md","mtime":"2017-05-22T23:27:15.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-05-22T23:27:35.218Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

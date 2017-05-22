@@ -62,6 +62,20 @@ case "${command:-}" in
 		echo ${NAMESERVER_IP} ;;
 
 	install) ## %% ▶️  Install Harpoon
+		echo -e "$(cat ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf.template | sed "s/NAMESERVER_IP/${NAMESERVER_IP}/")" > ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
+
+		sudo mkdir -p /etc/resolver
+		echo "nameserver ${NAMESERVER_IP}" | sudo tee /etc/resolver/harpoon.dev
+		echo "nameserver ${NAMESERVER_IP}" | sudo tee /etc/resolver/consul
+		echo "port 8600" | sudo tee -a /etc/resolver/consul
+
+		if [ ${CUSTOM_DOMAINS:-} ]; then
+			for i in "${CUSTOM_DOMAINS[@]}"; do
+				echo -e "\naddress=/${i}/${NAMESERVER_IP}" >> ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
+				echo "nameserver ${NAMESERVER_IP}" | sudo tee /etc/resolver/${i}
+			done
+		fi
+
 		docker network create ${HARPOON_DOCKER_NETWORK} --subnet 10.254.254.0/24 || true
 		${HARPOON_DOCKER_COMPOSE} pull
 		${HARPOON_DOCKER_COMPOSE} up -d cadvisor dnsmasq consul
@@ -69,20 +83,18 @@ case "${command:-}" in
 #		traefik_storeconfig
 		${HARPOON_DOCKER_COMPOSE} up -d traefik
 
-		sudo mkdir -p /etc/resolver
-
 		# Add fixed loopback alias for container connectivity to services running locally (when running Docker for Mac)
 		uname | grep Darwin && sudo ifconfig lo0 alias 10.254.253.1/32 || true
 
 		#sudo ifconfig lo:0 10.254.253.1/32
+		;;
 
-		if [ ${CUSTOM_DOMAIN:-} ]; then
-			echo "nameserver ${NAMESERVER_IP}" | sudo tee /etc/resolver/${CUSTOM_DOMAIN}
-		fi
+	stop) ## %% Stop Harpoon Core Services
+		${HARPOON_DOCKER_COMPOSE} stop ;;
 
-		echo "nameserver ${NAMESERVER_IP}" | sudo tee /etc/resolver/harpoon.dev
-		echo "nameserver ${NAMESERVER_IP}" | sudo tee /etc/resolver/consul
-		echo "port 8600" | sudo tee -a /etc/resolver/consul
+	off) ## %% Stop and remove Harpoon Core Services containers
+		${HARPOON_DOCKER_COMPOSE} stop
+		${HARPOON_DOCKER_COMPOSE} rm -f -v
 		;;
 
 	restart) ## %% 🔄  Restart Harpoon Core Services
@@ -99,12 +111,16 @@ case "${command:-}" in
 		${HARPOON_DOCKER_COMPOSE} down --rmi all -v
 		docker network rm ${HARPOON_DOCKER_NETWORK} || true
 
-		if [ ${CUSTOM_DOMAIN:-} ]; then
-			sudo rm -f /etc/resolver/${CUSTOM_DOMAIN}
+		if [ ${CUSTOM_DOMAINS:-} ]; then
+			for i in  "${CUSTOM_DOMAINS[@]}"; do
+				sudo rm -f /etc/resolver/${i}
+			done
 		fi
 
 		sudo rm -f /etc/resolver/harpoon.dev
 		sudo rm -f /etc/resolver/consul
+
+		rm -f ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
 		;;
 
 	#traefik:storeconfig) ## %% Upload the Traefik configuration to Consul

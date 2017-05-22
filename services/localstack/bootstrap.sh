@@ -31,8 +31,10 @@ export TMP_DIR="/tmp/localstack"
 # Localstack hostnames
 export LS_HOSTS=localstack.harpoon.dev
 
-if [ ${CUSTOM_DOMAIN} ]; then
-	export LS_HOSTS+=",localstack.${CUSTOM_DOMAIN}"
+if [ ${CUSTOM_DOMAINS:-} ]; then
+	for i in "${CUSTOM_DOMAINS[@]}"; do
+		export LS_HOSTS+=",localstack.${i}"
+	done
 fi
 
 

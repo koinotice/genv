@@ -10,5 +10,4 @@ server=8.8.8.8
 ## serve all .company queries using a specific nameserver
 # server=/company/10.0.0.1
 ## explicitly define host-ip mappings
-address=/harpoon.dev/${NAMESERVER_IP}
-address=/${CUSTOM_DOMAIN}/${NAMESERVER_IP}
+address=/harpoon.dev/NAMESERVER_IP

@@ -23,6 +23,9 @@ if [ ! ${TRAEFIK_HTTPS_PORT:-} ]; then
 fi
 
 
+export FRONTEND_ENTRYPOINTS=http
+
+
 # ACME
 
 if [ ! ${TRAEFIK_ACME_LOGGING:-} ]; then
@@ -68,11 +71,25 @@ ${TRAEFIK_COMMAND}
 --acme.caserver='https://acme-staging.api.letsencrypt.org/directory'
 	"
 	fi
+
+	export FRONTEND_ENTRYPOINTS="http,https"
 fi
 
-if [[ ${TRAEFIK_TLS_CERTFILE:-} && ${TRAEFIK_TLS_KEYFILE:-} ]]; then
-	export TRAEFIK_COMMAND="
-${TRAEFIK_COMMAND}
---entryPoints='Name:https Address::443 TLS:/etc/traefik/certs/${TRAEFIK_TLS_CERTFILE},/etc/traefik/certs/${TRAEFIK_TLS_KEYFILE}'
+
+if [ ${CUSTOM_DOMAINS:-} ]; then
+	for i in "${CUSTOM_DOMAINS[@]}"; do
+		if [[ -f "${HARPOON_ROOT}/core/traefik/certs/${i}.crt" && -f "${HARPOON_ROOT}/core/traefik/certs/${i}.key" ]]; then
+			CERTS+="/etc/traefik/certs/${i}.crt,/etc/traefik/certs/${i}.key;"
+		fi
+	done
+
+	if [ ${CERTS:-} ]; then
+		CERTS=$(echo ${CERTS} | sed 's/;$//')
+
+		export TRAEFIK_COMMAND+="
+--entryPoints='Name:https Address::443 TLS:${CERTS}'
 "
+		export FRONTEND_ENTRYPOINTS="http,https"
+	fi
+
 fi

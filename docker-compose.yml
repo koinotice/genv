@@ -3,7 +3,7 @@ version: '2'
 services:
   dnsmasq:
     container_name: harpoon_dnsmasq
-    build: core/dnsmasq
+    image: jpillora/dnsmasq
     environment:
       - USER=dev
       - PASS=harpoon
@@ -15,6 +15,8 @@ services:
     logging:
       options:
         max-size: 100m
+    volumes:
+      - ./core/dnsmasq/dnsmasq.conf:/etc/dnsmasq.conf
 
   cadvisor:
     container_name: harpoon_cadvisor

@@ -6,24 +6,28 @@ _Harpoon_ uses environment variables exclusively for all configuration
 parameters, many of which are passed directly to the underlying
 containers.
 
-For details, explore the [`docker-compose.yml`](../../docker-compose.yml) at
-the root of this repository, and the `.yml` files for each included
-service in `services/*`.
+For details, explore the
+[`docker-compose.yml`](../../docker-compose.yml) at the root of this
+repository, and the `.yml` files for each included service in
+`services/*`.
 
 ## `harpoon.env.sh`
 
-Harpoon will look for and `source` files named `harpoon.env.sh` in the following directories:
+Harpoon will look for and `source` files named `harpoon.env.sh` in the
+following directories:
 
 * The directory where Harpoon is located (`$HARPOON_ROOT`)
 * `$PWD`
 * `$HOME`
 
-## Custom Domain
+## Custom Domains
 
-You can configure _Harpoon_ to use your own domain:
+You can configure _Harpoon_ to use your own domains:
 
 ```bash
-export CUSTOM_DOMAIN="example.com"
+CUSTOM_DOMAINS[0]=example.com
+CUSTOM_DOMAINS[1]=example.net
+export CUSTOM_DOMAINS
 ```
 
 If you would like to use HTTPS, you may choose _one_ of the following
@@ -57,11 +61,9 @@ for more information.
 
 _Works offline_
 
-1. Copy your certificate and key files to `core/traefik/certs`.
-2. Set the following environment variables, replacing the values with
-   the appropriate file names:
+For each of your custom domains, copy the certificate (`.crt`) and key (`.key`) files to
+`core/traefik/certs`. The filenames should be based on the domain name, for example:
 
-   ```bash
-   export TRAEFIK_TLS_CERTFILE=example.crt
-   export TRAEFIK_TLS_KEYFILE=example.key
-   ```
+* `example.com.crt`
+* `example.com.key`
+

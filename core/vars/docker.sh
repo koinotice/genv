@@ -28,14 +28,10 @@ export CADVISOR_HOSTS=cadvisor.harpoon.dev
 export CONSUL_HOSTS=consul.harpoon.dev
 export TRAEFIK_HOSTS=traefik.harpoon.dev
 
-if [ ${CUSTOM_DOMAIN:-} ]; then
-	export CADVISOR_HOSTS+=",cadvisor.${CUSTOM_DOMAIN}"
-	export CONSUL_HOSTS+=",consul.${CUSTOM_DOMAIN}"
-	export TRAEFIK_HOSTS+=",traefik.${CUSTOM_DOMAIN}"
-fi
-
-export FRONTEND_ENTRYPOINTS=http
-
-if [[ ${TRAEFIK_ACME:-} || (${TRAEFIK_TLS_CERTFILE:-} && ${TRAEFIK_TLS_KEYFILE:-}) ]]; then
-	export FRONTEND_ENTRYPOINTS+=",https"
+if [ ${CUSTOM_DOMAINS:-} ]; then
+	for i in "${CUSTOM_DOMAINS[@]}"; do
+		export CADVISOR_HOSTS+=",cadvisor.${i}"
+		export CONSUL_HOSTS+=",consul.${i}"
+		export TRAEFIK_HOSTS+=",traefik.${i}"
+	done
 fi
