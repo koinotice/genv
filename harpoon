@@ -61,7 +61,7 @@ case "${command:-}" in
 	show-nameserver-ip)
 		echo ${NAMESERVER_IP} ;;
 
-	install) ## %% ▶️  Install Harpoon
+	install) ## %% ▶️  Install Harpoon and start core services
 		echo -e "$(cat ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf.template | sed "s/NAMESERVER_IP/${NAMESERVER_IP}/")" > ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
 
 		sudo mkdir -p /etc/resolver
@@ -89,21 +89,24 @@ case "${command:-}" in
 		#sudo ifconfig lo:0 10.254.253.1/32
 		;;
 
-	stop) ## %% Stop Harpoon Core Services
+	start) ## %% Start Harpoon core services
+		${HARPOON_DOCKER_COMPOSE} start ;;
+
+	stop) ## %% Stop Harpoon core services
 		${HARPOON_DOCKER_COMPOSE} stop ;;
 
-	off) ## %% Stop and remove Harpoon Core Services containers
+	off) ## %% Stop and remove Harpoon core services
 		${HARPOON_DOCKER_COMPOSE} stop
 		${HARPOON_DOCKER_COMPOSE} rm -f -v
 		;;
 
-	restart) ## %% 🔄  Restart Harpoon Core Services
+	restart) ## %% 🔄  Restart Harpoon core services
 		${HARPOON_DOCKER_COMPOSE} stop
 		${HARPOON_DOCKER_COMPOSE} rm -f -v
 		${HARPOON_DOCKER_COMPOSE} up -d
 		;;
 
-	status) ## %% Display the status of Harpoon Core Services
+	status) ## %% Display the status of Harpoon core services
 		DOWN_HOSTS=0
 		for i in dnsmasq consul traefik cadvisor; do
 			IS_UP=$(${HARPOON_DOCKER_COMPOSE} ps ${i} | grep 'Up') || true
@@ -119,7 +122,7 @@ case "${command:-}" in
 		fi
 		;;
 
-	clean) ## %% 🗑  Uninstall Harpoon
+	clean|uninstall) ## %% 🗑  Uninstall Harpoon
 		${HARPOON_DOCKER_COMPOSE} down --rmi all -v
 		docker network rm ${HARPOON_DOCKER_NETWORK} || true
 
