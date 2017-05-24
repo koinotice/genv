@@ -75,23 +75,25 @@ service_help() {
 	service_exists ${1}
 
 	HELP="
-${1}:up) ## [options] [SERVICE...] %% Create and start ${1} container(s)
-${1}:down) ## [options] %% Stop and remove ${1} container(s), image(s), and volume(s)
-${1}:off) ## %% Stop and remove ${1} container(s) and volume(s)
-${1}:kill) ## [options] [SERVICE...] %% Kill ${1}
-${1}:stop) ## [options] [SERVICE...] %% Stop ${1}
-${1}:start) ## [SERVICE...] %% Start ${1}
-${1}:restart) ## [options] [SERVICE...] %% Restart ${1}
-${1}:reset) ## %% Stop, Remove, and Restart ${1} container(s)
-${1}:rm) ## [options] [SERVICE...] %% Remove stopped ${1} container(s)
-${1}:run) ## [options] [-v VOLUME...] [-p PORT...] [-e KEY=VAL...] SERVICE [COMMAND] [ARGS...] %% Run a one-off command in a ${1} container
+${1}:up) ## [options] [SERVICE...] %% 🔼️  Create and start ${1} container(s)
+${1}:down) ## [options] %% 🔽  Stop and remove ${1} container(s)
+${1}:clean) ## %% 🛀  Stop and remove ${1} container(s), image(s), and volume(s). Data will be ERASED! ⚠️
+${1}:kill) ## [options] [SERVICE...] %% ☠  Kill ${1}
+${1}:stop) ## [options] [SERVICE...] %% ⏹  Stop ${1}
+${1}:start) ## [SERVICE...] %% ▶️  Start ${1}
+${1}:restart) ## [options] [SERVICE...] %% 🔄  Restart ${1}
+${1}:reset) ## %% 🌯  Bring down, removing volumes, and restart ${1} containers. Data will be ERASED! ⚠️
+${1}:rm) ## [options] [SERVICE...] %% 🗑  Remove stopped ${1} container(s)
+${1}:run) ## [options] [-v VOLUME...] [-p PORT...] [-e KEY=VAL...] SERVICE [COMMAND] [ARGS...] %% 🏃  Run a one-off command in a ${1} container
+${1}:pause) ## [SERVICE...] %% ⏸  Pause ${1}
+${1}:unpause) ## [SERVICE...] %% ⏯  Unpause ${1}
 ${1}:port:primary) ## %% Print the public port for the port binding of the primary ${1} service
 ${1}:port) ## [options] SERVICE PRIVATE_PORT %% Print the public port for a port binding
-${1}:ps) ## [options] [SERVICE...] %% List ${1} container(s)
-${1}:logs) ## [options] [SERVICE...] %% View ${1} container output
-${1}:exec) ## [options] SERVICE COMMAND [ARGS...] %% Execute a command in a ${1} container
-${1}:sh) ## <docker-compose-service-name> %% Enter a shell on a ${1} container
-${1}:status) ## %% Display the status of the ${1} service
+${1}:ps) ## [options] [SERVICE...] %% 👓  List ${1} container(s)
+${1}:logs) ## [options] [SERVICE...] %% 🖥  View ${1} container output
+${1}:exec) ## [options] SERVICE COMMAND [ARGS...] %% 🏃‍♀️  Execute a command in a ${1} container
+${1}:sh) ## SERVICE %% 🐚  Enter a shell on a ${1} container
+${1}:status) ## %% 🚦  Display the status of the ${1} service
 	"
 
 #	help=$(echo -e "${1}" | grep -E '^[a-zA-Z:|_-]+\)\s##\s.*$' | sort | awk 'BEGIN {FS = "\\).*?## |%%"}; {c=$1" "$2; printf "\t\033[36m%-34s\033[0m%s\n", c, $3}')
@@ -122,11 +124,24 @@ service_down() {
 	# execute service pre_down hook
 	if [ -n "$(type -t ${1}_pre_down)" ] && [ "$(type -t ${1}_pre_down)" = function ]; then ${1}_pre_down "${2}"; fi
 
-	${DOCKER_COMPOSE_CMD} ${2} down ${3} --rmi all -v
+	${DOCKER_COMPOSE_CMD} ${2} down ${3}
 
 	# execute service post_down hook
 	if [ -n "$(type -t ${1}_post_down)" ] && [ "$(type -t ${1}_post_down)" = function ]; then ${1}_post_down "${2}"; fi
 }
+
+# $1 service name
+# $2 docker-compose file name
+service_clean() {
+	# execute service pre_clean hook
+	if [ -n "$(type -t ${1}_pre_clean)" ] && [ "$(type -t ${1}_pre_clean)" = function ]; then ${1}_pre_clean "${2}"; fi
+
+	${DOCKER_COMPOSE_CMD} ${2} down --rmi all -v
+
+	# execute service post_clean hook
+	if [ -n "$(type -t ${1}_post_clean)" ] && [ "$(type -t ${1}_post_clean)" = function ]; then ${1}_post_clean "${2}"; fi
+}
+
 
 # $1 service name
 # $2 command
@@ -138,18 +153,14 @@ handle_service() {
 	source_bootstrap
 
 	case "$2" in
-		${1}:up|${1}:on)
+		${1}:up)
 			service_up ${1} "${DKR_COMPOSE_FILE}" "${args}" ;;
 
-		${1}:down|${1}:clean)
+		${1}:down)
 			service_down ${1} "${DKR_COMPOSE_FILE}" "${args}" ;;
 
-		${1}:off)
-			${DOCKER_COMPOSE_CMD} ${DKR_COMPOSE_FILE} stop
-			${DOCKER_COMPOSE_CMD} ${DKR_COMPOSE_FILE} rm -f -v
-			# execute service post_reset hook
-			if [ -n "$(type -t ${1}_post_reset)" ] && [ "$(type -t ${1}_post_reset)" = function ]; then ${1}_post_reset "${DKR_COMPOSE_FILE}"; fi
-			;;
+		${1}:clean)
+			service_clean ${1} "${DKR_COMPOSE_FILE}" ;;
 
 		${1}:kill)
 			${DOCKER_COMPOSE_CMD} ${DKR_COMPOSE_FILE} kill ${args} ;;
@@ -164,11 +175,8 @@ handle_service() {
 			${DOCKER_COMPOSE_CMD} ${DKR_COMPOSE_FILE} restart ${args} ;;
 
 		${1}:reset)
-			${DOCKER_COMPOSE_CMD} ${DKR_COMPOSE_FILE} stop
-			${DOCKER_COMPOSE_CMD} ${DKR_COMPOSE_FILE} rm -f -v
-			# execute service post_reset hook
-			if [ -n "$(type -t ${1}_post_reset)" ] && [ "$(type -t ${1}_post_reset)" = function ]; then ${1}_post_reset "${DKR_COMPOSE_FILE}"; fi
-			service_up ${1} "${DKR_COMPOSE_FILE}" "${args}"
+			service_down ${1} "${DKR_COMPOSE_FILE}" "-v"
+			service_up ${1} "${DKR_COMPOSE_FILE}"
 			;;
 
 		${1}:rm)
@@ -176,6 +184,12 @@ handle_service() {
 
 		${1}:run)
 			${DOCKER_COMPOSE_CMD} ${DKR_COMPOSE_FILE} run ${args} ;;
+
+		${1}:pause)
+			${DOCKER_COMPOSE_CMD} ${DKR_COMPOSE_FILE} pause ${args} ;;
+
+		${1}:unpause)
+			${DOCKER_COMPOSE_CMD} ${DKR_COMPOSE_FILE} unpause ${args} ;;
 
 		${1}:port:primary)
 			${DOCKER_COMPOSE_CMD} ${DKR_COMPOSE_FILE} port ${1} ${PRIVATE_PORT:-} ;;

@@ -24,7 +24,7 @@ source ${HARPOON_ROOT}/core/vars/docker.sh
 source ${HARPOON_ROOT}/core/vars/traefik.sh
 
 print_help() {
-	help=$(grep -E '^\t[a-zA-Z:|_-]+\)\s##\s.*$' ${1} | sort | awk 'BEGIN {FS = "\\).*?## |%%"}; {c=$1" "$2; printf "\033[36m%-34s\033[0m %s\n", c, $3}')
+	help=$(grep -E '^\t[a-zA-Z:|_-]+\)\s##\s.*$' ${1} | sort | awk 'BEGIN {FS = "\\).*?## |%%"}; {c=$1" "$2; printf "\033[36m%-42s\033[0m %s\n", c, $3}')
 	echo -e "$help"
 }
 
@@ -61,7 +61,7 @@ case "${command:-}" in
 	show-nameserver-ip)
 		echo ${NAMESERVER_IP} ;;
 
-	install) ## %% ▶️  Install Harpoon and start core services
+	install) ## %% 🏁  Install Harpoon and start core services
 		echo -e "$(cat ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf.template | sed "s/NAMESERVER_IP/${NAMESERVER_IP}/")" > ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
 
 		sudo mkdir -p /etc/resolver
@@ -89,24 +89,25 @@ case "${command:-}" in
 		#sudo ifconfig lo:0 10.254.253.1/32
 		;;
 
-	start) ## %% Start Harpoon core services
+	start) ## %% ▶️  Start Harpoon core services
 		${HARPOON_DOCKER_COMPOSE} start ;;
 
-	stop) ## %% Stop Harpoon core services
+	stop) ## %% ⏹  Stop Harpoon core services
 		${HARPOON_DOCKER_COMPOSE} stop ;;
 
-	off) ## %% Stop and remove Harpoon core services
-		${HARPOON_DOCKER_COMPOSE} stop
-		${HARPOON_DOCKER_COMPOSE} rm -f -v
-		;;
+	down) ## %% 🔽  Stop and remove Harpoon core services
+		${HARPOON_DOCKER_COMPOSE} down -v ;;
 
 	restart) ## %% 🔄  Restart Harpoon core services
-		${HARPOON_DOCKER_COMPOSE} stop
-		${HARPOON_DOCKER_COMPOSE} rm -f -v
+		${HARPOON_DOCKER_COMPOSE} restart
+		;;
+
+	reset) ## %% 🌯  Stop, remove, and restart Harpoon core services
+		${HARPOON_DOCKER_COMPOSE} down -v
 		${HARPOON_DOCKER_COMPOSE} up -d
 		;;
 
-	status) ## %% Display the status of Harpoon core services
+	status) ## %% 🚥  Display the status of Harpoon core services
 		DOWN_HOSTS=0
 		for i in dnsmasq consul traefik cadvisor; do
 			IS_UP=$(${HARPOON_DOCKER_COMPOSE} ps ${i} | grep 'Up') || true
@@ -122,7 +123,7 @@ case "${command:-}" in
 		fi
 		;;
 
-	clean|uninstall) ## %% 🗑  Uninstall Harpoon
+	clean|uninstall) ## %% 🛀  Uninstall Harpoon
 		${HARPOON_DOCKER_COMPOSE} down --rmi all -v
 		docker network rm ${HARPOON_DOCKER_NETWORK} || true
 
@@ -141,10 +142,10 @@ case "${command:-}" in
 	#traefik:storeconfig) ## %% Upload the Traefik configuration to Consul
 	#	traefik_storeconfig ;;
 
-	services:list) ## %% List services available in Harpoon
+	services:list) ## %% 👓  List services available in Harpoon
 		services ;;
 
-	services:status) ## %% Display the status for all supporting services
+	services:status) ## %% 🚦  Display the status for all supporting services
 		services_status ;;
 
 	*:*)
@@ -152,11 +153,11 @@ case "${command:-}" in
 		handle_service ${SERVICE_NAME} ${command}
 		;;
 
-	help|*) ## Get help
+	help|*) ## %% ⁉️  Get help
 		echo "Usage: harpoon command [<arg>...]"
 		echo ""
 		print_help ${ROOT_TASKS_FILE}
-		printf "\t\033[36m%-34s\033[0m %s\n" "(service):help" "Get help for a particular service"
+		printf "\t\033[36m%-42s\033[0m %s\n" "(service):help" "❓  Get help for a particular service"
 		echo ""
 		exit 1
 esac

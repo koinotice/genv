@@ -14,18 +14,18 @@ couchbase_cli() {
 }
 
 case "${command:-}" in
-	couchbase:provisioner:run) ## %% Run the Couchbase Provisioner
+	couchbase:provisioner:run) ## %% 🏁  Run the Couchbase Provisioner
 		couchbase_provisioner_run ;;
 
-	couchbase:cbq) ## <arg>... %% Couchbase N1QL query CLI
+	couchbase:cbq) ## <arg>... %% 🛋  Couchbase N1QL query CLI
 		${DOCKER_COMPOSE_CMD} ${DKR_COMPOSE_FILE} exec couchbase cbq ${args} ;;
 
-	couchbase:cli) ## <command> <options...> ## Run a couchbase-cli command
+	couchbase:cli) ## <command> <options...> %% 🎮  Run a couchbase-cli command
 		read -r -a argarray <<< "$args"
 		couchbase_cli ${argarray[0]:-} ${argarray[@]:1}
 		;;
 
-	couchbase:bucket-create) ## <name> [ramsize] %% Create a Couchbase bucket
+	couchbase:bucket-create) ## <name> [ramsize] %% 🍿  Create a Couchbase bucket
 		# couchbase-cli bucket-create -c 192.168.0.1:8091 \
         # --bucket=test_bucket \
         # --bucket-type=couchbase \
@@ -48,7 +48,7 @@ case "${command:-}" in
 		couchbase_cli bucket-create "--bucket=${argarray[0]} --bucket-type=couchbase --bucket-ramsize=${ramsize} --enable-flush=1 --bucket-replica=0 --wait"
 		;;
 
-	couchbase:bucket-delete) ## <name> %% Delete a bucket
+	couchbase:bucket-delete) ## <name> %% 🗑  Delete a bucket
 		read -r -a argarray <<< "$args"
 		couchbase_cli bucket-delete "--bucket=${argarray[0]}"
 		;;
