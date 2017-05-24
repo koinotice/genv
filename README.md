@@ -1,4 +1,5 @@
-# Harpoon
+# <a href='http://wheniwork.github.io/harpoon'><img src='https://cloud.githubusercontent.com/assets/202546/26421606/407b9eb8-408c-11e7-8fc4-9ed0c61afcc7.png' height='75'></a>
+
 
 **A lightweight toolkit for local development with
 [Docker](https://www.docker.com/)**
@@ -11,6 +12,13 @@ management or orchestration platform on their workstation. _Harpoon_ has
 been tested with [Docker for Mac](https://www.docker.com/docker-mac) and
 [Docker Toolbox](https://www.docker.com/products/docker-toolbox) on
 MacOS.
+
+## Requirements
+
+* Bash (`bash`)
+* Make (`make`)
+* Docker (`docker`)
+* Docker Compose (`docker-compose`)
 
 ## Quick Start
 

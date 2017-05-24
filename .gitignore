@@ -1,4 +1,5 @@
 .idea
+_book/
 core/dnsmasq/dnsmasq.conf
 core/traefik/acme/acme.json
 core/traefik/certs/*.crt

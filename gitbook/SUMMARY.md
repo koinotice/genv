@@ -7,7 +7,7 @@
 ----
 
 * [Introduction](README.md)
-  * [Requirements](README.md#Requirements)
+  * [Requirements](README.md#requirements)
 * [Pro Tips](pro_tips.md)
 * [Core Services](core_services.md)
 * [Usage](usage/README.md)
