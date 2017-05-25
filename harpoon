@@ -40,6 +40,47 @@ traefik_storeconfig() {
 
 export HTTPIE="docker run --rm -i -v ${PWD}:${PWD} -w ${PWD} --net=${HARPOON_DOCKER_NETWORK} -e 'TERM=xterm' alpine/httpie"
 
+install() {
+	echo -e "$(cat ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf.template | sed "s/NAMESERVER_IP/${NAMESERVER_IP}/")" > ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
+
+	sudo mkdir -p /etc/resolver
+	echo "nameserver ${NAMESERVER_IP}" | sudo tee /etc/resolver/harpoon.dev
+	echo "nameserver ${NAMESERVER_IP}" | sudo tee /etc/resolver/consul
+	echo "port 8600" | sudo tee -a /etc/resolver/consul
+
+	if [ ${CUSTOM_DOMAINS:-} ]; then
+		for i in "${CUSTOM_DOMAINS[@]}"; do
+			echo -e "\naddress=/${i}/${NAMESERVER_IP}" >> ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
+			echo "nameserver ${NAMESERVER_IP}" | sudo tee /etc/resolver/${i}
+		done
+	fi
+
+	docker network create ${HARPOON_DOCKER_NETWORK} --subnet 10.254.254.0/24 || true
+	${HARPOON_DOCKER_COMPOSE} pull
+	${HARPOON_DOCKER_COMPOSE} up -d cadvisor dnsmasq consul
+#		sleep 10
+#		traefik_storeconfig
+	${HARPOON_DOCKER_COMPOSE} up -d traefik
+
+	# Add fixed loopback alias for container connectivity to services running locally (when running Docker for Mac)
+	uname | grep Darwin && sudo ifconfig lo0 alias 10.254.253.1/32 || true
+
+	#sudo ifconfig lo:0 10.254.253.1/32
+}
+
+cleanup() {
+	if [ ${CUSTOM_DOMAINS:-} ]; then
+		for i in  "${CUSTOM_DOMAINS[@]}"; do
+			sudo rm -f /etc/resolver/${i}
+		done
+	fi
+
+	sudo rm -f /etc/resolver/harpoon.dev
+	sudo rm -f /etc/resolver/consul
+
+	rm -f ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
+}
+
 case "${command:-}" in
 	docker) ## <arg>...	%% 🐳  Run docker in the Harpoon environment
 		docker ${args} ;;
@@ -62,32 +103,7 @@ case "${command:-}" in
 		echo ${NAMESERVER_IP} ;;
 
 	install) ## %% 🏁  Install Harpoon and start core services
-		echo -e "$(cat ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf.template | sed "s/NAMESERVER_IP/${NAMESERVER_IP}/")" > ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
-
-		sudo mkdir -p /etc/resolver
-		echo "nameserver ${NAMESERVER_IP}" | sudo tee /etc/resolver/harpoon.dev
-		echo "nameserver ${NAMESERVER_IP}" | sudo tee /etc/resolver/consul
-		echo "port 8600" | sudo tee -a /etc/resolver/consul
-
-		if [ ${CUSTOM_DOMAINS:-} ]; then
-			for i in "${CUSTOM_DOMAINS[@]}"; do
-				echo -e "\naddress=/${i}/${NAMESERVER_IP}" >> ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
-				echo "nameserver ${NAMESERVER_IP}" | sudo tee /etc/resolver/${i}
-			done
-		fi
-
-		docker network create ${HARPOON_DOCKER_NETWORK} --subnet 10.254.254.0/24 || true
-		${HARPOON_DOCKER_COMPOSE} pull
-		${HARPOON_DOCKER_COMPOSE} up -d cadvisor dnsmasq consul
-#		sleep 10
-#		traefik_storeconfig
-		${HARPOON_DOCKER_COMPOSE} up -d traefik
-
-		# Add fixed loopback alias for container connectivity to services running locally (when running Docker for Mac)
-		uname | grep Darwin && sudo ifconfig lo0 alias 10.254.253.1/32 || true
-
-		#sudo ifconfig lo:0 10.254.253.1/32
-		;;
+		install ;;
 
 	start) ## %% ▶️  Start Harpoon core services
 		${HARPOON_DOCKER_COMPOSE} start ;;
@@ -96,15 +112,14 @@ case "${command:-}" in
 		${HARPOON_DOCKER_COMPOSE} stop ;;
 
 	down) ## %% 🔽  Stop and remove Harpoon core services
-		${HARPOON_DOCKER_COMPOSE} down -v ;;
-
-	restart) ## %% 🔄  Restart Harpoon core services
-		${HARPOON_DOCKER_COMPOSE} restart
+		${HARPOON_DOCKER_COMPOSE} down -v
+		cleanup
 		;;
 
 	reset) ## %% 🌯  Stop, remove, and restart Harpoon core services
 		${HARPOON_DOCKER_COMPOSE} down -v
-		${HARPOON_DOCKER_COMPOSE} up -d
+		cleanup
+		install
 		;;
 
 	status) ## %% 🚥  Display the status of Harpoon core services
@@ -127,16 +142,7 @@ case "${command:-}" in
 		${HARPOON_DOCKER_COMPOSE} down --rmi all -v
 		docker network rm ${HARPOON_DOCKER_NETWORK} || true
 
-		if [ ${CUSTOM_DOMAINS:-} ]; then
-			for i in  "${CUSTOM_DOMAINS[@]}"; do
-				sudo rm -f /etc/resolver/${i}
-			done
-		fi
-
-		sudo rm -f /etc/resolver/harpoon.dev
-		sudo rm -f /etc/resolver/consul
-
-		rm -f ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
+		cleanup
 		;;
 
 	#traefik:storeconfig) ## %% Upload the Traefik configuration to Consul
