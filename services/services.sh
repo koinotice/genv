@@ -53,6 +53,14 @@ service_status() {
 	fi
 }
 
+check_service_status() {
+	service_status ${1}
+	SERVICE_STATUS="$(echo $1 | sed 's/-/_/g')_status"
+	if [ ${!SERVICE_STATUS} == "Down" ]; then
+		exit 1
+	fi
+}
+
 services_status() {
 	for f in `ls ${SERVICES_ROOT}/${1:-}`; do
 		if [[ "$f" = "services.sh" ]]; then
@@ -76,8 +84,11 @@ service_help() {
 
 	HELP="
 ${1}:up) ## [options] [SERVICE...] %% 🔼️  Create and start ${1} container(s)
+${1}:up-if-down) ## [options] [SERVICE...] %% ❔ 🔼️  If down, bring up
 ${1}:down) ## [options] %% 🔽  Stop and remove ${1} container(s)
+${1}:down-if-up) ## [options] %% ❔ 🔽  If up, bring down
 ${1}:clean) ## %% 🛀  Stop and remove ${1} container(s), image(s), and volume(s). Data will be ERASED! ⚠️
+${1}:clean-if-up) ## %% ❔ 🛀  If up, clean. Data will be ERASED! ⚠️
 ${1}:kill) ## [options] [SERVICE...] %% ☠  Kill ${1}
 ${1}:stop) ## [options] [SERVICE...] %% ⏹  Stop ${1}
 ${1}:start) ## [SERVICE...] %% ▶️  Start ${1}
@@ -156,11 +167,29 @@ handle_service() {
 		${1}:up)
 			service_up ${1} "${DKR_COMPOSE_FILE}" "${args}" ;;
 
+		${1}:up-if-down)
+			if ! SVC_STATUS=$(check_service_status ${1}); then
+				service_up ${1} "${DKR_COMPOSE_FILE}" "${args}"
+			fi
+			;;
+
 		${1}:down)
 			service_down ${1} "${DKR_COMPOSE_FILE}" "${args}" ;;
 
+		${1}:down-if-up)
+			if SVC_STATUS=$(check_service_status ${1}); then
+				service_down ${1} "${DKR_COMPOSE_FILE}" "${args}"
+			fi
+			;;
+
 		${1}:clean)
 			service_clean ${1} "${DKR_COMPOSE_FILE}" ;;
+
+		${1}:clean-if-up)
+			if SVC_STATUS=$(check_service_status ${1}); then
+				service_clean ${1} "${DKR_COMPOSE_FILE}"
+			fi
+			;;
 
 		${1}:kill)
 			${DOCKER_COMPOSE_CMD} ${DKR_COMPOSE_FILE} kill ${args} ;;
@@ -204,12 +233,7 @@ handle_service() {
 			${DOCKER_COMPOSE_CMD} ${DKR_COMPOSE_FILE} logs ${args} ;;
 
 		${1}:status)
-			service_status ${1}
-			SERVICE_STATUS="$(echo $1 | sed 's/-/_/g')_status"
-			if [ ${!SERVICE_STATUS} == "Down" ]; then
-				exit 1
-			fi
-			;;
+			check_service_status ${1} ;;
 
 		${1}:sh)
 			${DOCKER_COMPOSE_CMD} ${DKR_COMPOSE_FILE} exec ${args} sh ;;
