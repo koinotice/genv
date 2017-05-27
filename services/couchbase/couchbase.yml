@@ -14,11 +14,17 @@ services:
       - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
       - "traefik.docker.network=${HARPOON_DOCKER_NETWORK}"
       - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
+#    links:
+#      - couchbase-provisioner
     ports:
       - "8091-8094:8091-8094"
       - "11207:11207"
       - "11210-11211:11210-11211"
       - "18091-18093:18091-18093"
+    networks:
+      default:
+        aliases:
+          - ${CB_HOST}
 
   couchbase-provisioner:
     container_name: harpoon_couchbase-provisioner
