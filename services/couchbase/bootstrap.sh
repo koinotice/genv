@@ -16,7 +16,7 @@ if [ ${CUSTOM_COUCHBASE_DOMAIN:-} ]; then
 fi
 
 couchbase_provisioner_run() {
-	cat ${SERVICES_ROOT}/couchbase/couchbase_default.yaml | sed -e "s/CB_HOST/${CB_HOST}/" | ${HTTPIE} -v -F --verify=no -a 12345:secret --pretty=all POST http://cbpvr.harpoon.dev:8080/clusters Content-Type:application/yaml
+	cat ${SERVICES_ROOT}/couchbase/couchbase_default.yaml | sed -e "s/CB_HOST/${CB_HOST}/" | ${HTTPIE} -v -F --verify=no -a 12345:secret --pretty=all POST http://cbpvr.harpoon.dev:8080/clusters/ Content-Type:application/yaml
 }
 
 couchbase_post_up() {
