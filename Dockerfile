@@ -13,3 +13,4 @@ ENV PATH /harpoon:$PATH
 WORKDIR /harpoon
 
 ENTRYPOINT ["./harpoon"]
+CMD []
