@@ -105,9 +105,6 @@ case "${command:-}" in
 	install) ## %% 🏁  Install Harpoon and start core services
 		install ;;
 
-	serve) ## %% 🍽  Use to keep a Harpoon container alive
-		while true; do sleep 1; done ;;
-
 	start) ## %% ▶️  Start Harpoon core services
 		${HARPOON_DOCKER_COMPOSE} start ;;
 

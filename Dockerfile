@@ -1,4 +1,4 @@
-FROM docker:17.03
+FROM docker:stable-dind
 
 RUN apk update && \
 apk add bash && \
@@ -9,8 +9,3 @@ rm -rf /var/cache/apk/* /var/tmp/* /tmp/*
 COPY . /harpoon
 
 ENV PATH /harpoon:$PATH
-
-WORKDIR /harpoon
-
-ENTRYPOINT ["./harpoon"]
-CMD []
