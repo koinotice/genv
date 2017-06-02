@@ -8,6 +8,10 @@ services:
       - BLACKFIRE_LOG_LEVEL
       - BLACKFIRE_SERVER_ID
       - BLACKFIRE_SERVER_TOKEN
+    networks:
+      default:
+        aliases:
+          - blackfire
     ports:
       - "8707"
 
