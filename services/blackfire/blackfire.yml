@@ -1,0 +1,17 @@
+version: '2'
+
+services:
+  blackfire:
+    container_name: harpoon_blackfire
+    image: blackfire/blackfire
+    environment:
+      - BLACKFIRE_LOG_LEVEL
+      - BLACKFIRE_SERVER_ID
+      - BLACKFIRE_SERVER_TOKEN
+    ports:
+      - "8707"
+
+networks:
+  default:
+    external:
+      name: ${HARPOON_DOCKER_NETWORK}
