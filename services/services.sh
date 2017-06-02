@@ -204,8 +204,12 @@ handle_service() {
 			${DOCKER_COMPOSE_CMD} ${DKR_COMPOSE_FILE} restart ${args} ;;
 
 		${1}:reset)
+			if [ -n "$(type -t ${1}_pre_reset)" ] && [ "$(type -t ${1}_pre_reset)" = function ]; then ${1}_pre_reset "${DKR_COMPOSE_FILE}"; fi
+
 			service_down ${1} "${DKR_COMPOSE_FILE}" "-v"
 			service_up ${1} "${DKR_COMPOSE_FILE}"
+
+			if [ -n "$(type -t ${1}_post_reset)" ] && [ "$(type -t ${1}_post_reset)" = function ]; then ${1}_post_reset "${DKR_COMPOSE_FILE}"; fi
 			;;
 
 		${1}:rm)
