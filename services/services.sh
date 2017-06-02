@@ -122,7 +122,7 @@ service_up() {
 	# execute service pre_up hook
 	if [ -n "$(type -t ${1}_pre_up)" ] && [ "$(type -t ${1}_pre_up)" = function ]; then ${1}_pre_up "${2}"; fi
 
-	${DOCKER_COMPOSE_CMD} ${2} up -d ${3}
+	${DOCKER_COMPOSE_CMD} ${2} up -d ${3:-}
 
 	# execute service post_up hook
 	if [ -n "$(type -t ${1}_post_up)" ] && [ "$(type -t ${1}_post_up)" = function ]; then ${1}_post_up "${2}"; fi
@@ -135,7 +135,7 @@ service_down() {
 	# execute service pre_down hook
 	if [ -n "$(type -t ${1}_pre_down)" ] && [ "$(type -t ${1}_pre_down)" = function ]; then ${1}_pre_down "${2}"; fi
 
-	${DOCKER_COMPOSE_CMD} ${2} down ${3}
+	${DOCKER_COMPOSE_CMD} ${2} down ${3:-}
 
 	# execute service post_down hook
 	if [ -n "$(type -t ${1}_post_down)" ] && [ "$(type -t ${1}_post_down)" = function ]; then ${1}_post_down "${2}"; fi
