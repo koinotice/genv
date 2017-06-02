@@ -2,7 +2,7 @@ version: '2'
 
 services:
   ssh-agent:
-    build: .
+    image: wheniwork/ssh-agent
     container_name: harpoon_ssh-agent
 
 networks:
