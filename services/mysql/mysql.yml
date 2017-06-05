@@ -9,6 +9,8 @@ services:
       - MYSQL_DATABASE
     ports:
       - "${MYSQL_PORT}:3306"
+    volumes:
+      - /var/lib/mysql:/var/lib/mysql
 
 networks:
   default:
