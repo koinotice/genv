@@ -25,10 +25,12 @@ couchbase_post_up() {
 }
 
 couchbase_pre_up() {
+	echo -e "${PURPLE}Creating docker volume named 'couchbase'...${NC}"
 	docker volume create --name=couchbase || true
 }
 
 couchbase_remove_volume() {
+	echo -e "${PURPLE}Removing docker volume named 'couchbase'...${NC}"
 	docker volume rm couchbase || true
 }
 

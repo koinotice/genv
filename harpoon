@@ -23,6 +23,11 @@ source ${HARPOON_ROOT}/core/vars/env.sh
 source ${HARPOON_ROOT}/core/vars/docker.sh
 source ${HARPOON_ROOT}/core/vars/traefik.sh
 
+export GREEN="\033[0;32m"
+export RED="\033[0;31m"
+export PURPLE="\033[0;35m"
+export NC="\033[0m"
+
 print_help() {
 	help=$(grep -E '^\t[a-zA-Z:|_-]+\)\s##\s.*$' ${1} | sort | awk 'BEGIN {FS = "\\).*?## |%%"}; {c=$1" "$2; printf "\033[36m%-42s\033[0m %s\n", c, $3}')
 	echo -e "$help"

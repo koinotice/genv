@@ -20,10 +20,12 @@ if [ ! ${MYSQL_PORT:-} ]; then
 fi
 
 mysql_pre_up() {
+	echo -e "${PURPLE}Creating docker volume named 'mysql'...${NC}"
 	docker volume create --name=mysql || true
 }
 
 mysql_remove_volume() {
+	echo -e "${PURPLE}Removing docker volume named 'mysql'...${NC}"
 	docker volume rm mysql || true
 }
 

@@ -20,10 +20,12 @@ if [ ! ${POSTGRES_PORT:-} ]; then
 fi
 
 postgres_pre_up() {
+	echo -e "${PURPLE}Creating docker volume named 'pgdata'...${NC}"
 	docker volume create --name=pgdata || true
 }
 
 postgres_remove_volume() {
+	echo -e "${PURPLE}Removing docker volume named 'pgdata'...${NC}"
 	docker volume rm pgdata || true
 }
 
