@@ -127,6 +127,13 @@ case "${command:-}" in
 		install
 		;;
 
+	self-update|selfupdate)
+		cd ${HARPOON_ROOT} && git pull
+		if [ ${HARPOON_CUSTOM_INSTALLER_DIR:-} ]; then
+			cd ${HARPOON_CUSTOM_INSTALLER_DIR} && git pull
+		fi
+		;;
+
 	status) ## %% 🚥  Display the status of Harpoon core services
 		DOWN_HOSTS=0
 		for i in dnsmasq consul traefik cadvisor; do
