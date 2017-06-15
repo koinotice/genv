@@ -15,6 +15,8 @@ if [ ${CUSTOM_COUCHBASE_DOMAIN:-} ]; then
 	export CBPVR_HOSTS+=",couchbase-provisioner.${CUSTOM_COUCHBASE_DOMAIN},cbpvr.${CUSTOM_COUCHBASE_DOMAIN}"
 fi
 
+export COUCHBASE_VOLUME_NAME=couchbase
+
 couchbase_provisioner_run() {
 	cat ${SERVICES_ROOT}/couchbase/couchbase_default.yaml | sed -e "s/CB_HOST/${CB_HOST}/" | ${HTTPIE} -v -F --verify=no -a 12345:secret --pretty=all POST http://cbpvr.harpoon.dev:8080/clusters/ Content-Type:application/yaml
 }
@@ -25,13 +27,21 @@ couchbase_post_up() {
 }
 
 couchbase_pre_up() {
-	echo -e "${PURPLE}Creating docker volume named 'couchbase'...${NC}"
-	docker volume create --name=couchbase || true
+	VOLUME_CREATED=$(docker volume ls | grep ${COUCHBASE_VOLUME_NAME}) || true
+
+	if [[ ! ${VOLUME_CREATED} ]]; then
+		echo -e "${PURPLE}Creating docker volume named '${COUCHBASE_VOLUME_NAME}'...${NC}"
+		docker volume create --name=${COUCHBASE_VOLUME_NAME} || true
+	fi
 }
 
 couchbase_remove_volume() {
-	echo -e "${PURPLE}Removing docker volume named 'couchbase'...${NC}"
-	docker volume rm couchbase || true
+	VOLUME_CREATED=$(docker volume ls | grep ${COUCHBASE_VOLUME_NAME}) || true
+
+	if [[ ${VOLUME_CREATED} ]]; then
+		echo -e "${PURPLE}Removing docker volume named '${COUCHBASE_VOLUME_NAME}'...${NC}"
+		docker volume rm ${COUCHBASE_VOLUME_NAME} || true
+	fi
 }
 
 couchbase_post_destroy() {

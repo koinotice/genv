@@ -19,14 +19,24 @@ if [ ! ${POSTGRES_PORT:-} ]; then
 	export PRIVATE_PORT=${POSTGRES_PORT}
 fi
 
+export POSTGRES_VOLUME_NAME=pgdata
+
 postgres_pre_up() {
-	echo -e "${PURPLE}Creating docker volume named 'pgdata'...${NC}"
-	docker volume create --name=pgdata || true
+	VOLUME_CREATED=$(docker volume ls | grep ${POSTGRES_VOLUME_NAME}) || true
+
+	if [[ ! ${VOLUME_CREATED} ]]; then
+		echo -e "${PURPLE}Creating docker volume named '${POSTGRES_VOLUME_NAME}'...${NC}"
+		docker volume create --name=${POSTGRES_VOLUME_NAME} || true
+	fi
 }
 
 postgres_remove_volume() {
-	echo -e "${PURPLE}Removing docker volume named 'pgdata'...${NC}"
-	docker volume rm pgdata || true
+	VOLUME_CREATED=$(docker volume ls | grep ${POSTGRES_VOLUME_NAME}) || true
+
+	if [[ ${VOLUME_CREATED} ]]; then
+		echo -e "${PURPLE}Removing docker volume named '${POSTGRES_VOLUME_NAME}'...${NC}"
+		docker volume rm ${POSTGRES_VOLUME_NAME} || true
+	fi
 }
 
 postgres_post_destroy() {

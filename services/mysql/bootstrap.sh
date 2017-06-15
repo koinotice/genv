@@ -19,14 +19,24 @@ if [ ! ${MYSQL_PORT:-} ]; then
 	export PRIVATE_PORT=${MYSQL_PORT}
 fi
 
+export MYSQL_VOLUME_NAME=mysql
+
 mysql_pre_up() {
-	echo -e "${PURPLE}Creating docker volume named 'mysql'...${NC}"
-	docker volume create --name=mysql || true
+	VOLUME_CREATED=$(docker volume ls | grep ${MYSQL_VOLUME_NAME}) || true
+
+	if [[ ! ${VOLUME_CREATED} ]]; then
+		echo -e "${PURPLE}Creating docker volume named '${MYSQL_VOLUME_NAME}'...${NC}"
+		docker volume create --name=${MYSQL_VOLUME_NAME} || true
+	fi
 }
 
 mysql_remove_volume() {
-	echo -e "${PURPLE}Removing docker volume named 'mysql'...${NC}"
-	docker volume rm mysql || true
+	VOLUME_CREATED=$(docker volume ls | grep ${MYSQL_VOLUME_NAME}) || true
+
+	if [[ ${VOLUME_CREATED} ]]; then
+		echo -e "${PURPLE}Removing docker volume named '${MYSQL_VOLUME_NAME}'...${NC}"
+		docker volume rm ${MYSQL_VOLUME_NAME} || true
+	fi
 }
 
 mysql_post_destroy() {
