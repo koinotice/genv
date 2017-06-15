@@ -26,7 +26,7 @@ postgres_pre_up() {
 
 	if [[ ! ${VOLUME_CREATED} ]]; then
 		echo -e "${PURPLE}Creating docker volume named '${POSTGRES_VOLUME_NAME}'...${NC}"
-		docker volume create --name=${POSTGRES_VOLUME_NAME} || true
+		docker volume create --name=${POSTGRES_VOLUME_NAME}
 	fi
 }
 
@@ -35,7 +35,7 @@ postgres_remove_volume() {
 
 	if [[ ${VOLUME_CREATED} ]]; then
 		echo -e "${PURPLE}Removing docker volume named '${POSTGRES_VOLUME_NAME}'...${NC}"
-		docker volume rm ${POSTGRES_VOLUME_NAME} || true
+		docker volume rm ${POSTGRES_VOLUME_NAME}
 	fi
 }
 

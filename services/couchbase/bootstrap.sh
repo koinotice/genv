@@ -31,7 +31,7 @@ couchbase_pre_up() {
 
 	if [[ ! ${VOLUME_CREATED} ]]; then
 		echo -e "${PURPLE}Creating docker volume named '${COUCHBASE_VOLUME_NAME}'...${NC}"
-		docker volume create --name=${COUCHBASE_VOLUME_NAME} || true
+		docker volume create --name=${COUCHBASE_VOLUME_NAME}
 	fi
 }
 
@@ -40,7 +40,7 @@ couchbase_remove_volume() {
 
 	if [[ ${VOLUME_CREATED} ]]; then
 		echo -e "${PURPLE}Removing docker volume named '${COUCHBASE_VOLUME_NAME}'...${NC}"
-		docker volume rm ${COUCHBASE_VOLUME_NAME} || true
+		docker volume rm ${COUCHBASE_VOLUME_NAME}
 	fi
 }
 
