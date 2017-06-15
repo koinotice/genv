@@ -127,7 +127,7 @@ case "${command:-}" in
 		install
 		;;
 
-	self-update|selfupdate)
+	self-update|selfupdate) ## %% 💫  Update Harpoon (and customizations, if you have them)
 		echo -e "${PURPLE}Updating Harpoon...${NC}"
 		cd ${HARPOON_ROOT} && git pull
 		if [ ${HARPOON_CUSTOM_INSTALLER_DIR:-} ]; then
