@@ -87,12 +87,14 @@ ${1}:up) ## [options] [SERVICE...] %% 🔼️  Create and start ${1} container(s
 ${1}:up-if-down) ## [options] [SERVICE...] %% ❔ 🔼️  If down, bring up
 ${1}:down) ## [options] %% 🔽  Stop and remove ${1} container(s)
 ${1}:down-if-up) ## [options] %% ❔ 🔽  If up, bring down
+${1}:destroy) ## [options] %% 🔽  Stop and remove ${1} container(s) and volume(s). Data will be ERASED! ⚠
+${1}:destroy-if-up) ## [options] %% ❔ 🔽  If up, destroy. Data will be ERASED! ⚠
 ${1}:clean) ## %% 🛀  Stop and remove ${1} container(s), image(s), and volume(s). Data will be ERASED! ⚠️
 ${1}:clean-if-up) ## %% ❔ 🛀  If up, clean. Data will be ERASED! ⚠️
 ${1}:kill) ## [options] [SERVICE...] %% ☠  Kill ${1}
 ${1}:stop) ## [options] [SERVICE...] %% ⏹  Stop ${1}
 ${1}:start) ## [SERVICE...] %% ▶️  Start ${1}
-${1}:restart) ## [options] [SERVICE...] %% 🔄  Restart ${1}
+${1}:restart) ## [options] [SERVICE...] %% 🔄  Restart ${1} (Configuration is not reloaded)
 ${1}:reset) ## %% 🌯  Bring down, removing volumes, and restart ${1} containers. Data will be ERASED! ⚠️
 ${1}:rm) ## [options] [SERVICE...] %% 🗑  Remove stopped ${1} container(s)
 ${1}:run) ## [options] [-v VOLUME...] [-p PORT...] [-e KEY=VAL...] SERVICE [COMMAND] [ARGS...] %% 🏃  Run a one-off command in a ${1} container
@@ -143,6 +145,18 @@ service_down() {
 
 # $1 service name
 # $2 docker-compose file name
+service_destroy() {
+	# execute service pre_down hook
+	if [ -n "$(type -t ${1}_pre_destroy)" ] && [ "$(type -t ${1}_pre_destroy)" = function ]; then ${1}_pre_destroy "${2}"; fi
+
+	${DOCKER_COMPOSE_CMD} ${2} down -v
+
+	# execute service post_down hook
+	if [ -n "$(type -t ${1}_post_destroy)" ] && [ "$(type -t ${1}_post_destroy)" = function ]; then ${1}_post_destroy "${2}"; fi
+}
+
+# $1 service name
+# $2 docker-compose file name
 service_clean() {
 	# execute service pre_clean hook
 	if [ -n "$(type -t ${1}_pre_clean)" ] && [ "$(type -t ${1}_pre_clean)" = function ]; then ${1}_pre_clean "${2}"; fi
@@ -179,6 +193,15 @@ handle_service() {
 		${1}:down-if-up)
 			if SVC_STATUS=$(check_service_status ${1}); then
 				service_down ${1} "${DKR_COMPOSE_FILE}" "${args}"
+			fi
+			;;
+
+		${1}:destroy)
+			service_destroy ${1} "${DKR_COMPOSE_FILE}" ;;
+
+		${1}:destroy-if-up)
+			if SVC_STATUS=$(check_service_status ${1}); then
+				service_destroy ${1} "${DKR_COMPOSE_FILE}"
 			fi
 			;;
 

@@ -18,3 +18,19 @@ if [ ! ${MYSQL_PORT:-} ]; then
 	export MYSQL_PORT=3306
 	export PRIVATE_PORT=${MYSQL_PORT}
 fi
+
+mysql_pre_up() {
+	docker volume create --name=mysql || true
+}
+
+mysql_remove_volume() {
+	docker volume rm mysql || true
+}
+
+mysql_post_destroy() {
+	mysql_remove_volume
+}
+
+mysql_post_clean() {
+	mysql_remove_volume
+}

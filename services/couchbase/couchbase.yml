@@ -25,6 +25,8 @@ services:
       default:
         aliases:
           - ${CB_HOST}
+    volumes:
+      - couchbase:/opt/couchbase/var
 
   couchbase-provisioner:
     container_name: harpoon_couchbase-provisioner
@@ -52,3 +54,7 @@ networks:
   default:
     external:
       name: ${HARPOON_DOCKER_NETWORK}
+
+volumes:
+  couchbase:
+    external: true

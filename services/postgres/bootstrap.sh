@@ -18,3 +18,19 @@ if [ ! ${POSTGRES_PORT:-} ]; then
 	export POSTGRES_PORT=5432
 	export PRIVATE_PORT=${POSTGRES_PORT}
 fi
+
+postgres_pre_up() {
+	docker volume create --name=pgdata || true
+}
+
+postgres_remove_volume() {
+	docker volume rm pgdata || true
+}
+
+postgres_post_destroy() {
+	postgres_remove_volume
+}
+
+postgres_post_clean() {
+	postgres_remove_volume
+}

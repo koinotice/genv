@@ -13,8 +13,14 @@ services:
       - POSTGRES_INITDB_XLOGDIR
     ports:
       - "${POSTGRES_PORT}:3306"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
 
 networks:
   default:
     external:
       name: ${HARPOON_DOCKER_NETWORK}
+
+volumes:
+  pgdata:
+    external: true

@@ -23,3 +23,19 @@ couchbase_post_up() {
 	sleep 10
 	couchbase_provisioner_run
 }
+
+couchbase_pre_up() {
+	docker volume create --name=couchbase || true
+}
+
+couchbase_remove_volume() {
+	docker volume rm couchbase || true
+}
+
+couchbase_post_destroy() {
+	couchbase_remove_volume
+}
+
+couchbase_post_clean() {
+	couchbase_remove_volume
+}
