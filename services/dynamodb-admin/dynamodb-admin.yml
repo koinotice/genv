@@ -2,6 +2,7 @@ version: '2'
 
 services:
   dynamodb-admin:
+    container_name: harpoon_dynamodb-admin
     image: wheniwork/dynamodb-admin
     environment:
       - AWS_ACCESS_KEY_ID
