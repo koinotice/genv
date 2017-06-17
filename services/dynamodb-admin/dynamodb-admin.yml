@@ -1,0 +1,24 @@
+version: '2'
+
+services:
+  dynamodb-admin:
+    image: wheniwork/dynamodb-admin
+    environment:
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+      - AWS_REGION
+      - DYNAMO_ENDPOINT=${DYNAMO_ENDPOINT}
+    labels:
+      - "traefik.backend=dynamodb-admin"
+      - "traefik.port=8001"
+      - "traefik.frontend.rule=Host:${DDB_ADMIN_HOSTS}"
+      - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
+      - "traefik.docker.network=${HARPOON_DOCKER_NETWORK}"
+      - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
+    ports:
+      - "8001"
+
+networks:
+  default:
+    external:
+      name: ${HARPOON_DOCKER_NETWORK}

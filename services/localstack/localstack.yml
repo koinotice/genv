@@ -28,6 +28,15 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ${TMP_DIR}:${TMP_DIR}
 
+  aws:
+    image: cgswong/aws:aws
+    environment:
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+      - AWS_REGION
+    volumes:
+      - ~/.aws:/root/.aws
+
 networks:
   default:
     external:

@@ -3,6 +3,10 @@
 For your convenience, _Harpoon_ includes a handful of `docker-compose`
 configurations for commonly used databases, DevOps tools, etc:
 
+## [Blackfire](https://blackfire.io/)
+
+PHP profiler
+
 ## [Couchbase](https://hub.docker.com/_/couchbase/)
 
 **Environment Variables (with defaults):**
@@ -17,6 +21,10 @@ export COUCHBASE_VERSION="latest"
 * **Username:** Administrator
 * **Password:** abc123
 
+## [DynamoDB Admin](https://github.com/wheniwork/dynamodb-admin)
+
+* **Web UI:** http://ddbadmin.harpoon.dev
+
 ## [ELK Stack](https://hub.docker.com/r/sebp/elk/)
 
 * Elasticsearch, Logstach, & Kibana
@@ -26,9 +34,14 @@ export COUCHBASE_VERSION="latest"
 
 Local AWS cloud stack
 
+* **Web UI:** http://localstack.harpoon.dev
+* **AWS CLI:** `./harpoon localstack:aws <arg...>`
+
 ## [Mailhog](https://hub.docker.com/r/mailhog/mailhog/)
 
 Web and API based SMTP testing
+
+* **Web UI:** http://mailhog.harpoon.dev
 
 ## [MySQL](https://hub.docker.com/_/mysql/)
 
@@ -51,7 +64,7 @@ The PostgreSQL object-relational database system provides reliability and data i
 
 Redis is an open source key-value store that functions as a data structure server.
 
-## ssh-agent
+## SSH Agent
 
 1. Run: `./harpoon ssh-agent:up`
 2. Add your key: `./harpoon ssh-agent:add <filename>`, where `<filename>` is located in `~/.ssh/`.

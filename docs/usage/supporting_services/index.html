@@ -473,6 +473,8 @@
                                 <h1 id="supporting-services">Supporting Services</h1>
 <p>For your convenience, <em>Harpoon</em> includes a handful of <code>docker-compose</code>
 configurations for commonly used databases, DevOps tools, etc:</p>
+<h2 id="blackfire"><a href="https://blackfire.io/" target="_blank">Blackfire</a></h2>
+<p>PHP profiler</p>
 <h2 id="couchbase"><a href="https://hub.docker.com/_/couchbase/" target="_blank">Couchbase</a></h2>
 <p><strong>Environment Variables (with defaults):</strong></p>
 <pre><code class="lang-bash"><span class="hljs-built_in">export</span> COUCHBASE_VERSION=<span class="hljs-string">&quot;latest&quot;</span>
@@ -483,6 +485,10 @@ configurations for commonly used databases, DevOps tools, etc:</p>
 <li><strong>Username:</strong> Administrator</li>
 <li><strong>Password:</strong> abc123</li>
 </ul>
+<h2 id="dynamodb-admin"><a href="https://github.com/wheniwork/dynamodb-admin" target="_blank">DynamoDB Admin</a></h2>
+<ul>
+<li><strong>Web UI:</strong> <a href="http://ddbadmin.harpoon.dev" target="_blank">http://ddbadmin.harpoon.dev</a></li>
+</ul>
 <h2 id="elk-stack"><a href="https://hub.docker.com/r/sebp/elk/" target="_blank">ELK Stack</a></h2>
 <ul>
 <li>Elasticsearch, Logstach, &amp; Kibana</li>
@@ -490,8 +496,14 @@ configurations for commonly used databases, DevOps tools, etc:</p>
 </ul>
 <h2 id="localstack"><a href="https://bitbucket.org/atlassian/localstack" target="_blank">LocalStack</a></h2>
 <p>Local AWS cloud stack</p>
+<ul>
+<li><strong>Web UI:</strong> <a href="http://localstack.harpoon.dev" target="_blank">http://localstack.harpoon.dev</a></li>
+</ul>
 <h2 id="mailhog"><a href="https://hub.docker.com/r/mailhog/mailhog/" target="_blank">Mailhog</a></h2>
 <p>Web and API based SMTP testing</p>
+<ul>
+<li><strong>Web UI:</strong> <a href="http://mailhog.harpoon.dev" target="_blank">http://mailhog.harpoon.dev</a></li>
+</ul>
 <h2 id="mysql"><a href="https://hub.docker.com/_/mysql/" target="_blank">MySQL</a></h2>
 <p>MySQL is a widely used, open-source relational database management system (RDBMS).</p>
 <p><strong>Environment Variables (with defaults):</strong></p>
@@ -504,7 +516,7 @@ configurations for commonly used databases, DevOps tools, etc:</p>
 <p>The PostgreSQL object-relational database system provides reliability and data integrity.</p>
 <h2 id="redis"><a href="https://hub.docker.com/_/redis/" target="_blank">Redis</a></h2>
 <p>Redis is an open source key-value store that functions as a data structure server.</p>
-<h2 id="ssh-agent">ssh-agent</h2>
+<h2 id="ssh-agent">SSH Agent</h2>
 <ol>
 <li>Run: <code>./harpoon ssh-agent:up</code></li>
 <li>Add your key: <code>./harpoon ssh-agent:add &lt;filename&gt;</code>, where <code>&lt;filename&gt;</code> is located in <code>~/.ssh/</code>.</li>
@@ -558,7 +570,7 @@ configurations for commonly used databases, DevOps tools, etc:</p>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Supporting Services","level":"2.4.7","depth":2,"next":{"title":"Couchbase","level":"2.4.7.1","depth":3,"anchor":"#couchbase","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#couchbase","articles":[]},"previous":{"title":"Docker Compose Projects","level":"2.4.6.3","depth":3,"path":"usage/docker_compose.md","ref":"usage/docker_compose.md","articles":[]},"dir":"ltr"},"config":{"plugins":[],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Ben Getsug","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"A Whale of a Guide to Harpoon","gitbook":"*"},"file":{"path":"usage/supporting_services/README.md","mtime":"2017-05-23T15:07:23.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-05-24T19:30:43.262Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Supporting Services","level":"2.4.7","depth":2,"next":{"title":"Couchbase","level":"2.4.7.1","depth":3,"anchor":"#couchbase","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#couchbase","articles":[]},"previous":{"title":"Docker Compose Projects","level":"2.4.6.3","depth":3,"path":"usage/docker_compose.md","ref":"usage/docker_compose.md","articles":[]},"dir":"ltr"},"config":{"plugins":[],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Ben Getsug","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"A Whale of a Guide to Harpoon","gitbook":"*"},"file":{"path":"usage/supporting_services/README.md","mtime":"2017-06-17T02:16:40.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-06-17T02:18:53.152Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

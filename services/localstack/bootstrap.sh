@@ -7,7 +7,7 @@ if [ ! ${LOCALSTACK_SERVICES:-} ]; then
 fi
 
 if [ ! ${PORT_MAPPINGS:-} ]; then
-	export PORT_MAPPINGS="4567-4581:4567-4581"
+	export PORT_MAPPINGS="4567-4582:4567-4582"
 #	export PORT_MAPPINGS=$(echo ${SERVICES} | sed 's/[^0-9]/ /g' | sed 's/\([0-9][0-9]*\)/-p \1:\1/g' | sed 's/  */ /g')
 fi
 
@@ -35,6 +35,19 @@ if [ ${CUSTOM_DOMAINS:-} ]; then
 	for i in "${CUSTOM_DOMAINS[@]}"; do
 		export LS_HOSTS+=",localstack.${i}"
 	done
+fi
+
+
+if [ ! ${AWS_ACCESS_KEY_ID:-} ]; then
+    export AWS_ACCESS_KEY_ID=foobar
+fi
+
+if [ ! ${AWS_SECRET_ACCESS_KEY:-} ]; then
+    export AWS_SECRET_ACCESS_KEY=foobar
+fi
+
+if [ ! ${AWS_REGION:-} ]; then
+    export AWS_REGION=${DEFAULT_REGION}
 fi
 
 

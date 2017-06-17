@@ -169,7 +169,7 @@ case "${command:-}" in
 		services_status ;;
 
 	*:*)
-		SERVICE_NAME=${command%:*}
+		SERVICE_NAME=$(echo ${command} | awk 'match($0, /[a-z_-]+/) {print substr($0, RSTART, RLENGTH)}')
 		handle_service ${SERVICE_NAME} ${command}
 		;;
 
