@@ -7,9 +7,9 @@ args=${@:2}
 
 export SOURCE="${BASH_SOURCE[0]}"
 while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
-  HARPOON_ROOT="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
-  SOURCE="$(readlink "$SOURCE")"
-  [[ ${SOURCE} != /* ]] && SOURCE="$HARPOON_ROOT/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+	HARPOON_ROOT="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+	SOURCE="$(readlink "$SOURCE")"
+	[[ ${SOURCE} != /* ]] && SOURCE="$HARPOON_ROOT/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
 done
 
 # roots
@@ -93,6 +93,9 @@ case "${command:-}" in
 	docker-compose|dc) ## <arg>... %% 🐳  Run docker-compose in the Harpoon environment
 		${HARPOON_DOCKER_COMPOSE} ${args} ;;
 
+	cmplt)
+		${HARPOON_ROOT}/completion/completion.sh "${args}" ;;
+
 	env) ## %% Show environment variables
 		if [ ${PAGER:-} ]; then
 			env | ${PAGER}
@@ -103,6 +106,9 @@ case "${command:-}" in
 
 	http) ## <arg...> %% 🌎  HTTPie
 		${HTTPIE} ${args} ;;
+
+	initpath)
+		echo "${HARPOON_ROOT}/completion/init.sh" ;;
 
 	show-nameserver-ip)
 		echo ${NAMESERVER_IP} ;;
