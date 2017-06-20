@@ -35,7 +35,7 @@ export COUCHBASE_VERSION="latest"
 Local AWS cloud stack
 
 * **Web UI:** http://localstack.harpoon.dev
-* **AWS CLI:** `./harpoon localstack:aws <arg...>`
+* **AWS CLI:** `harpoon localstack:aws <arg...>`
 
 ## [Mailhog](https://hub.docker.com/r/mailhog/mailhog/)
 
