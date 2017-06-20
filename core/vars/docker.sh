@@ -17,6 +17,15 @@ fi
 export DOCKER_COMPOSE_CMD="docker-compose -p harpoon"
 export HARPOON_DOCKER_COMPOSE_CFG="${HARPOON_ROOT}/docker-compose.yml"
 export HARPOON_DOCKER_COMPOSE="${DOCKER_COMPOSE_CMD} -f ${HARPOON_DOCKER_COMPOSE_CFG}"
+export GLIDE="${HARPOON_DOCKER_COMPOSE} run --rm glide"
+
+GLIDE_ENTRYPOINT="glide --yaml harpoon.yaml --home /root/.harpoon"
+
+if [ ${GLIDE_DEBUG:-} ]; then
+	GLIDE_ENTRYPOINT+=" --debug"
+fi
+
+export GLIDE_ENTRYPOINT
 
 # docker network
 if [ ! ${HARPOON_DOCKER_NETWORK:-} ]; then

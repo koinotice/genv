@@ -20,6 +20,7 @@ export TRAEFIK_HTTPS_PORT=8843
    * On MacOS, you'll be asked for your password
 3. Optional: add `harpoon` to your `$PATH`. Edit your `.bash_profile`,
    `.bashrc`, or `.zshrc` accordingly.
+4. _Optional:_ Load completion scripts by adding `which harpoon > /dev/null && . "$(harpoon initpath)"` to your profile.
 
 ## Help
 

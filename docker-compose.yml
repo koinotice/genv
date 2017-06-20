@@ -135,6 +135,20 @@ services:
       - ./core/traefik/:/etc/traefik/
       - /var/run/docker.sock:/var/run/docker.sock
 
+  glide:
+    image: wheniwork/go-glide
+    entrypoint: ${GLIDE_ENTRYPOINT}
+    environment:
+      SSH_AUTH_SOCK: /.ssh-agent/socket
+      TERM: xterm
+    volumes:
+      - ~/.harpoon:/root/.harpoon
+      - ${HARPOON_ROOT}:${HARPOON_ROOT}
+      - ${PWD}/harpoon.yaml:${HARPOON_ROOT}/harpoon.yaml
+    volumes_from:
+      - container:harpoon_ssh-agent
+    working_dir: ${HARPOON_ROOT}
+
 networks:
   default:
     external:

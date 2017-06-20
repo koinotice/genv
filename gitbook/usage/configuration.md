@@ -22,7 +22,7 @@ following directories:
 
 ## Custom Domains
 
-You can configure _Harpoon_ to use your own domains:
+_Harpoon_ uses `harpoon.dev` as its default domain. You can configure your own domains with the `CUSTOM_DOMAINS` array:
 
 ```bash
 CUSTOM_DOMAINS[0]=example.com

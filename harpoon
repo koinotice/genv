@@ -63,8 +63,6 @@ install() {
 	docker network create ${HARPOON_DOCKER_NETWORK} --subnet 10.254.254.0/24 || true
 	${HARPOON_DOCKER_COMPOSE} pull
 	${HARPOON_DOCKER_COMPOSE} up -d cadvisor dnsmasq consul
-#		sleep 10
-#		traefik_storeconfig
 	${HARPOON_DOCKER_COMPOSE} up -d traefik
 
 	# Add fixed loopback alias for container connectivity to services running locally (when running Docker for Mac)
@@ -98,9 +96,9 @@ case "${command:-}" in
 
 	env) ## %% Show environment variables
 		if [ ${PAGER:-} ]; then
-			env | ${PAGER}
+			env | sort | ${PAGER}
 		else
-			env
+			env | sort
 		fi
 		;;
 
@@ -112,6 +110,14 @@ case "${command:-}" in
 
 	show-nameserver-ip)
 		echo ${NAMESERVER_IP} ;;
+
+	# *** EXPERIMENTAL *** #
+	dep)
+		${GLIDE} ${args} ;;
+
+	dep:get)
+		${GLIDE} get ${args} ;;
+	# ******************** #
 
 	install) ## %% 🏁  Install Harpoon and start core services
 		install ;;
@@ -165,8 +171,8 @@ case "${command:-}" in
 		cleanup
 		;;
 
-	#traefik:storeconfig) ## %% Upload the Traefik configuration to Consul
-	#	traefik_storeconfig ;;
+	pull)
+		${HARPOON_DOCKER_COMPOSE} pull ;;
 
 	services:list) ## %% 👓  List services available in Harpoon
 		services ;;

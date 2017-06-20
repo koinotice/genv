@@ -7,3 +7,6 @@ core/traefik/certs/*.pem
 core/traefik/certs/*.key
 harpoon.env.sh
 services/custom
+vendor/
+harpoon.yaml
+glide.lock
