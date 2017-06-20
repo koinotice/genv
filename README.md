@@ -25,7 +25,8 @@ MacOS.
 1. Clone this repository
 2. Run `cd harpoon && make install`
    * On MacOS, you'll be asked for your password
-3. _Optional:_ add `harpoon` to your `$PATH`.
+3. **Recommended:** Add the `harpoon` directory to your `$PATH`. Edit your `.bash_profile`,
+   `.bashrc`, or `.zshrc` accordingly.
 4. _Optional:_ Load completion scripts by adding `which harpoon > /dev/null && . "$(harpoon initpath)"` to your profile.
 
 ## [Documentation](https://wheniwork.github.io/harpoon/)

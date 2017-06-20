@@ -66,12 +66,12 @@ Redis is an open source key-value store that functions as a data structure serve
 
 ## SSH Agent
 
-1. Run: `./harpoon ssh-agent:up`
-2. Add your key: `./harpoon ssh-agent:add <filename>`, where `<filename>` is located in `~/.ssh/`.
+1. Run: `harpoon ssh-agent:up`
+2. Add your key: `harpoon ssh-agent:add <filename>`, where `<filename>` is located in `~/.ssh/`.
 
 # Service Management
 
-* Run `./harpoon services:list` to get a list of the supporting services.
-* Run `./harpoon services:status` to display the state of all supporting services.
-* Run `./harpoon (service):help` to get help for a particular service.
+* Run `harpoon services:list` to get a list of the supporting services.
+* Run `harpoon services:status` to display the state of all supporting services.
+* Run `harpoon (service):help` to get help for a particular service.
 

@@ -18,14 +18,13 @@ export TRAEFIK_HTTPS_PORT=8843
 1. Clone this repository
 2. Run `cd harpoon && make install`
    * On MacOS, you'll be asked for your password
-3. Optional: add `harpoon` to your `$PATH`. Edit your `.bash_profile`,
+3. **Recommended:** Add the `harpoon` directory to your `$PATH`. Edit your `.bash_profile`,
    `.bashrc`, or `.zshrc` accordingly.
 4. _Optional:_ Load completion scripts by adding `which harpoon > /dev/null && . "$(harpoon initpath)"` to your profile.
 
 ## Help
 
-* `./harpoon help`
-* (`make help`)
+* `harpoon help`
 
 ## Web UIs
 
@@ -35,6 +34,6 @@ export TRAEFIK_HTTPS_PORT=8843
 
 ## Removal
 
-* Run `make clean`
+* Run `harpoon clean`
   * On MacOS, you'll be asked for your password
 
