@@ -3,7 +3,9 @@
 set -euo pipefail
 
 # ELK hostnames
-export ELK_HOSTS=elk.harpoon.dev,kibana.harpoon.dev
+if [ ! ${TRAEFIK_ACME:-} ]; then
+	export ELK_HOSTS=elk.harpoon.dev,kibana.harpoon.dev
+fi
 
 if [ ${CUSTOM_DOMAINS:-} ]; then
 	for i in "${CUSTOM_DOMAINS[@]}"; do

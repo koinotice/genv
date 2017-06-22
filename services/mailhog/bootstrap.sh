@@ -3,7 +3,9 @@
 set -euo pipefail
 
 # Mailhog hostnames
-export MH_HOSTS=mailhog.harpoon.dev
+if [ ! ${TRAEFIK_ACME:-} ]; then
+	export MH_HOSTS=mailhog.harpoon.dev
+fi
 
 if [ ${CUSTOM_DOMAINS:-} ]; then
 	for i in "${CUSTOM_DOMAINS[@]}"; do

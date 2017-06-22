@@ -29,7 +29,9 @@ export DATA_DIR="/tmp/localstack/data"
 export TMP_DIR="/tmp/localstack"
 
 # Localstack hostnames
-export LS_HOSTS=localstack.harpoon.dev
+if [ ! ${TRAEFIK_ACME:-} ]; then
+	export LS_HOSTS=localstack.harpoon.dev
+fi
 
 if [ ${CUSTOM_DOMAINS:-} ]; then
 	for i in "${CUSTOM_DOMAINS[@]}"; do

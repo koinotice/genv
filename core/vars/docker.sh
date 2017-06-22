@@ -33,9 +33,11 @@ if [ ! ${HARPOON_DOCKER_NETWORK:-} ]; then
 fi
 
 # core service hostnames
-export CADVISOR_HOSTS=cadvisor.harpoon.dev
-export CONSUL_HOSTS=consul.harpoon.dev
-export TRAEFIK_HOSTS=traefik.harpoon.dev
+if [ ! ${TRAEFIK_ACME:-} ]; then
+	export CADVISOR_HOSTS=cadvisor.harpoon.dev
+	export CONSUL_HOSTS=consul.harpoon.dev
+	export TRAEFIK_HOSTS=traefik.harpoon.dev
+fi
 
 if [ ${CUSTOM_DOMAINS:-} ]; then
 	for i in "${CUSTOM_DOMAINS[@]}"; do

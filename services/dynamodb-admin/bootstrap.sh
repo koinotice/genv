@@ -19,7 +19,9 @@ if [ ! ${DYNAMO_ENDPOINT:-} ]; then
 fi
 
 # DynamoDB Admin hostnames
-export DDB_ADMIN_HOSTS=ddbadmin.harpoon.dev,dynamodb-admin.harpoon.dev
+if [ ! ${TRAEFIK_ACME:-} ]; then
+	export DDB_ADMIN_HOSTS=ddbadmin.harpoon.dev,dynamodb-admin.harpoon.dev
+fi
 
 if [ ${CUSTOM_DOMAINS:-} ]; then
 	for i in "${CUSTOM_DOMAINS[@]}"; do
