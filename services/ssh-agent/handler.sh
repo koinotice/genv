@@ -26,10 +26,22 @@ case "${command:-}" in
 			add ${file}
 		fi
 		;;
+
 	ssh-agent:add:all) ## %% Add all your keys
 		add_all ;;
+
+	ssh-agent:add-if-none)
+		${DOCKER_COMPOSE_CMD} ${DKR_COMPOSE_FILE} exec ssh-agent ssh-add -l || EXIT_CODE=$?
+
+		if [[ ${EXIT_CODE:-} ]]; then
+			echo "Adding all SSH keys..."
+			add_all
+		fi
+		;;
+
 	ssh-agent:list) ## %% List your keys
 		${DOCKER_COMPOSE_CMD} ${DKR_COMPOSE_FILE} exec ssh-agent ssh-add -l ;;
+
 	*)
 		service_help ssh-agent;;
 esac
