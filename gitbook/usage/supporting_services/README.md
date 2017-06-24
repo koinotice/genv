@@ -3,6 +3,10 @@
 For your convenience, _Harpoon_ includes a handful of `docker-compose`
 configurations for commonly used databases, DevOps tools, etc:
 
+## [Beanstalk Console](https://github.com/ptrofimov/beanstalk_console)
+
+* **Web UI:** http://beanstalk-console.harpoon.dev
+
 ## [Blackfire](https://blackfire.io/)
 
 PHP profiler
