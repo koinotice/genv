@@ -43,7 +43,9 @@ traefik_storeconfig() {
 	${HARPOON_DOCKER_COMPOSE} run --rm traefik storeconfig
 }
 
-export HTTPIE="docker run --rm -i -v ${PWD}:${PWD} -w ${PWD} --net=${HARPOON_DOCKER_NETWORK} -e 'TERM=xterm' alpine/httpie"
+HTTPIE_ARGS="--rm -v ${PWD}:${PWD} -w ${PWD} --net=${HARPOON_DOCKER_NETWORK} -e 'TERM=xterm' alpine/httpie"
+export HTTPIE="docker run -i ${HTTPIE_ARGS}"
+export HTTPIE_NO_INPUT="docker run ${HTTPIE_ARGS}"
 
 install() {
 	echo -e "$(cat ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf.template | sed "s/NAMESERVER_IP/${NAMESERVER_IP}/")" > ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
@@ -104,6 +106,9 @@ case "${command:-}" in
 
 	http) ## <arg...> %% 🌎  HTTPie
 		${HTTPIE} ${args} ;;
+
+	http:noinput) ## <arg...> %% 🌎  HTTPie (no STDIN)
+		${HTTPIE_NO_INPUT} ${args} ;;
 
 	initpath)
 		echo "${HARPOON_ROOT}/completion/init.sh" ;;
