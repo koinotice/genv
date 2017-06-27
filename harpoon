@@ -16,7 +16,9 @@ done
 export HARPOON_ROOT="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 export SERVICES_ROOT=${HARPOON_ROOT}/services
 
-export ROOT_TASKS_FILE="${HARPOON_ROOT}/harpoon"
+if [[ "$command" = "initpath" ]]; then
+	echo "${HARPOON_ROOT}/completion/init.sh" && exit 0
+fi
 
 # variables
 source ${HARPOON_ROOT}/core/vars/env.sh
@@ -110,9 +112,6 @@ case "${command:-}" in
 	http:noinput) ## <arg...> %% 🌎  HTTPie (no STDIN)
 		${HTTPIE_NO_INPUT} ${args} ;;
 
-	initpath)
-		echo "${HARPOON_ROOT}/completion/init.sh" ;;
-
 	show-nameserver-ip)
 		echo ${NAMESERVER_IP} ;;
 
@@ -193,7 +192,7 @@ case "${command:-}" in
 	help|*) ## %% ⁉️  Get help
 		echo "Usage: harpoon command [<arg>...]"
 		echo ""
-		print_help ${ROOT_TASKS_FILE}
+		print_help "${HARPOON_ROOT}/harpoon"
 		printf "\t\033[36m%-42s\033[0m %s\n" "(service):help" "❓  Get help for a particular service"
 		echo ""
 		exit 1
