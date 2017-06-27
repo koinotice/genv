@@ -31,6 +31,7 @@
     * [LocalStack](usage/supporting_services/README.md#localstack)
     * [Mailhog](usage/supporting_services/README.md#mailhog)
     * [MySQL](usage/supporting_services/README.md#mysql)
+    * [Portainer](usage/supporting_services/README.md#portainer)
     * [Postgres](usage/supporting_services/README.md#postgres)
     * [Redis](usage/supporting_services/README.md#redis)
     * [SSH Agent](usage/supporting_services/README.md#ssh-agent)
