@@ -59,6 +59,11 @@ export MYSQL_ROOT_PASSWORD="abc123"
 export MYSQL_DATABASE="harpoon"
 export MYSQL_PORT=3306 # exposed to Docker host
 ```
+## [Portainer](https://portainer.io)
+
+Container management UI
+
+* **Web UI:** http://portainer.harpoon.dev
 
 ## [Postgres](https://hub.docker.com/_/postgres/)
 

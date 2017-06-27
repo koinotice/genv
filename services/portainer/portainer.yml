@@ -1,0 +1,25 @@
+version: '2'
+
+services:
+  portainer:
+    container_name: harpoon_portainer
+    command: --no-auth
+    image: portainer/portainer
+    environment:
+      - TERM=xterm
+    labels:
+      - "traefik.backend=portainer"
+      - "traefik.port=9000"
+      - "traefik.frontend.rule=Host:${PORTAINER_HOSTS}"
+      - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
+      - "traefik.docker.network=${HARPOON_DOCKER_NETWORK}"
+      - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
+    ports:
+      - "9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+networks:
+  default:
+    external:
+      name: ${HARPOON_DOCKER_NETWORK}
