@@ -157,9 +157,9 @@ case "${command:-}" in
 		for i in dnsmasq consul traefik cadvisor; do
 			IS_UP=$(${HARPOON_DOCKER_COMPOSE} ps ${i} | grep 'Up') || true
 			if [[ ${IS_UP} ]]; then
-				printf "%-15s%s\n" "${i}" 'Up'
+				printf "%-20s%s\n" "${i}" 'Up'
 			else
-				printf "%-15s%s\n" "${i}" 'Down'
+				printf "%-20s%s\n" "${i}" 'Down'
 				DOWN_HOSTS+=1
 			fi
 		done
