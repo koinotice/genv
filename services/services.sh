@@ -45,10 +45,10 @@ service_status() {
 
 	IS_UP=$(${DOCKER_COMPOSE_CMD} -f ${SERVICE_ROOT}/${1}.yml ps | grep 'Up') || true
 	if [[ ${IS_UP} ]]; then
-		printf "%-15s%s\n" "${1}" 'Up'
+		printf "%-25s%s\n" "${1}" 'Up'
 		export $SERVICE_STATUS='Up'
 	else
-		printf "%-15s%s\n" "${1}" 'Down'
+		printf "%-25s%s\n" "${1}" 'Down'
 		export $SERVICE_STATUS='Down'
 	fi
 }
