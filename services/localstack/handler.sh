@@ -8,6 +8,11 @@ case "${command:-}" in
 
 		IFS=', ' read -r -a argsarray <<< "$args"
 
+		if [ ! ${argsarray:-} ]; then
+			${DOCKER_COMPOSE_CMD} ${DKR_COMPOSE_FILE} run --rm aws help
+			exit 1
+		fi
+
 		HAS_OPTIONS=$(echo ${argsarray:0} | grep -e '^--') || true
 
 		if [ ${HAS_OPTIONS} ]; then
