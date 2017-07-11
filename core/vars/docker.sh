@@ -46,3 +46,5 @@ if [ ${CUSTOM_DOMAINS:-} ]; then
 		export TRAEFIK_HOSTS+=",traefik.${i}"
 	done
 fi
+
+DOCKER_RUN_ARGS="--rm -v ${PWD}:${PWD} -w ${PWD} --net=${HARPOON_DOCKER_NETWORK} -e 'TERM=xterm'"

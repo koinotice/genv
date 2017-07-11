@@ -45,7 +45,7 @@ traefik_storeconfig() {
 	${HARPOON_DOCKER_COMPOSE} run --rm traefik storeconfig
 }
 
-HTTPIE_ARGS="--rm -v ${PWD}:${PWD} -w ${PWD} --net=${HARPOON_DOCKER_NETWORK} -e 'TERM=xterm' alpine/httpie"
+HTTPIE_ARGS="${DOCKER_RUN_ARGS} alpine/httpie"
 export HTTPIE="docker run -i ${HTTPIE_ARGS}"
 export HTTPIE_NO_INPUT="docker run ${HTTPIE_ARGS}"
 
@@ -111,6 +111,15 @@ case "${command:-}" in
 
 	http:noinput) ## <arg...> %% 🌎  HTTPie (no STDIN)
 		${HTTPIE_NO_INPUT} ${args} ;;
+
+	tf) ## <arg...> %% 🏗  Terraform
+		if [ ! ${TF_PROJ_ROOT:-} ]; then
+			export TF_PROJ_ROOT=$PWD
+		fi
+
+		TERRAFORM_ARGS="${DOCKER_RUN_ARGS} -e TF_LOG -v ${TF_PROJ_ROOT}:${TF_PROJ_ROOT} hashicorp/terraform"
+		export TERRAFORM="docker run ${TERRAFORM_ARGS}"
+		${TERRAFORM} ${args} ;;
 
 	show-nameserver-ip)
 		echo ${NAMESERVER_IP} ;;
