@@ -12,7 +12,7 @@ services:
       - POSTGRES_INITDB_ARGS
       - POSTGRES_INITDB_XLOGDIR
     ports:
-      - "${POSTGRES_PORT}:3306"
+      - "${POSTGRES_PORT}:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
 
