@@ -16,6 +16,7 @@ services:
     networks:
       default:
         aliases:
+          - mailhog.harpoon
           - mailhog.harpoon.dev
     ports:
       - "1025:1025"

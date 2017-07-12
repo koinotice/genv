@@ -16,8 +16,7 @@ services:
     networks:
       default:
         aliases:
-          - elk.harpoon.dev
-          - kibana.harpoon.dev
+          - elk.harpoon
     ports:
       - "5601"
       - "9200:9200"
