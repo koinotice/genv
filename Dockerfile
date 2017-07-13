@@ -4,7 +4,7 @@ FROM docker:stable-dind
 RUN apk update && \
 apk add bash git openssh-client && \
 apk add --no-cache py-pip && \
-pip install docker==2.3.0 && \
+pip install docker==2.4.2 && \
 pip install docker-compose && \
 rm -rf /var/cache/apk/* /var/tmp/* /tmp/*
 
