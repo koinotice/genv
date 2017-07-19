@@ -17,6 +17,7 @@ Harpoon will look for and `source` files named `harpoon.env.sh` in the
 following directories:
 
 * The directory where Harpoon is located (`$HARPOON_ROOT`)
+* `/etc`
 * `$PWD`
 * `$HOME`
 
