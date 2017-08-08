@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
-
 if [ -f ${HARPOON_ROOT}/harpoon.env.sh ]; then
 	source ${HARPOON_ROOT}/harpoon.env.sh
 fi

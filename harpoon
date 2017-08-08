@@ -5,170 +5,128 @@ set -euo pipefail
 command=${1:-}
 args=${@:2}
 
-export SOURCE="${BASH_SOURCE[0]}"
-while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do
 	HARPOON_ROOT="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
-	SOURCE="$(readlink "$SOURCE")"
-	[[ ${SOURCE} != /* ]] && SOURCE="$HARPOON_ROOT/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+	SOURCE="$( readlink "$SOURCE" )"
+	[[ ${SOURCE} != /* ]] && SOURCE="$HARPOON_ROOT/$SOURCE"
 done
-
-# roots
 export HARPOON_ROOT="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
-export SERVICES_ROOT=${HARPOON_ROOT}/services
 
-if [[ "$command" = "initpath" ]]; then
+export MODULES_ROOT=${HARPOON_ROOT}/modules
+export SERVICES_ROOT=${HARPOON_ROOT}/services
+export VENDOR_ROOT=${HARPOON_ROOT}/vendor
+
+
+if [[ "$command" == "initpath" ]]; then
 	echo "${HARPOON_ROOT}/completion/init.sh" && exit 0
 fi
 
+
+# functions
+for f in $(ls ${HARPOON_ROOT}/core/func); do
+	source ${HARPOON_ROOT}/core/func/${f}
+done
+
+
 # variables
-source ${HARPOON_ROOT}/core/vars/env.sh
-source ${HARPOON_ROOT}/core/vars/docker.sh
-source ${HARPOON_ROOT}/core/vars/traefik.sh
+for f in $(ls ${HARPOON_ROOT}/core/vars); do
+	source ${HARPOON_ROOT}/core/vars/${f}
+done
 
-export GREEN="\033[0;32m"
-export RED="\033[0;31m"
-export PURPLE="\033[0;35m"
-export NC="\033[0m"
+source ${HARPOON_ROOT}/core/parse_cmd.sh
 
-print_help() {
-	help=$(grep -E '^\s[a-zA-Z:|_-]+\)\s##\s.*$' ${1} | sort | awk 'BEGIN {FS = "\\).*?## |%%"}; {c=$1" "$2; printf "\033[36m%-42s\033[0m %s\n", c, $3}')
-	echo -e "$help"
-}
+MODULE_NAME=$(parse_cmd ${command})
 
-source ${HARPOON_ROOT}/services/services.sh
+if [[ -v USE_DIND && "$MODULE_NAME" != "dind" ]]; then
+	print_info "Harpoon is running in dind mode"
+	${DIND_EXEC_TTY} harpoon "$@"
+	exit $?
+fi
 
-traefik_storeconfig() {
-	if [ ! -f core/traefik/acme/acme.json ]; then
-		echo "{ }" > core/traefik/acme/acme.json
-	fi
-	chmod 600 core/traefik/acme/acme.json
-	${HARPOON_DOCKER_COMPOSE} run --rm traefik storeconfig
-}
+# this should always be loaded AFTER core vars and func
+source ${HARPOON_ROOT}/core/boot.sh
 
-HTTPIE_ARGS="${DOCKER_RUN_ARGS} alpine/httpie"
-export HTTPIE="docker run -i ${HTTPIE_ARGS}"
-export HTTPIE_NO_INPUT="docker run ${HTTPIE_ARGS}"
+source ${MODULES_ROOT}/modules.sh
 
-install() {
-	echo -e "$(cat ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf.template | sed "s/NAMESERVER_IP/${NAMESERVER_IP}/")" > ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
+source ${SERVICES_ROOT}/services.sh
 
-	sudo mkdir -p /etc/resolver
-	echo "nameserver ${NAMESERVER_IP}" | sudo tee /etc/resolver/harpoon.dev
-	echo "nameserver ${NAMESERVER_IP}" | sudo tee /etc/resolver/consul
-	echo "port 8600" | sudo tee -a /etc/resolver/consul
-
-	if [ ${CUSTOM_DOMAINS:-} ]; then
-		for i in "${CUSTOM_DOMAINS[@]}"; do
-			echo -e "\naddress=/${i}/${NAMESERVER_IP}" >> ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
-			echo "nameserver ${NAMESERVER_IP}" | sudo tee /etc/resolver/${i}
-		done
-	fi
-
-	docker network create ${HARPOON_DOCKER_NETWORK} --subnet 10.254.254.0/24 || true
-	${HARPOON_DOCKER_COMPOSE} pull
-	${HARPOON_DOCKER_COMPOSE} up -d cadvisor dnsmasq consul
-	${HARPOON_DOCKER_COMPOSE} up -d traefik
-
-	# Add fixed loopback alias for container connectivity to services running locally (when running Docker for Mac)
-	uname | grep Darwin && sudo ifconfig lo0 alias 10.254.253.1/32 || true
-
-	#sudo ifconfig lo:0 10.254.253.1/32
-}
-
-cleanup() {
-	if [ ${CUSTOM_DOMAINS:-} ]; then
-		for i in  "${CUSTOM_DOMAINS[@]}"; do
-			sudo rm -f /etc/resolver/${i}
-		done
-	fi
-
-	sudo rm -f /etc/resolver/harpoon.dev
-	sudo rm -f /etc/resolver/consul
-
-	rm -f ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
-}
+# setup temp directory
+mkdir -p ${HARPOON_TEMP}
 
 case "${command:-}" in
-	docker) ## <arg>...	%% 🐳  Run docker in the Harpoon environment
-		docker ${args} ;;
-
-	docker-compose|dc) ## <arg>... %% 🐳  Run docker-compose in the Harpoon environment
+	compose) ## <arg>... %% 🐳  Run docker-compose for the Harpoon core services
 		${HARPOON_DOCKER_COMPOSE} ${args} ;;
 
 	cmplt)
-		${HARPOON_ROOT}/completion/completion.sh "${args}" ;;
+		source ${HARPOON_ROOT}/completion/completion.sh ;;
+
+	config-dns)
+		config_dns ;;
+
+	config-docker)
+		config_docker ;;
+
+	config-docker-network)
+		config_docker_network ;;
 
 	env) ## %% Show environment variables
-		if [ ${PAGER:-} ]; then
+		if [ -v PAGER ]; then
 			env | sort | ${PAGER}
 		else
 			env | sort
 		fi
 		;;
 
-	http) ## <arg...> %% 🌎  HTTPie
-		${HTTPIE} ${args} ;;
+	help) ## [<module> | <service>] %% ⁉️  Get help
+		if [[ "$args" == "" ]]; then all_help; fi
 
-	http:noinput) ## <arg...> %% 🌎  HTTPie (no STDIN)
-		${HTTPIE_NO_INPUT} ${args} ;;
+		# try modules
+		module_exists ${args}
 
-	tf) ## <arg...> %% 🏗  Terraform
-		if [ ! ${TF_PROJ_ROOT:-} ]; then
-			export TF_PROJ_ROOT=$PWD
+		if [ -v MODULE_ROOT ]; then
+			module_help
+		else
+			# try services
+			service_exists ${args}
+
+			if [ -v SERVICE_ROOT ]; then
+				service_help ${args};
+			elif [ -f ./tasks.sh ]; then
+				# try custom task/command handler in working directory
+				tasks_help
+			fi
 		fi
-
-		TERRAFORM_ARGS="${DOCKER_RUN_ARGS} -e TF_LOG -v ${TF_PROJ_ROOT}:${TF_PROJ_ROOT} hashicorp/terraform"
-		export TERRAFORM="docker run ${TERRAFORM_ARGS}"
-		${TERRAFORM} ${args} ;;
+		;;
 
 	show-nameserver-ip)
 		echo ${NAMESERVER_IP} ;;
 
-	# *** EXPERIMENTAL *** #
-	dep)
-		${GLIDE} ${args} ;;
+	up|install) ## %% 🏁  Install Harpoon and start core services
+		up ;;
 
-	dep:get)
-		${GLIDE} get ${args} ;;
-	# ******************** #
-
-	install) ## %% 🏁  Install Harpoon and start core services
-		install ;;
-
-	start) ## %% ▶️  Start Harpoon core services
-		${HARPOON_DOCKER_COMPOSE} start ;;
-
-	stop) ## %% ⏹  Stop Harpoon core services
-		${HARPOON_DOCKER_COMPOSE} stop ;;
-
-	down) ## %% 🔽  Stop and remove Harpoon core services
-		${HARPOON_DOCKER_COMPOSE} down -v
-		cleanup
-		;;
+	down|uninstall) ## [<all>] %% 🔽  Stop and remove Harpoon core, and optionally, supporting services
+		down ${args} ;;
 
 	reset) ## %% 🌯  Stop, remove, and restart Harpoon core services
-		${HARPOON_DOCKER_COMPOSE} down -v
-		cleanup
-		install
+		down
+		up
 		;;
 
-	self-update|selfupdate) ## %% 💫  Update Harpoon (and customizations, if you have them)
-		echo -e "${PURPLE}Updating Harpoon...${NC}"
-		cd ${HARPOON_ROOT} && git pull
-		if [ ${HARPOON_CUSTOM_INSTALLER_DIR:-} ]; then
-			echo -e "\n${PURPLE}Updating Harpoon customizations...${NC}"
-			cd ${HARPOON_CUSTOM_INSTALLER_DIR} && git pull
-		fi
-		;;
+	self-update|selfupdate) ## %% 💫  Update Harpoon and plugins
+		self_update ;;
+
+	clean) ## [<all>] %% 🛀  Completely uninstall Harpoon core, and optionally, all supporting services
+		clean ${args} ;;
 
 	status) ## %% 🚥  Display the status of Harpoon core services
 		DOWN_HOSTS=0
-		for i in dnsmasq consul traefik cadvisor; do
+		for i in dnsmasq consul traefik; do
 			IS_UP=$(${HARPOON_DOCKER_COMPOSE} ps ${i} | grep 'Up') || true
 			if [[ ${IS_UP} ]]; then
-				printf "%-20s%s\n" "${i}" 'Up'
+				printf "%-20s%s\n" "${i}" "${UP}"
 			else
-				printf "%-20s%s\n" "${i}" 'Down'
+				printf "%-20s%s\n" "${i}" "${DOWN}"
 				DOWN_HOSTS+=1
 			fi
 		done
@@ -177,15 +135,8 @@ case "${command:-}" in
 		fi
 		;;
 
-	clean|uninstall) ## %% 🛀  Uninstall Harpoon
-		${HARPOON_DOCKER_COMPOSE} down --rmi all -v
-		docker network rm ${HARPOON_DOCKER_NETWORK} || true
-
-		cleanup
-		;;
-
-	pull)
-		${HARPOON_DOCKER_COMPOSE} pull ;;
+	modules:list) ## %% 👓  List modules available in Harpoon
+		modules ;;
 
 	services:list) ## %% 👓  List services available in Harpoon
 		services ;;
@@ -193,16 +144,27 @@ case "${command:-}" in
 	services:status) ## %% 🚦  Display the status for all supporting services
 		services_status ;;
 
-	*:*)
-		SERVICE_NAME=$(echo ${command} | awk 'match($0, /[a-z_-]+/) {print substr($0, RSTART, RLENGTH)}')
-		handle_service ${SERVICE_NAME} ${command}
-		;;
+	radio)
+		say -v Fred -r 190 "Fitter. Happier. More productive." ;;
 
-	help|*) ## %% ⁉️  Get help
-		echo "Usage: harpoon command [<arg>...]"
-		echo ""
-		print_help "${HARPOON_ROOT}/harpoon"
-		printf "\t\033[36m%-42s\033[0m %s\n" "(service):help" "❓  Get help for a particular service"
-		echo ""
-		exit 1
+	*)
+		if [ "${MODULE_NAME}" == "" ]; then all_help; fi
+
+		# try modules
+		module_exists ${MODULE_NAME}
+
+		if [ -v MODULE_ROOT ]; then
+			source ${MODULE_ROOT}/handler.sh
+		else
+			# try services
+			service_exists ${MODULE_NAME}
+
+			if [ -v SERVICE_ROOT ]; then
+				handle_service ${MODULE_NAME} ${command};
+			elif [ -f ./tasks.sh ]; then
+				# try custom task/command handler in working directory
+				command=${command#${PROJECT_TASK_PREFIX}:}
+				source ./tasks.sh
+			fi
+		fi
 esac

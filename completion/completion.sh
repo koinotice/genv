@@ -1,9 +1,12 @@
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cmplt() {
+	prefix=""
 
-source ${DIR}/../services/services.sh
+	if [ ${2:-} ]; then
+		prefix="$2:"
+	fi
 
-parse_cmd() {
-	echo ${1} | awk 'match($0, /[a-z_-]+/) {print substr($0, RSTART, RLENGTH)}'
+	completions=$(grep -E '^\t[a-zA-Z:|_-]+\)\s##\s.*$' ${1} | sed $'s/\t//' | sort | awk -v prefix="$prefix" 'BEGIN {FS = "\\).*?## |%%"}; {printf "%s\n", prefix$1}') || true
+	echo -e "$completions"
 }
 
 service_c_cmds() {
@@ -51,141 +54,59 @@ service_u_cmds() {
 	echo -e "${S}up\n${S}:up-if-down\n${S}unpause"
 }
 
-c_cmds() {
-	echo -e "clean"
-}
-
-d_cmds() {
-	echo -e "docker\ndocker-compose\ndc\ndown"
-}
-
-e_cmds() {
-	echo -e "env"
-}
-
-h_cmds() {
-	echo -e "http\nhelp"
-}
-
-i_cmds() {
-	echo -e "install"
-}
-
-r_cmds() {
-	echo -e "reset"
-}
-
-services_cmds() {
-	echo -e "services:list\nservices:status"
-}
-
-s_cmds() {
-	services_cmds
-	echo -e "\nstart\nstop\nself-update\nselfupdate\nstatus"
-}
-
-u_cmds() {
-	echo -e "uninstall"
-}
-
-case "${1}" in
-	services:*)
-		services_cmds ;;
-	*:c*)
-		service_c_cmds ${1}
-		;;
-	*:d*)
-		service_d_cmds ${1}
-		;;
-	*:e*)
-		service_e_cmds ${1}
-		;;
-	*:k*)
-		service_k_cmds ${1}
-		;;
-	*:l*)
-		service_l_cmds ${1}
-		;;
-	*:p*)
-		service_p_cmds ${1}
-		;;
-	*:s*)
-		service_s_cmds ${1}
-		;;
-	*:r*)
-		service_r_cmds ${1}
-		;;
-	*:u*)
-		service_u_cmds ${1}
-		;;
+case "${2:-}" in
 	*:*)
-		service_c_cmds ${1}
-		echo -e "\n"
-		service_d_cmds ${1}
-		echo -e "\n"
-		service_e_cmds ${1}
-		echo -e "\n"
-		service_k_cmds ${1}
-		echo -e "\n"
-		service_l_cmds ${1}
-		echo -e "\n"
-		service_p_cmds ${1}
-		echo -e "\n"
-		service_s_cmds ${1}
-		echo -e "\n"
-		service_r_cmds ${1}
-		echo -e "\n"
-		service_u_cmds ${1}
-		echo -e "\n"
-		;;
-	c*)
-		c_cmds
-		echo -e "$(services | grep -e '^c')"
-		;;
-	d*)
-		d_cmds
-		echo -e "$(services | grep -e '^d')"
-		;;
-	e*)
-		e_cmds
-		echo -e "$(services | grep -e '^e')"
-		;;
-	h*)
-		h_cmds
-		echo -e "$(services | grep -e '^h')"
-		;;
-	i*)
-		i_cmds
-		echo -e "$(services | grep -e '^i')"
-		;;
-	r*)
-		r_cmds
-		echo -e "$(services | grep -e '^r')"
-		;;
-	s*)
-		s_cmds
-		echo -e "$(services | grep -e '^s')"
-		;;
-	u*)
-		u_cmds
-		echo -e "$(services | grep -e '^u')"
+		MODULE_NAME=$(parse_cmd ${args})
+
+		module_exists ${MODULE_NAME}
+
+		if [ -v MODULE_ROOT ]; then
+			cmplt ${MODULE_ROOT}/handler.sh
+			echo -e "\n"
+		else
+			service_exists ${MODULE_NAME}
+
+			if [ -v SERVICE_ROOT ]; then
+				service_c_cmds ${MODULE_NAME}
+				echo -e "\n"
+				service_d_cmds ${MODULE_NAME}
+				echo -e "\n"
+				service_e_cmds ${MODULE_NAME}
+				echo -e "\n"
+				service_k_cmds ${MODULE_NAME}
+				echo -e "\n"
+				service_l_cmds ${MODULE_NAME}
+				echo -e "\n"
+				service_p_cmds ${MODULE_NAME}
+				echo -e "\n"
+				service_s_cmds ${MODULE_NAME}
+				echo -e "\n"
+				service_r_cmds ${MODULE_NAME}
+				echo -e "\n"
+				service_u_cmds ${MODULE_NAME}
+				echo -e "\n"
+				cmplt ${SERVICE_ROOT}/handler.sh;
+			fi
+		fi
 		;;
 	*)
-		c_cmds
-		echo -e "\n"
-		d_cmds
-		echo -e "\n"
-		e_cmds
-		echo -e "\n"
-		h_cmds
-		echo -e "\n"
-		i_cmds
-		echo -e "\n"
-		r_cmds
-		echo -e "\n"
-		s_cmds
-		echo -e "\n"
-		u_cmds
-		echo -e "\n"
+		cmplt ${HARPOON_ROOT}/harpoon
+		echo ""
+
+		modules
+		echo ""
+
 		services
+		echo ""
+
+		if [ -f ${ROOT_TASKS_FILE} ]; then
+			cmplt ${ROOT_TASKS_FILE} ${PROJECT_TASK_PREFIX}
+
+			if [ -v ADDITIONAL_TASK_FILES ]; then
+				IFS=',' read -ra ATFS <<< "$ADDITIONAL_TASK_FILES"
+				for i in "${ATFS[@]}"; do
+					cmplt ${i} ${PROJECT_TASK_PREFIX}
+				done
+			fi
+		fi
 esac

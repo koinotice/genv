@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
-
 # Mailhog hostnames
 if [ ! ${TRAEFIK_ACME:-} ]; then
 	export MH_HOSTS=mailhog.harpoon.dev

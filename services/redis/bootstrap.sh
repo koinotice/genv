@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
-
 if [ ! ${REDIS_VERSION:-} ]; then
 	export REDIS_VERSION=alpine
 fi

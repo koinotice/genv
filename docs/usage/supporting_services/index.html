@@ -60,7 +60,7 @@
     <link rel="next" href="./" />
     
     
-    <link rel="prev" href="../docker_compose.html" />
+    <link rel="prev" href="../projects.html" />
     
 
     </head>
@@ -318,12 +318,12 @@
             
         </li>
     
-        <li class="chapter " data-level="2.4.6.3" data-path="../docker_compose.html">
+        <li class="chapter " data-level="2.4.6.3" data-path="../projects.html">
             
-                <a href="../docker_compose.html">
+                <a href="../projects.html">
             
                     
-                    Docker Compose Projects
+                    Using with your project
             
                 </a>
             
@@ -378,6 +378,19 @@
     
         <li class="chapter " data-level="2.4.7.3" data-path="./">
             
+                <a href="./#cadvisor">
+            
+                    
+                    cAdvisor
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4.7.4" data-path="./">
+            
                 <a href="./#couchbase">
             
                     
@@ -389,7 +402,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.4.7.4" data-path="./">
+        <li class="chapter " data-level="2.4.7.5" data-path="./">
             
                 <a href="./#dynamodb-admin">
             
@@ -402,7 +415,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.4.7.5" data-path="./">
+        <li class="chapter " data-level="2.4.7.6" data-path="./">
             
                 <a href="./#elk-stack">
             
@@ -415,7 +428,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.4.7.6" data-path="./">
+        <li class="chapter " data-level="2.4.7.7" data-path="./">
             
                 <a href="./#localstack">
             
@@ -428,7 +441,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.4.7.7" data-path="./">
+        <li class="chapter " data-level="2.4.7.8" data-path="./">
             
                 <a href="./#mailhog">
             
@@ -441,7 +454,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.4.7.8" data-path="./">
+        <li class="chapter " data-level="2.4.7.9" data-path="./">
             
                 <a href="./#mysql">
             
@@ -454,7 +467,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.4.7.9" data-path="./">
+        <li class="chapter " data-level="2.4.7.10" data-path="./">
             
                 <a href="./#portainer">
             
@@ -467,7 +480,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.4.7.10" data-path="./">
+        <li class="chapter " data-level="2.4.7.11" data-path="./">
             
                 <a href="./#postgres">
             
@@ -480,7 +493,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.4.7.11" data-path="./">
+        <li class="chapter " data-level="2.4.7.12" data-path="./">
             
                 <a href="./#redis">
             
@@ -493,7 +506,20 @@
             
         </li>
     
-        <li class="chapter " data-level="2.4.7.12" data-path="./">
+        <li class="chapter " data-level="2.4.7.13" data-path="./">
+            
+                <a href="./#sqs-admin">
+            
+                    
+                    SQS-admin
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4.7.14" data-path="./">
             
                 <a href="./#ssh-agent">
             
@@ -524,12 +550,38 @@
             
         </li>
     
-        <li class="chapter " data-level="2.4.9" data-path="../custom_services/">
+        <li class="chapter " data-level="2.4.9" data-path="../plugins/">
+            
+                <a href="../plugins/">
+            
+                    
+                    Plugins
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4.10" data-path="../custom_services/">
             
                 <a href="../custom_services/">
             
                     
                     Custom Services
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4.11" data-path="../custom_modules/">
+            
+                <a href="../custom_modules/">
+            
+                    
+                    Custom Task Modules
             
                 </a>
             
@@ -596,6 +648,12 @@ configurations for commonly used databases, DevOps tools, etc:</p>
 </ul>
 <h2 id="blackfire"><a href="https://blackfire.io/" target="_blank">Blackfire</a></h2>
 <p>PHP profiler</p>
+<h2 id="cadvisor"><a href="https://github.com/google/cadvisor" target="_blank">cAdvisor</a></h2>
+<p>Provides a web UI for analyzing the resource usage and performance
+characteristics of running containers.</p>
+<ul>
+<li><strong>Web UI:</strong> <a href="http://cadvisor.harpoon.dev" target="_blank">http://cadvisor.harpoon.dev</a></li>
+</ul>
 <h2 id="couchbase"><a href="https://hub.docker.com/_/couchbase/" target="_blank">Couchbase</a></h2>
 <p><strong>Environment Variables (with defaults):</strong></p>
 <pre><code class="lang-bash"><span class="hljs-built_in">export</span> COUCHBASE_VERSION=<span class="hljs-string">&quot;latest&quot;</span>
@@ -627,7 +685,8 @@ configurations for commonly used databases, DevOps tools, etc:</p>
 <li><strong>Web UI:</strong> <a href="http://mailhog.harpoon.dev" target="_blank">http://mailhog.harpoon.dev</a></li>
 </ul>
 <h2 id="mysql"><a href="https://hub.docker.com/_/mysql/" target="_blank">MySQL</a></h2>
-<p>MySQL is a widely used, open-source relational database management system (RDBMS).</p>
+<p>MySQL is a widely used, open-source relational database management
+system (RDBMS).</p>
 <p><strong>Environment Variables (with defaults):</strong></p>
 <pre><code class="lang-bash"><span class="hljs-built_in">export</span> MYSQL_VERSION=5
 <span class="hljs-built_in">export</span> MYSQL_ROOT_PASSWORD=<span class="hljs-string">&quot;abc123&quot;</span>
@@ -640,18 +699,26 @@ configurations for commonly used databases, DevOps tools, etc:</p>
 <li><strong>Web UI:</strong> <a href="http://portainer.harpoon.dev" target="_blank">http://portainer.harpoon.dev</a></li>
 </ul>
 <h2 id="postgres"><a href="https://hub.docker.com/_/postgres/" target="_blank">Postgres</a></h2>
-<p>The PostgreSQL object-relational database system provides reliability and data integrity.</p>
+<p>The PostgreSQL object-relational database system provides reliability
+and data integrity.</p>
 <h2 id="redis"><a href="https://hub.docker.com/_/redis/" target="_blank">Redis</a></h2>
-<p>Redis is an open source key-value store that functions as a data structure server.</p>
+<p>Redis is an open source key-value store that functions as a data
+structure server.</p>
+<h2 id="sqs-admin"><a href="https://github.com/wheniwork/sqs-admin" target="_blank">SQS-admin</a></h2>
+<ul>
+<li><strong>Web UI:</strong> <a href="http://sqsadmin.harpoon.dev" target="_blank">http://sqsadmin.harpoon.dev</a></li>
+</ul>
 <h2 id="ssh-agent">SSH Agent</h2>
 <ol>
 <li>Run: <code>harpoon ssh-agent:up</code></li>
-<li>Add your key: <code>harpoon ssh-agent:add &lt;filename&gt;</code>, where <code>&lt;filename&gt;</code> is located in <code>~/.ssh/</code>.</li>
+<li>Add your key: <code>harpoon ssh-agent:add &lt;filename&gt;</code>, where <code>&lt;filename&gt;</code>
+is located in <code>~/.ssh/</code>.</li>
 </ol>
 <h1 id="service-management">Service Management</h1>
 <ul>
 <li>Run <code>harpoon services:list</code> to get a list of the supporting services.</li>
-<li>Run <code>harpoon services:status</code> to display the state of all supporting services.</li>
+<li>Run <code>harpoon services:status</code> to display the state of all supporting
+services.</li>
 <li>Run <code>harpoon (service):help</code> to get help for a particular service.</li>
 </ul>
 
@@ -681,7 +748,7 @@ configurations for commonly used databases, DevOps tools, etc:</p>
 
             
                 
-                <a href="../docker_compose.html" class="navigation navigation-prev " aria-label="Previous page: Docker Compose Projects">
+                <a href="../projects.html" class="navigation navigation-prev " aria-label="Previous page: Using with your project">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
@@ -697,7 +764,7 @@ configurations for commonly used databases, DevOps tools, etc:</p>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Supporting Services","level":"2.4.7","depth":2,"next":{"title":"Beanstalk Console","level":"2.4.7.1","depth":3,"anchor":"#beanstalk-console","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#beanstalk-console","articles":[]},"previous":{"title":"Docker Compose Projects","level":"2.4.6.3","depth":3,"path":"usage/docker_compose.md","ref":"usage/docker_compose.md","articles":[]},"dir":"ltr"},"config":{"plugins":[],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Ben Getsug","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"A Whale of a Guide to Harpoon","gitbook":"*"},"file":{"path":"usage/supporting_services/README.md","mtime":"2017-06-27T06:42:05.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-06-27T06:43:29.558Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Supporting Services","level":"2.4.7","depth":2,"next":{"title":"Beanstalk Console","level":"2.4.7.1","depth":3,"anchor":"#beanstalk-console","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#beanstalk-console","articles":[]},"previous":{"title":"Using with your project","level":"2.4.6.3","depth":3,"path":"usage/projects.md","ref":"usage/projects.md","articles":[]},"dir":"ltr"},"config":{"plugins":[],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Ben Getsug","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"A Whale of a Guide to Harpoon","gitbook":"*"},"file":{"path":"usage/supporting_services/README.md","mtime":"2017-08-08T17:23:18.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-08-08T22:45:27.373Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

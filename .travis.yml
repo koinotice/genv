@@ -1,0 +1,28 @@
+sudo: required
+
+services:
+  - docker
+
+env:
+  BRANCH=${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH}
+  REF=${TRAVIS_TAG:-$BRANCH}
+  TAG=wheniwork/harpoon:${REF}
+
+before_install:
+  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+  - sudo apt-get update
+  - sudo apt-get -y install docker-ce
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+
+install:
+  - make build
+
+script:
+  - make test-dind
+
+after_success:
+  - make deploy
+
+after_script:
+  - make clean

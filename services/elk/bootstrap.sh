@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
-
 # ELK hostnames
 if [ ! ${TRAEFIK_ACME:-} ]; then
 	export ELK_HOSTS=elk.harpoon.dev,kibana.harpoon.dev

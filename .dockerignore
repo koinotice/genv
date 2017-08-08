@@ -1,8 +1,13 @@
 .idea
 .gitignore
-.git
 Dockerfile
 gitbook
 harpoon.env.sh
+harpoon.boot.sh
+services/custom
 README.md
 Makefile
+.harpoon/
+plugins.txt
+vendor/
+.travis.yml

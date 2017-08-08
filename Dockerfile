@@ -1,8 +1,7 @@
 FROM docker:stable-dind
 
-# https://github.com/docker/compose/issues/4967
 RUN apk update && \
-apk add bash make git openssh-client && \
+apk add bash make git openssh-client curl && \
 apk add --no-cache py-pip && \
 pip install docker==2.4.2 && \
 pip install docker-compose && \

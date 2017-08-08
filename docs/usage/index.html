@@ -318,12 +318,12 @@
             
         </li>
     
-        <li class="chapter " data-level="2.4.6.3" data-path="docker_compose.html">
+        <li class="chapter " data-level="2.4.6.3" data-path="projects.html">
             
-                <a href="docker_compose.html">
+                <a href="projects.html">
             
                     
-                    Docker Compose Projects
+                    Using with your project
             
                 </a>
             
@@ -378,6 +378,19 @@
     
         <li class="chapter " data-level="2.4.7.3" data-path="supporting_services/">
             
+                <a href="supporting_services/#cadvisor">
+            
+                    
+                    cAdvisor
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4.7.4" data-path="supporting_services/">
+            
                 <a href="supporting_services/#couchbase">
             
                     
@@ -389,7 +402,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.4.7.4" data-path="supporting_services/">
+        <li class="chapter " data-level="2.4.7.5" data-path="supporting_services/">
             
                 <a href="supporting_services/#dynamodb-admin">
             
@@ -402,7 +415,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.4.7.5" data-path="supporting_services/">
+        <li class="chapter " data-level="2.4.7.6" data-path="supporting_services/">
             
                 <a href="supporting_services/#elk-stack">
             
@@ -415,7 +428,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.4.7.6" data-path="supporting_services/">
+        <li class="chapter " data-level="2.4.7.7" data-path="supporting_services/">
             
                 <a href="supporting_services/#localstack">
             
@@ -428,7 +441,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.4.7.7" data-path="supporting_services/">
+        <li class="chapter " data-level="2.4.7.8" data-path="supporting_services/">
             
                 <a href="supporting_services/#mailhog">
             
@@ -441,7 +454,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.4.7.8" data-path="supporting_services/">
+        <li class="chapter " data-level="2.4.7.9" data-path="supporting_services/">
             
                 <a href="supporting_services/#mysql">
             
@@ -454,7 +467,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.4.7.9" data-path="supporting_services/">
+        <li class="chapter " data-level="2.4.7.10" data-path="supporting_services/">
             
                 <a href="supporting_services/#portainer">
             
@@ -467,7 +480,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.4.7.10" data-path="supporting_services/">
+        <li class="chapter " data-level="2.4.7.11" data-path="supporting_services/">
             
                 <a href="supporting_services/#postgres">
             
@@ -480,7 +493,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.4.7.11" data-path="supporting_services/">
+        <li class="chapter " data-level="2.4.7.12" data-path="supporting_services/">
             
                 <a href="supporting_services/#redis">
             
@@ -493,7 +506,20 @@
             
         </li>
     
-        <li class="chapter " data-level="2.4.7.12" data-path="supporting_services/">
+        <li class="chapter " data-level="2.4.7.13" data-path="supporting_services/">
+            
+                <a href="supporting_services/#sqs-admin">
+            
+                    
+                    SQS-admin
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4.7.14" data-path="supporting_services/">
             
                 <a href="supporting_services/#ssh-agent">
             
@@ -524,12 +550,38 @@
             
         </li>
     
-        <li class="chapter " data-level="2.4.9" data-path="custom_services/">
+        <li class="chapter " data-level="2.4.9" data-path="plugins/">
+            
+                <a href="plugins/">
+            
+                    
+                    Plugins
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4.10" data-path="custom_services/">
             
                 <a href="custom_services/">
             
                     
                     Custom Services
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4.11" data-path="custom_modules/">
+            
+                <a href="custom_modules/">
+            
+                    
+                    Custom Task Modules
             
                 </a>
             
@@ -599,7 +651,7 @@ environment variables with the ports of your choice:</p>
 <h2 id="installation">Installation</h2>
 <ol>
 <li>Clone this repository</li>
-<li>Run <code>cd harpoon &amp;&amp; make install</code><ul>
+<li>Run <code>cd harpoon &amp;&amp; ./harpoon install</code><ul>
 <li>On MacOS, you&apos;ll be asked for your password</li>
 </ul>
 </li>
@@ -609,13 +661,12 @@ environment variables with the ports of your choice:</p>
 </ol>
 <h2 id="help">Help</h2>
 <ul>
-<li><code>harpoon help</code></li>
+<li><code>harpoon help [&lt;module&gt; | &lt;service&gt;]</code></li>
 </ul>
 <h2 id="web-uis">Web UIs</h2>
 <ul>
 <li><strong>Consul:</strong> <a href="http://consul.harpoon.dev" target="_blank">http://consul.harpoon.dev</a></li>
 <li><strong>Traefik:</strong> <a href="http://traefik.harpoon.dev" target="_blank">http://traefik.harpoon.dev</a></li>
-<li><strong>cAdvisor:</strong> <a href="http://cadvisor.harpoon.dev" target="_blank">http://cadvisor.harpoon.dev</a></li>
 </ul>
 <h2 id="removal">Removal</h2>
 <ul>
@@ -667,7 +718,7 @@ environment variables with the ports of your choice:</p>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Usage","level":"2.4","depth":1,"next":{"title":"Traefik Port Overrides","level":"2.4.1","depth":2,"anchor":"#traefik-port-overrides-optional","path":"usage/README.md","ref":"usage/README.md#traefik-port-overrides-optional","articles":[]},"previous":{"title":"Core Services","level":"2.3","depth":1,"path":"core_services.md","ref":"core_services.md","articles":[]},"dir":"ltr"},"config":{"plugins":[],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Ben Getsug","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"A Whale of a Guide to Harpoon","gitbook":"*"},"file":{"path":"usage/README.md","mtime":"2017-06-20T06:19:37.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-06-27T06:43:29.558Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Usage","level":"2.4","depth":1,"next":{"title":"Traefik Port Overrides","level":"2.4.1","depth":2,"anchor":"#traefik-port-overrides-optional","path":"usage/README.md","ref":"usage/README.md#traefik-port-overrides-optional","articles":[]},"previous":{"title":"Core Services","level":"2.3","depth":1,"path":"core_services.md","ref":"core_services.md","articles":[]},"dir":"ltr"},"config":{"plugins":[],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Ben Getsug","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"A Whale of a Guide to Harpoon","gitbook":"*"},"file":{"path":"usage/README.md","mtime":"2017-08-01T22:41:04.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-08-08T22:45:27.373Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

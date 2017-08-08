@@ -318,12 +318,12 @@
             
         </li>
     
-        <li class="chapter " data-level="2.4.6.3" data-path="usage/docker_compose.html">
+        <li class="chapter " data-level="2.4.6.3" data-path="usage/projects.html">
             
-                <a href="usage/docker_compose.html">
+                <a href="usage/projects.html">
             
                     
-                    Docker Compose Projects
+                    Using with your project
             
                 </a>
             
@@ -378,6 +378,19 @@
     
         <li class="chapter " data-level="2.4.7.3" data-path="usage/supporting_services/">
             
+                <a href="usage/supporting_services/#cadvisor">
+            
+                    
+                    cAdvisor
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4.7.4" data-path="usage/supporting_services/">
+            
                 <a href="usage/supporting_services/#couchbase">
             
                     
@@ -389,7 +402,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.4.7.4" data-path="usage/supporting_services/">
+        <li class="chapter " data-level="2.4.7.5" data-path="usage/supporting_services/">
             
                 <a href="usage/supporting_services/#dynamodb-admin">
             
@@ -402,7 +415,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.4.7.5" data-path="usage/supporting_services/">
+        <li class="chapter " data-level="2.4.7.6" data-path="usage/supporting_services/">
             
                 <a href="usage/supporting_services/#elk-stack">
             
@@ -415,7 +428,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.4.7.6" data-path="usage/supporting_services/">
+        <li class="chapter " data-level="2.4.7.7" data-path="usage/supporting_services/">
             
                 <a href="usage/supporting_services/#localstack">
             
@@ -428,7 +441,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.4.7.7" data-path="usage/supporting_services/">
+        <li class="chapter " data-level="2.4.7.8" data-path="usage/supporting_services/">
             
                 <a href="usage/supporting_services/#mailhog">
             
@@ -441,7 +454,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.4.7.8" data-path="usage/supporting_services/">
+        <li class="chapter " data-level="2.4.7.9" data-path="usage/supporting_services/">
             
                 <a href="usage/supporting_services/#mysql">
             
@@ -454,7 +467,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.4.7.9" data-path="usage/supporting_services/">
+        <li class="chapter " data-level="2.4.7.10" data-path="usage/supporting_services/">
             
                 <a href="usage/supporting_services/#portainer">
             
@@ -467,7 +480,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.4.7.10" data-path="usage/supporting_services/">
+        <li class="chapter " data-level="2.4.7.11" data-path="usage/supporting_services/">
             
                 <a href="usage/supporting_services/#postgres">
             
@@ -480,7 +493,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.4.7.11" data-path="usage/supporting_services/">
+        <li class="chapter " data-level="2.4.7.12" data-path="usage/supporting_services/">
             
                 <a href="usage/supporting_services/#redis">
             
@@ -493,7 +506,20 @@
             
         </li>
     
-        <li class="chapter " data-level="2.4.7.12" data-path="usage/supporting_services/">
+        <li class="chapter " data-level="2.4.7.13" data-path="usage/supporting_services/">
+            
+                <a href="usage/supporting_services/#sqs-admin">
+            
+                    
+                    SQS-admin
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4.7.14" data-path="usage/supporting_services/">
             
                 <a href="usage/supporting_services/#ssh-agent">
             
@@ -524,12 +550,38 @@
             
         </li>
     
-        <li class="chapter " data-level="2.4.9" data-path="usage/custom_services/">
+        <li class="chapter " data-level="2.4.9" data-path="usage/plugins/">
+            
+                <a href="usage/plugins/">
+            
+                    
+                    Plugins
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4.10" data-path="usage/custom_services/">
             
                 <a href="usage/custom_services/">
             
                     
                     Custom Services
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4.11" data-path="usage/custom_modules/">
+            
+                <a href="usage/custom_modules/">
+            
+                    
+                    Custom Task Modules
             
                 </a>
             
@@ -601,9 +653,6 @@ will automatically get picked up by <code>traefik</code>.</li>
 balancer). It &quot;listens&quot; to Docker and Consul, automatically updating
 its configuration when you start a new Docker container, or register a
 service with the Consul Agent.</li>
-<li><strong><a href="https://github.com/google/cadvisor" target="_blank">cAdvisor</a></strong> provides a web UI
-for analyzing the resource usage and performance characteristics of
-running containers.</li>
 </ul>
 
                                 
@@ -648,7 +697,7 @@ running containers.</li>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Core Services","level":"2.3","depth":1,"next":{"title":"Usage","level":"2.4","depth":1,"path":"usage/README.md","ref":"usage/README.md","articles":[{"title":"Traefik Port Overrides","level":"2.4.1","depth":2,"anchor":"#traefik-port-overrides-optional","path":"usage/README.md","ref":"usage/README.md#traefik-port-overrides-optional","articles":[]},{"title":"Installation","level":"2.4.2","depth":2,"anchor":"#installation","path":"usage/README.md","ref":"usage/README.md#installation","articles":[]},{"title":"Help","level":"2.4.3","depth":2,"anchor":"#help","path":"usage/README.md","ref":"usage/README.md#help","articles":[]},{"title":"Web UIs","level":"2.4.4","depth":2,"anchor":"#web-uis","path":"usage/README.md","ref":"usage/README.md#web-uis","articles":[]},{"title":"Removal","level":"2.4.5","depth":2,"anchor":"#removal","path":"usage/README.md","ref":"usage/README.md#removal","articles":[]},{"title":"Configuration","level":"2.4.6","depth":2,"path":"usage/configuration.md","ref":"usage/configuration.md","articles":[{"title":"Environment Variables","level":"2.4.6.1","depth":3,"anchor":"#environment-variables","path":"usage/configuration.md","ref":"usage/configuration.md#environment-variables","articles":[]},{"title":"Custom Domains","level":"2.4.6.2","depth":3,"anchor":"#custom-domains","path":"usage/configuration.md","ref":"usage/configuration.md#custom-domains","articles":[{"title":"HTTPS with Let's Encrypt","level":"2.4.6.2.1","depth":4,"anchor":"#https-with-lets-encrypt","path":"usage/configuration.md","ref":"usage/configuration.md#https-with-lets-encrypt","articles":[]},{"title":"HTTPS with Static Certificates","level":"2.4.6.2.2","depth":4,"anchor":"#https-with-static-or-self-signed-certificates","path":"usage/configuration.md","ref":"usage/configuration.md#https-with-static-or-self-signed-certificates","articles":[]}]},{"title":"Docker Compose Projects","level":"2.4.6.3","depth":3,"path":"usage/docker_compose.md","ref":"usage/docker_compose.md","articles":[]}]},{"title":"Supporting Services","level":"2.4.7","depth":2,"path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md","articles":[{"title":"Beanstalk Console","level":"2.4.7.1","depth":3,"anchor":"#beanstalk-console","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#beanstalk-console","articles":[]},{"title":"Blackfire","level":"2.4.7.2","depth":3,"anchor":"#blackfire","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#blackfire","articles":[]},{"title":"Couchbase","level":"2.4.7.3","depth":3,"anchor":"#couchbase","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#couchbase","articles":[]},{"title":"DynamoDB Admin","level":"2.4.7.4","depth":3,"anchor":"#dynamodb-admin","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#dynamodb-admin","articles":[]},{"title":"ELK Stack","level":"2.4.7.5","depth":3,"anchor":"#elk-stack","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#elk-stack","articles":[]},{"title":"LocalStack","level":"2.4.7.6","depth":3,"anchor":"#localstack","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#localstack","articles":[]},{"title":"Mailhog","level":"2.4.7.7","depth":3,"anchor":"#mailhog","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#mailhog","articles":[]},{"title":"MySQL","level":"2.4.7.8","depth":3,"anchor":"#mysql","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#mysql","articles":[]},{"title":"Portainer","level":"2.4.7.9","depth":3,"anchor":"#portainer","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#portainer","articles":[]},{"title":"Postgres","level":"2.4.7.10","depth":3,"anchor":"#postgres","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#postgres","articles":[]},{"title":"Redis","level":"2.4.7.11","depth":3,"anchor":"#redis","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#redis","articles":[]},{"title":"SSH Agent","level":"2.4.7.12","depth":3,"anchor":"#ssh-agent","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#ssh-agent","articles":[]}]},{"title":"Service Management","level":"2.4.8","depth":2,"anchor":"#service-management","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#service-management","articles":[]},{"title":"Custom Services","level":"2.4.9","depth":2,"path":"usage/custom_services/README.md","ref":"usage/custom_services/README.md","articles":[]}]},"previous":{"title":"Pro Tips","level":"2.2","depth":1,"path":"pro_tips.md","ref":"pro_tips.md","articles":[]},"dir":"ltr"},"config":{"plugins":[],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Ben Getsug","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"A Whale of a Guide to Harpoon","gitbook":"*"},"file":{"path":"core_services.md","mtime":"2017-06-13T16:33:28.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-06-27T06:43:29.558Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Core Services","level":"2.3","depth":1,"next":{"title":"Usage","level":"2.4","depth":1,"path":"usage/README.md","ref":"usage/README.md","articles":[{"title":"Traefik Port Overrides","level":"2.4.1","depth":2,"anchor":"#traefik-port-overrides-optional","path":"usage/README.md","ref":"usage/README.md#traefik-port-overrides-optional","articles":[]},{"title":"Installation","level":"2.4.2","depth":2,"anchor":"#installation","path":"usage/README.md","ref":"usage/README.md#installation","articles":[]},{"title":"Help","level":"2.4.3","depth":2,"anchor":"#help","path":"usage/README.md","ref":"usage/README.md#help","articles":[]},{"title":"Web UIs","level":"2.4.4","depth":2,"anchor":"#web-uis","path":"usage/README.md","ref":"usage/README.md#web-uis","articles":[]},{"title":"Removal","level":"2.4.5","depth":2,"anchor":"#removal","path":"usage/README.md","ref":"usage/README.md#removal","articles":[]},{"title":"Configuration","level":"2.4.6","depth":2,"path":"usage/configuration.md","ref":"usage/configuration.md","articles":[{"title":"Environment Variables","level":"2.4.6.1","depth":3,"anchor":"#environment-variables","path":"usage/configuration.md","ref":"usage/configuration.md#environment-variables","articles":[]},{"title":"Custom Domains","level":"2.4.6.2","depth":3,"anchor":"#custom-domains","path":"usage/configuration.md","ref":"usage/configuration.md#custom-domains","articles":[{"title":"HTTPS with Let's Encrypt","level":"2.4.6.2.1","depth":4,"anchor":"#https-with-lets-encrypt","path":"usage/configuration.md","ref":"usage/configuration.md#https-with-lets-encrypt","articles":[]},{"title":"HTTPS with Static Certificates","level":"2.4.6.2.2","depth":4,"anchor":"#https-with-static-or-self-signed-certificates","path":"usage/configuration.md","ref":"usage/configuration.md#https-with-static-or-self-signed-certificates","articles":[]}]},{"title":"Using with your project","level":"2.4.6.3","depth":3,"path":"usage/projects.md","ref":"usage/projects.md","articles":[]}]},{"title":"Supporting Services","level":"2.4.7","depth":2,"path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md","articles":[{"title":"Beanstalk Console","level":"2.4.7.1","depth":3,"anchor":"#beanstalk-console","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#beanstalk-console","articles":[]},{"title":"Blackfire","level":"2.4.7.2","depth":3,"anchor":"#blackfire","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#blackfire","articles":[]},{"title":"cAdvisor","level":"2.4.7.3","depth":3,"anchor":"#cadvisor","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#cadvisor","articles":[]},{"title":"Couchbase","level":"2.4.7.4","depth":3,"anchor":"#couchbase","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#couchbase","articles":[]},{"title":"DynamoDB Admin","level":"2.4.7.5","depth":3,"anchor":"#dynamodb-admin","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#dynamodb-admin","articles":[]},{"title":"ELK Stack","level":"2.4.7.6","depth":3,"anchor":"#elk-stack","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#elk-stack","articles":[]},{"title":"LocalStack","level":"2.4.7.7","depth":3,"anchor":"#localstack","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#localstack","articles":[]},{"title":"Mailhog","level":"2.4.7.8","depth":3,"anchor":"#mailhog","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#mailhog","articles":[]},{"title":"MySQL","level":"2.4.7.9","depth":3,"anchor":"#mysql","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#mysql","articles":[]},{"title":"Portainer","level":"2.4.7.10","depth":3,"anchor":"#portainer","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#portainer","articles":[]},{"title":"Postgres","level":"2.4.7.11","depth":3,"anchor":"#postgres","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#postgres","articles":[]},{"title":"Redis","level":"2.4.7.12","depth":3,"anchor":"#redis","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#redis","articles":[]},{"title":"SQS-admin","level":"2.4.7.13","depth":3,"anchor":"#sqs-admin","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#sqs-admin","articles":[]},{"title":"SSH Agent","level":"2.4.7.14","depth":3,"anchor":"#ssh-agent","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#ssh-agent","articles":[]}]},{"title":"Service Management","level":"2.4.8","depth":2,"anchor":"#service-management","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#service-management","articles":[]},{"title":"Plugins","level":"2.4.9","depth":2,"path":"usage/plugins/README.md","ref":"usage/plugins/README.md","articles":[]},{"title":"Custom Services","level":"2.4.10","depth":2,"path":"usage/custom_services/README.md","ref":"usage/custom_services/README.md","articles":[]},{"title":"Custom Task Modules","level":"2.4.11","depth":2,"path":"usage/custom_modules/README.md","ref":"usage/custom_modules/README.md","articles":[]}]},"previous":{"title":"Pro Tips","level":"2.2","depth":1,"path":"pro_tips.md","ref":"pro_tips.md","articles":[]},"dir":"ltr"},"config":{"plugins":[],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Ben Getsug","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"A Whale of a Guide to Harpoon","gitbook":"*"},"file":{"path":"core_services.md","mtime":"2017-07-23T06:28:23.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-08-08T22:45:27.373Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>

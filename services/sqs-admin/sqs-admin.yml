@@ -1,0 +1,26 @@
+version: '2'
+
+services:
+  sqs-admin:
+    container_name: harpoon_sqs-admin
+    image: wheniwork/sqs-admin
+    environment:
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+      - AWS_REGION
+      - SQS_ENDPOINT=${SQS_ENDPOINT}
+      - SQS_ADMIN_PORT=${SQS_ADMIN_PORT}
+    labels:
+      - "traefik.backend=sqs-admin"
+      - "traefik.port=${SQS_ADMIN_PORT}"
+      - "traefik.frontend.rule=Host:${SQS_ADMIN_HOSTS}"
+      - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
+      - "traefik.docker.network=${HARPOON_DOCKER_NETWORK}"
+      - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
+    ports:
+      - "${SQS_ADMIN_PORT}"
+
+networks:
+  default:
+    external:
+      name: ${HARPOON_DOCKER_NETWORK}

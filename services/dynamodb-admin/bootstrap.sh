@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
-
 if [ ! ${AWS_ACCESS_KEY_ID:-} ]; then
     export AWS_ACCESS_KEY_ID=foobar
 fi

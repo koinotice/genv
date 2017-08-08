@@ -2,6 +2,7 @@ version: '2'
 
 services:
   mysql:
+    container_name: harpoon_mysql
     image: mysql:${MYSQL_VERSION}
     environment:
       - TERM=xterm

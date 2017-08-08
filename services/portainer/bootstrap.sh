@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
-
 if [ ! ${TRAEFIK_ACME:-} ]; then
 	export PORTAINER_HOSTS=portainer.harpoon.dev
 fi

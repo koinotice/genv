@@ -18,28 +18,6 @@ services:
     volumes:
       - ./core/dnsmasq/dnsmasq.conf:/etc/dnsmasq.conf
 
-  cadvisor:
-    container_name: harpoon_cadvisor
-    image: google/cadvisor:latest
-    ports:
-      - "8070:8080"
-    labels:
-      - "traefik.backend=cadvisor"
-      - "traefik.port=8080"
-      - "traefik.frontend.rule=Host:${CADVISOR_HOSTS}"
-      - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
-      - "traefik.docker.network=${HARPOON_DOCKER_NETWORK}"
-      - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
-    networks:
-      default:
-        aliases:
-          - cadvisor.harpoon.dev
-    volumes:
-      - /:/rootfs:ro
-      - /var/run:/var/run:rw
-      - /sys:/sys:ro
-      - /var/lib/docker/:/var/lib/docker:ro
-
   consul:
     container_name: harpoon_consul
     image: consul:0.8.3
@@ -134,22 +112,6 @@ services:
     volumes:
       - ./core/traefik/:/etc/traefik/
       - /var/run/docker.sock:/var/run/docker.sock
-
-# *** EXPERIMENTAL ***
-#  glide:
-#    image: wheniwork/go-glide
-#    entrypoint: ${GLIDE_ENTRYPOINT}
-#    environment:
-#      SSH_AUTH_SOCK: /.ssh-agent/socket
-#      TERM: xterm
-#    volumes:
-#      - ~/.harpoon:/root/.harpoon
-#      - ${HARPOON_ROOT}:${HARPOON_ROOT}
-#      - ${PWD}/harpoon.yaml:${HARPOON_ROOT}/harpoon.yaml
-#    volumes_from:
-#      - container:harpoon_ssh-agent
-#    working_dir: ${HARPOON_ROOT}
-# *********************
 
 networks:
   default:

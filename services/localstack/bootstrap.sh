@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
-
 if [ ! ${LOCALSTACK_SERVICES:-} ]; then
 	export LOCALSTACK_SERVICES=""
 fi

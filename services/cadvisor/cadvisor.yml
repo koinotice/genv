@@ -1,0 +1,29 @@
+version: '2'
+
+services:
+  cadvisor:
+    container_name: harpoon_cadvisor
+    image: google/cadvisor:latest
+    ports:
+      - "8070:8080"
+    labels:
+      - "traefik.backend=cadvisor"
+      - "traefik.port=8080"
+      - "traefik.frontend.rule=Host:${CADVISOR_HOSTS}"
+      - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
+      - "traefik.docker.network=${HARPOON_DOCKER_NETWORK}"
+      - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
+    networks:
+      default:
+        aliases:
+          - cadvisor.harpoon.dev
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+
+networks:
+  default:
+    external:
+      name: ${HARPOON_DOCKER_NETWORK}

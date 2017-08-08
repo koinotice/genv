@@ -316,12 +316,12 @@
             
         </li>
     
-        <li class="chapter " data-level="2.4.6.3" data-path="usage/docker_compose.html">
+        <li class="chapter " data-level="2.4.6.3" data-path="usage/projects.html">
             
-                <a href="usage/docker_compose.html">
+                <a href="usage/projects.html">
             
                     
-                    Docker Compose Projects
+                    Using with your project
             
                 </a>
             
@@ -376,6 +376,19 @@
     
         <li class="chapter " data-level="2.4.7.3" data-path="usage/supporting_services/">
             
+                <a href="usage/supporting_services/#cadvisor">
+            
+                    
+                    cAdvisor
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4.7.4" data-path="usage/supporting_services/">
+            
                 <a href="usage/supporting_services/#couchbase">
             
                     
@@ -387,7 +400,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.4.7.4" data-path="usage/supporting_services/">
+        <li class="chapter " data-level="2.4.7.5" data-path="usage/supporting_services/">
             
                 <a href="usage/supporting_services/#dynamodb-admin">
             
@@ -400,7 +413,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.4.7.5" data-path="usage/supporting_services/">
+        <li class="chapter " data-level="2.4.7.6" data-path="usage/supporting_services/">
             
                 <a href="usage/supporting_services/#elk-stack">
             
@@ -413,7 +426,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.4.7.6" data-path="usage/supporting_services/">
+        <li class="chapter " data-level="2.4.7.7" data-path="usage/supporting_services/">
             
                 <a href="usage/supporting_services/#localstack">
             
@@ -426,7 +439,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.4.7.7" data-path="usage/supporting_services/">
+        <li class="chapter " data-level="2.4.7.8" data-path="usage/supporting_services/">
             
                 <a href="usage/supporting_services/#mailhog">
             
@@ -439,7 +452,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.4.7.8" data-path="usage/supporting_services/">
+        <li class="chapter " data-level="2.4.7.9" data-path="usage/supporting_services/">
             
                 <a href="usage/supporting_services/#mysql">
             
@@ -452,7 +465,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.4.7.9" data-path="usage/supporting_services/">
+        <li class="chapter " data-level="2.4.7.10" data-path="usage/supporting_services/">
             
                 <a href="usage/supporting_services/#portainer">
             
@@ -465,7 +478,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.4.7.10" data-path="usage/supporting_services/">
+        <li class="chapter " data-level="2.4.7.11" data-path="usage/supporting_services/">
             
                 <a href="usage/supporting_services/#postgres">
             
@@ -478,7 +491,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.4.7.11" data-path="usage/supporting_services/">
+        <li class="chapter " data-level="2.4.7.12" data-path="usage/supporting_services/">
             
                 <a href="usage/supporting_services/#redis">
             
@@ -491,7 +504,20 @@
             
         </li>
     
-        <li class="chapter " data-level="2.4.7.12" data-path="usage/supporting_services/">
+        <li class="chapter " data-level="2.4.7.13" data-path="usage/supporting_services/">
+            
+                <a href="usage/supporting_services/#sqs-admin">
+            
+                    
+                    SQS-admin
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4.7.14" data-path="usage/supporting_services/">
             
                 <a href="usage/supporting_services/#ssh-agent">
             
@@ -522,12 +548,38 @@
             
         </li>
     
-        <li class="chapter " data-level="2.4.9" data-path="usage/custom_services/">
+        <li class="chapter " data-level="2.4.9" data-path="usage/plugins/">
+            
+                <a href="usage/plugins/">
+            
+                    
+                    Plugins
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4.10" data-path="usage/custom_services/">
             
                 <a href="usage/custom_services/">
             
                     
                     Custom Services
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4.11" data-path="usage/custom_modules/">
+            
+                <a href="usage/custom_modules/">
+            
+                    
+                    Custom Task Modules
             
                 </a>
             
@@ -588,42 +640,61 @@
                                 <h1 id=""><a href="http://wheniwork.github.io/harpoon" target="_blank"><img src="https://cloud.githubusercontent.com/assets/202546/26421606/407b9eb8-408c-11e7-8fc4-9ed0c61afcc7.png" height="75"></a></h1>
 <p><strong>A lightweight toolkit for local development with
 <a href="https://www.docker.com/" target="_blank">Docker</a></strong></p>
-<p><em>Harpoon</em> is essentially a wrapper around a set of
-<a href="https://docs.docker.com/compose/" target="_blank">Docker Compose</a> configurations that
-make it easy to run a local/offline development environment for Docker.
-It&apos;s an ideal choice for those that don&apos;t wish to run a full container
-management or orchestration platform on their workstation. <em>Harpoon</em> has
-been tested with <a href="https://www.docker.com/docker-mac" target="_blank">Docker for Mac</a> and
-<a href="https://www.docker.com/products/docker-toolbox" target="_blank">Docker Toolbox</a> on
-MacOS.</p>
+<p><a href="https://travis-ci.org/wheniwork/harpoon" target="_blank"><img src="https://travis-ci.org/wheniwork/harpoon.svg?branch=master" alt="Build Status"></a>
+<a href="https://coveralls.io/github/wheniwork/harpoon?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/wheniwork/harpoon/badge.svg?branch=master" alt="Coverage Status"></a>
+<a href="https://codecov.io/gh/wheniwork/harpoon" target="_blank"><img src="https://codecov.io/gh/wheniwork/harpoon/branch/master/graph/badge.svg" alt="codecov"></a></p>
+<p><em>Harpoon</em> makes it easy to run a local/offline development environment
+composed of Docker containers. It&apos;s an ideal choice for those that don&apos;t
+wish to run a full container management or orchestration platform on
+their workstation.</p>
+<p>At its core, <em>Harpoon</em> is a set of <code>bash</code> scripts that provide an
+interface for running project-related tasks. <em>Harpoon</em> includes a
+collection of common services, which are essentially wrappers around
+<a href="https://docs.docker.com/compose/" target="_blank">Docker Compose</a> configurations. All
+Harpoon services are designed to work together on a Docker network
+(named <code>harpoon</code> by default), with web-based services registering
+automatically with a proxy server (Traefik). The use of <code>dnsmasq</code>
+enables accessing services via one or more domains (<code>harpoon.dev</code> by
+default).</p>
+<p><em>Harpoon</em> has been tested with:</p>
+<ul>
+<li><a href="https://www.docker.com/docker-mac" target="_blank">Docker for Mac</a></li>
+<li><a href="https://www.docker.com/products/docker-toolbox" target="_blank">Docker Toolbox</a> on
+MacOS</li>
+<li>Ubuntu Desktop 16.04</li>
+</ul>
 <h2 id="requirements">Requirements</h2>
 <ul>
-<li>Bash (<code>bash</code>)</li>
-<li>Make (<code>make</code>)</li>
+<li>Bash 4 (<code>bash</code>) or ZSH (<code>zsh</code>)</li>
 <li>Docker (<code>docker</code>)</li>
 <li>Docker Compose (<code>docker-compose</code>)</li>
 </ul>
 <h2 id="quick-start">Quick Start</h2>
 <ol>
 <li>Clone this repository</li>
-<li>Run <code>cd harpoon &amp;&amp; make install</code><ul>
+<li>Run <code>cd harpoon &amp;&amp; ./harpoon install</code><ul>
 <li>On MacOS, you&apos;ll be asked for your password</li>
 </ul>
 </li>
-<li><strong>Recommended:</strong> Add the <code>harpoon</code> directory to your <code>$PATH</code>. Edit your <code>.bash_profile</code>,
-<code>.bashrc</code>, or <code>.zshrc</code> accordingly.</li>
-<li><em>Optional:</em> Load completion scripts by adding <code>which harpoon &gt; /dev/null &amp;&amp; . &quot;$(harpoon initpath)&quot;</code> to your profile.</li>
+<li><strong>Recommended:</strong> Add the <code>harpoon</code> directory to your <code>$PATH</code>. Edit
+your <code>.bash_profile</code>, <code>.bashrc</code>, or <code>.zshrc</code> accordingly.</li>
+<li><em>Optional:</em> Load completion scripts by adding <code>which harpoon &gt;
+/dev/null &amp;&amp; . &quot;$(harpoon initpath)&quot;</code> to your profile.</li>
 </ol>
 <h2 id="documentation"><a href="https://wheniwork.github.io/harpoon/" target="_blank">Documentation</a></h2>
 <h2 id="todo">TODO</h2>
 <ul>
 <li>Consul + Traefik tips</li>
-<li>Test with Linux</li>
+<li>Documentation<ul>
+<li>Plugins</li>
+<li>Bundled task modules</li>
+</ul>
+</li>
 </ul>
 <h2 id="contributing">Contributing</h2>
 <ul>
-<li>If you experience an issue and are relatively certain that <code>harpoon</code> is
-the culprit, please report it.<ul>
+<li>If you experience an issue and are relatively certain that <code>harpoon</code>
+is the culprit, please report it.<ul>
 <li>Issues requesting support specifically for any of the core or
 supporting services will not be processed.</li>
 </ul>
@@ -669,7 +740,7 @@ supporting services will not be processed.</li>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Introduction","level":"2.1","depth":1,"next":{"title":"Requirements","level":"2.1.1","depth":2,"anchor":"#requirements","path":"README.md","ref":"README.md#requirements","articles":[]},"previous":{"title":"Harpoon","level":"1.1","depth":1,"url":"https://github.com/wheniwork/harpoon","ref":"https://github.com/wheniwork/harpoon","articles":[]},"dir":"ltr"},"config":{"plugins":[],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Ben Getsug","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"A Whale of a Guide to Harpoon","gitbook":"*"},"file":{"path":"README.md","mtime":"2017-06-20T06:19:37.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-06-27T06:43:29.558Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Introduction","level":"2.1","depth":1,"next":{"title":"Requirements","level":"2.1.1","depth":2,"anchor":"#requirements","path":"README.md","ref":"README.md#requirements","articles":[]},"previous":{"title":"Harpoon","level":"1.1","depth":1,"url":"https://github.com/wheniwork/harpoon","ref":"https://github.com/wheniwork/harpoon","articles":[]},"dir":"ltr"},"config":{"plugins":[],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Ben Getsug","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"A Whale of a Guide to Harpoon","gitbook":"*"},"file":{"path":"README.md","mtime":"2017-08-08T22:31:05.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-08-08T22:45:27.373Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>

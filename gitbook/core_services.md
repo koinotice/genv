@@ -13,6 +13,3 @@ operation:
   balancer). It "listens" to Docker and Consul, automatically updating
   its configuration when you start a new Docker container, or register a
   service with the Consul Agent.
-* **[cAdvisor](https://github.com/google/cadvisor)** provides a web UI
-  for analyzing the resource usage and performance characteristics of
-  running containers.

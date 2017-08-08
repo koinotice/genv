@@ -1,10 +1,8 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
-
 case "${command:-}" in
 	redis:cli) ## [<arg>...] %% Redis CLI
-		${DOCKER_COMPOSE_CMD} ${DKR_COMPOSE_FILE} exec redis redis-cli ${args} ;;
+		${DOCKER_COMPOSE_EXEC} redis redis-cli ${args} ;;
 	*)
-		service_help redis;;
+		service_help redis
 esac

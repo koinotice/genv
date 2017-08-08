@@ -21,9 +21,20 @@ following directories:
 * `$PWD`
 * `$HOME`
 
+## `harpoon.boot.sh`
+
+Right before running a task, harpoon will look for and `source` files
+named `harpoon.boot.sh` in the following directories:
+
+* The directory where Harpoon is located (`$HARPOON_ROOT`)
+* `/etc`
+* `$PWD`
+* `$HOME`
+
 ## Custom Domains
 
-_Harpoon_ uses `harpoon.dev` as its default domain. You can configure your own domains with the `CUSTOM_DOMAINS` array:
+_Harpoon_ uses `harpoon.dev` as its default domain. You can configure
+your own domains with the `CUSTOM_DOMAINS` array:
 
 ```bash
 CUSTOM_DOMAINS[0]=example.com
@@ -62,8 +73,9 @@ for more information.
 
 _Works offline_
 
-For each of your custom domains, copy the certificate (`.crt`) and key (`.key`) files to
-`core/traefik/certs`. The filenames should be based on the domain name, for example:
+For each of your custom domains, copy the certificate (`.crt`) and key
+(`.key`) files to `core/traefik/certs`. The filenames should be based on
+the domain name, for example:
 
 * `example.com.crt`
 * `example.com.key`

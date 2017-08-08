@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
-
 case "${command:-}" in
 	localstack:aws) ## [options] <command> <subcommand> [<subcommand> ...] [parameters] %% AWS CLI (with endpoint-url set based on command)
 		echo -e "AWS Region: ${AWS_REGION}"
@@ -78,5 +76,5 @@ case "${command:-}" in
 		;;
 
 	*)
-		service_help localstack;;
+		service_help localstack
 esac
