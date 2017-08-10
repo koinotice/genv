@@ -29,7 +29,7 @@ all_help() {
 	echo "Usage: harpoon command [<arg>...]"
 	echo ""
 	print_help "${HARPOON_ROOT}/harpoon"
-	printf "\t$LTBLU%-45s$NC %s\n" "(service):help" "❓  Get help for a particular service"
+	printf "\t$COLOR_CYAN%-45s$COLOR_NC %s\n" "(service):help" "❓  Get help for a particular service"
 
 	tasks_help
 

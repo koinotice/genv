@@ -46,7 +46,7 @@ print_debug "PROJECT_TASK_PREFIX: $PROJECT_TASK_PREFIX"
 
 if [ -v GITLAB_USER_EMAIL ]; then
 	export ME="${GITLAB_USER_EMAIL}"
-elif [ -d .git ]; then
+elif [[ ${IS_GIT_REPO} == true ]]; then
 	export ME=$(git config --get user.name)
 else
 	export ME=""

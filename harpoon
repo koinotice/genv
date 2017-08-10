@@ -147,6 +147,9 @@ case "${command:-}" in
 	stfu) ## %% 🤐  Please stop talking
 		export HARPOON_SPEECH=false;;
 
+	greet)
+		speak_greeting ;;
+
 	radio)
 		say -v Fred -r 190 "Fitter. Happier. More productive." ;;
 

@@ -1,12 +1,24 @@
 #!/usr/bin/env bash
 
-export LTBLU="\033[36m"
-export GREEN="\033[0;32m"
-export RED="\033[0;31m"
-export PURPLE="\033[0;35m"
-export LTYELLOW="\e[93m"
-export LTGREYBK="\e[100m"
-export NC="\033[0m"
+export COLOR_NC='\e[0m' # No Color
+export COLOR_WHITE='\e[1;37m'
+export COLOR_BLACK='\e[0;30m'
+export COLOR_BLUE='\e[0;34m'
+export COLOR_LIGHT_BLUE='\e[1;34m'
+export COLOR_GREEN='\e[0;32m'
+export COLOR_LIGHT_GREEN='\e[1;32m'
+export COLOR_CYAN='\e[0;36m'
+export COLOR_LIGHT_CYAN='\e[1;36m'
+export COLOR_RED='\e[0;31m'
+export COLOR_LIGHT_RED='\e[1;31m'
+export COLOR_PURPLE='\e[0;35m'
+export COLOR_LIGHT_PURPLE='\e[1;35m'
+export COLOR_BROWN='\e[0;33m'
+export COLOR_YELLOW='\e[1;33m'
+export COLOR_LIGHT_YELLOW="\e[93m"
+export COLOR_GRAY='\e[0;30m'
+export COLOR_LIGHT_GRAY='\e[0;37m'
+export BG_COLOR_LIGHT_GREY="\e[100m" # Background
 
 if [ ! -v HARPOON_SPEECH ]; then
 	export HARPOON_SPEECH=true
@@ -39,8 +51,20 @@ speak() {
 	fi
 }
 
+speak_greeting() {
+	if [[ -v GREETING && ! -v CI ]]; then
+		export HARPOON_SPEECH_RATE=225
+		name=$(finger `whoami` | awk -F: '{ print $3 }' | head -n1 | sed 's/^ //' | cut -d " " -f 1)
+		msg="Hey ${name}! ${GREETING}"
+		speak "${msg}"
+		if [[ ${HARPOON_SPEECH} == false ]]; then
+			echo -e "\n${COLOR_LIGHT_PURPLE}${msg}${COLOR_NC}\n"
+		fi
+	fi
+}
+
 print_info() {
-	echo -e "${PURPLE}${1}${NC}${2:-}"
+	echo -e "${COLOR_PURPLE}${1}${COLOR_NC}${2:-}"
 }
 
 speak_info() {
@@ -49,7 +73,7 @@ speak_info() {
 }
 
 print_success() {
-	echo -e "${GREEN}${1}${NC}${2:-}"
+	echo -e "${COLOR_GREEN}${1}${COLOR_NC}${2:-}"
 }
 
 speak_success() {
@@ -58,11 +82,11 @@ speak_success() {
 }
 
 print_warn() {
-	echo -e "${LTYELLOW}${1}${NC}${2:-}"
+	echo -e "${COLOR_LIGHT_YELLOW}${1}${COLOR_NC}${2:-}"
 }
 
 print_error() {
-	echo -e "${RED}${1}${NC}${2:-}" >&2
+	echo -e "${COLOR_RED}${1}${COLOR_NC}${2:-}" >&2
 }
 
 print_panic() {
@@ -72,7 +96,7 @@ print_panic() {
 print_debug() {
 	if [ ${HARPOON_DEBUG:-} ]; then
 		log_debug "$1"
-		echo -e "${LTGREYBK}${1}${NC}" >&2
+		echo -e "${BG_COLOR_LIGHT_GREY}${1}${COLOR_NC}" >&2
 	fi
 }
 

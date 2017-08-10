@@ -21,6 +21,8 @@ up() {
 		echo -e "\tharpoon.dev"
 	fi
 	echo ""
+
+	speak_greeting
 }
 
 config_dnsmasq() {
