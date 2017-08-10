@@ -3,11 +3,7 @@
 up() {
 	speak_info "Installing Harpoon core services..."
 
-	config_dnsmasq
-
-	config_docker
-
-	config_os
+	install
 
 	speak_success "\nHarpoon is good to go!" " 😁\n"
 	print_info "Your services will be available at the following domain(s):"
@@ -23,6 +19,14 @@ up() {
 	echo ""
 
 	speak_greeting
+}
+
+install() {
+	config_dnsmasq
+
+	config_docker
+
+	config_os
 }
 
 config_dnsmasq() {
@@ -100,13 +104,7 @@ cleanup() {
 	rm -f ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
 }
 
-down() {
-	if [[ "${1:-}" == "all" ]]; then
-		speak_info "Stopping and removing all Harpoon core and supporting services..."
-	else
-		speak_info "Stopping and removing Harpoon core services..."
-	fi
-
+uninstall() {
 	${HARPOON_DOCKER_COMPOSE} down -v
 
 	if [[ "${1:-}" == "all" ]]; then
@@ -115,6 +113,16 @@ down() {
 			harpoon ${s}:down-if-up
 		done
 	fi
+}
+
+down() {
+	if [[ "${1:-}" == "all" ]]; then
+		speak_info "Stopping and removing all Harpoon core and supporting services..."
+	else
+		speak_info "Stopping and removing Harpoon core services..."
+	fi
+
+	uninstall ${1:-}
 
 	cleanup
 
@@ -155,11 +163,9 @@ clean() {
 self_update() {
 	speak_info "Updating Harpoon...\n"
 
-	export HARPOON_SPEECH=false
-
 	INSTALL_TMP=/tmp/harpoon-install
 
-	down
+	uninstall
 
 	docker pull ${HARPOON_IMAGE}
 
@@ -193,9 +199,7 @@ self_update() {
 
 	rm -fr ${INSTALL_TMP}
 
-	up
-
-	export HARPOON_SPEECH=true
+	install
 
 	speak_success "Harpoon has been updated!" " 👌\n"
 	print_info "\tSome Harpoon supporting services may need to be restarted." " 🔄\n"
