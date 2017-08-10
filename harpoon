@@ -61,8 +61,8 @@ case "${command:-}" in
 	cmplt)
 		source ${HARPOON_ROOT}/completion/completion.sh ;;
 
-	config-dns)
-		config_dns ;;
+	config-dnsmasq)
+		config_dnsmasq ;;
 
 	config-docker)
 		config_docker ;;
@@ -92,15 +92,15 @@ case "${command:-}" in
 
 			if [ -v SERVICE_ROOT ]; then
 				service_help ${args};
-			elif [ -f ./tasks.sh ]; then
+			elif [ -v ROOT_TASKS_FILE ]; then
 				# try custom task/command handler in working directory
 				tasks_help
 			fi
 		fi
 		;;
 
-	show-nameserver-ip)
-		echo ${NAMESERVER_IP} ;;
+	show-docker-host-ip)
+		echo ${HARPOON_DOCKER_HOST_IP} ;;
 
 	up|install) ## %% 🏁  Install Harpoon and start core services
 		up ;;

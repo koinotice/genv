@@ -14,9 +14,9 @@ fi
 
 print_debug "PROJECT: $PROJECT"
 
-export GIT_STATUS=$(git status || echo false)
+export IS_GIT_REPO=$(git status > /dev/null 2>&1 && echo true || echo false)
 
-if [[ ! -v REPO_ROOT && ${GIT_STATUS} != false ]]; then
+if [[ ! -v REPO_ROOT && ${IS_GIT_REPO} == true ]]; then
 	export REPO_ROOT=$(git remote show -n origin | grep Push | awk -F: '{print $3}' | sed 's/.git$//g')
 fi
 
@@ -54,7 +54,7 @@ fi
 
 print_debug "ME: $ME"
 
-if [[ ${GIT_STATUS} != false ]]; then
+if [[ ${IS_GIT_REPO} != false ]]; then
 	export GIT_TAG=$(git describe --exact-match --tags 2>/dev/null)
 	print_debug "GIT_TAG: $GIT_TAG"
 

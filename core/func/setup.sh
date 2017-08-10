@@ -3,7 +3,7 @@
 up() {
 	speak_info "Installing Harpoon core services..."
 
-	config_dns
+	config_dnsmasq
 
 	config_docker
 
@@ -23,8 +23,14 @@ up() {
 	echo ""
 }
 
-config_dns() {
-	echo -e "$(cat ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf.template | sed "s/NAMESERVER_IP/${NAMESERVER_IP}/")" > ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
+config_dnsmasq() {
+	echo -e "$(cat ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf.template | sed "s/HARPOON_DOCKER_HOST_IP/${HARPOON_DOCKER_HOST_IP}/")" > ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
+
+	if [ -v CUSTOM_DOMAINS ]; then
+		for i in "${CUSTOM_DOMAINS[@]}"; do
+			echo -e "\naddress=/${i}/${HARPOON_DOCKER_HOST_IP}" >> ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
+		done
+	fi
 }
 
 config_docker() {
@@ -36,32 +42,37 @@ config_docker_network() {
 	docker network ls -f driver=bridge | grep ${HARPOON_DOCKER_NETWORK} >> /dev/null || DOCKER_NETWORK_MISSING=true
 
 	if [ -v DOCKER_NETWORK_MISSING ]; then
-		docker network create ${HARPOON_DOCKER_NETWORK} --subnet 10.254.254.0/24 || true
+		docker network create ${HARPOON_DOCKER_NETWORK} --subnet ${HARPOON_DOCKER_SUBNET} || true
 	fi
 }
 
 config_os() {
-	# Add fixed loopback alias for container connectivity to services running locally (when running Docker for Mac)
 	if [[ $(uname) == 'Darwin' ]]; then
 		sudo mkdir -p /etc/resolver
-		echo "nameserver ${NAMESERVER_IP}" | sudo tee /etc/resolver/harpoon.dev
-		echo "nameserver ${NAMESERVER_IP}" | sudo tee /etc/resolver/consul
+		echo "nameserver ${HARPOON_DOCKER_HOST_IP}" | sudo tee /etc/resolver/harpoon.dev
+		echo "nameserver ${HARPOON_DOCKER_HOST_IP}" | sudo tee /etc/resolver/consul
 		echo "port 8600" | sudo tee -a /etc/resolver/consul
 
 		if [ -v CUSTOM_DOMAINS ]; then
 			for i in "${CUSTOM_DOMAINS[@]}"; do
-				echo -e "\naddress=/${i}/${NAMESERVER_IP}" >> ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
-				echo "nameserver ${NAMESERVER_IP}" | sudo tee /etc/resolver/${i}
+				echo "nameserver ${HARPOON_DOCKER_HOST_IP}" | sudo tee /etc/resolver/${i}
 			done
 		fi
 
-		sudo ifconfig lo0 alias 10.254.253.1/32 || true
+		sudo ifconfig lo0 alias ${LOOPBACK_ALIAS_IP}/32 || true
 		${HARPOON_DOCKER_COMPOSE} up -d dnsmasq consul
 	elif [[ $(uname) == 'Linux' ]]; then
-		sudo ifconfig lo:0 10.254.253.1/32
-		${HARPOON_DOCKER_COMPOSE} up -d consul
-		sudo ln -fs ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf /etc/NetworkManager/dnsmasq.d/harpoon
-		sudo systemctl restart NetworkManager
+		if [ ! -v RUNNING_IN_CONTAINER ]; then
+			sudo ifconfig lo:0 ${LOOPBACK_ALIAS_IP}/32
+			sudo ln -fs ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf /etc/NetworkManager/dnsmasq.d/harpoon
+			sudo systemctl restart NetworkManager
+			${HARPOON_DOCKER_COMPOSE} up -d consul
+		else
+			ifconfig lo:0 ${LOOPBACK_ALIAS_IP}
+			ln -fs ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf /etc/dnsmasq.d/harpoon
+			dnsmasq
+			echo "nameserver ${LOOPBACK_ALIAS_IP}" > /etc/resolv.conf
+		fi
 	fi
 
 	${HARPOON_DOCKER_COMPOSE} up -d traefik
@@ -79,7 +90,7 @@ cleanup() {
 		fi
 	fi
 
-	if [[ $(uname) == 'Linux' ]]; then
+	if [[ $(uname) == 'Linux' && ! -v RUNNING_IN_CONTAINER ]]; then
 		sudo rm /etc/NetworkManager/dnsmasq.d/harpoon
 		sudo systemctl restart NetworkManager
 	fi

@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+if [[ -f /.dockerenv || -f /.harpoon-container ]]; then
+	export RUNNING_IN_CONTAINER=true
+fi
+
 if [ ! -v USER_UID ]; then
 	export USER_UID=$(id -u)
 fi
@@ -12,12 +16,28 @@ if [ ! -v HARPOON_IMAGE ]; then
 	export HARPOON_IMAGE=wheniwork/harpoon
 fi
 
+print_debug "HARPOON_IMAGE: $HARPOON_IMAGE"
+
+# loopback alias ip
+if [ ! -v LOOPBACK_ALIAS_IP ]; then
+	export LOOPBACK_ALIAS_IP="10.254.253.1"
+fi
+
+print_debug "LOOPBACK_ALIAS_IP: $LOOPBACK_ALIAS_IP"
+
 # docker network
 if [ ! -v HARPOON_DOCKER_NETWORK ]; then
 	export HARPOON_DOCKER_NETWORK="harpoon"
 fi
 
 print_debug "HARPOON_DOCKER_NETWORK: $HARPOON_DOCKER_NETWORK"
+
+# docker subnet
+if [ ! -v HARPOON_DOCKER_SUBNET ]; then
+	export HARPOON_DOCKER_SUBNET="10.254.254.0/24"
+fi
+
+print_debug "HARPOON_DOCKER_SUBNET: $HARPOON_DOCKER_SUBNET"
 
 # core service hostnames
 if [ ! -v TRAEFIK_ACME ]; then
@@ -38,16 +58,20 @@ if [ -x "$(command -v docker-machine)" ]; then
 fi
 
 if [ -v DOCKER_MACHINE_IP ]; then
-	export NAMESERVER_IP=${DOCKER_MACHINE_IP}
+	export HARPOON_DOCKER_HOST_IP=${DOCKER_MACHINE_IP}
 else
 	if [[ $(uname) == 'Linux' ]]; then
-		export NAMESERVER_IP="127.0.1.1"
+		if [ -v RUNNING_IN_CONTAINER ]; then
+			export HARPOON_DOCKER_HOST_IP=${LOOPBACK_ALIAS_IP}
+		else
+			export HARPOON_DOCKER_HOST_IP="127.0.1.1"
+		fi
 	else
-		export NAMESERVER_IP="127.0.0.1"
+		export HARPOON_DOCKER_HOST_IP="127.0.0.1"
 	fi
 fi
 
-print_debug "NAMESERVER_IP: $NAMESERVER_IP"
+print_debug "HARPOON_DOCKER_HOST_IP: $HARPOON_DOCKER_HOST_IP"
 
 # docker / dind
 DOCKER_RUN_ARGS="--rm -v $PWD:$PWD -w $PWD --net=${HARPOON_DOCKER_NETWORK} -e 'TERM=xterm' -e USER_UID -e USER_GID"
