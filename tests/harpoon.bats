@@ -27,8 +27,8 @@ setup() {
 	[ "$status" -eq 0 ]
 }
 
-@test "config dns" {
-	run ./harpoon config-dns
+@test "config dnsmasq" {
+	run ./harpoon config-dnsmasq
 	[ "$status" -eq 0 ]
 }
 
