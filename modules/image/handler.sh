@@ -155,12 +155,12 @@ image_tag_push_clean() {
 image_upload() {
 	image_build
 
-	print_info "REPOSITORY=${REPOSITORY}"
-
 	if [[ "${1:-}" != "" ]]; then
+		export REPOSITORY=${REPOSITORY}/${1}
 		export BUILD_IMAGE=${REPOSITORY}/${1}:${TAG_NAME}
 	fi
 
+	print_info "REPOSITORY=${REPOSITORY}"
 	print_info "BUILD_IMAGE=${BUILD_IMAGE}"
 
 	if [[ "${VCS_BRANCH}" == "master" ]]; then
