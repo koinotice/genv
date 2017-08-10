@@ -201,6 +201,6 @@ self_update() {
 
 	install
 
-	speak_success "Harpoon has been updated!" " 👌\n"
+	speak_success "\nHarpoon has been updated!" " 👌\n"
 	print_info "\tSome Harpoon supporting services may need to be restarted." " 🔄\n"
 }
