@@ -14,7 +14,7 @@ fi
 
 print_debug "PROJECT: $PROJECT"
 
-GIT_STATUS=$(git status || echo false)
+export GIT_STATUS=$(git status || echo false)
 
 if [[ ! -v REPO_ROOT && ${GIT_STATUS} != false ]]; then
 	export REPO_ROOT=$(git remote show -n origin | grep Push | awk -F: '{print $3}' | sed 's/.git$//g')
