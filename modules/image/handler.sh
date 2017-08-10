@@ -107,24 +107,14 @@ image_smoke_test() {
 }
 
 image_build() {
-	print_info "REPOSITORY=${REPOSITORY}"
-
-	if [[ "${1:-}" != "" ]]; then
-		export BUILD_IMAGE=${REPOSITORY}/${1}:${TAG_NAME}
-	else
-		export BUILD_IMAGE=${PROJECT}
-	fi
-
-	print_info "BUILD_IMAGE=${BUILD_IMAGE}"
-
 	if [ "${BUILD_FROM}" = "scratch" ]; then
 	  print_info "Found 'FROM scratch'. Skipping pull..."
 	else
 	  docker pull "${BUILD_FROM}" || { print_panic "Failed to pull ${BUILD_FROM}!"; }
 	fi
 
-	docker build --squash -f ${BUILD_DOCKERFILE} -t ${BUILD_IMAGE} . || { print_panic "Failed to build ${BUILD_IMAGE}!"; }
-	docker history ${BUILD_IMAGE}
+	docker build --squash -f ${BUILD_DOCKERFILE} -t ${PROJECT} . || { print_panic "Failed to build ${PROJECT}!"; }
+	docker history ${PROJECT}
 
 	if [[ ${TESTS_ENABLED} == true ]]; then
 		image_smoke_test
@@ -153,7 +143,7 @@ image_tag() {
 	docker tag $(docker images | grep "^${PROJECT} " | awk '{print $3;}') ${REPOSITORY}
 }
 
-# $1 <tag-name>
+# $1 <image name>
 image_tag_push_clean() {
 	print_info "Uploading ${PROJECT} $1..."
 	docker tag "${PROJECT}" "$1"
@@ -163,7 +153,15 @@ image_tag_push_clean() {
 
 # $1 <image name>
 image_upload() {
-	image_build "${1:-}"
+	image_build
+
+	print_info "REPOSITORY=${REPOSITORY}"
+
+	if [[ "${1:-}" != "" ]]; then
+		export BUILD_IMAGE=${REPOSITORY}/${1}:${TAG_NAME}
+	fi
+
+	print_info "BUILD_IMAGE=${BUILD_IMAGE}"
 
 	if [[ "${VCS_BRANCH}" == "master" ]]; then
 		image_tag_push_clean "${REPOSITORY}:master"
