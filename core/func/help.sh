@@ -12,7 +12,7 @@ print_help() {
 }
 
 tasks_help() {
-	if [ -f ${ROOT_TASKS_FILE} ]; then
+	if [ -v ROOT_TASKS_FILE ]; then
 		printf "\n${PROJECT_TITLE} Tasks:\n"
 		print_help ${ROOT_TASKS_FILE} ${PROJECT_TASK_PREFIX}
 		if [ -v ADDITIONAL_TASK_FILES ]; then

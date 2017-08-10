@@ -161,10 +161,10 @@ case "${command:-}" in
 
 			if [ -v SERVICE_ROOT ]; then
 				handle_service ${MODULE_NAME} ${command};
-			elif [ -f ./tasks.sh ]; then
+			elif [ -v ROOT_TASKS_FILE ]; then
 				# try custom task/command handler in working directory
 				command=${command#${PROJECT_TASK_PREFIX}:}
-				source ./tasks.sh
+				source ${ROOT_TASKS_FILE}
 			fi
 		fi
 esac

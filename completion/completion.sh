@@ -99,7 +99,7 @@ case "${2:-}" in
 		services
 		echo ""
 
-		if [ -f ${ROOT_TASKS_FILE} ]; then
+		if [ -v ROOT_TASKS_FILE ]; then
 			cmplt ${ROOT_TASKS_FILE} ${PROJECT_TASK_PREFIX}
 
 			if [ -v ADDITIONAL_TASK_FILES ]; then

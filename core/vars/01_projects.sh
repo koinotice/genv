@@ -27,10 +27,14 @@ fi
 print_debug "PROJECT_TITLE: $PROJECT_TITLE"
 
 if [ ! -v ROOT_TASKS_FILE ]; then
-	export ROOT_TASKS_FILE="./tasks.sh"
+	if [ -f "./tasks.sh" ]; then
+		export ROOT_TASKS_FILE="./tasks.sh"
+	elif [ -f "../tasks.sh" ]; then
+		export ROOT_TASKS_FILE="../tasks.sh"
+	fi
 fi
 
-print_debug "ROOT_TASKS_FILE: $ROOT_TASKS_FILE"
+print_debug "ROOT_TASKS_FILE: ${ROOT_TASKS_FILE:-}"
 
 if [ ! -v PROJECT_TASK_PREFIX ]; then
 	export PROJECT_TASK_PREFIX=t
