@@ -144,6 +144,9 @@ case "${command:-}" in
 	services:status) ## %% 🚦  Display the status for all supporting services
 		services_status ;;
 
+	stfu) ## %% 🤐  Please stop talking
+		export HARPOON_SPEECH=false;;
+
 	radio)
 		say -v Fred -r 190 "Fitter. Happier. More productive." ;;
 
