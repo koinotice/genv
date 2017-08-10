@@ -14,7 +14,9 @@ fi
 
 print_debug "PROJECT: $PROJECT"
 
-if [[ ! -v REPO_ROOT && -d .git ]]; then
+GIT_STATUS=$(git status || echo false)
+
+if [[ ! -v REPO_ROOT && ${GIT_STATUS} != false ]]; then
 	export REPO_ROOT=$(git remote show -n origin | grep Push | awk -F: '{print $3}' | sed 's/.git$//g')
 fi
 
@@ -52,7 +54,7 @@ fi
 
 print_debug "ME: $ME"
 
-if [ -d .git ]; then
+if [[ ${GIT_STATUS} != false ]]; then
 	export GIT_TAG=$(git describe --exact-match --tags 2>/dev/null)
 	print_debug "GIT_TAG: $GIT_TAG"
 
