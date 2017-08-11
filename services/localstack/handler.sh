@@ -1,13 +1,15 @@
 #!/usr/bin/env bash
 
+export LS_AWS="docker run --rm -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -e AWS_REGION -v $HOME/.aws:/root/.aws -v $PWD:$PWD -w $PWD cgswong/aws:aws"
+
 case "${command:-}" in
 	localstack:aws) ## [options] <command> <subcommand> [<subcommand> ...] [parameters] %% AWS CLI (with endpoint-url set based on command)
-		echo -e "AWS Region: ${AWS_REGION}"
+		print_info "AWS Region: ${AWS_REGION}"
 
 		IFS=', ' read -r -a argsarray <<< "$args"
 
 		if [ ! ${argsarray:-} ]; then
-			${DOCKER_COMPOSE_CMD} ${DKR_COMPOSE_FILE} run --rm aws help
+			${LS_AWS} help
 			exit 1
 		fi
 
@@ -70,9 +72,9 @@ case "${command:-}" in
 			*)
 		esac
 
-		echo -e "Endpoint URL: ${ENDPOINT_URL}\n"
+		print_info "Endpoint URL: ${ENDPOINT_URL}\n"
 
-		${DOCKER_COMPOSE_CMD} ${DKR_COMPOSE_FILE} run --rm aws --endpoint-url ${ENDPOINT_URL} --region ${AWS_REGION} ${args}
+		${LS_AWS} --endpoint-url ${ENDPOINT_URL} --region ${AWS_REGION} ${args}
 		;;
 
 	*)
