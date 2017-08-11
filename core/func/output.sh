@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 export COLOR_NC='\e[0m' # No Color
+export COLOR_DIM='\e[2m'
 export COLOR_WHITE='\e[1;37m'
 export COLOR_BLACK='\e[0;30m'
 export COLOR_BLUE='\e[0;34m'
@@ -18,6 +19,7 @@ export COLOR_YELLOW='\e[1;33m'
 export COLOR_LIGHT_YELLOW="\e[93m"
 export COLOR_GRAY='\e[0;30m'
 export COLOR_LIGHT_GRAY='\e[0;37m'
+export COLOR_DARK_GRAY='\e[0;90m'
 export BG_COLOR_LIGHT_GREY="\e[100m" # Background
 
 if [ ! -v HARPOON_SPEECH ]; then
@@ -96,7 +98,7 @@ print_panic() {
 print_debug() {
 	if [ ${HARPOON_DEBUG:-} ]; then
 		log_debug "$1"
-		echo -e "${BG_COLOR_LIGHT_GREY}${1}${COLOR_NC}" >&2
+		echo -e "${COLOR_DIM}${1}${COLOR_NC}" >&2
 	fi
 }
 
