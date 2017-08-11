@@ -56,8 +56,10 @@ speak() {
 speak_greeting() {
 	if [[ -v GREETING && ! -v CI ]]; then
 		export HARPOON_SPEECH_RATE=225
-		name=$(finger `whoami` | awk -F: '{ print $3 }' | head -n1 | sed 's/^ //' | cut -d " " -f 1)
-		msg="Hey ${name}! ${GREETING}"
+		if [ -x "$(command -v finger)" ]; then
+			name=$(finger `whoami` | awk -F: '{ print $3 }' | head -n1 | sed 's/^ //' | cut -d " " -f 1)
+		fi
+		msg="Hey ${name:-}! ${GREETING}"
 		$(sleep 5 && speak "${msg}") &
 		if [[ ${HARPOON_SPEECH} == false ]]; then
 			echo -e "\n${COLOR_LIGHT_PURPLE}${msg}${COLOR_NC}\n"

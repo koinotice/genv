@@ -74,10 +74,9 @@ config_os() {
 			sudo systemctl restart NetworkManager
 			${HARPOON_DOCKER_COMPOSE} up -d consul
 		else
-			ifconfig lo:0 ${LOOPBACK_ALIAS_IP}
 			ln -fs ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf /etc/dnsmasq.d/harpoon
 			dnsmasq
-			echo "nameserver ${LOOPBACK_ALIAS_IP}" > /etc/resolv.conf
+			echo "nameserver ${HARPOON_DOCKER_HOST_IP}" > /etc/resolv.conf
 		fi
 	fi
 

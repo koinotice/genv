@@ -4,6 +4,8 @@
 # log-queries
 ## dont use hosts nameservers
 no-resolv
+# If you want to disable negative caching, uncomment this.
+no-negcache
 ## use google as default nameservers
 server=8.8.4.4
 server=8.8.8.8
