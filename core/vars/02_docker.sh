@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 get_ip() {
-	ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1'
+	ip -4 addr | grep eth0 | grep inet | awk '{print $2}' | cut -d '/' -f 1
 }
 
 if [[ -f /.dockerenv || -f /.harpoon-container ]]; then
