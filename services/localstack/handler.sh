@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-export LS_AWS="docker run --rm -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -e AWS_REGION -v $HOME/.aws:/root/.aws -v $PWD:$PWD -w $PWD cgswong/aws:aws"
-
 case "${command:-}" in
 	localstack:aws) ## [options] <command> <subcommand> [<subcommand> ...] [parameters] %% AWS CLI (with endpoint-url set based on command)
 		print_info "AWS Region: ${AWS_REGION}"
@@ -9,7 +7,7 @@ case "${command:-}" in
 		IFS=', ' read -r -a argsarray <<< "$args"
 
 		if [ ! ${argsarray:-} ]; then
-			${LS_AWS} help
+			aws_cli help
 			exit 1
 		fi
 
@@ -74,7 +72,7 @@ case "${command:-}" in
 
 		print_info "Endpoint URL: ${ENDPOINT_URL}\n"
 
-		${LS_AWS} --endpoint-url ${ENDPOINT_URL} --region ${AWS_REGION} ${args}
+		aws_cli --endpoint-url ${ENDPOINT_URL} --region ${AWS_REGION} ${args}
 		;;
 
 	*)
