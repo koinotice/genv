@@ -136,13 +136,15 @@ docker_run_with_dynamic_env() {
 		source ${DOCKER_DYNAMIC_ENV_FILE}
 	fi
 
-	print_debug "Running: ${DOCKER_RUN_WITH_ENV} $1 $2..."
+	print_debug "EXECUTING: ${DOCKER_RUN_WITH_ENV} $1 $2..."
 
 	${DOCKER_RUN_WITH_ENV} $1 $2
 }
 
 docker_run() {
 	config_docker_network
+
+	print_debug "EXECUTING: ${DOCKER_RUN} $@"
 
 	${DOCKER_RUN} $@
 }
