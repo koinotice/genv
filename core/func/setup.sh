@@ -74,9 +74,7 @@ config_os() {
 			sudo systemctl restart NetworkManager
 			${HARPOON_DOCKER_COMPOSE} up -d consul
 		else
-			ln -fs ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf /etc/dnsmasq.d/harpoon
-			dnsmasq
-			echo "nameserver ${HARPOON_DOCKER_HOST_IP}" > /etc/resolv.conf
+			${HARPOON_DOCKER_COMPOSE} up -d dnsmasq
 		fi
 	fi
 
