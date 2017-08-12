@@ -157,7 +157,7 @@ image_upload() {
 
 	if [[ "${1:-}" != "" ]]; then
 		export REPOSITORY=${REPOSITORY}/${1}
-		export BUILD_IMAGE=${REPOSITORY}/${1}:${TAG_NAME}
+		export BUILD_IMAGE=${REPOSITORY}:${TAG_NAME}
 	fi
 
 	print_info "REPOSITORY=${REPOSITORY}"
