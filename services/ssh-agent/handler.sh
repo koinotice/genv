@@ -3,7 +3,7 @@
 add() {
 	FILE=${1}
 	NAME=$(basename ${FILE})
-	echo "Adding ${FILE}..."
+	print_info "Adding ${FILE}..."
 	docker run --rm --volumes-from=harpoon_ssh-agent -v ${FILE}:/root/.ssh/${NAME} wheniwork/ssh-agent ssh-add /root/.ssh/${NAME}
 }
 
@@ -31,7 +31,7 @@ case "${command:-}" in
 		${DOCKER_COMPOSE_EXEC} ssh-agent ssh-add -l || EXIT_CODE=$?
 
 		if [ ${EXIT_CODE:-} ]; then
-			echo "Adding all SSH keys..."
+			print_info "Adding all SSH keys..."
 			add_all
 		fi
 		;;
