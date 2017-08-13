@@ -34,12 +34,12 @@ case "${command:-}" in
 		;;
 
 	docker:load) ## [dir] %% 🐳  Load Docker image (tar) files from a directory [default: $HARPOON_ROOT/images]
-		default_dir=${HARPOON_ROOT}/images
-		images_dir=${args:-$default_dir}
+		images_dir=${args:-$IMAGES_ROOT}
 
 		if [ ! -d ${images_dir} ]; then
 			print_error "'${images_dir}' is not a directory"
 		else
+			print_info "Loading images from '${images_dir}'..."
 			cwd=$PWD
 			cd ${images_dir}
 

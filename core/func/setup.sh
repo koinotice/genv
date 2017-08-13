@@ -197,13 +197,17 @@ self_update() {
 
 	if [ -d ${INSTALL_TMP}/images ]; then
 		print_info "Copying images..."
-		mkdir -p ${HARPOON_ROOT}/images
-		cp ${INSTALL_TMP}/images/* ${HARPOON_ROOT}/images/
+		mkdir -p ${IMAGES_ROOT}
+		cp ${INSTALL_TMP}/images/* ${IMAGES_ROOT}/
 	fi
 
 	rm -fr ${INSTALL_TMP}
 
 	install
+
+	if [ -d ${IMAGES_ROOT} ]; then
+		harpoon docker:load
+	fi
 
 	speak_success "\nHarpoon has been updated!" " 👌\n"
 	print_info "\tSome Harpoon supporting services may need to be restarted." " 🔄\n"

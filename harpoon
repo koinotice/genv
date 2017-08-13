@@ -16,6 +16,7 @@ export HARPOON_ROOT="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 export MODULES_ROOT=${HARPOON_ROOT}/modules
 export SERVICES_ROOT=${HARPOON_ROOT}/services
 export VENDOR_ROOT=${HARPOON_ROOT}/vendor
+export IMAGES_ROOT=${HARPOON_ROOT}/images
 
 
 if [[ "$command" == "initpath" ]]; then
