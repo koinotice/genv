@@ -12,8 +12,8 @@ case "${command:-}" in
 		docker tag harpoon ${TAG}
 		docker push ${TAG}
 		if [[ "${REF}" == 'master' ]]; then
-			docker tag harpoon "${REPOSTORY}:latest"
-			docker push "${REPOSTORY}:latest"
+			docker tag harpoon "${REPOSITORY}:latest"
+			docker push "${REPOSITORY}:latest"
 		fi
 		;;
 
