@@ -137,8 +137,11 @@ ${1}:status) ## %% 🚦  Display the status of the ${1} service
 	help=$(echo -e "${HELP}" | grep -E '^[a-zA-Z:|_-]+\)\s##\s.*$' | sort | awk 'BEGIN {FS = "\\).*?## |%%"}; {printf "  \033[36m%-25s\033[0m%-36s%s\n", $1, $2, $3}')
 	echo -e "$help"
 	echo ""
-	print_help ${SERVICE_ROOT}/handler.sh
-	echo ""
+
+	if [ -f ${SERVICE_ROOT}/handler.sh ]; then
+		print_help ${SERVICE_ROOT}/handler.sh
+		echo ""
+	fi
 }
 
 # $1 service name
