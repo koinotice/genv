@@ -27,8 +27,7 @@ show-metadata:
 	@echo "TAG: $$TAG"
 
 push:
-	docker tag harpoon $$TAG
-	docker push $$TAG
+	./build.sh push
 
 hook-gitlab:
 	curl -s -X POST $${GITLAB_WEBHOOK_ROOT}$${REF}/trigger/pipeline?token=$${GITLAB_CI_TOKEN}

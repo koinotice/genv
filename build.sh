@@ -8,6 +8,15 @@ args=${@:2}
 export DSOCK=/var/run/docker.sock
 
 case "${command:-}" in
+	push)
+		docker tag harpoon ${TAG}
+		docker push ${TAG}
+		if [[ "${REF}" == 'master' ]]; then
+			docker tag harpoon "${REPOSTORY}:latest"
+			docker push "${REPOSTORY}:latest"
+		fi
+		;;
+
 	test)
 		rm -fr _kcov
 		docker run --rm -v ${DSOCK}:${DSOCK} -v $PWD:/src wheniwork/dind-kcov-bats bash -c "kcov --coveralls-id ${TRAVIS_JOB_ID} --include-path=/src --exclude-path=/src/tests _kcov bats tests"
