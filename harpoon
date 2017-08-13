@@ -102,10 +102,16 @@ case "${command:-}" in
 	show-docker-host-ip)
 		echo ${HARPOON_DOCKER_HOST_IP} ;;
 
-	up|install) ## %% 🏁  Install Harpoon and start core services
+	up) ## %% 🏁  Install Harpoon and start core services
 		up ;;
 
-	down|uninstall) ## [<all>] %% 🔽  Stop and remove Harpoon core, and optionally, supporting services
+	install) ## %% Alias for `up`
+		up ;;
+
+	down) ## [<all>] %% 🔽  Stop and remove Harpoon core, and optionally, supporting services
+		down ${args} ;;
+
+	uninstall) ## %% Alias for `down`
 		down ${args} ;;
 
 	reset) ## %% 🌯  Stop, remove, and restart Harpoon core services
@@ -113,7 +119,10 @@ case "${command:-}" in
 		up
 		;;
 
-	self-update|selfupdate) ## %% 💫  Update Harpoon and plugins
+	self-update) ## %% 💫  Update Harpoon and plugins
+		self_update ;;
+
+	selfupdate) ## %% Alias for `self-update`
 		self_update ;;
 
 	clean) ## [<all>] %% 🛀  Completely uninstall Harpoon core, and optionally, all supporting services
