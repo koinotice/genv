@@ -45,7 +45,7 @@ case "${command:-}" in
 			cd ${images_dir}
 
 			for i in $(ls ${images_dir}); do
-				docker load -i ${i}
+				docker load -i ${i} || true
 			done
 
 			cd ${cwd}
