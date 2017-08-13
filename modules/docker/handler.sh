@@ -21,6 +21,7 @@ case "${command:-}" in
 		docker_run_with_dynamic_env ${DOCKER_IMAGE} "docker-compose ${args}" ;;
 
 	docker:prune) ## %% 🐳  Remove dangling images and volumes
+		print_info "Removing dangling images and volumes..."
 		docker image prune -f
 		docker volume prune -f
 		;;

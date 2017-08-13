@@ -209,6 +209,8 @@ self_update() {
 		harpoon docker:load
 	fi
 
+	harpoon docker:prune
+
 	speak_success "\nHarpoon has been updated!" " 👌\n"
 	print_info "\tSome Harpoon supporting services may need to be restarted." " 🔄\n"
 }
