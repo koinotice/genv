@@ -33,7 +33,9 @@ case "${command:-}" in
 			DIND_ARGS+=" --dns ${HARPOON_DNSMASQ_IP}"
 		fi
 
-		docker run --rm ${DIND_ARGS}
+		docker run ${DIND_ARGS}
+
+		${DIND_EXEC} harpoon docker:load
 		;;
 
 	dind:stop) ## %% 🐳  Stop the docker-in-docker container

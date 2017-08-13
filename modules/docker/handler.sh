@@ -33,6 +33,24 @@ case "${command:-}" in
 		docker_run alpine chown -R ${USER_UID}:${USER_GID} ${chown_dir}
 		;;
 
+	docker:load) ## [dir] %% 🐳  Load Docker image (tar) files from a directory [default: $HARPOON_ROOT/images]
+		default_dir=${HARPOON_ROOT}/images
+		images_dir=${args:-$default_dir}
+
+		if [ ! -d ${images_dir} ]; then
+			print_error "'${images_dir}' is not a directory"
+		else
+			cwd=$PWD
+			cd ${images_dir}
+
+			for i in $(ls ${images_dir}); do
+				docker load -i ${i}
+			done
+
+			cd ${cwd}
+		fi
+		;;
+
 	docker:help)
 		module_help
 esac

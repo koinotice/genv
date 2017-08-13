@@ -170,6 +170,7 @@ self_update() {
 
 	mkdir -p ${INSTALL_TMP}
 	docker cp ${CID}:/harpoon ${INSTALL_TMP}
+	docker cp ${CID}:/images ${INSTALL_TMP} || true
 	docker rm -f ${CID}
 
 	# only overwrite vendor and plugins and env/boot if included in image
@@ -192,6 +193,12 @@ self_update() {
 		print_info "Replacing harpoon.boot.sh..."
 		rm -f ${HARPOON_ROOT}/harpoon.boot.sh
 		cp ${INSTALL_TMP}/harpoon/harpoon.boot.sh ${HARPOON_ROOT}/
+	fi
+
+	if [ -d ${INSTALL_TMP}/images ]; then
+		print_info "Copying images..."
+		mkdir -p ${HARPOON_ROOT}/images
+		cp ${INSTALL_TMP}/images/* ${HARPOON_ROOT}/images/
 	fi
 
 	rm -fr ${INSTALL_TMP}
