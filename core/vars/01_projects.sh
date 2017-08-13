@@ -99,6 +99,8 @@ else
 	export TAG_NAME=${NOW}
 fi
 
+export TAG_NAME=${TAG_NAME,,} # lowercase
+
 print_debug "TAG_NAME: $TAG_NAME"
 
 # set build_number
