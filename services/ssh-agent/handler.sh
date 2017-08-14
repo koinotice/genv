@@ -4,7 +4,8 @@ add() {
 	FILE=${1}
 	NAME=$(basename ${FILE})
 	print_info "Adding ${FILE}..."
-	docker run --rm --volumes-from=harpoon_ssh-agent -v ${FILE}:/root/.ssh/${NAME} wheniwork/ssh-agent ssh-add /root/.ssh/${NAME}
+	# must use interactive TTY to support password entry
+	docker run -it --rm --volumes-from=harpoon_ssh-agent -v ${FILE}:/root/.ssh/${NAME} wheniwork/ssh-agent ssh-add /root/.ssh/${NAME}
 }
 
 add_all() {
