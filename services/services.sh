@@ -148,7 +148,7 @@ ${1}:status) ## %% 🚦  Display the status of the ${1} service
 # $2 docker-compose file name
 # $3 args
 service_up() {
-	print_info "🔼  Bringing up ${1}..."
+	print_info "\n🔼  Bringing up ${1}..."
 
 	${DOCKER_COMPOSE_CMD} ${2} pull --ignore-pull-failures --parallel
 
@@ -165,7 +165,7 @@ service_up() {
 # $2 docker-compose file name
 # $3 args
 service_down() {
-	print_info "🔽  Taking down ${1}..."
+	print_info "\n🔽  Taking down ${1}..."
 
 	# execute service pre_down hook
 	if [ -n "$(type -t ${1}_pre_down)" ] && [ "$(type -t ${1}_pre_down)" = function ]; then ${1}_pre_down "${2}"; fi
@@ -177,7 +177,7 @@ service_down() {
 }
 
 service_reset() {
-	print_info "🌯  Resetting ${1}..."
+	print_info "\n🌯  Resetting ${1}..."
 
 	if [ -n "$(type -t ${1}_pre_reset)" ] && [ "$(type -t ${1}_pre_reset)" = function ]; then ${1}_pre_reset "${DKR_COMPOSE_FILE}"; fi
 
@@ -190,7 +190,7 @@ service_reset() {
 # $1 service name
 # $2 docker-compose file name
 service_destroy() {
-	print_info "🔽  Destroying ${1}..."
+	print_info "\n🔽  Destroying ${1}..."
 
 	# execute service pre_down hook
 	if [ -n "$(type -t ${1}_pre_destroy)" ] && [ "$(type -t ${1}_pre_destroy)" = function ]; then ${1}_pre_destroy "${2}"; fi
@@ -204,7 +204,7 @@ service_destroy() {
 # $1 service name
 # $2 docker-compose file name
 service_clean() {
-	print_info "🛀  Cleaning ${1}..."
+	print_info "\n🛀  Cleaning ${1}..."
 
 	# execute service pre_clean hook
 	if [ -n "$(type -t ${1}_pre_clean)" ] && [ "$(type -t ${1}_pre_clean)" = function ]; then ${1}_pre_clean "${2}"; fi
