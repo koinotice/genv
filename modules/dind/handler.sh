@@ -39,7 +39,7 @@ case "${command:-}" in
 		;;
 
 	dind:stop) ## %% 🐳  Stop the docker-in-docker container
-		docker stop ${COMPOSE_PROJECT_NAME}_dind ;;
+		docker rm -f ${COMPOSE_PROJECT_NAME}_dind ;;
 
 	dind:exec) ## %% 🐳  Run a command inside the docker-in-docker container
 		${DIND_EXEC} ${args} ;;
