@@ -4,8 +4,14 @@ add() {
 	FILE=${1}
 	NAME=$(basename ${FILE})
 	print_info "Adding ${FILE}..."
-	# must use interactive TTY to support password entry
-	docker run -it --rm --volumes-from=harpoon_ssh-agent -v ${FILE}:/root/.ssh/${NAME} wheniwork/ssh-agent ssh-add /root/.ssh/${NAME}
+
+
+	if [ ! -v CI ]; then
+		# must use interactive TTY to support password entry
+		dkr_run_args="-it"
+	fi
+
+	docker run ${dkr_run_args:-} --rm --volumes-from=harpoon_ssh-agent -v ${FILE}:/root/.ssh/${NAME} wheniwork/ssh-agent ssh-add /root/.ssh/${NAME}
 }
 
 add_all() {
