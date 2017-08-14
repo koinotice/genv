@@ -219,6 +219,7 @@ service_clean() {
 # $1 service name
 # $2 command
 handle_service() {
+	COMPOSE_PROJECT_NAME=$1
 	DKR_COMPOSE_FILE="-f ${SERVICE_ROOT}/${1}.yml"
 	DOCKER_COMPOSE_EXEC="${DOCKER_COMPOSE_CMD} ${DKR_COMPOSE_FILE} exec"
 

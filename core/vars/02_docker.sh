@@ -92,7 +92,7 @@ export DIND_EXEC="docker exec ${COMPOSE_PROJECT_NAME}_dind"
 export DIND_EXEC_TTY="docker exec -t ${COMPOSE_PROJECT_NAME}_dind"
 export DIND_EXEC_IT="docker exec -it ${COMPOSE_PROJECT_NAME}_dind"
 
-export DOCKER_COMPOSE_CMD="docker-compose -p harpoon"
+export DOCKER_COMPOSE_CMD="docker-compose"
 
 if [ -f ${SOCK} ]; then
 	# local docker server
@@ -123,7 +123,7 @@ else
 fi
 
 export HARPOON_DOCKER_COMPOSE_CFG="${HARPOON_ROOT}/docker-compose.yml"
-export HARPOON_DOCKER_COMPOSE="${DOCKER_COMPOSE_CMD} -f ${HARPOON_DOCKER_COMPOSE_CFG}"
+export HARPOON_DOCKER_COMPOSE="docker-compose -p harpoon -f ${HARPOON_DOCKER_COMPOSE_CFG}"
 
 
 # $1 IMAGE
