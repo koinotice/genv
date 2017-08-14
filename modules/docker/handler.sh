@@ -38,7 +38,7 @@ case "${command:-}" in
 		images_dir=${args:-$IMAGES_ROOT}
 
 		if [ ! -d ${images_dir} ]; then
-			print_error "'${images_dir}' is not a directory"
+			print_warn "Skipping image loading: '${images_dir}' is not a directory."
 		else
 			print_info "Loading images from '${images_dir}'..."
 			cwd=$PWD
