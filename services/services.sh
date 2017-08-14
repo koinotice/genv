@@ -150,6 +150,8 @@ ${1}:status) ## %% 🚦  Display the status of the ${1} service
 service_up() {
 	print_info "🔼  Bringing up ${1}..."
 
+	${DOCKER_COMPOSE_CMD} ${2} pull --ignore-pull-failures --parallel
+
 	# execute service pre_up hook
 	if [ -n "$(type -t ${1}_pre_up)" ] && [ "$(type -t ${1}_pre_up)" = function ]; then ${1}_pre_up "${2}"; fi
 
