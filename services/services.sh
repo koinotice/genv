@@ -134,7 +134,7 @@ ${1}:sh) ## SERVICE %% 🐚  Enter a shell on a ${1} container
 ${1}:status) ## %% 🚦  Display the status of the ${1} service
 	"
 
-	help=$(echo -e "${HELP}" | grep -E '^[a-zA-Z:|_-]+\)\s##\s.*$' | sort | awk 'BEGIN {FS = "\\).*?## |%%"}; {printf "  \033[36m%-25s\033[0m%-36s%s\n", $1, $2, $3}')
+	help=$(echo -e "${HELP}" | grep -E '^[a-zA-Z0-9:|_-]+\)\s##\s.*$' | sort | awk 'BEGIN {FS = "\\).*?## |%%"}; {printf "  \033[36m%-25s\033[0m%-36s%s\n", $1, $2, $3}')
 	echo -e "$help"
 	echo ""
 
