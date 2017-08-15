@@ -74,7 +74,7 @@ else
 		if [ -v RUNNING_IN_CONTAINER ]; then
 			export HARPOON_DOCKER_HOST_IP=$(get_ip)
 		else
-			export HARPOON_DOCKER_HOST_IP="127.0.1.1"
+			export HARPOON_DOCKER_HOST_IP=${LOOPBACK_ALIAS_IP}
 		fi
 	else
 		export HARPOON_DOCKER_HOST_IP="127.0.0.1"
