@@ -8,13 +8,19 @@ fi
 
 print_debug "HARPOON_TEMP: $HARPOON_TEMP"
 
+export IS_GIT_REPO=$(git status > /dev/null 2>&1 && echo true || echo false)
+
+print_debug "IS_GIT_REPO: $IS_GIT_REPO"
+
 if [ ! -v PROJECT ]; then
-	export PROJECT=$(basename $PWD)
+	if [[ ${IS_GIT_REPO} == true ]]; then
+		export PROJECT=$(basename $(git rev-parse --show-toplevel))
+	else
+		export PROJECT=$(basename $PWD)
+	fi
 fi
 
 print_debug "PROJECT: $PROJECT"
-
-export IS_GIT_REPO=$(git status > /dev/null 2>&1 && echo true || echo false)
 
 if [[ ! -v REPO_ROOT && ${IS_GIT_REPO} == true ]]; then
 	export REPO_ROOT=$(git remote show -n origin | grep Push | awk -F: '{print $3}' | sed 's/.git$//g')
