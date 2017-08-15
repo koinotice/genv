@@ -5,7 +5,7 @@ cmplt() {
 		prefix="$2:"
 	fi
 
-	completions=$(grep -E '^\t[a-zA-Z:|_-]+\)\s##\s.*$' ${1} | sed $'s/\t//' | sort | awk -v prefix="$prefix" 'BEGIN {FS = "\\).*?## |%%"}; {printf "%s\n", prefix$1}') || true
+	completions=$(grep -E '^\t[a-zA-Z0-9:|_-]+\)\s##\s.*$' ${1} | sed $'s/\t//' | sort | awk -v prefix="$prefix" 'BEGIN {FS = "\\).*?## |%%"}; {printf "%s\n", prefix$1}') || true
 	echo -e "$completions"
 }
 

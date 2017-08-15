@@ -2,7 +2,7 @@
 .DEFAULT_GOAL := help
 
 help: ## Print usage
-	@for i in $(MAKEFILE_LIST); do grep -E '^[a-zA-Z_-]+:.*?## .*$$' $${i} | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'; done
+	@for i in $(MAKEFILE_LIST); do grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' $${i} | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'; done
 
 docs-build:
 	gitbook build gitbook docs
