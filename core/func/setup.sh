@@ -30,7 +30,11 @@ install() {
 }
 
 config_dnsmasq() {
-	echo -e "$(cat ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf.template | sed "s/HARPOON_DOCKER_HOST_IP/${HARPOON_DOCKER_HOST_IP}/")" > ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
+	if [ ! -v RUNNING_IN_CONTAINER ]; then
+		echo -e "$(cat ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf.template | sed "s/HARPOON_DOCKER_HOST_IP/${HARPOON_DOCKER_HOST_IP}/")" > ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
+	else
+		echo -e "$(cat ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf.dind.template | sed "s/HARPOON_DOCKER_HOST_IP/${HARPOON_DOCKER_HOST_IP}/")" > ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
+	fi
 
 	if [ -v CUSTOM_DOMAINS ]; then
 		for i in "${CUSTOM_DOMAINS[@]}"; do
