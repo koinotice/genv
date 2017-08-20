@@ -13,7 +13,7 @@ while [ -h "$SOURCE" ]; do
 done
 export HARPOON_ROOT="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 
-export MODULES_ROOT=${HARPOON_ROOT}/modules
+export TASKS_ROOT=${HARPOON_ROOT}/tasks
 export SERVICES_ROOT=${HARPOON_ROOT}/services
 export VENDOR_ROOT=${HARPOON_ROOT}/vendor
 export IMAGES_ROOT=${HARPOON_ROOT}/images
@@ -37,9 +37,9 @@ done
 
 source ${HARPOON_ROOT}/core/parse_cmd.sh
 
-MODULE_NAME=$(parse_cmd ${command})
+TASK_NAME=$(parse_cmd ${command})
 
-if [[ -v USE_DIND && "$MODULE_NAME" != "dind" ]]; then
+if [[ -v USE_DIND && "$TASK_NAME" != "dind" ]]; then
 	print_info "Harpoon is running in dind mode"
 	${DIND_EXEC_TTY} harpoon "$@"
 	exit $?
@@ -48,7 +48,7 @@ fi
 # this should always be loaded AFTER core vars and func
 source ${HARPOON_ROOT}/core/boot.sh
 
-source ${MODULES_ROOT}/modules.sh
+source ${TASKS_ROOT}/tasks.sh
 
 source ${SERVICES_ROOT}/services.sh
 
@@ -79,14 +79,14 @@ case "${command:-}" in
 		fi
 		;;
 
-	help) ## [<module> | <service>] %% ⁉️  Get help
+	help) ## [<task> | <service>] %% ⁉️  Get help
 		if [[ "$args" == "" ]]; then all_help; fi
 
-		# try modules
-		module_exists ${args}
+		# try tasks
+		task_exists ${args}
 
-		if [ -v MODULE_ROOT ]; then
-			module_help
+		if [ -v TASK_ROOT ]; then
+			task_help
 		else
 			# try services
 			service_exists ${args}
@@ -94,7 +94,7 @@ case "${command:-}" in
 			if [ -v SERVICE_ROOT ]; then
 				service_help ${args};
 			elif [ -v ROOT_TASKS_FILE ]; then
-				# try custom task/command handler in working directory
+				# try custom task handler in working directory
 				tasks_help
 			fi
 		fi
@@ -116,8 +116,7 @@ case "${command:-}" in
 		down ${args} ;;
 
 	reset) ## %% 🌯  Stop, remove, and restart Harpoon core services
-		reset
-		;;
+		reset ;;
 
 	self-update) ## %% 💫  Update Harpoon and plugins
 		self_update ;;
@@ -144,8 +143,8 @@ case "${command:-}" in
 		fi
 		;;
 
-	modules:list) ## %% 👓  List modules available in Harpoon
-		modules ;;
+	tasks:list) ## %% 👓  List tasks available in Harpoon
+		tasks ;;
 
 	services:list) ## %% 👓  List services available in Harpoon
 		services ;;
@@ -163,19 +162,19 @@ case "${command:-}" in
 		say -v Fred -r 190 "Fitter. Happier. More productive." ;;
 
 	*)
-		if [ "${MODULE_NAME}" == "" ]; then all_help; fi
+		if [ "${TASK_NAME}" == "" ]; then all_help; fi
 
-		# try modules
-		module_exists ${MODULE_NAME}
+		# try tasks
+		task_exists ${TASK_NAME}
 
-		if [ -v MODULE_ROOT ]; then
-			source ${MODULE_ROOT}/handler.sh
+		if [ -v TASK_ROOT ]; then
+			source ${TASK_ROOT}/handler.sh
 		else
 			# try services
-			service_exists ${MODULE_NAME}
+			service_exists ${TASK_NAME}
 
 			if [ -v SERVICE_ROOT ]; then
-				handle_service ${MODULE_NAME} ${command};
+				handle_service ${TASK_NAME} ${command};
 			elif [ -v ROOT_TASKS_FILE ]; then
 				# try custom task/command handler in working directory
 				command=${command#${PROJECT_TASK_PREFIX}:}

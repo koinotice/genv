@@ -48,5 +48,5 @@ case "${command:-}" in
 		${DIND_EXEC_IT} ${args} ;;
 
 	*)
-		module_help
+		task_help
 esac

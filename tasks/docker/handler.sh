@@ -53,5 +53,5 @@ case "${command:-}" in
 		;;
 
 	docker:help)
-		module_help
+		task_help
 esac

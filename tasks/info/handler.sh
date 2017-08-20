@@ -14,5 +14,5 @@ case "${command:-}" in
 		echo ${COMPOSE_PROJECT_NAME} ;;
 
 	*)
-		module_help
+		task_help
 esac

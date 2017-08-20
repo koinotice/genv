@@ -44,8 +44,11 @@ inspect_metadata() {
 
 plugin_root() {
 	case "$TYPE" in
-		module)
-			PLUGIN_ROOT=${VENDOR_ROOT}/modules ;;
+		module) # deprecated
+			print_warn "Plugin type 'module' has been deprecated, please change to 'task'."
+			PLUGIN_ROOT=${VENDOR_ROOT}/tasks ;;
+		task)
+			PLUGIN_ROOT=${VENDOR_ROOT}/tasks ;;
 		service)
 			PLUGIN_ROOT=${VENDOR_ROOT}/services ;;
 		*)
@@ -209,5 +212,5 @@ case "${command:-}" in
 		;;
 
 	*)
-		module_help
+		task_help
 esac

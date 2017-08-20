@@ -4,12 +4,12 @@ setup() {
 	load helper
 }
 
-@test "module exists" {
+@test "task exists" {
 	set_harpoon_roots
-	harpoon_load modules/modules.sh
-	module_exists aws
+	harpoon_load tasks/tasks.sh
+	task_exists aws
 	[ $? -eq 0 ]
-	[ "${MODULE_ROOT}" != "" ]
+	[ "${TASK_ROOT}" != "" ]
 }
 
 @test "aws help" {

@@ -6,10 +6,10 @@ harpoon_load() {
 
 set_harpoon_roots() {
 	export HARPOON_ROOT=${BATS_TEST_DIRNAME}/../
-	export MODULES_ROOT=${HARPOON_ROOT}modules
+	export TASKS_ROOT=${HARPOON_ROOT}tasks
 	export SERVICES_ROOT=${HARPOON_ROOT}services
 	echo "HARPOON_ROOT: $HARPOON_ROOT"
-	echo "MODULES_ROOT: $MODULES_ROOT"
+	echo "TASKS_ROOT: $TASKS_ROOT"
 	echo "SERVICES_ROOT: $SERVICES_ROOT"
 }
 

@@ -167,7 +167,7 @@ reset() {
 	uninstall
 	install
 
-	speak_success "Harpoon core services have been reset." " 🤘\n"
+	speak_success "\nHarpoon core services have been reset." " 🤘\n"
 }
 
 self_update() {
@@ -185,9 +185,12 @@ self_update() {
 	docker cp ${CID}:/harpoon ${INSTALL_TMP}
 	docker rm -f ${CID}
 
+	# remove deprecated 'modules' directory
+	rm -fr ${HARPOON_ROOT}/modules > /dev/null || true
+
 	# only overwrite vendor and plugins and env/boot if included in image
-	rm -fr ${HARPOON_ROOT}/{completion,core,docs,logos,modules,services,tests,docker*,harpoon}
-	cp -a ${INSTALL_TMP}/harpoon/{completion,core,docs,logos,modules,services,tests,docker*,harpoon} ${HARPOON_ROOT}
+	rm -fr ${HARPOON_ROOT}/{completion,core,docs,logos,tasks,services,tests,docker*,harpoon}
+	cp -a ${INSTALL_TMP}/harpoon/{completion,core,docs,logos,tasks,services,tests,docker*,harpoon} ${HARPOON_ROOT}
 
 	if [[ -d ${INSTALL_TMP}/harpoon/vendor && -f ${INSTALL_TMP}/harpoon/plugins.txt ]]; then
 		print_info "Replacing plugins..."

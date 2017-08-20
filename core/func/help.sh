@@ -33,39 +33,23 @@ all_help() {
 
 	tasks_help
 
-	printf "\nModules:\n"
+	printf "\nTasks:\n"
 
-	for m in $(ls ${MODULES_ROOT}); do
-		if [[ "$m" == "modules.sh" ]]; then
-			continue
-		fi
-
-		# DEPRECATED
-		if [[ "$m" == "custom" ]]; then
-			CUSTOM_EXISTS=true
+	for m in $(ls ${TASKS_ROOT}); do
+		if [[ "$m" == "tasks.sh" ]]; then
 			continue
 		fi
 
 		printf "\t$(tr '[:lower:]' '[:upper:]' <<< ${m}):\n"
-		print_help ${MODULES_ROOT}/${m}/handler.sh
+		print_help ${TASKS_ROOT}/${m}/handler.sh
 		echo ""
 	done
 
-	if [ -d ${VENDOR_ROOT}/modules ]; then
-		printf "\nPlugin Modules:\n"
-		for v in $(ls ${VENDOR_ROOT}/modules); do
+	if [ -d ${VENDOR_ROOT}/tasks ]; then
+		printf "\nTask Plugins:\n"
+		for v in $(ls ${VENDOR_ROOT}/tasks); do
 			printf "\t$(tr '[:lower:]' '[:upper:]' <<< ${v}):\n"
-			print_help ${VENDOR_ROOT}/modules/${v}/handler.sh
-			echo ""
-		done
-	fi
-
-	# DEPRECATED
-	if [ -v CUSTOM_EXISTS ]; then
-		printf "\nCustom Modules:\n"
-		for c in $(ls ${MODULES_ROOT}/custom); do
-			printf "\t$(tr '[:lower:]' '[:upper:]' <<< ${c}):\n"
-			print_help ${MODULES_ROOT}/custom/${c}/handler.sh
+			print_help ${VENDOR_ROOT}/tasks/${v}/handler.sh
 			echo ""
 		done
 	fi

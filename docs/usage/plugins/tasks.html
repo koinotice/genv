@@ -4,10 +4,10 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Custom Services · A Whale of a Guide to Harpoon</title>
+        <title>Tasks · A Whale of a Guide to Harpoon</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 3.2.2">
+        <meta name="generator" content="GitBook 3.2.3">
         <meta name="author" content="Ben Getsug">
         
         
@@ -57,10 +57,10 @@
     <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="../custom_modules/" />
+    <link rel="next" href="services.html" />
     
     
-    <link rel="prev" href="../plugins/" />
+    <link rel="prev" href="./" />
     
 
     </head>
@@ -550,9 +550,9 @@
             
         </li>
     
-        <li class="chapter " data-level="2.4.9" data-path="../plugins/">
+        <li class="chapter " data-level="2.4.9" data-path="./">
             
-                <a href="../plugins/">
+                <a href="./">
             
                     
                     Plugins
@@ -561,14 +561,15 @@
             
 
             
-        </li>
+            <ul class="articles">
+                
     
-        <li class="chapter active" data-level="2.4.10" data-path="./">
+        <li class="chapter active" data-level="2.4.9.1" data-path="tasks.html">
             
-                <a href="./">
+                <a href="tasks.html">
             
                     
-                    Custom Services
+                    Tasks
             
                 </a>
             
@@ -576,16 +577,21 @@
             
         </li>
     
-        <li class="chapter " data-level="2.4.11" data-path="../custom_modules/">
+        <li class="chapter " data-level="2.4.9.2" data-path="services.html">
             
-                <a href="../custom_modules/">
+                <a href="services.html">
             
                     
-                    Custom Task Modules
+                    Services
             
                 </a>
             
 
+            
+        </li>
+    
+
+            </ul>
             
         </li>
     
@@ -624,7 +630,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href="../.." >Custom Services</a>
+        <a href="../.." >Tasks</a>
     </h1>
 </div>
 
@@ -639,141 +645,53 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="custom-services">Custom Services</h1>
-<p>&#x26A0;&#xFE0F; <strong><em>Deprecated</em></strong>, in favor of <a href="../plugins/services.md">service plugins</a>.</p>
-<p>You can also &quot;plug in&quot; your own custom service configurations and use
-them with <em>Harpoon</em>. For example, let&apos;s create a custom service for
-running MariaDB.</p>
+                                <h1 id="task-plugins">Task Plugins</h1>
+<p>You can provide your own custom tasks and use them with <em>Harpoon</em>. For a
+simple example, check out the <code>http</code> task&apos;s
+<a href="../../../tasks/http/handler.sh"><code>handler.sh</code></a> and
+<a href="../../../tasks/http/bootstrap.sh"><code>bootstrap.sh</code></a>. Note the use of the
+<code>## [&lt;arg&gt;...] %% Your description</code> comment convention. <em>Harpoon</em> will
+use this to automatically add your custom tasks to the <code>help</code> output.</p>
 <ol>
-<li>Create (or symlink) a directory named <code>custom</code> in your Harpoon
-<code>services</code> directory.</li>
-<li>Create a directory named <code>mariadb</code> in <code>services/custom</code>.</li>
-<li><p>In the <code>mariadb</code> directory:</p>
+<li>Create directory for your <em>task</em> project, or add to an existing
+project.</li>
+<li>Inside your project directory, create a directory named
+<code>harpoon-plugin</code>.</li>
+<li><p>In the <code>harpoon-plugin</code> directory:</p>
 <ol>
-<li><p>Create a file named <code>mariadb.yml</code>. The contents is just like any
-other <code>docker-compose.yml</code>, but with some <em>Harpoon</em>-driven
-environment variables:</p>
-<pre><code class="lang-yaml"><span class="hljs-attr">version:</span> <span class="hljs-string">&apos;2&apos;</span>
-
-<span class="hljs-attr">services:</span>
-<span class="hljs-attr">  mariadb:</span>
-<span class="hljs-attr">    container_name:</span> harpoon_mariadb
-<span class="hljs-attr">    image:</span> mariadb:${MARIADB_VERSION}
-<span class="hljs-attr">    environment:</span>
-<span class="hljs-bullet">      -</span> MYSQL_ALLOW_EMPTY_PASSWORD=<span class="hljs-literal">yes</span>
-<span class="hljs-bullet">      -</span> MYSQL_DATABASE=${MARIADB_DATABASE}
-<span class="hljs-attr">    ports:</span>
-<span class="hljs-bullet">      -</span> <span class="hljs-string">&quot;${MARIADB_PORT}:3306&quot;</span>
-<span class="hljs-attr">    volumes:</span>
-<span class="hljs-attr">      - mariadb:</span>/var/lib/mysql
-
-<span class="hljs-attr">networks:</span>
-<span class="hljs-attr">  default:</span>
-<span class="hljs-attr">    external:</span>
-<span class="hljs-attr">      name:</span> ${HARPOON_DOCKER_NETWORK}
-
-<span class="hljs-attr">volumes:</span>
-<span class="hljs-attr">  mariadb:</span>
-<span class="hljs-attr">    external:</span> <span class="hljs-literal">true</span>
-</code></pre>
-</li>
-<li><p>Create a file named <code>bootstrap.sh</code>. <em>Harpoon</em> will use this to
-load any custom environment variables you&apos;d like to set. You can
-also provide &quot;hook&quot; functions, which <em>Harpoon</em> will call at
-various states of your service&apos;s lifecycle. (Examine
-<a href="../../../services/services.sh"><code>services/services.sh</code></a> for more
-details.)</p>
-<pre><code class="lang-bash"><span class="hljs-meta">#!/usr/bin/env bash
-</span>
-<span class="hljs-keyword">if</span> [ ! <span class="hljs-variable">${MARIADB_VERSION:-}</span> ]; <span class="hljs-keyword">then</span>
-    <span class="hljs-built_in">export</span> MARIADB_VERSION=<span class="hljs-string">&quot;10.1&quot;</span>
-<span class="hljs-keyword">fi</span>
-
-<span class="hljs-keyword">if</span> [ ! <span class="hljs-variable">${MARIADB_DATABASE:-}</span> ]; <span class="hljs-keyword">then</span>
-    <span class="hljs-built_in">export</span> MARIADB_DATABASE=<span class="hljs-string">&quot;harpoon&quot;</span>
-<span class="hljs-keyword">fi</span>
-
-<span class="hljs-keyword">if</span> [ ! <span class="hljs-variable">${MARIADB_PORT:-}</span> ]; <span class="hljs-keyword">then</span>
-    <span class="hljs-built_in">export</span> MARIADB_PORT=3306
-<span class="hljs-keyword">fi</span>
-
-<span class="hljs-built_in">export</span> MARIADB_VOLUME_NAME=mariadb
-
-<span class="hljs-function"><span class="hljs-title">mariadb_pre_up</span></span>() {
-  VOLUME_CREATED=$(docker volume ls | grep <span class="hljs-variable">${MARIADB_VOLUME_NAME}</span>) || <span class="hljs-literal">true</span>
-
-  <span class="hljs-keyword">if</span> [[ ! <span class="hljs-variable">${VOLUME_CREATED}</span> ]]; <span class="hljs-keyword">then</span>
-      <span class="hljs-built_in">print</span>_info <span class="hljs-string">&quot;Creating docker volume named &apos;<span class="hljs-variable">${MARIADB_VOLUME_NAME}</span>&apos;...&quot;</span>
-      docker volume create --name=<span class="hljs-variable">${MARIADB_VOLUME_NAME}</span>
-  <span class="hljs-keyword">fi</span>
-}
-
-<span class="hljs-function"><span class="hljs-title">mariadb_remove_volume</span></span>() {
-  VOLUME_CREATED=$(docker volume ls | grep <span class="hljs-variable">${MARIADB_VOLUME_NAME}</span>) || <span class="hljs-literal">true</span>
-
-  <span class="hljs-keyword">if</span> [[ <span class="hljs-variable">${VOLUME_CREATED}</span> ]]; <span class="hljs-keyword">then</span>
-      <span class="hljs-built_in">print</span>_info <span class="hljs-string">&quot;Removing docker volume named &apos;<span class="hljs-variable">${MARIADB_VOLUME_NAME}</span>&apos;...&quot;</span>
-      docker volume rm <span class="hljs-variable">${MARIADB_VOLUME_NAME}</span>
-  <span class="hljs-keyword">fi</span>
-}
-
-<span class="hljs-function"><span class="hljs-title">mariadb_post_destroy</span></span>() {
-    mariadb_remove_volume
-}
-
-<span class="hljs-function"><span class="hljs-title">mariadb_post_clean</span></span>() {
-    mariadb_remove_volume
-}
-</code></pre>
-</li>
 <li><p>Create a file named <code>handler.sh</code>. <em>Harpoon</em> will use this to
-handle any custom commands for your service.</p>
-<pre><code class="lang-bash"><span class="hljs-meta">#!/usr/bin/env bash
+handle all commands/sub-commands for your task.</p>
+</li>
+<li><p>(Optional) Create a file named <code>bootstrap.sh</code>. <em>Harpoon</em> will use
+this to load any custom environment variables you&apos;d like to set
+and share with other tasks.</p>
+</li>
+<li><p>Create a <code>Dockerfile</code> (or add to one that already exists) with
+metadata for <em>Harpoon</em> to use during installation.</p>
+<pre><code class="lang-dockerfile"><span class="hljs-keyword">FROM</span> scratch
+
+<span class="hljs-keyword">COPY</span> <span class="bash">harpoon-plugin /harpoon-plugin
 </span>
-<span class="hljs-keyword">case</span> <span class="hljs-string">&quot;<span class="hljs-variable">${command:-}</span>&quot;</span> <span class="hljs-keyword">in</span>
-    mariadb:client) <span class="hljs-comment">## [&lt;arg&gt;...] %% MySQL Client</span>
-        <span class="hljs-variable">${DOCKER_COMPOSE_EXEC}</span> mariadb mysql -uroot <span class="hljs-string">&quot;<span class="hljs-variable">${args}</span>&quot;</span> ;;
-
-    mariadb:<span class="hljs-built_in">wait</span>) <span class="hljs-comment">## %% Wait for MySQL to startup and finish initializing</span>
-        <span class="hljs-built_in">echo</span> <span class="hljs-_">-e</span> <span class="hljs-string">&quot;Waiting for MySQL to start...\n&quot;</span>
-
-        retries=30
-        <span class="hljs-keyword">while</span> [[ <span class="hljs-string">&quot;<span class="hljs-variable">$retries</span>&quot;</span> &gt; 0 ]]; <span class="hljs-keyword">do</span>
-            <span class="hljs-variable">${DOCKER_COMPOSE_EXEC}</span> mariadb mysql -uroot <span class="hljs-string">&quot;-e SELECT 1&quot;</span> &amp;&amp; <span class="hljs-built_in">break</span>
-            <span class="hljs-built_in">let</span> <span class="hljs-string">&quot;retries=retries-1&quot;</span>
-            sleep 2
-        <span class="hljs-keyword">done</span>
-        ;;
-
-    mariadb:backup) <span class="hljs-comment">## %% Backup all databases in the mariadb container</span>
-        <span class="hljs-built_in">echo</span> <span class="hljs-_">-e</span> <span class="hljs-string">&quot;Backing up all databases...\n&quot;</span>
-        <span class="hljs-variable">${DOCKER_COMPOSE_EXEC}</span> mariadb mysqldump -A --add-drop-database --add-drop-table <span class="hljs-_">-e</span> -uroot &gt; mariadb_backup.sql
-        ;;
-
-    mariadb:restore) <span class="hljs-comment">## %% Restore databases from mariadb_backup.sql in the current directory</span>
-        <span class="hljs-built_in">echo</span> <span class="hljs-_">-e</span> <span class="hljs-string">&quot;Restoring from mariadb_backup.sql...\n&quot;</span>
-        docker cp <span class="hljs-variable">$PWD</span>/mariadb_backup.sql harpoon_mariadb:/mariadb_backup.sql
-        <span class="hljs-variable">${DOCKER_COMPOSE_CMD}</span> <span class="hljs-variable">${DKR_COMPOSE_FILE}</span> <span class="hljs-built_in">exec</span> -T mariadb bash -c <span class="hljs-string">&quot;mysql &lt; /mariadb_backup.sql &amp;&amp; rm -f /mariadb_backup.sql&quot;</span>
-        ;;
-
-    *)
-        service_<span class="hljs-built_in">help</span> mariadb ;;
-<span class="hljs-keyword">esac</span>
+<span class="hljs-keyword">LABEL</span> <span class="bash">harpoon_name=mytask
+</span><span class="hljs-keyword">LABEL</span> <span class="bash">harpoon_<span class="hljs-built_in">type</span>=task
+</span><span class="hljs-keyword">LABEL</span> <span class="bash">harpoon_dir=/harpoon-plugin
+</span></code></pre>
+</li>
+<li><p>Build, tag, and push your plugin to any Docker registry.</p>
+<pre><code class="lang-bash">docker build -t mytask .
+docker tag mariadb &lt;your registry&gt;/mytask
+docker push &lt;your registry&gt;/mytask
 </code></pre>
-<ul>
-<li>Be sure to use the <code>${DOCKER_COMPOSE_EXEC}</code>, <code>${DOCKER_COMPOSE_CMD}</code> and
-<code>${DKR_COMPOSE_FILE}</code> variables for any calls you need to make
-to docker-compose with your configuration.</li>
-<li>Also note the use of the <code>## [&lt;arg&gt;...] %% Your description</code>
-comment convention. <em>Harpoon</em> will use this to automatically add
-your custom commands to the <code>help</code> output.</li>
-</ul>
+</li>
+<li><p>Install your plugin</p>
+<pre><code class="lang-bash">harpoon plug:<span class="hljs-keyword">in</span> &lt;your repository&gt;/mytask
+</code></pre>
 </li>
 </ol>
 </li>
 </ol>
-<p>This service can now be managed with <code>harpoon mariadb:*</code>. Try <code>harpoon
-mariadb:help</code> &#x1F601;</p>
+<p>This task&apos;s commands can now be run with <code>harpoon mytask:*</code>. Try <code>harpoon
+mytask:help</code> &#x1F601;</p>
 
                                 
                                 </section>
@@ -801,12 +719,12 @@ mariadb:help</code> &#x1F601;</p>
 
             
                 
-                <a href="../plugins/" class="navigation navigation-prev " aria-label="Previous page: Plugins">
+                <a href="./" class="navigation navigation-prev " aria-label="Previous page: Plugins">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="../custom_modules/" class="navigation navigation-next " aria-label="Next page: Custom Task Modules">
+                <a href="services.html" class="navigation navigation-next " aria-label="Next page: Services">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -817,7 +735,7 @@ mariadb:help</code> &#x1F601;</p>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Custom Services","level":"2.4.10","depth":2,"next":{"title":"Custom Task Modules","level":"2.4.11","depth":2,"path":"usage/custom_modules/README.md","ref":"usage/custom_modules/README.md","articles":[]},"previous":{"title":"Plugins","level":"2.4.9","depth":2,"path":"usage/plugins/README.md","ref":"usage/plugins/README.md","articles":[]},"dir":"ltr"},"config":{"plugins":[],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Ben Getsug","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"A Whale of a Guide to Harpoon","gitbook":"*"},"file":{"path":"usage/custom_services/README.md","mtime":"2017-08-08T22:44:32.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-08-08T22:45:27.373Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Tasks","level":"2.4.9.1","depth":3,"next":{"title":"Services","level":"2.4.9.2","depth":3,"path":"usage/plugins/services.md","ref":"usage/plugins/services.md","articles":[]},"previous":{"title":"Plugins","level":"2.4.9","depth":2,"path":"usage/plugins/README.md","ref":"usage/plugins/README.md","articles":[{"title":"Tasks","level":"2.4.9.1","depth":3,"path":"usage/plugins/tasks.md","ref":"usage/plugins/tasks.md","articles":[]},{"title":"Services","level":"2.4.9.2","depth":3,"path":"usage/plugins/services.md","ref":"usage/plugins/services.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":[],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Ben Getsug","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"A Whale of a Guide to Harpoon","gitbook":"*"},"file":{"path":"usage/plugins/tasks.md","mtime":"2017-08-20T03:07:28.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-08-20T03:22:01.887Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

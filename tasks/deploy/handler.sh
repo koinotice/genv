@@ -15,5 +15,5 @@ case "${command:-}" in
 		ecs_deploy_wait ${args} ;;
 
 	*)
-		module_help
+		task_help
 esac

@@ -156,5 +156,5 @@ case "${command:-}" in
 		;;
 
 	*)
-		module_help
+		task_help
 esac

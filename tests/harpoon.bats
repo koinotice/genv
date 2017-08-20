@@ -98,8 +98,8 @@ setup() {
 	egrep "traefik\s+Up" <<< "$output"
 }
 
-@test "modules list" {
-	run ./harpoon modules:list
+@test "tasks list" {
+	run ./harpoon tasks:list
 	[ "$status" -eq 0 ]
 	grep "aws" <<< "$output"
 	grep "dind" <<< "$output"

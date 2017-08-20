@@ -52,7 +52,7 @@ _Harpoon_ has been tested with:
 * Consul + Traefik tips
 * Documentation
   * Plugins
-  * Bundled task modules
+  * Bundled tasks
 
 ## Contributing
 

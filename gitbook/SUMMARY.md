@@ -39,5 +39,5 @@
     * [SSH Agent](usage/supporting_services/README.md#ssh-agent)
   * [Service Management](usage/supporting_services/README.md#service-management)
   * [Plugins](usage/plugins/README.md)
-  * [Custom Services](usage/custom_services/README.md)
-  * [Custom Task Modules](usage/custom_modules/README.md)
+    * [Tasks](usage/plugins/tasks.md)
+    * [Services](usage/plugins/services.md)

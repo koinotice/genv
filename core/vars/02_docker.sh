@@ -117,9 +117,9 @@ print_debug "DOCKER_RUN: $DOCKER_RUN"
 
 if [ -f "${DOCKER_INHERIT_ENV_FILE:-}" ]; then
 	print_debug "Docker will inherit environment from ${DOCKER_INHERIT_ENV_FILE}"
-	export DOCKER_RUN_WITH_ENV="${DOCKER_RUN} --env-file ${MODULES_ROOT}/docker/inherit.env --env-file ${DOCKER_INHERIT_ENV_FILE}"
+	export DOCKER_RUN_WITH_ENV="${DOCKER_RUN} --env-file ${TASKS_ROOT}/docker/inherit.env --env-file ${DOCKER_INHERIT_ENV_FILE}"
 else
-	export DOCKER_RUN_WITH_ENV="${DOCKER_RUN} --env-file ${MODULES_ROOT}/docker/inherit.env"
+	export DOCKER_RUN_WITH_ENV="${DOCKER_RUN} --env-file ${TASKS_ROOT}/docker/inherit.env"
 fi
 
 export HARPOON_DOCKER_COMPOSE_CFG="${HARPOON_ROOT}/docker-compose.yml"

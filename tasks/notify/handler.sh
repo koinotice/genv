@@ -135,5 +135,5 @@ case "${command:-}" in
 		notify_slack ${args} ;;
 
 	*)
-		module_help
+		task_help
 esac

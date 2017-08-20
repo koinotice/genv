@@ -8,5 +8,5 @@ case "${command:-}" in
 		httpie_no_input "${args}" ;;
 
 	*)
-		module_help
+		task_help
 esac

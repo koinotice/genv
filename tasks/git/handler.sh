@@ -24,5 +24,5 @@ case "${command:-}" in
 		git_add_ssh_origin ;;
 
 	*)
-		module_help
+		task_help
 esac

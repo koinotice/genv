@@ -266,5 +266,5 @@ case "${command:-}" in
 		image_build_version_upload ;;
 
 	*)
-		module_help
+		task_help
 esac

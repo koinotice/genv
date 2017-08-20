@@ -24,7 +24,7 @@ export TRAEFIK_HTTPS_PORT=8843
 
 ## Help
 
-* `harpoon help [<module> | <service>]`
+* `harpoon help [<task> | <service>]`
 
 ## Web UIs
 
