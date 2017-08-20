@@ -41,11 +41,11 @@ use this to automatically add your custom tasks to the `help` output.
       docker push <your registry>/mytask
       ```
 
-   5. Install your plugin
+4. Install your plugin
 
-      ```bash
-      harpoon plug:in <your repository>/mytask
-      ```
+   ```bash
+   harpoon plug:in <your repository>/mytask
+   ```
 
-This task's commands can now be run with `harpoon mytask:*`. Try `harpoon
-mytask:help` 😁
+This task's commands can now be run with `harpoon mytask:*`. Try
+`harpoon mytask:help` 😁

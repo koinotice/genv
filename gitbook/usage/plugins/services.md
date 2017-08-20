@@ -132,7 +132,8 @@ MariaDB.
         comment convention. _Harpoon_ will use this to automatically add
         your custom commands to the `help` output.
 
-   4. Create a `Dockerfile` containing metadata that _Harpoon_ will use for installation.
+   4. Create a `Dockerfile` containing metadata that _Harpoon_ will use
+      for installation.
 
       ```dockerfile
       FROM scratch
@@ -151,11 +152,11 @@ MariaDB.
       docker push <your registry>/mariadb
       ```
 
-   6. Install your plugin
+4. Install your plugin
 
-      ```bash
-      harpoon plug:in <your repository>/mariadb
-      ```
+   ```bash
+   harpoon plug:in <your repository>/mariadb
+   ```
 
 This service can now be managed with `harpoon mariadb:*`. Try `harpoon
 mariadb:help` 😁
