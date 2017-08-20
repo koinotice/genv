@@ -116,8 +116,7 @@ case "${command:-}" in
 		down ${args} ;;
 
 	reset) ## %% 🌯  Stop, remove, and restart Harpoon core services
-		down
-		up
+		reset
 		;;
 
 	self-update) ## %% 💫  Update Harpoon and plugins
@@ -155,7 +154,7 @@ case "${command:-}" in
 		services_status ;;
 
 	stfu) ## %% 🤐  Please stop talking
-		export HARPOON_SPEECH=false;;
+		echo "export HARPOON_SPEECH=false" >> $HOME/harpoon.env.sh ;;
 
 	greet)
 		speak_greeting ;;

@@ -161,6 +161,15 @@ clean() {
 	fi
 }
 
+reset() {
+	speak_info "Resetting Harpoon core services...\n"
+
+	uninstall
+	install
+
+	speak_success "Harpoon core services have been reset." " 🤘\n"
+}
+
 self_update() {
 	speak_info "Updating Harpoon...\n"
 
