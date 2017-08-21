@@ -62,8 +62,8 @@ case "${command:-}" in
 	cmplt)
 		source ${HARPOON_ROOT}/completion/completion.sh ;;
 
-	config-dnsmasq)
-		config_dnsmasq ;;
+	gen-dnsmasq)
+		generate_dnsmasq_config ;;
 
 	config-docker)
 		config_docker ;;

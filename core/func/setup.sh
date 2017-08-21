@@ -22,14 +22,14 @@ up() {
 }
 
 install() {
-	config_dnsmasq
+	generate_dnsmasq_config
 
 	config_docker
 
 	config_os
 }
 
-config_dnsmasq() {
+generate_dnsmasq_config() {
 	if [ ! -v RUNNING_IN_CONTAINER ]; then
 		echo -e "$(cat ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf.template | sed "s/HARPOON_DOCKER_HOST_IP/${HARPOON_DOCKER_HOST_IP}/")" > ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
 	else
@@ -58,31 +58,56 @@ config_docker_network() {
 
 config_os() {
 	if [[ $(uname) == 'Darwin' ]]; then
-		sudo mkdir -p /etc/resolver
-		echo "nameserver ${HARPOON_DOCKER_HOST_IP}" | sudo tee /etc/resolver/harpoon.dev
-		echo "nameserver ${HARPOON_DOCKER_HOST_IP}" | sudo tee /etc/resolver/consul
-		echo "port 8600" | sudo tee -a /etc/resolver/consul
-
-		if [ -v CUSTOM_DOMAINS ]; then
-			for i in "${CUSTOM_DOMAINS[@]}"; do
-				echo "nameserver ${HARPOON_DOCKER_HOST_IP}" | sudo tee /etc/resolver/${i}
-			done
-		fi
-
-		sudo ifconfig lo0 alias ${LOOPBACK_ALIAS_IP}/32 || true
-		${HARPOON_DOCKER_COMPOSE} up -d dnsmasq consul
+		config_macos
 	elif [[ $(uname) == 'Linux' ]]; then
-		if [ ! -v RUNNING_IN_CONTAINER ]; then
-			sudo ifconfig lo:0 ${LOOPBACK_ALIAS_IP}/32
-			sudo ln -fs ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf /etc/NetworkManager/dnsmasq.d/harpoon
-			sudo systemctl restart NetworkManager
-			${HARPOON_DOCKER_COMPOSE} up -d consul
-		else
-			${HARPOON_DOCKER_COMPOSE} up -d dnsmasq
-		fi
+		config_ubuntu
 	fi
 
 	${HARPOON_DOCKER_COMPOSE} up -d traefik
+}
+
+config_macos() {
+	sudo mkdir -p /etc/resolver
+	echo "nameserver ${HARPOON_DOCKER_HOST_IP}" | sudo tee /etc/resolver/harpoon.dev
+	echo "nameserver ${HARPOON_DOCKER_HOST_IP}" | sudo tee /etc/resolver/consul
+	echo "port 8600" | sudo tee -a /etc/resolver/consul
+
+	if [ -v CUSTOM_DOMAINS ]; then
+		for i in "${CUSTOM_DOMAINS[@]}"; do
+			echo "nameserver ${HARPOON_DOCKER_HOST_IP}" | sudo tee /etc/resolver/${i}
+		done
+	fi
+
+	sudo ifconfig lo0 alias ${LOOPBACK_ALIAS_IP}/32 || true
+	${HARPOON_DOCKER_COMPOSE} up -d dnsmasq consul
+}
+
+config_ubuntu() {
+	if [ ! -v RUNNING_IN_CONTAINER ]; then
+		sudo ifconfig lo:0 ${LOOPBACK_ALIAS_IP}/32
+
+		if [ -d /etc/NetworkManager ]; then
+			sudo ln -fs ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf /etc/NetworkManager/dnsmasq.d/harpoon
+			sudo systemctl restart NetworkManager
+		elif [ -d /etc/dnsmasq.d ]; then
+			config_dnsmasq_ubuntu
+		else
+			print_info "Installing dnsmasq..."
+			sudo apt-get install dnsmasq
+			config_dnsmasq_ubuntu
+		fi
+
+		${HARPOON_DOCKER_COMPOSE} up -d consul
+	else
+		${HARPOON_DOCKER_COMPOSE} up -d dnsmasq
+	fi
+}
+
+config_dnsmasq_ubuntu() {
+	print_info "Configuring dnsmasq..."
+	echo "conf-dir=/etc/dnsmasq.d" | sudo tee -a /etc/dnsmasq.conf
+	sudo ln -fs ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf /etc/dnsmasq.d/harpoon
+	sudo service dnsmasq restart
 }
 
 cleanup() {

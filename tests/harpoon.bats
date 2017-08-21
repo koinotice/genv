@@ -27,8 +27,8 @@ setup() {
 	[ "$status" -eq 0 ]
 }
 
-@test "config dnsmasq" {
-	run ./harpoon config-dnsmasq
+@test "generate dnsmasq config" {
+	run ./harpoon gen-dnsmasq
 	[ "$status" -eq 0 ]
 }
 
