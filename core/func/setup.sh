@@ -44,7 +44,7 @@ generate_dnsmasq_config() {
 }
 
 config_docker() {
-	if [ ! -x "$(command -v docker-machine)" ]; then
+	if [ ! -x "$(command -v docker-compose)" ]; then
 		print_panic "\nPlease install docker-compose!\n"
 	fi
 
