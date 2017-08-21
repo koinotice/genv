@@ -105,7 +105,13 @@ config_ubuntu() {
 
 config_dnsmasq_ubuntu() {
 	print_info "Configuring dnsmasq..."
-	echo "conf-dir=/etc/dnsmasq.d" | sudo tee -a /etc/dnsmasq.conf
+
+	grep "^#conf-dir=/etc/dnsmasq.d$" /etc/dnsmasq.conf || noconfdir=true
+
+	if [ "${noconfdir:-}" == "true" ]; then
+		sed -r "s/^#conf-dir=\/etc\/dnsmasq.d$/conf-dir=\/etc\/dnsmasq.d/" /etc/dnsmasq.conf | sudo tee /etc/dnsmasq.conf
+	fi
+
 	sudo ln -fs ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf /etc/dnsmasq.d/harpoon
 	sudo service dnsmasq restart
 }
