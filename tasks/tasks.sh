@@ -28,7 +28,7 @@ tasks() {
 	tasks=""
 
 	for f in $(ls ${TASKS_ROOT}); do
-		if [ "$f" = "tasks.sh" ]; then
+		if [[ "$f" == "tasks.sh" || "$f" == "_templates" ]]; then
 			continue
 		fi
 
@@ -66,7 +66,7 @@ task_help() {
 
 # bootstrap tasks
 for f in $(ls ${TASKS_ROOT}); do
-	if [ "$f" = "tasks.sh" ]; then
+	if [[ "$f" == "tasks.sh" || "$f" == "_templates" ]]; then
 		continue
 	fi
 

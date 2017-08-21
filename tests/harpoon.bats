@@ -36,7 +36,7 @@ setup() {
 #	skip_when_no_docker
 	run ./harpoon config-docker
 	[ "$status" -eq 0 ]
-	run bash -c "docker network ls | grep harpoon"
+	run bash -c "docker network ls | grep $(./harpoon env | grep 'HARPOON_DOCKER_NETWORK' | cut -d '=' -f 2)"
 	[ "$status" -eq 0 ]
 }
 

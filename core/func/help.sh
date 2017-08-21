@@ -36,7 +36,7 @@ all_help() {
 	printf "\nTasks:\n"
 
 	for m in $(ls ${TASKS_ROOT}); do
-		if [[ "$m" == "tasks.sh" ]]; then
+		if [[ "$m" == "tasks.sh" || "$m" == "_templates" ]]; then
 			continue
 		fi
 

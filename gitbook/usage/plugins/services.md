@@ -148,14 +148,14 @@ MariaDB.
 
       ```bash
       docker build -t mariadb .
-      docker tag mariadb <your registry>/mariadb
-      docker push <your registry>/mariadb
+      docker tag mariadb <repository>/mariadb
+      docker push <repository>/mariadb
       ```
 
 4. Install your plugin
 
    ```bash
-   harpoon plug:in <your repository>/mariadb
+   harpoon plug:in <repository>/mariadb
    ```
 
 This service can now be managed with `harpoon mariadb:*`. Try `harpoon

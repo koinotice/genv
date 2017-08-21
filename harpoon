@@ -17,7 +17,7 @@ export TASKS_ROOT=${HARPOON_ROOT}/tasks
 export SERVICES_ROOT=${HARPOON_ROOT}/services
 export VENDOR_ROOT=${HARPOON_ROOT}/vendor
 export IMAGES_ROOT=${HARPOON_ROOT}/images
-
+export LIB_ROOT=${HARPOON_ROOT}/lib
 
 if [[ "$command" == "initpath" ]]; then
 	echo "${HARPOON_ROOT}/completion/init.sh" && exit 0

@@ -5,6 +5,8 @@ touch ${PLUGINS_FILE}
 parse_plugin() {
 	PLUGIN=${1}
 
+	print_info "Processing plugin $PLUGIN..."
+
 	export REPO=${PLUGIN%:*}
 
 	TAG=${PLUGIN#*:}
@@ -28,6 +30,8 @@ inspect_metadata() {
 
 	export NAME=$(jq_cli -r ".harpoon_name" <<< ${METADATA})
 	export TYPE=$(jq_cli -r ".harpoon_type" <<< ${METADATA})
+	export CMD_ARGS=$(jq_cli -r ".harpoon_args" <<< ${METADATA})
+	export DESCRIPTION=$(jq_cli -r ".harpoon_description" <<< ${METADATA})
 	IMAGE_DIR=$(jq_cli -r ".harpoon_dir" <<< ${METADATA})
 
 	if [[ ${IMAGE_DIR} == null ]]; then
@@ -59,12 +63,41 @@ plugin_root() {
 extract_plugin() {
 	plugin_root
 
+	if [[ "${ACTION:-}" == "Updating" ]]; then
+		rm -fr ${PLUGIN_ROOT}/${NAME}
+	fi
+
 	CID=$(docker create ${PLUGIN} true)
 
 	mkdir -p ${PLUGIN_ROOT}/${NAME}
 	docker cp ${CID}:/${IMAGE_DIR} /tmp/ > /dev/null || true
-	mv /tmp/${IMAGE_DIR}/* ${PLUGIN_ROOT}/${NAME}/
-	rm -fr /tmp/${IMAGE_DIR}
+
+	if [ -d /tmp/${IMAGE_DIR} ]; then
+		mv /tmp/${IMAGE_DIR}/* ${PLUGIN_ROOT}/${NAME}/
+		rm -fr /tmp/${IMAGE_DIR}
+	fi
+
+	if [[ "$TYPE" == "task" && ! -f ${PLUGIN_ROOT}/${NAME}/handler.sh ]]; then
+		print_info "Generating '${NAME}' wrapper..."
+
+		set +u
+
+		source ${LIB_ROOT}/mo/mo
+
+		cat ${TASKS_ROOT}/_templates/bootstrap.mo | mo > ${PLUGIN_ROOT}/${NAME}/bootstrap.sh
+
+		if [[ ${CMD_ARGS} == null ]]; then
+			export CMD_ARGS=""
+		fi
+
+		if [[ ${DESCRIPTION} == null ]]; then
+			export DESCRIPTION=""
+		fi
+
+		cat ${TASKS_ROOT}/_templates/handler.mo | mo > ${PLUGIN_ROOT}/${NAME}/handler.sh
+
+		set -u
+	fi
 
 	docker rm ${CID} > /dev/null
 }
@@ -119,11 +152,11 @@ update() {
 
 	plugin_installed
 
-	ACTION=Updating
+	export ACTION=Updating
 
 	if [[ "$PLUGIN_INSTALLED" == "" ]]; then
 		print_warn "${REPO} is not installed..."
-		ACTION=Installing
+		export ACTION=Installing
 	fi
 
 	docker pull ${PLUGIN}
