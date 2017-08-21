@@ -110,9 +110,9 @@ config_ubuntu() {
 config_dnsmasq_ubuntu() {
 	print_info "Configuring dnsmasq..."
 
-	grep "^#conf-dir=/etc/dnsmasq.d$" /etc/dnsmasq.conf || noconfdir=true
+	grep "^#conf-dir=/etc/dnsmasq.d$" /etc/dnsmasq.conf || CONF_DIR_EXISTS=true
 
-	if [ "${noconfdir:-}" == "true" ]; then
+	if [ ! -v CONF_DIR_EXISTS ]; then
 		sed -r "s/^#conf-dir=\/etc\/dnsmasq.d$/conf-dir=\/etc\/dnsmasq.d/" /etc/dnsmasq.conf | sudo tee /etc/dnsmasq.conf
 	fi
 
