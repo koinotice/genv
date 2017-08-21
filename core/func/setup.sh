@@ -44,6 +44,10 @@ generate_dnsmasq_config() {
 }
 
 config_docker() {
+	if [ ! -x "$(command -v docker-machine)" ]; then
+		print_panic "\nPlease install docker-compose!\n"
+	fi
+
 	${HARPOON_DOCKER_COMPOSE} pull
 	config_docker_network
 }
