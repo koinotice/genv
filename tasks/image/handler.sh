@@ -219,7 +219,7 @@ image_build_version_upload() {
 	done
 }
 
-case "${command:-}" in
+case "${command}" in
 	image:name) ## %% Display the Docker build image name
 		echo ${BUILD_IMAGE} ;;
 

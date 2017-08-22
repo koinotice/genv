@@ -4,6 +4,7 @@ set -euo pipefail
 
 command=${1:-}
 args=${@:2}
+first_arg=${2:-}
 
 SOURCE="${BASH_SOURCE[0]}"
 while [ -h "$SOURCE" ]; do
@@ -35,11 +36,11 @@ for f in $(ls ${HARPOON_ROOT}/core/vars); do
 	source ${HARPOON_ROOT}/core/vars/${f}
 done
 
-source ${HARPOON_ROOT}/core/parse_cmd.sh
+source ${HARPOON_ROOT}/core/parse.sh
 
-TASK_NAME=$(parse_cmd ${command})
+MODULE_NAME=$(parse_module ${command})
 
-if [[ -v USE_DIND && "$TASK_NAME" != "dind" ]]; then
+if [[ -v USE_DIND && "$MODULE_NAME" != "dind" ]]; then
 	print_info "Harpoon is running in dind mode"
 	${DIND_EXEC_TTY} harpoon "$@"
 	exit $?
@@ -55,7 +56,7 @@ source ${SERVICES_ROOT}/services.sh
 # setup temp directory
 mkdir -p ${HARPOON_TEMP}
 
-case "${command:-}" in
+case "${command}" in
 	compose) ## <arg>... %% 🐳  Run docker-compose for the Harpoon core services
 		${HARPOON_DOCKER_COMPOSE} ${args} ;;
 
@@ -80,25 +81,10 @@ case "${command:-}" in
 		;;
 
 	help) ## [<task> | <service>] %% ⁉️  Get help
-		if [[ "$args" == "" ]]; then all_help; fi
+		help ;;
 
-		# try tasks
-		task_exists ${args}
-
-		if [ -v TASK_ROOT ]; then
-			task_help
-		else
-			# try services
-			service_exists ${args}
-
-			if [ -v SERVICE_ROOT ]; then
-				service_help ${args};
-			elif [ -v ROOT_TASKS_FILE ]; then
-				# try custom task handler in working directory
-				tasks_help
-			fi
-		fi
-		;;
+	--help|-h)
+		help ;;
 
 	show-docker-host-ip)
 		echo ${HARPOON_DOCKER_HOST_IP} ;;
@@ -162,19 +148,24 @@ case "${command:-}" in
 		say -v Fred -r 190 "Fitter. Happier. More productive." ;;
 
 	*)
-		if [ "${TASK_NAME}" == "" ]; then all_help; fi
+		if [ "${MODULE_NAME}" == "" ]; then all_help; fi
 
 		# try tasks
-		task_exists ${TASK_NAME}
+		task_exists ${MODULE_NAME}
 
 		if [ -v TASK_ROOT ]; then
+			if [[ "${first_arg:-}" == "--help" || "${first_arg:-}" == "-h" ]]; then
+				task_help ${MODULE_NAME}
+				exit $?
+			fi
+
 			source ${TASK_ROOT}/handler.sh
 		else
 			# try services
-			service_exists ${TASK_NAME}
+			service_exists ${MODULE_NAME}
 
 			if [ -v SERVICE_ROOT ]; then
-				handle_service ${TASK_NAME} ${command};
+				handle_service ${MODULE_NAME} ${command};
 			elif [ -v ROOT_TASKS_FILE ]; then
 				# try custom task/command handler in working directory
 				command=${command#${PROJECT_TASK_PREFIX}:}

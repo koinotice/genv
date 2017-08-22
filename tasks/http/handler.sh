@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-case "${command:-}" in
+case "${command}" in
 	http) ## <arg...> %% 🌎  HTTPie
 		httpie "${args}" ;;
 

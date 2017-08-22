@@ -4,7 +4,7 @@ if [ ! -v DOCKER_IMAGE ]; then
 	export DOCKER_IMAGE=wheniwork/harpoon
 fi
 
-case "${command:-}" in
+case "${command}" in
 	docker) ## <arg>... %% 🐳  Execute a `docker` command in the Harpoon environment
 		docker ${args} ;;
 

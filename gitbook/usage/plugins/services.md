@@ -93,7 +93,7 @@ MariaDB.
       ```bash
       #!/usr/bin/env bash
       
-      case "${command:-}" in
+      case "${command}" in
           mariadb:client) ## [<arg>...] %% MySQL Client
               ${DOCKER_COMPOSE_EXEC} mariadb mysql -uroot "${args}" ;;
       

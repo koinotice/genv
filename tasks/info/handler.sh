@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-case "${command:-}" in
+case "${command}" in
 	info:branch) ## %% Display the current VCS branch
 		echo ${VCS_BRANCH} ;;
 

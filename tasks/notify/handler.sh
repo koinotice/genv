@@ -124,7 +124,7 @@ notify_slack() {
 	echo "{\"channel\": \"${SLACK_CHANNEL}\", ${SLACK_MSG}}" | harpoon http ${SLACK_WEBHOOK_URL}
 }
 
-case "${command:-}" in
+case "${command}" in
 	notify:rollbar) ## %% 📣  Send a deployment notification to Rollbar
 		notify_rollbar ;;
 

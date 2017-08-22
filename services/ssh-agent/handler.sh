@@ -21,7 +21,7 @@ add_all() {
 }
 
 
-case "${command:-}" in
+case "${command}" in
 	ssh-agent:add) ## <keyfile> %% Add a key
 		file=${args}
 		if [ -z "${file}" ]; then

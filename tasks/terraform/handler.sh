@@ -96,7 +96,7 @@ tf_with_vars() {
 	tf "${1} ${TERRAFORM_TFVARS:-}"
 }
 
-case "${command:-}" in
+case "${command}" in
 	tf) ## <arg>... %% Manipulate infrastructure as code
 		tf "${args}" ;;
 

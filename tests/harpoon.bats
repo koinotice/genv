@@ -10,11 +10,18 @@ setup() {
 	egrep "completion/init.sh" <<< "$output"
 }
 
-@test "parse command" {
-	harpoon_load core/parse_cmd.sh
-	run parse_cmd "foo:bar"
+@test "parse module" {
+	harpoon_load core/parse.sh
+	run parse_module "foo:bar"
 	[ "$status" -eq 0 ]
 	[ "$output" = "foo" ]
+}
+
+@test "parse sub-command" {
+	harpoon_load core/parse.sh
+	run parse_subcmd "foo:bar"
+	[ "$status" -eq 0 ]
+	[ "$output" = "bar" ]
 }
 
 @test "compose config" {

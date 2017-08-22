@@ -11,7 +11,7 @@ couchbase_cli() {
 	fi
 }
 
-case "${command:-}" in
+case "${command}" in
 	couchbase:provisioner:run) ## %% 🏁  Run the Couchbase Provisioner
 		couchbase_provisioner_run ;;
 

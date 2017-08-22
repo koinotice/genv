@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-case "${command:-}" in
+case "${command}" in
 	localstack:aws) ## [options] <command> <subcommand> [<subcommand> ...] [parameters] %% AWS CLI (with endpoint-url set based on command)
 		print_info "AWS Region: ${AWS_REGION}"
 

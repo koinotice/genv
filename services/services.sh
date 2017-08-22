@@ -121,6 +121,7 @@ ${1}:stop) ## [options] [SERVICE...] %% ⏹  Stop ${1}
 ${1}:start) ## [SERVICE...] %% ▶️  Start ${1}
 ${1}:restart) ## [options] [SERVICE...] %% 🔄  Restart ${1} (Configuration is not reloaded)
 ${1}:reset) ## %% 🌯  Bring down, removing volumes, and restart ${1} containers. Data will be ERASED! ⚠️
+${1}:reset-if-up) ## %% 🌯  If up, reset. Data will be ERASED! ⚠️
 ${1}:rm) ## [options] [SERVICE...] %% 🗑  Remove stopped ${1} container(s)
 ${1}:run) ## [options] [-v VOLUME...] [-p PORT...] [-e KEY=VAL...] SERVICE [COMMAND] [ARGS...] %% 🏃  Run a one-off command in a ${1} container
 ${1}:pause) ## [SERVICE...] %% ⏸  Pause ${1}
@@ -225,6 +226,20 @@ handle_service() {
 
 	if [ "${CI:-}" ]; then
 		DOCKER_COMPOSE_EXEC+=" -T"
+	fi
+
+	if [[ "${first_arg:-}" == "--help" || "${first_arg:-}" == "-h" ]]; then
+		subcmd=$(parse_subcmd ${command})
+
+		dchelp=$(${DOCKER_COMPOSE_CMD} ${subcmd} -h 2>&1) || EXIT_CODE=$?
+
+		if [ ! -v EXIT_CODE ]; then
+			echo -e "${dchelp}"
+		else
+			service_help ${1} | grep ${subcmd}
+		fi
+
+		exit $?
 	fi
 
 	source_bootstrap

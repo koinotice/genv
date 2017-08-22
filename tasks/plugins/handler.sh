@@ -175,8 +175,7 @@ update() {
 	echo "$PLUGIN" >> ${PLUGINS_FILE}
 }
 
-case "${command:-}" in
-
+case "${command}" in
 	plug:in) ## <plugin> %% Install a Harpoon plugin
 		install "${args}" ;;
 

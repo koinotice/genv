@@ -10,80 +10,80 @@ cmplt() {
 }
 
 service_c_cmds() {
-	S=$(parse_cmd ${1})
+	S=$(parse_module ${1})
 	echo -e "${S}:clean\n${S}:clean-if-up"
 }
 
 service_d_cmds() {
-	S=$(parse_cmd ${1})
+	S=$(parse_module ${1})
 	echo -e "${S}:down\n${S}:down-if-up\n${S}:destroy\n${S}:destroy-if-up"
 }
 
 service_e_cmds() {
-	S=$(parse_cmd ${1})
+	S=$(parse_module ${1})
 	echo -e "${S}:exec"
 }
 
 service_k_cmds() {
-	S=$(parse_cmd ${1})
+	S=$(parse_module ${1})
 	echo -e "${S}:kill"
 }
 
 service_l_cmds() {
-	S=$(parse_cmd ${1})
+	S=$(parse_module ${1})
 	echo -e "${S}:logs"
 }
 
 service_p_cmds() {
-	S=$(parse_cmd ${1})
+	S=$(parse_module ${1})
 	echo -e "${S}:pause\n${S}:port\n${S}:port:primary\n${S}:ps"
 }
 
 service_s_cmds() {
-	S=$(parse_cmd ${1})
+	S=$(parse_module ${1})
 	echo -e "${S}:stop\n${S}:start\n${S}:sh\n${S}:status"
 }
 
 service_r_cmds() {
-	S=$(parse_cmd ${1})
+	S=$(parse_module ${1})
 	echo -e "${S}:restart\n${S}:reset\n${S}:rm\n${S}:run"
 }
 
 service_u_cmds() {
-	S=$(parse_cmd ${1})
+	S=$(parse_module ${1})
 	echo -e "${S}up\n${S}:up-if-down\n${S}unpause"
 }
 
 case "${2:-}" in
 	*:*)
-		TASK_NAME=$(parse_cmd ${args})
+		MODULE_NAME=$(parse_module ${args})
 
-		task_exists ${TASK_NAME}
+		task_exists ${MODULE_NAME}
 
 		if [ -v TASK_ROOT ]; then
 			cmplt ${TASK_ROOT}/handler.sh
 			echo -e "\n"
 		else
-			service_exists ${TASK_NAME}
+			service_exists ${MODULE_NAME}
 
 			if [ -v SERVICE_ROOT ]; then
-				service_c_cmds ${TASK_NAME}
+				service_c_cmds ${MODULE_NAME}
 				echo -e "\n"
-				service_d_cmds ${TASK_NAME}
+				service_d_cmds ${MODULE_NAME}
 				echo -e "\n"
-				service_e_cmds ${TASK_NAME}
+				service_e_cmds ${MODULE_NAME}
 				echo -e "\n"
-				service_k_cmds ${TASK_NAME}
+				service_k_cmds ${MODULE_NAME}
 				echo -e "\n"
-				service_l_cmds ${TASK_NAME}
+				service_l_cmds ${MODULE_NAME}
 				echo -e "\n"
-				service_p_cmds ${TASK_NAME}
+				service_p_cmds ${MODULE_NAME}
 				echo -e "\n"
-				service_s_cmds ${TASK_NAME}
+				service_s_cmds ${MODULE_NAME}
 				echo -e "\n"
-				service_r_cmds ${TASK_NAME}
+				service_r_cmds ${MODULE_NAME}
 				echo -e "\n"
-				service_u_cmds ${TASK_NAME}
+				service_u_cmds ${MODULE_NAME}
 				echo -e "\n"
 				cmplt ${SERVICE_ROOT}/handler.sh;
 			fi

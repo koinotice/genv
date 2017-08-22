@@ -10,7 +10,7 @@ ecs_deploy_wait() {
 	fi
 }
 
-case "${command:-}" in
+case "${command}" in
 	deploy:ecs:wait) ## <cluster-name> <service-name> %% ⌚️  Wait for an ECS service to become stable
 		ecs_deploy_wait ${args} ;;
 

@@ -7,7 +7,7 @@ args=${@:2}
 
 export DSOCK=/var/run/docker.sock
 
-case "${command:-}" in
+case "${command}" in
 	push)
 		docker tag harpoon ${TAG}
 		docker push ${TAG}

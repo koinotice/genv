@@ -16,7 +16,7 @@ git_auto_increment_tag() {
 	git push sshorigin --tags || { print_panic "Failed to push tags!" }
 }
 
-case "${command:-}" in
+case "${command}" in
 	git:auto-increment-tag) ## %% 🏗  Auto increment the latest git tag
 		git_auto_increment_tag ;;
 

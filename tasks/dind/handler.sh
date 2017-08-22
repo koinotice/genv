@@ -12,7 +12,7 @@ if [ ! -v DIND_HOME ]; then
 	export DIND_HOME=$HOME
 fi
 
-case "${command:-}" in
+case "${command}" in
 	dind:start) ## [use-dnsmasq] %% 🐳  Start the docker-in-docker container
 		read -r -a argarray <<< "$args"
 

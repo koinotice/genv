@@ -57,3 +57,24 @@ all_help() {
 	printf "\nHarpoon help may be somewhat long...be sure to scroll up to make sure you see everything! 😉\n"
 	exit 1
 }
+
+help() {
+	if [[ "$args" == "" ]]; then all_help; fi
+
+	# try tasks
+	task_exists ${args}
+
+	if [ -v TASK_ROOT ]; then
+		task_help
+	else
+		# try services
+		service_exists ${args}
+
+		if [ -v SERVICE_ROOT ]; then
+			service_help ${args};
+		elif [ -v ROOT_TASKS_FILE ]; then
+			# try custom task handler in working directory
+			tasks_help
+		fi
+	fi
+}
