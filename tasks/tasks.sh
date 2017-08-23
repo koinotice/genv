@@ -58,7 +58,7 @@ tasks() {
 }
 
 task_help() {
-	echo "Usage: harpoon command [<arg>...]"
+	echo "Usage: harpoon <command> [<arg>...]"
 	echo ""
 	print_help ${TASK_ROOT}/handler.sh
 	echo ""
