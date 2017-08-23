@@ -19,7 +19,7 @@ fi
 print_debug "REPO_ROOT: ${REPO_ROOT:-}"
 
 if [[ ! -v REPO_NAME && ${IS_GIT_REPO} == true ]]; then
-	export REPO_NAME=$(echo ${REPO_ROOT} | cut -d '/' -f 2)
+	export REPO_NAME=$(echo ${REPO_ROOT} | awk -F '/' '{print $NF}')
 fi
 
 print_debug "REPO_NAME: ${REPO_NAME:-}"
