@@ -12,21 +12,27 @@ export IS_GIT_REPO=$(git status > /dev/null 2>&1 && echo true || echo false)
 
 print_debug "IS_GIT_REPO: $IS_GIT_REPO"
 
+if [[ ! -v REPO_ROOT && ${IS_GIT_REPO} == true ]]; then
+	export REPO_ROOT=$(git remote show -n origin | grep Push | awk -F: '{print $3}' | sed 's/.git$//g')
+fi
+
+print_debug "REPO_ROOT: ${REPO_ROOT:-}"
+
+if [[ ! -v REPO_NAME && ${IS_GIT_REPO} == true ]]; then
+	export REPO_NAME=$(echo ${REPO_ROOT} | cut -d '/' -f 2)
+fi
+
+print_debug "REPO_NAME: ${REPO_NAME:-}"
+
 if [ ! -v PROJECT ]; then
 	if [[ ${IS_GIT_REPO} == true ]]; then
-		export PROJECT=$(basename $(git rev-parse --show-toplevel))
+		export PROJECT=${REPO_NAME:-}
 	else
 		export PROJECT=$(basename $PWD)
 	fi
 fi
 
 print_debug "PROJECT: $PROJECT"
-
-if [[ ! -v REPO_ROOT && ${IS_GIT_REPO} == true ]]; then
-	export REPO_ROOT=$(git remote show -n origin | grep Push | awk -F: '{print $3}' | sed 's/.git$//g')
-fi
-
-print_debug "REPO_ROOT: ${REPO_ROOT:-}"
 
 if [ ! -v PROJECT_TITLE ]; then
 	export PROJECT_TITLE="${REPO_ROOT:-}"

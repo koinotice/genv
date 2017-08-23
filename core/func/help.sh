@@ -7,7 +7,7 @@ print_help() {
 		prefix="$2:"
 	fi
 
-	help=$(grep -E '^\s[a-zA-Z0-9:|_-]+\)\s##\s.*$' ${1} | sort | awk -v prefix="$prefix" 'BEGIN {FS = "\\).*?## |%%"}; {gsub(/\t/,"\t"prefix,$1); c=$1" "$2; printf "\033[36m%-45s\033[0m %s\n", c, $3}') || true
+	help=$(grep -E '^\s[a-zA-Z0-9:|_-]+\)\s##\s.*$' ${1} | sort | awk -v prefix="$prefix" 'BEGIN {FS = "\\).*?## |%%"}; {gsub(/\t/,"  "prefix,$1); c=$1" "$2; printf "\033[36m%-45s\033[0m %s\n", c, $3}') || true
 	echo -e "$help"
 }
 
@@ -26,10 +26,14 @@ tasks_help() {
 }
 
 all_help() {
-	echo "Usage: harpoon command [<arg>...]"
+	echo "Usage:"
+	echo "  harpoon <command> [<arg>...]"
+	echo "  harpoon -h|--help"
+
 	echo ""
 	print_help "${HARPOON_ROOT}/harpoon"
-	printf "\t$COLOR_CYAN%-45s$COLOR_NC %s\n" "(service):help" "❓  Get help for a particular service"
+	printf "  $COLOR_CYAN%-45s$COLOR_NC %s\n" "<service-name>:help" "❓  Get help for a particular service"
+	printf "  $COLOR_CYAN%-45s$COLOR_NC %s\n" "<service-name>:<command> [<arg...>]" "Alternative syntax for running a service command"
 
 	tasks_help
 
@@ -40,7 +44,7 @@ all_help() {
 			continue
 		fi
 
-		printf "\t$(tr '[:lower:]' '[:upper:]' <<< ${m}):\n"
+		printf "  $(tr '[:lower:]' '[:upper:]' <<< ${m}):\n"
 		print_help ${TASKS_ROOT}/${m}/handler.sh
 		echo ""
 	done
@@ -48,7 +52,7 @@ all_help() {
 	if [ -d ${VENDOR_ROOT}/tasks ]; then
 		printf "\nTask Plugins:\n"
 		for v in $(ls ${VENDOR_ROOT}/tasks); do
-			printf "\t$(tr '[:lower:]' '[:upper:]' <<< ${v}):\n"
+			printf "  $(tr '[:lower:]' '[:upper:]' <<< ${v}):\n"
 			print_help ${VENDOR_ROOT}/tasks/${v}/handler.sh
 			echo ""
 		done

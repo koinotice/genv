@@ -98,7 +98,7 @@ case "${command}" in
 	down) ## [<all>] %% 🔽  Stop and remove Harpoon core, and optionally, supporting services
 		down ${args} ;;
 
-	uninstall) ## %% Alias for `down`
+	uninstall) ## [<all>] %% Alias for `down`
 		down ${args} ;;
 
 	reset) ## %% 🌯  Stop, remove, and restart Harpoon core services
@@ -112,6 +112,15 @@ case "${command}" in
 
 	clean) ## [<all>] %% 🛀  Completely uninstall Harpoon core, and optionally, all supporting services
 		clean ${args} ;;
+
+	services:ls) ## %% Alias for `services:list`
+		services ;;
+
+	services:list) ## %% 👓  List services available in Harpoon
+		services ;;
+
+	services:status) ## %% 🚦  Display the status for all supporting services
+		services_status ;;
 
 	status) ## %% 🚥  Display the status of Harpoon core services
 		DOWN_HOSTS=0
@@ -129,14 +138,14 @@ case "${command}" in
 		fi
 		;;
 
+	tasks:ls) ## %% Alias for `tasks:list`
+		tasks ;;
+
 	tasks:list) ## %% 👓  List tasks available in Harpoon
 		tasks ;;
 
-	services:list) ## %% 👓  List services available in Harpoon
-		services ;;
-
-	services:status) ## %% 🚦  Display the status for all supporting services
-		services_status ;;
+	service) ## <name> <command> [<arg>...] %% 🍽  Run a (docker-compose) command or task for a service
+		source ${SERVICES_ROOT}/tasks.sh ;;
 
 	stfu) ## %% 🤐  Please stop talking
 		echo "export HARPOON_SPEECH=false" >> $HOME/harpoon.env.sh ;;

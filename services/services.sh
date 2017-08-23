@@ -6,12 +6,6 @@ service_exists() {
 		export SERVICE_ROOT=${SERVICES_ROOT}/${1}
 	elif [ -d ${VENDOR_ROOT}/services/${1} ]; then
 		export SERVICE_ROOT=${VENDOR_ROOT}/services/${1}
-
-	# DEPRECATED
-	elif [ -d ${SERVICES_ROOT}/custom ]; then
-		if [ -d ${SERVICES_ROOT}/custom/${1} ]; then
-			export SERVICE_ROOT=${SERVICES_ROOT}/custom/${1}
-		fi
 	fi
 }
 
@@ -25,15 +19,7 @@ services() {
 	services=""
 
 	for f in $(ls ${SERVICES_ROOT}); do
-		if [ "$f" = "services.sh" ]; then
-			continue
-		fi
-
-		# DEPRECATED
-		if [ "$f" = "custom" ]; then
-			for f in $(ls ${SERVICES_ROOT}/custom); do
-				services+="$f\n"
-			done
+		if [[ ${f} =~ services.sh|tasks.sh ]]; then
 			continue
 		fi
 
@@ -67,6 +53,7 @@ service_status() {
 	fi
 }
 
+# $1 service name
 check_service_status() {
 	service_status ${1}
 	SERVICE_STATUS="$(echo $1 | sed 's/-/_/g')_status"
@@ -77,15 +64,7 @@ check_service_status() {
 
 services_status() {
 	for f in $(ls ${SERVICES_ROOT}/${1:-}); do
-		if [ "$f" = "services.sh" ]; then
-			continue
-		fi
-
-		# DEPRECATED
-		if [ "$f" = "custom" ]; then
-			for f in $(ls ${SERVICES_ROOT}/custom/${1:-}); do
-				service_status ${f}
-			done
+		if [[ ${f} =~ services.sh|tasks.sh ]]; then
 			continue
 		fi
 
@@ -100,10 +79,13 @@ services_status() {
 	echo ""
 }
 
-service_help() {
-	service_exists ${1}
-
-	echo "Usage: harpoon command [<arg>...]"
+# $1 service name
+print_service_help() {
+	echo "Usage:"
+	echo "  harpoon <command> [<arg>...]"
+	echo "  harpoon -h|--help"
+	echo "  harpoon <service-name>:<command> [<arg>...]"
+	echo "  harpoon <service-name>:help"
 	echo ""
 
 	HELP="
@@ -135,9 +117,16 @@ ${1}:sh) ## SERVICE %% 🐚  Enter a shell on a ${1} container
 ${1}:status) ## %% 🚦  Display the status of the ${1} service
 	"
 
-	help=$(echo -e "${HELP}" | grep -E '^[a-zA-Z0-9:|_-]+\)\s##\s.*$' | sort | awk 'BEGIN {FS = "\\).*?## |%%"}; {printf "  \033[36m%-25s\033[0m%-36s%s\n", $1, $2, $3}')
+	help=$(echo -e "${HELP}" | grep -E '^[a-zA-Z0-9<>:|_-]+\)\s##\s.*$' | sort | awk 'BEGIN {FS = "\\).*?## |%%"}; {printf "  \033[36m%-25s\033[0m%-36s%s\n", $1, $2, $3}')
 	echo -e "$help"
 	echo ""
+}
+
+# $1 service name
+service_help() {
+	service_exists ${1}
+
+	print_service_help ${1}
 
 	if [ -f ${SERVICE_ROOT}/handler.sh ]; then
 		print_help ${SERVICE_ROOT}/handler.sh

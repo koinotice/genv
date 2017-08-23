@@ -26,6 +26,9 @@ case "${command}" in
 		docker volume prune -f
 		;;
 
+	docker:nuke) ## %% 💥  Destroy all running containers and volumes by force
+		docker ps -a | grep -v CONTAINER | awk '{print $1}' | xargs docker rm -f -v ;;
+
 	docker:chown) ## [dir] %% 🐳  Reset the owner of a directory to your current user [default: $PWD]
 		chown_dir=${args:-$PWD}
 
