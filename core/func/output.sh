@@ -109,3 +109,9 @@ log_debug() {
 		echo -e "[$(date)] ${1}" >> ${HARPOON_TEMP}/debug.log
 	fi
 }
+
+print_usage() {
+	echo "Usage:"
+	echo "  harpoon <command> [<arg>...]"
+	echo "  harpoon -h|--help"
+}

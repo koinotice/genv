@@ -26,12 +26,11 @@ tasks_help() {
 }
 
 all_help() {
-	echo "Usage:"
-	echo "  harpoon <command> [<arg>...]"
-	echo "  harpoon -h|--help"
-
+	print_usage
 	echo ""
+
 	print_help "${HARPOON_ROOT}/harpoon"
+
 	printf "  $COLOR_CYAN%-45s$COLOR_NC %s\n" "<service-name>:help" "❓  Get help for a particular service"
 	printf "  $COLOR_CYAN%-45s$COLOR_NC %s\n" "<service-name>:<command> [<arg...>]" "Alternative syntax for running a service command"
 

@@ -81,9 +81,7 @@ services_status() {
 
 # $1 service name
 print_service_help() {
-	echo "Usage:"
-	echo "  harpoon <command> [<arg>...]"
-	echo "  harpoon -h|--help"
+	print_usage
 	echo "  harpoon <service-name>:<command> [<arg>...]"
 	echo "  harpoon <service-name>:help"
 	echo ""
