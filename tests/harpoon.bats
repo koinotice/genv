@@ -61,9 +61,15 @@ setup() {
 }
 
 @test "help" {
-	run bash -c "./harpoon help | head -n 1"
+	run bash -c "./harpoon help | head -n 3"
 	[ "$status" -eq 0 ]
-	[ "$output" = "Usage: harpoon command [<arg>...]" ]
+	help=$(cat <<HELP
+Usage:
+  harpoon <command> [<arg>...]
+  harpoon -h|--help
+HELP
+)
+	[ "$output" = "$help" ]
 }
 
 @test "show-nameserver-ip" {
