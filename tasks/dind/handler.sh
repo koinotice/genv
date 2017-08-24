@@ -26,7 +26,7 @@ case "${command}" in
 		-e APP_IMAGE -e USER_UID -e USER_GID ${CI_ARGS} \
 		-v $PWD:$PWD -v ${DIND_HOME}/.docker:/root/.docker -v ${DIND_HOME}/.ssh:/root/.ssh \
 		--workdir $PWD --privileged --name ${COMPOSE_PROJECT_NAME}_dind -d ${DIND_IMAGE} \
-		/usr/bin/supervisord -c /harpoon/supervisord.conf
+		/usr/bin/supervisord -c /etc/supervisord.conf
 
 		sleep 5
 

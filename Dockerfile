@@ -9,6 +9,6 @@ rm -rf /var/cache/apk/* /var/tmp/* /tmp/* && \
 touch /.harpoon-container
 
 COPY . /harpoon
-COPY supervisord.conf /etc/supervisor/supervisord.conf
+COPY supervisord.conf /etc/supervisord.conf
 
 ENV PATH /harpoon:$PATH
