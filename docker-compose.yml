@@ -8,9 +8,6 @@ services:
       - USER=dev
       - PASS=harpoon
       - HARPOON_DOCKER_HOST_IP
-    networks:
-      default:
-        ipv4_address: ${HARPOON_DNSMASQ_IP}
     ports:
       - "53:53/udp"
       - "5380:8080"

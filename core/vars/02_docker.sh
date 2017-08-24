@@ -20,7 +20,11 @@ print_debug "HARPOON_IMAGE: $HARPOON_IMAGE"
 
 # loopback alias ip
 if [ ! -v LOOPBACK_ALIAS_IP ]; then
-	export LOOPBACK_ALIAS_IP="10.254.253.1"
+	if [ -v RUNNING_IN_CONTAINER ]; then
+		export LOOPBACK_ALIAS_IP="10.254.251.1"
+	else
+		export LOOPBACK_ALIAS_IP="10.254.253.1"
+	fi
 fi
 
 print_debug "LOOPBACK_ALIAS_IP: $LOOPBACK_ALIAS_IP"
@@ -34,16 +38,14 @@ print_debug "HARPOON_DOCKER_NETWORK: $HARPOON_DOCKER_NETWORK"
 
 # docker subnet
 if [ ! -v HARPOON_DOCKER_SUBNET ]; then
-	export HARPOON_DOCKER_SUBNET="10.254.254.0/24"
+	if [ -v RUNNING_IN_CONTAINER ]; then
+		export HARPOON_DOCKER_SUBNET="10.254.252.0/24"
+	else
+		export HARPOON_DOCKER_SUBNET="10.254.254.0/24"
+	fi
 fi
 
 print_debug "HARPOON_DOCKER_SUBNET: $HARPOON_DOCKER_SUBNET"
-
-# dnsmasq container ip
-if [ ! -v HARPOON_DNSMASQ_IP ]; then
-	docker_network=$(echo ${HARPOON_DOCKER_SUBNET} | awk -F "/" '{print $1}' | awk -F "." '{printf "%d.%d.%d", $1, $2, $3}')
-	export HARPOON_DNSMASQ_IP="${docker_network}.250"
-fi
 
 # core service hostnames
 if [ ! -v TRAEFIK_ACME ]; then
