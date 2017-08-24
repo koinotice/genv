@@ -133,8 +133,17 @@ cleanup() {
 	fi
 
 	if [[ $(uname) == 'Linux' && ! -v RUNNING_IN_CONTAINER ]]; then
-		sudo rm /etc/NetworkManager/dnsmasq.d/harpoon
-		sudo systemctl restart NetworkManager
+		if [ -d /etc/NetworkManager ]; then
+			sudo rm -f /etc/NetworkManager/dnsmasq.d/harpoon
+			sudo systemctl restart NetworkManager
+		elif [ -d /etc/dnsmasq.d ]; then
+			sudo rm -f /etc/dnsmasq.d/harpoon
+			sudo service dnsmasq restart
+		else
+			print_info "Uninstalling dnsmasq..."
+			sudo rm -f /etc/dnsmasq.d/harpoon
+			sudo apt-get purge dnsmasq
+		fi
 	fi
 
 	rm -f ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
