@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
 
-get_ip() {
-	ip -4 addr | grep eth0 | grep inet | awk '{print $2}' | cut -d '/' -f 1
-}
-
 if [[ -f /.dockerenv || -f /.harpoon-container ]]; then
 	export RUNNING_IN_CONTAINER=true
 fi
@@ -70,15 +66,7 @@ fi
 if [ -v DOCKER_MACHINE_IP ]; then
 	export HARPOON_DOCKER_HOST_IP=${DOCKER_MACHINE_IP}
 else
-	if [[ $(uname) == 'Linux' ]]; then
-		if [ -v RUNNING_IN_CONTAINER ]; then
-			export HARPOON_DOCKER_HOST_IP=$(get_ip)
-		else
-			export HARPOON_DOCKER_HOST_IP=${LOOPBACK_ALIAS_IP}
-		fi
-	else
-		export HARPOON_DOCKER_HOST_IP="127.0.0.1"
-	fi
+	export HARPOON_DOCKER_HOST_IP=${LOOPBACK_ALIAS_IP}
 fi
 
 print_debug "HARPOON_DOCKER_HOST_IP: $HARPOON_DOCKER_HOST_IP"

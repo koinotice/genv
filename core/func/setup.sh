@@ -30,11 +30,9 @@ install() {
 }
 
 generate_dnsmasq_config() {
-	if [ ! -v RUNNING_IN_CONTAINER ]; then
-		echo -e "$(cat ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf.template | sed "s/HARPOON_DOCKER_HOST_IP/${HARPOON_DOCKER_HOST_IP}/")" > ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
-	else
-		echo -e "$(cat ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf.dind.template | sed "s/HARPOON_DOCKER_HOST_IP/${HARPOON_DOCKER_HOST_IP}/")" > ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
-	fi
+	print_info "Generating dnsmasq configuration..."
+
+	echo -e "$(cat ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf.template | sed "s/HARPOON_DOCKER_HOST_IP/${HARPOON_DOCKER_HOST_IP}/")" > ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
 
 	if [ -v CUSTOM_DOMAINS ]; then
 		for i in "${CUSTOM_DOMAINS[@]}"; do
@@ -64,7 +62,7 @@ config_os() {
 	if [[ $(uname) == 'Darwin' ]]; then
 		config_macos
 	elif [[ $(uname) == 'Linux' ]]; then
-		config_ubuntu
+		config_linux
 	fi
 
 	${HARPOON_DOCKER_COMPOSE} up -d traefik
@@ -86,7 +84,7 @@ config_macos() {
 	${HARPOON_DOCKER_COMPOSE} up -d dnsmasq consul
 }
 
-config_ubuntu() {
+config_linux() {
 	if [ ! -v RUNNING_IN_CONTAINER ]; then
 		sudo ifconfig lo:0 ${LOOPBACK_ALIAS_IP}/32
 
@@ -94,20 +92,28 @@ config_ubuntu() {
 			sudo ln -fs ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf /etc/NetworkManager/dnsmasq.d/harpoon
 			sudo systemctl restart NetworkManager
 		elif [ -d /etc/dnsmasq.d ]; then
-			config_dnsmasq_ubuntu
+			config_dnsmasq_linux
 		else
 			print_info "Installing dnsmasq..."
 			sudo apt-get install dnsmasq
-			config_dnsmasq_ubuntu
+			config_dnsmasq_linux
 		fi
 
 		${HARPOON_DOCKER_COMPOSE} up -d consul
 	else
-		${HARPOON_DOCKER_COMPOSE} up -d dnsmasq
+		config_dind_container
 	fi
 }
 
-config_dnsmasq_ubuntu() {
+config_dind_container() {
+	ifconfig lo:0 ${LOOPBACK_ALIAS_IP}
+	ln -fs ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf /etc/dnsmasq.d/harpoon.conf
+	dnsmasq
+	echo "nameserver ${HARPOON_DOCKER_HOST_IP}" > /etc/resolv.conf
+	${HARPOON_DOCKER_COMPOSE} up -d consul
+}
+
+config_dnsmasq_linux() {
 	print_info "Configuring dnsmasq..."
 
 	grep "^#conf-dir=/etc/dnsmasq.d$" /etc/dnsmasq.conf || CONF_DIR_EXISTS=true

@@ -13,9 +13,7 @@ if [ ! -v DIND_HOME ]; then
 fi
 
 case "${command}" in
-	dind:start) ## [use-dnsmasq] %% 🐳  Start the docker-in-docker container
-		read -r -a argarray <<< "$args"
-
+	dind:start) ## %% 🐳  Start the docker-in-docker container
 		docker pull ${DIND_IMAGE}
 
 		CI_ARGS=""
@@ -28,10 +26,6 @@ case "${command}" in
 		DIND_ARGS+=" -v $PWD:$PWD -v ${DIND_HOME}/.docker:/root/.docker -v ${DIND_HOME}/.ssh:/root/.ssh"
 		DIND_ARGS+=" --workdir $PWD --privileged --name ${COMPOSE_PROJECT_NAME}_dind -d ${DIND_IMAGE}"
 		DIND_ARGS+=" --storage-driver ${DIND_STORAGE_DRIVER}"
-
-		if [[ ${argarray[0]:-} == true ]]; then
-			DIND_ARGS+=" --dns ${HARPOON_DNSMASQ_IP}"
-		fi
 
 		docker run ${DIND_ARGS}
 
