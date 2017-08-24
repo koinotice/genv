@@ -1,7 +1,7 @@
 FROM docker:stable-dind
 
 RUN apk update && \
-apk add bash make git openssh-client curl dnsmasq && \
+apk add bash make git openssh-client curl supervisord dnsmasq && \
 apk add --no-cache py-pip && \
 pip install docker==2.4.2 && \
 pip install docker-compose && \
