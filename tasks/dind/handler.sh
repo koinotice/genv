@@ -28,6 +28,8 @@ case "${command}" in
 		--workdir $PWD --privileged --name ${COMPOSE_PROJECT_NAME}_dind -d ${DIND_IMAGE} \
 		/usr/bin/supervisord -c /harpoon/supervisord.conf
 
+		sleep 5
+
 		${DIND_EXEC} harpoon docker:load
 
 		${DIND_EXEC} harpoon install
