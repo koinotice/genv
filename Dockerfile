@@ -1,6 +1,6 @@
 FROM docker:stable-dind
 
-RUN apk update && mkdir -p /var/log/supervisor && \
+RUN apk update && mkdir -p /var/run /var/log/supervisor && \
 apk add bash make git openssh-client curl supervisor dnsmasq && \
 apk add --no-cache py-pip && \
 pip install docker==2.4.2 && \
