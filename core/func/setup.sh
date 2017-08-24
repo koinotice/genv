@@ -108,8 +108,10 @@ config_linux() {
 config_dind_container() {
 	ifconfig lo:0 ${LOOPBACK_ALIAS_IP} || true
 	ln -fs ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf /etc/dnsmasq.d/harpoon.conf
-	dnsmasq || true
+	supervisorctl start dnsmasq
 	echo "nameserver ${HARPOON_DOCKER_HOST_IP}" > /etc/resolv.conf
+	supervisorctl restart dockerd
+	supervisorctl status
 	${HARPOON_DOCKER_COMPOSE} up -d consul
 }
 

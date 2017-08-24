@@ -47,12 +47,6 @@ fi
 
 print_debug "HARPOON_DOCKER_SUBNET: $HARPOON_DOCKER_SUBNET"
 
-## dnsmasq container ip
-#if [ ! -v HARPOON_DNSMASQ_IP ]; then
-#	docker_network=$(echo ${HARPOON_DOCKER_SUBNET} | awk -F "/" '{print $1}' | awk -F "." '{printf "%d.%d.%d", $1, $2, $3}')
-#	export HARPOON_DNSMASQ_IP="${docker_network}.250"
-#fi
-
 # core service hostnames
 if [ ! -v TRAEFIK_ACME ]; then
 	export CONSUL_HOSTS=consul.harpoon.dev

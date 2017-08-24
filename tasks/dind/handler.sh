@@ -14,8 +14,6 @@ fi
 
 case "${command}" in
 	dind:start) ## %% 🐳  Start the docker-in-docker container
-#		read -r -a argarray <<< "$args"
-
 		docker pull ${DIND_IMAGE}
 
 		CI_ARGS=""
@@ -24,16 +22,11 @@ case "${command}" in
 			CI_ARGS+=" -e $c"
 		done
 
-		DIND_ARGS="-e APP_IMAGE -e USER_UID -e USER_GID ${CI_ARGS}"
-		DIND_ARGS+=" -v $PWD:$PWD -v ${DIND_HOME}/.docker:/root/.docker -v ${DIND_HOME}/.ssh:/root/.ssh"
-		DIND_ARGS+=" --workdir $PWD --privileged --name ${COMPOSE_PROJECT_NAME}_dind -d ${DIND_IMAGE}"
-		DIND_ARGS+=" --storage-driver ${DIND_STORAGE_DRIVER}"
-
-#		if [[ ${argarray[0]:-} == true ]]; then
-#			DIND_ARGS+=" --dns ${HARPOON_DOCKER_HOST_IP}"
-#		fi
-
-		docker run ${DIND_ARGS}
+		docker run --entrypoint "" -e DOCKERDARGS="--storage-driver=${DIND_STORAGE_DRIVER}" \
+		-e APP_IMAGE -e USER_UID -e USER_GID ${CI_ARGS} \
+		-v $PWD:$PWD -v ${DIND_HOME}/.docker:/root/.docker -v ${DIND_HOME}/.ssh:/root/.ssh \
+		--workdir $PWD --privileged --name ${COMPOSE_PROJECT_NAME}_dind -d ${DIND_IMAGE} \
+		/usr/bin/supervisord -c /harpoon/supervisord.conf
 
 		${DIND_EXEC} harpoon docker:load
 
@@ -41,7 +34,7 @@ case "${command}" in
 		;;
 
 	dind:stop) ## %% 🐳  Stop the docker-in-docker container
-		docker rm -f ${COMPOSE_PROJECT_NAME}_dind ;;
+		docker rm -f -v ${COMPOSE_PROJECT_NAME}_dind ;;
 
 	dind:exec) ## %% 🐳  Run a command inside the docker-in-docker container
 		${DIND_EXEC} ${args} ;;
