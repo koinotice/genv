@@ -59,6 +59,7 @@ tasks() {
 
 task_help() {
 	print_usage
+	echo ""
 	print_help ${TASK_ROOT}/handler.sh
 	echo ""
 }
