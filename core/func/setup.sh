@@ -86,7 +86,7 @@ config_macos() {
 
 config_linux() {
 	if [ ! -v RUNNING_IN_CONTAINER ]; then
-		sudo ifconfig lo:0 ${LOOPBACK_ALIAS_IP}/32
+		sudo ifconfig lo:0 ${LOOPBACK_ALIAS_IP}/32 || true
 
 		if [ -d /etc/NetworkManager ]; then
 			sudo ln -fs ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf /etc/NetworkManager/dnsmasq.d/harpoon
@@ -106,9 +106,9 @@ config_linux() {
 }
 
 config_dind_container() {
-	ifconfig lo:0 ${LOOPBACK_ALIAS_IP}
+	ifconfig lo:0 ${LOOPBACK_ALIAS_IP} || true
 	ln -fs ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf /etc/dnsmasq.d/harpoon.conf
-	dnsmasq
+	dnsmasq || true
 	echo "nameserver ${HARPOON_DOCKER_HOST_IP}" > /etc/resolv.conf
 	${HARPOON_DOCKER_COMPOSE} up -d consul
 }
