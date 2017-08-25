@@ -23,12 +23,9 @@ case "${command}" in
 		done
 
 		docker run --entrypoint "" -e APP_IMAGE -e USER_UID -e USER_GID ${CI_ARGS} \
-		-e DOCKERDARGS="--storage-driver=${DIND_STORAGE_DRIVER} --dns=10.254.252.250" \
 		-v $PWD:$PWD -v ${DIND_HOME}/.docker:/root/.docker -v ${DIND_HOME}/.ssh:/root/.ssh \
 		--workdir $PWD --privileged --name ${COMPOSE_PROJECT_NAME}_dind -d ${DIND_IMAGE} \
-		/usr/bin/supervisord -c /etc/supervisord.conf
-
-		sleep 5
+		--storage-driver=${DIND_STORAGE_DRIVER} --dns=10.254.252.254
 
 		${DIND_EXEC} harpoon docker:load
 
