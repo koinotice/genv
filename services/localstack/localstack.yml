@@ -3,7 +3,7 @@ version: '2'
 services:
   localstack:
     container_name: harpoon_localstack
-    image: atlassianlabs/localstack
+    image: localstack/localstack
     environment:
       - TERM=xterm
       - SERVICES=${LOCALSTACK_SERVICES}

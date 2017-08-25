@@ -41,7 +41,7 @@ export COUCHBASE_VERSION="latest"
 * Elasticsearch, Logstach, & Kibana
 * http://elk-docker.readthedocs.io/
 
-## [LocalStack](https://bitbucket.org/atlassian/localstack)
+## [LocalStack](https://github.com/localstack/localstack)
 
 Local AWS cloud stack
 
