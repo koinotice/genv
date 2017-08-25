@@ -151,7 +151,7 @@ uninstall() {
 	${HARPOON_DOCKER_COMPOSE} down -v
 
 	if [[ "${1:-}" == "all" ]]; then
-		for s in $(services); do
+		for s in $(listServices); do
 			printInfo "Removing ${s}..."
 			harpoon ${s}:down-if-up
 		done
