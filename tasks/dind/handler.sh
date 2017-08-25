@@ -22,7 +22,7 @@ case "${command}" in
 			CI_ARGS+=" -e $c"
 		done
 
-		docker run --entrypoint "" -e APP_IMAGE -e USER_UID -e USER_GID ${CI_ARGS} \
+		docker run -e APP_IMAGE -e USER_UID -e USER_GID ${CI_ARGS} \
 		-v $PWD:$PWD -v ${DIND_HOME}/.docker:/root/.docker -v ${DIND_HOME}/.ssh:/root/.ssh \
 		--workdir $PWD --privileged --name ${COMPOSE_PROJECT_NAME}_dind -d ${DIND_IMAGE} \
 		--storage-driver=${DIND_STORAGE_DRIVER} --dns=10.254.252.254
