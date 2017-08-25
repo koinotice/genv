@@ -19,9 +19,11 @@ fi
 print_debug "HARPOON_IMAGE: $HARPOON_IMAGE"
 
 # loopback alias ip
+export DIND_LOOPBACK_ALIAS_IP="10.254.251.1"
+
 if [ ! -v LOOPBACK_ALIAS_IP ]; then
 	if [ -v RUNNING_IN_CONTAINER ]; then
-		export LOOPBACK_ALIAS_IP="10.254.251.1"
+		export LOOPBACK_ALIAS_IP=${DIND_LOOPBACK_ALIAS_IP}
 	else
 		export LOOPBACK_ALIAS_IP="10.254.253.1"
 	fi

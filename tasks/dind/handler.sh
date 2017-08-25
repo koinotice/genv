@@ -22,8 +22,8 @@ case "${command}" in
 			CI_ARGS+=" -e $c"
 		done
 
-		docker run --entrypoint "" -e DOCKERDARGS="--storage-driver=${DIND_STORAGE_DRIVER}" \
-		-e APP_IMAGE -e USER_UID -e USER_GID ${CI_ARGS} \
+		docker run --entrypoint "" -e APP_IMAGE -e USER_UID -e USER_GID ${CI_ARGS} \
+		-e DOCKERDARGS="--storage-driver=${DIND_STORAGE_DRIVER} --dns=${DIND_LOOPBACK_ALIAS_IP}" \
 		-v $PWD:$PWD -v ${DIND_HOME}/.docker:/root/.docker -v ${DIND_HOME}/.ssh:/root/.ssh \
 		--workdir $PWD --privileged --name ${COMPOSE_PROJECT_NAME}_dind -d ${DIND_IMAGE} \
 		/usr/bin/supervisord -c /etc/supervisord.conf
