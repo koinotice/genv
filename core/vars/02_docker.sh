@@ -39,15 +39,23 @@ fi
 print_debug "HARPOON_DOCKER_NETWORK: $HARPOON_DOCKER_NETWORK"
 
 # docker subnet
+export HARPOON_DIND_DOCKER_SUBNET="10.254.252.0/24"
+
 if [ ! -v HARPOON_DOCKER_SUBNET ]; then
 	if [ -v RUNNING_IN_CONTAINER ]; then
-		export HARPOON_DOCKER_SUBNET="10.254.252.0/24"
+		export HARPOON_DOCKER_SUBNET=${HARPOON_DIND_DOCKER_SUBNET}
 	else
 		export HARPOON_DOCKER_SUBNET="10.254.254.0/24"
 	fi
 fi
 
 print_debug "HARPOON_DOCKER_SUBNET: $HARPOON_DOCKER_SUBNET"
+
+# dnsmasq container ip
+if [ ! -v HARPOON_DNSMASQ_IP ]; then
+	docker_network=$(echo ${HARPOON_DOCKER_SUBNET} | awk -F "/" '{print $1}' | awk -F "." '{printf "%d.%d.%d", $1, $2, $3}')
+	export HARPOON_DNSMASQ_IP="${docker_network}.250"
+fi
 
 # core service hostnames
 if [ ! -v TRAEFIK_ACME ]; then
