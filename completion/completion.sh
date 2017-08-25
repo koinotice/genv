@@ -10,80 +10,80 @@ cmplt() {
 }
 
 service_c_cmds() {
-	S=$(parse_module ${1})
+	S=$(parseModule ${1})
 	echo -e "${S}:clean\n${S}:clean-if-up"
 }
 
 service_d_cmds() {
-	S=$(parse_module ${1})
+	S=$(parseModule ${1})
 	echo -e "${S}:down\n${S}:down-if-up\n${S}:destroy\n${S}:destroy-if-up"
 }
 
 service_e_cmds() {
-	S=$(parse_module ${1})
+	S=$(parseModule ${1})
 	echo -e "${S}:exec"
 }
 
 service_k_cmds() {
-	S=$(parse_module ${1})
+	S=$(parseModule ${1})
 	echo -e "${S}:kill"
 }
 
 service_l_cmds() {
-	S=$(parse_module ${1})
+	S=$(parseModule ${1})
 	echo -e "${S}:logs"
 }
 
 service_p_cmds() {
-	S=$(parse_module ${1})
+	S=$(parseModule ${1})
 	echo -e "${S}:pause\n${S}:port\n${S}:port:primary\n${S}:ps"
 }
 
 service_s_cmds() {
-	S=$(parse_module ${1})
+	S=$(parseModule ${1})
 	echo -e "${S}:stop\n${S}:start\n${S}:sh\n${S}:status"
 }
 
 service_r_cmds() {
-	S=$(parse_module ${1})
+	S=$(parseModule ${1})
 	echo -e "${S}:restart\n${S}:reset\n${S}:rm\n${S}:run"
 }
 
 service_u_cmds() {
-	S=$(parse_module ${1})
+	S=$(parseModule ${1})
 	echo -e "${S}up\n${S}:up-if-down\n${S}unpause"
 }
 
 case "${2:-}" in
 	*:*)
-		MODULE_NAME=$(parse_module ${args})
+		moduleName=$(parseModule ${args})
 
-		task_exists ${MODULE_NAME}
+		taskExists ${moduleName}
 
 		if [ -v TASK_ROOT ]; then
 			cmplt ${TASK_ROOT}/handler.sh
 			echo -e "\n"
 		else
-			service_exists ${MODULE_NAME}
+			serviceExists ${moduleName}
 
 			if [ -v SERVICE_ROOT ]; then
-				service_c_cmds ${MODULE_NAME}
+				service_c_cmds ${moduleName}
 				echo -e "\n"
-				service_d_cmds ${MODULE_NAME}
+				service_d_cmds ${moduleName}
 				echo -e "\n"
-				service_e_cmds ${MODULE_NAME}
+				service_e_cmds ${moduleName}
 				echo -e "\n"
-				service_k_cmds ${MODULE_NAME}
+				service_k_cmds ${moduleName}
 				echo -e "\n"
-				service_l_cmds ${MODULE_NAME}
+				service_l_cmds ${moduleName}
 				echo -e "\n"
-				service_p_cmds ${MODULE_NAME}
+				service_p_cmds ${moduleName}
 				echo -e "\n"
-				service_s_cmds ${MODULE_NAME}
+				service_s_cmds ${moduleName}
 				echo -e "\n"
-				service_r_cmds ${MODULE_NAME}
+				service_r_cmds ${moduleName}
 				echo -e "\n"
-				service_u_cmds ${MODULE_NAME}
+				service_u_cmds ${moduleName}
 				echo -e "\n"
 				cmplt ${SERVICE_ROOT}/handler.sh;
 			fi
@@ -93,10 +93,10 @@ case "${2:-}" in
 		cmplt ${HARPOON_ROOT}/harpoon
 		echo ""
 
-		tasks
+		listTasks
 		echo ""
 
-		services
+		listServices
 		echo ""
 
 		if [ -v ROOT_TASKS_FILE ]; then

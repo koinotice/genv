@@ -11,15 +11,15 @@ setup() {
 }
 
 @test "parse module" {
-	harpoon_load core/parse.sh
-	run parse_module "foo:bar"
+	harpoonLoad core/parse.sh
+	run parseModule "foo:bar"
 	[ "$status" -eq 0 ]
 	[ "$output" = "foo" ]
 }
 
 @test "parse sub-command" {
-	harpoon_load core/parse.sh
-	run parse_subcmd "foo:bar"
+	harpoonLoad core/parse.sh
+	run parseSubCmd "foo:bar"
 	[ "$status" -eq 0 ]
 	[ "$output" = "bar" ]
 }
@@ -40,7 +40,6 @@ setup() {
 }
 
 @test "config docker" {
-#	skip_when_no_docker
 	run ./harpoon config-docker
 	[ "$status" -eq 0 ]
 	run bash -c "docker network ls | grep $(./harpoon env | grep 'HARPOON_DOCKER_NETWORK' | cut -d '=' -f 2)"
@@ -78,8 +77,6 @@ HELP
 }
 
 @test "status down" {
-#	skip_when_no_docker
-
 	./harpoon compose down
 	run ./harpoon status
 	[ "$status" -eq 1 ]
@@ -89,8 +86,6 @@ HELP
 }
 
 @test "status up" {
-#	skip_when_no_docker
-
 	./harpoon compose up -d
 	run ./harpoon status
 	[ "$status" -eq 0 ]
@@ -100,8 +95,6 @@ HELP
 }
 
 @test "status up - no emoji" {
-#	skip_when_no_docker
-
 	./harpoon compose up -d
 	export HARPOON_USE_EMOJI=false
 	run ./harpoon status
@@ -115,11 +108,17 @@ HELP
 	run ./harpoon tasks:list
 	[ "$status" -eq 0 ]
 	grep "aws" <<< "$output"
+	grep "deploy" <<< "$output"
 	grep "dind" <<< "$output"
 	grep "docker" <<< "$output"
+	grep "git" <<<"$output"
 	grep "http" <<<"$output"
+	grep "image" <<<"$output"
+	grep "info" <<<"$output"
 	grep "jp" <<< "$output"
 	grep "jq" <<< "$output"
+	grep "notify" <<< "$output"
+	grep "plug" <<< "$output"
 	grep "tf" <<< "$output"
 }
 

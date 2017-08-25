@@ -13,6 +13,6 @@ if [ ! ${JQ_CMD:-} ]; then
 fi
 
 jq_cli() {
-	print_debug "jq args: $@"
-	docker_run -i ${JQ_IMAGE} ${JQ_CMD} $@
+	printDebug "jq args: $@"
+	dockerRun -i ${JQ_IMAGE} ${JQ_CMD} $@
 }

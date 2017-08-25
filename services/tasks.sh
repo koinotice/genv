@@ -1,19 +1,19 @@
 #!/usr/bin/env bash
 
-case "${first_arg}" in
+case "${firstArg}" in
 	ls|list)
-		services ;;
+		listServices ;;
 
 	help)
-		print_service_help "<service-name>" ;;
+		printServiceHelp "<service-name>" ;;
 
 	*)
 		name=${2:-}
-		service_exists ${name}
+		serviceExists ${name}
 
 		command="${name}:${3:-}"
 		args=${@:4}
 
-		handle_service ${name} ${command}
+		handleService ${name} ${command}
 esac
 

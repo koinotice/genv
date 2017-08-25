@@ -53,7 +53,7 @@ speak() {
 	fi
 }
 
-speak_greeting() {
+speakGreeting() {
 	if [[ -v GREETING && ! -v CI ]]; then
 		export HARPOON_SPEECH_RATE=225
 		if [ -x "$(command -v finger)" ]; then
@@ -67,50 +67,74 @@ speak_greeting() {
 	fi
 }
 
-print_info() {
+printInfo() {
 	echo -e "${COLOR_PURPLE}${1}${COLOR_NC}${2:-}"
 }
 
-speak_info() {
-	speak "$1"
-	print_info "$1" "${2:-}"
+# DEPRECATED
+print_info() {
+	printWarn "print_info() is deprecated. Please use printInfo()."
+	printInfo "$1" "${2:-}"
 }
 
-print_success() {
+speakInfo() {
+	speak "$1"
+	printInfo "$1" "${2:-}"
+}
+
+printSuccess() {
 	echo -e "${COLOR_GREEN}${1}${COLOR_NC}${2:-}"
 }
 
-speak_success() {
-	speak "$1"
-	print_success "$1" "${2:-}"
+# DEPRECATED
+print_success() {
+	printWarn "print_success() is deprecated. Please use printSuccess()."
+	printSuccess "$1" "${2:-}"
 }
 
-print_warn() {
+speakSuccess() {
+	speak "$1"
+	printSuccess "$1" "${2:-}"
+}
+
+printWarn() {
 	echo -e "${COLOR_LIGHT_YELLOW}${1}${COLOR_NC}${2:-}"
 }
 
-print_error() {
+# DEPRECATED
+print_warn() {
+	printWarn "print_warn() is deprecated. Please use printWarn()."
+	printWarn "$1" "${2:-}"
+}
+
+printError() {
 	echo -e "${COLOR_RED}${1}${COLOR_NC}${2:-}" >&2
 }
 
-print_panic() {
-	print_error "${1}" "${2:-}" >&2 && exit 1
+printPanic() {
+	printError "${1}" "${2:-}" >&2 && exit 1
 }
 
-print_debug() {
+printDebug() {
 	if [ ${HARPOON_DEBUG:-} ]; then
-		log_debug "$1"
+		logDebug "$1"
 		echo -e "${COLOR_DIM}${1}${COLOR_NC}" >&2
 	fi
 }
 
-log_debug() {
+# DEPRECATED
+print_debug() {
+	printDebug "print_debug() is deprecated. Please use printDebug()."
+	printDebug $1
+}
+
+logDebug() {
 	if [ ${HARPOON_DEBUG:-} ]; then
 		echo -e "[$(date)] ${1}" >> ${HARPOON_TEMP}/debug.log
 	fi
 }
 
-print_usage() {
+printUsage() {
 	echo "Usage:"
 	echo "  harpoon <command> [<arg>...]"
 	echo "  harpoon -h|--help"

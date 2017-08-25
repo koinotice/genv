@@ -5,5 +5,5 @@ case "${command}" in
 		docker run -it --rm -e BLACKFIRE_CLIENT_ID -e BLACKFIRE_CLIENT_TOKEN blackfire/blackfire blackfire curl ${args} ;;
 
 	*)
-		service_help blackfire
+		serviceHelp blackfire
 esac

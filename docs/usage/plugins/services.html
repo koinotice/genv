@@ -702,19 +702,19 @@ details.)</p>
 <span class="hljs-built_in">export</span> MARIADB_VOLUME_NAME=mariadb
 
 <span class="hljs-function"><span class="hljs-title">mariadb_pre_up</span></span>() {
-  VOLUME_CREATED=$(docker volume ls | grep <span class="hljs-variable">${MARIADB_VOLUME_NAME}</span>) || <span class="hljs-literal">true</span>
+  <span class="hljs-built_in">local</span> volumeCreated=$(docker volume ls | grep <span class="hljs-variable">${MARIADB_VOLUME_NAME}</span>) || <span class="hljs-literal">true</span>
 
-  <span class="hljs-keyword">if</span> [[ <span class="hljs-string">&quot;<span class="hljs-variable">${VOLUME_CREATED}</span>&quot;</span> == <span class="hljs-string">&quot;&quot;</span> ]]; <span class="hljs-keyword">then</span>
-      <span class="hljs-built_in">print</span>_info <span class="hljs-string">&quot;Creating docker volume named &apos;<span class="hljs-variable">${MARIADB_VOLUME_NAME}</span>&apos;...&quot;</span>
+  <span class="hljs-keyword">if</span> [[ <span class="hljs-string">&quot;<span class="hljs-variable">${volumeCreated}</span>&quot;</span> == <span class="hljs-string">&quot;&quot;</span> ]]; <span class="hljs-keyword">then</span>
+      <span class="hljs-built_in">print</span>Info <span class="hljs-string">&quot;Creating docker volume named &apos;<span class="hljs-variable">${MARIADB_VOLUME_NAME}</span>&apos;...&quot;</span>
       docker volume create --name=<span class="hljs-variable">${MARIADB_VOLUME_NAME}</span>
   <span class="hljs-keyword">fi</span>
 }
 
 <span class="hljs-function"><span class="hljs-title">mariadb_remove_volume</span></span>() {
-  VOLUME_CREATED=$(docker volume ls | grep <span class="hljs-variable">${MARIADB_VOLUME_NAME}</span>) || <span class="hljs-literal">true</span>
+  <span class="hljs-built_in">local</span> volumeCreated=$(docker volume ls | grep <span class="hljs-variable">${MARIADB_VOLUME_NAME}</span>) || <span class="hljs-literal">true</span>
 
-  <span class="hljs-keyword">if</span> [[ <span class="hljs-string">&quot;<span class="hljs-variable">${VOLUME_CREATED}</span>&quot;</span> != <span class="hljs-string">&quot;&quot;</span> ]]; <span class="hljs-keyword">then</span>
-      <span class="hljs-built_in">print</span>_info <span class="hljs-string">&quot;Removing docker volume named &apos;<span class="hljs-variable">${MARIADB_VOLUME_NAME}</span>&apos;...&quot;</span>
+  <span class="hljs-keyword">if</span> [[ <span class="hljs-string">&quot;<span class="hljs-variable">${volumeCreated}</span>&quot;</span> != <span class="hljs-string">&quot;&quot;</span> ]]; <span class="hljs-keyword">then</span>
+      <span class="hljs-built_in">print</span>Info <span class="hljs-string">&quot;Removing docker volume named &apos;<span class="hljs-variable">${MARIADB_VOLUME_NAME}</span>&apos;...&quot;</span>
       docker volume rm <span class="hljs-variable">${MARIADB_VOLUME_NAME}</span>
   <span class="hljs-keyword">fi</span>
 }
@@ -759,7 +759,7 @@ handle any custom commands for your service.</p>
         ;;
 
     *)
-        service_<span class="hljs-built_in">help</span> mariadb ;;
+        serviceHelp mariadb ;;
 <span class="hljs-keyword">esac</span>
 </code></pre>
 <ul>
@@ -836,7 +836,7 @@ mariadb:help</code> &#x1F601;</p>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Services","level":"2.4.9.2","depth":3,"previous":{"title":"Tasks","level":"2.4.9.1","depth":3,"path":"usage/plugins/tasks.md","ref":"usage/plugins/tasks.md","articles":[]},"dir":"ltr"},"config":{"plugins":[],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Ben Getsug","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"A Whale of a Guide to Harpoon","gitbook":"*"},"file":{"path":"usage/plugins/services.md","mtime":"2017-08-22T16:17:35.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-08-25T18:49:35.685Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Services","level":"2.4.9.2","depth":3,"previous":{"title":"Tasks","level":"2.4.9.1","depth":3,"path":"usage/plugins/tasks.md","ref":"usage/plugins/tasks.md","articles":[]},"dir":"ltr"},"config":{"plugins":[],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Ben Getsug","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"A Whale of a Guide to Harpoon","gitbook":"*"},"file":{"path":"usage/plugins/services.md","mtime":"2017-08-25T22:49:44.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-08-25T22:56:43.266Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

@@ -15,37 +15,37 @@ fi
 
 export COUCHBASE_VOLUME_NAME=couchbase
 
-couchbase_provisioner_run() {
+couchbaseProvisionerRun() {
 	cat ${SERVICES_ROOT}/couchbase/couchbase_default.yaml | sed -e "s/CB_HOST/${CB_HOST}/" | httpie -v -F --verify=no -a 12345:secret --pretty=all POST http://cbpvr.harpoon.dev:8080/clusters/ Content-Type:application/yaml
 }
 
 couchbase_post_up() {
 	sleep 10
-	couchbase_provisioner_run
+	couchbaseProvisionerRun
 }
 
 couchbase_pre_up() {
-	VOLUME_CREATED=$(docker volume ls | grep ${COUCHBASE_VOLUME_NAME}) || true
+	local volumeCreated=$(docker volume ls | grep ${COUCHBASE_VOLUME_NAME}) || true
 
-	if [[ "${VOLUME_CREATED}" == "" ]]; then
-		print_info "Creating docker volume named '${COUCHBASE_VOLUME_NAME}'..."
+	if [[ "${volumeCreated}" == "" ]]; then
+		printInfo "Creating docker volume named '${COUCHBASE_VOLUME_NAME}'..."
 		docker volume create --name=${COUCHBASE_VOLUME_NAME}
 	fi
 }
 
-couchbase_remove_volume() {
-	VOLUME_CREATED=$(docker volume ls | grep ${COUCHBASE_VOLUME_NAME}) || true
+couchbaseRemoveVolume() {
+	local volumeCreated=$(docker volume ls | grep ${COUCHBASE_VOLUME_NAME}) || true
 
-	if [[ "${VOLUME_CREATED}" != "" ]]; then
-		print_info "Removing docker volume named '${COUCHBASE_VOLUME_NAME}'..."
+	if [[ "${volumeCreated}" != "" ]]; then
+		printInfo "Removing docker volume named '${COUCHBASE_VOLUME_NAME}'..."
 		docker volume rm ${COUCHBASE_VOLUME_NAME}
 	fi
 }
 
 couchbase_post_destroy() {
-	couchbase_remove_volume
+	couchbaseRemoveVolume
 }
 
 couchbase_post_clean() {
-	couchbase_remove_volume
+	couchbaseRemoveVolume
 }

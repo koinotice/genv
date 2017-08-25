@@ -4,7 +4,7 @@ set -euo pipefail
 
 command=${1:-}
 args=${@:2}
-first_arg=${2:-}
+firstArg=${2:-}
 
 SOURCE="${BASH_SOURCE[0]}"
 while [ -h "$SOURCE" ]; do
@@ -38,10 +38,10 @@ done
 
 source ${HARPOON_ROOT}/core/parse.sh
 
-MODULE_NAME=$(parse_module ${command})
+MODULE_NAME=$(parseModule ${command})
 
 if [[ -v USE_DIND && "$MODULE_NAME" != "dind" ]]; then
-	print_info "Harpoon is running in dind mode"
+	printInfo "Harpoon is running in dind mode"
 	${DIND_EXEC_TTY} harpoon "$@"
 	exit $?
 fi
@@ -64,13 +64,13 @@ case "${command}" in
 		source ${HARPOON_ROOT}/completion/completion.sh ;;
 
 	gen-dnsmasq)
-		generate_dnsmasq_config ;;
+		generateDnsmasqConfig ;;
 
 	config-docker)
-		config_docker ;;
+		configDocker ;;
 
 	config-docker-network)
-		config_docker_network ;;
+		configDockerNetwork ;;
 
 	env) ## %% Show environment variables
 		if [ -v PAGER ]; then
@@ -105,22 +105,22 @@ case "${command}" in
 		reset ;;
 
 	self-update) ## %% 💫  Update Harpoon and plugins
-		self_update ;;
+		selfUpdate ;;
 
 	selfupdate) ## %% Alias for `self-update`
-		self_update ;;
+		selfUpdate ;;
 
 	clean) ## [<all>] %% 🛀  Completely uninstall Harpoon core, and optionally, all supporting services
 		clean ${args} ;;
 
 	services:ls) ## %% Alias for `services:list`
-		services ;;
+		listServices ;;
 
 	services:list) ## %% 👓  List services available in Harpoon
-		services ;;
+		listServices ;;
 
 	services:status) ## %% 🚦  Display the status for all supporting services
-		services_status ;;
+		servicesStatus ;;
 
 	status) ## %% 🚥  Display the status of Harpoon core services
 		DOWN_HOSTS=0
@@ -139,10 +139,10 @@ case "${command}" in
 		;;
 
 	tasks:ls) ## %% Alias for `tasks:list`
-		tasks ;;
+		listTasks ;;
 
 	tasks:list) ## %% 👓  List tasks available in Harpoon
-		tasks ;;
+		listTasks ;;
 
 	service) ## <name> <command> [<arg>...] %% 🍽  Run a (docker-compose) command or task for a service
 		source ${SERVICES_ROOT}/tasks.sh ;;
@@ -151,7 +151,7 @@ case "${command}" in
 		echo "export HARPOON_SPEECH=false" >> $HOME/harpoon.env.sh ;;
 
 	greet)
-		speak_greeting ;;
+		speakGreeting ;;
 
 	radio)
 		say -v Fred -r 190 "Fitter. Happier. More productive." ;;
@@ -160,21 +160,21 @@ case "${command}" in
 		if [ "${MODULE_NAME}" == "" ]; then all_help; fi
 
 		# try tasks
-		task_exists ${MODULE_NAME}
+		taskExists ${MODULE_NAME}
 
 		if [ -v TASK_ROOT ]; then
-			if [[ "${first_arg:-}" == "--help" || "${first_arg:-}" == "-h" ]]; then
-				task_help ${MODULE_NAME}
+			if [[ "${firstArg:-}" == "--help" || "${firstArg:-}" == "-h" ]]; then
+				taskHelp ${MODULE_NAME}
 				exit $?
 			fi
 
 			source ${TASK_ROOT}/handler.sh
 		else
 			# try services
-			service_exists ${MODULE_NAME}
+			serviceExists ${MODULE_NAME}
 
 			if [ -v SERVICE_ROOT ]; then
-				handle_service ${MODULE_NAME} ${command};
+				handleService ${MODULE_NAME} ${command};
 			elif [ -v ROOT_TASKS_FILE ]; then
 				# try custom task/command handler in working directory
 				command=${command#${PROJECT_TASK_PREFIX}:}

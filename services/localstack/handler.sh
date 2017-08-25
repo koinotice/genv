@@ -2,7 +2,7 @@
 
 case "${command}" in
 	localstack:aws) ## [options] <command> <subcommand> [<subcommand> ...] [parameters] %% AWS CLI (with endpoint-url set based on command)
-		print_info "AWS Region: ${AWS_REGION}"
+		printInfo "AWS Region: ${AWS_REGION}"
 
 		IFS=', ' read -r -a argsarray <<< "$args"
 
@@ -70,11 +70,11 @@ case "${command}" in
 			*)
 		esac
 
-		print_info "Endpoint URL: ${ENDPOINT_URL}\n"
+		printInfo "Endpoint URL: ${ENDPOINT_URL}\n"
 
 		aws_cli --endpoint-url ${ENDPOINT_URL} --region ${AWS_REGION} ${args}
 		;;
 
 	*)
-		service_help localstack
+		serviceHelp localstack
 esac

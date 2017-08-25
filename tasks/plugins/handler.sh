@@ -2,10 +2,10 @@
 
 touch ${PLUGINS_FILE}
 
-parse_plugin() {
+parsePlugin() {
 	PLUGIN=${1}
 
-	print_info "Processing plugin $PLUGIN..."
+	printInfo "Processing plugin $PLUGIN..."
 
 	export REPO=${PLUGIN%:*}
 
@@ -19,58 +19,58 @@ parse_plugin() {
 	export TAG
 	export PLUGIN
 
-	print_debug "PLUGIN: $PLUGIN"
-	print_debug "REPO: $REPO"
-	print_debug "TAG: $TAG"
+	printDebug "PLUGIN: $PLUGIN"
+	printDebug "REPO: $REPO"
+	printDebug "TAG: $TAG"
 }
 
-inspect_metadata() {
-	METADATA=$(docker image inspect -f "{{json .ContainerConfig.Labels}}" ${PLUGIN})
-	print_debug "METADATA: $METADATA"
+inspectMetadata() {
+	local metadata=$(docker image inspect -f "{{json .ContainerConfig.Labels}}" ${PLUGIN})
+	printDebug "METADATA: $metadata"
 
-	export NAME=$(jq_cli -r ".harpoon_name" <<< ${METADATA})
-	export TYPE=$(jq_cli -r ".harpoon_type" <<< ${METADATA})
-	export CMD_ARGS=$(jq_cli -r ".harpoon_args" <<< ${METADATA})
-	export DESCRIPTION=$(jq_cli -r ".harpoon_description" <<< ${METADATA})
-	IMAGE_DIR=$(jq_cli -r ".harpoon_dir" <<< ${METADATA})
+	export NAME=$(jq_cli -r ".harpoon_name" <<< ${metadata})
+	export TYPE=$(jq_cli -r ".harpoon_type" <<< ${metadata})
+	export CMD_ARGS=$(jq_cli -r ".harpoon_args" <<< ${metadata})
+	export DESCRIPTION=$(jq_cli -r ".harpoon_description" <<< ${metadata})
+	IMAGE_DIR=$(jq_cli -r ".harpoon_dir" <<< ${metadata})
 
 	if [[ ${IMAGE_DIR} == null ]]; then
 		IMAGE_DIR=${NAME}
 	fi
 
 	export IMAGE_DIR
-	print_debug "IMAGE_DIR: $IMAGE_DIR"
+	printDebug "IMAGE_DIR: $IMAGE_DIR"
 
 	if [[ ${NAME} == null || ${TYPE} == null ]]; then
-		print_panic "${PLUGIN} is not a Harpoon plugin"
+		printPanic "${PLUGIN} is not a Harpoon plugin"
 	fi
 }
 
-plugin_root() {
+pluginRoot() {
 	case "$TYPE" in
 		module) # deprecated
-			print_warn "Plugin type 'module' has been deprecated, please change to 'task'."
-			PLUGIN_ROOT=${VENDOR_ROOT}/tasks ;;
+			printWarn "Plugin type 'module' has been deprecated, please change to 'task'."
+			export PLUGIN_ROOT=${VENDOR_ROOT}/tasks ;;
 		task)
-			PLUGIN_ROOT=${VENDOR_ROOT}/tasks ;;
+			export PLUGIN_ROOT=${VENDOR_ROOT}/tasks ;;
 		service)
-			PLUGIN_ROOT=${VENDOR_ROOT}/services ;;
+			export PLUGIN_ROOT=${VENDOR_ROOT}/services ;;
 		*)
-			print_panic "Unknown plugin type '$TYPE'"
+			printPanic "Unknown plugin type '$TYPE'"
 	esac
 }
 
-extract_plugin() {
-	plugin_root
+extractPlugin() {
+	pluginRoot
 
 	if [[ "${ACTION:-}" == "Updating" ]]; then
 		rm -fr ${PLUGIN_ROOT}/${NAME}
 	fi
 
-	CID=$(docker create ${PLUGIN} true)
+	local containerID=$(docker create ${PLUGIN} true)
 
 	mkdir -p ${PLUGIN_ROOT}/${NAME}
-	docker cp ${CID}:/${IMAGE_DIR} /tmp/ > /dev/null || true
+	docker cp ${containerID}:/${IMAGE_DIR} /tmp/ > /dev/null || true
 
 	if [ -d /tmp/${IMAGE_DIR} ]; then
 		mv /tmp/${IMAGE_DIR}/* ${PLUGIN_ROOT}/${NAME}/
@@ -78,7 +78,7 @@ extract_plugin() {
 	fi
 
 	if [[ "$TYPE" == "task" && ! -f ${PLUGIN_ROOT}/${NAME}/handler.sh ]]; then
-		print_info "Generating '${NAME}' wrapper..."
+		printInfo "Generating '${NAME}' wrapper..."
 
 		set +u
 
@@ -99,40 +99,40 @@ extract_plugin() {
 		set -u
 	fi
 
-	docker rm ${CID} > /dev/null
+	docker rm ${containerID} > /dev/null
 }
 
-plugin_installed() {
+pluginInstalled() {
 	PLUGIN_INSTALLED=$(grep ${REPO} ${PLUGINS_FILE}) || PLUGIN_INSTALLED=""
 	export PLUGIN_INSTALLED
 }
 
-tag_installed() {
+tagInstalled() {
 	TAG_INSTALLED=true
 	grep ${PLUGIN} ${PLUGINS_FILE} > /dev/null || TAG_INSTALLED=false
 	export TAG_INSTALLED
 }
 
-remove_plugin_record() {
+removePluginRecord() {
 	cat ${PLUGINS_FILE} | sed "s#${PLUGIN_INSTALLED}##" > ${PLUGINS_FILE}
 }
 
 install() {
-	parse_plugin ${1}
+	parsePlugin ${1}
 
-	plugin_installed
+	pluginInstalled
 
 	if [[ "$PLUGIN_INSTALLED" != "" && ! -v PLUGIN_REINSTALL ]]; then
-		print_panic "${REPO} is already installed. Perhaps you'd like to run 'plug:up' instead?"
+		printPanic "${REPO} is already installed. Perhaps you'd like to run 'plug:up' instead?"
 	fi
 
 	docker pull ${PLUGIN}
 
-	inspect_metadata
+	inspectMetadata
 
-	print_info "Installing $TYPE '$NAME'..."
+	printInfo "Installing $TYPE '$NAME'..."
 
-	extract_plugin
+	extractPlugin
 
 	if [ ! -v PLUGIN_REINSTALL ]; then
 		echo "$PLUGIN" >> ${PLUGINS_FILE}
@@ -140,7 +140,7 @@ install() {
 }
 
 # $1 filename
-install_from_file() {
+installFromFile() {
 	for p in $(cat ${1}); do
 		[[ ${p} =~ ^# ]] && continue
 		install "${p}"
@@ -148,28 +148,28 @@ install_from_file() {
 }
 
 update() {
-	parse_plugin ${1}
+	parsePlugin ${1}
 
-	plugin_installed
+	pluginInstalled
 
 	export ACTION=Updating
 
 	if [[ "$PLUGIN_INSTALLED" == "" ]]; then
-		print_warn "${REPO} is not installed..."
+		printWarn "${REPO} is not installed..."
 		export ACTION=Installing
 	fi
 
 	docker pull ${PLUGIN}
 
-	inspect_metadata
+	inspectMetadata
 
-	print_info "$ACTION $TYPE '$NAME'..."
+	printInfo "$ACTION $TYPE '$NAME'..."
 
-	extract_plugin
+	extractPlugin
 
 	if [[ "$PLUGIN_INSTALLED" != "" ]]; then
-		remove_plugin_record
-		print_success "Replaced $PLUGIN_INSTALLED with $PLUGIN"
+		removePluginRecord
+		printSuccess "Replaced $PLUGIN_INSTALLED with $PLUGIN"
 	fi
 
 	echo "$PLUGIN" >> ${PLUGINS_FILE}
@@ -184,7 +184,7 @@ case "${command}" in
 
 		rm -fr ${VENDOR_ROOT}
 
-		install_from_file ${PLUGINS_FILE}
+		installFromFile ${PLUGINS_FILE}
       	;;
 
 	plug:in:file) ## [<filename>] %% Install plugins listed in a text file [default: ./plugins.txt]
@@ -193,10 +193,10 @@ case "${command}" in
 		elif [ -f "./plugins.txt" ]; then
 			filename="./plugins.txt"
 		else
-			print_panic "Please specify a filename, or create a plugins.txt in the current directory."
+			printPanic "Please specify a filename, or create a plugins.txt in the current directory."
 		fi
 
-		install_from_file ${filename}
+		installFromFile ${filename}
 		;;
 
 	plug:up) ## <plugin> %% Update a Harpoon plugin
@@ -209,22 +209,22 @@ case "${command}" in
 		;;
 
 	plug:rm) ## <plugin> %% Remove a Harpoon plugin
-		parse_plugin "${args}"
+		parsePlugin "${args}"
 
-		plugin_installed
+		pluginInstalled
 
 		if [[ "$PLUGIN_INSTALLED" == "" ]]; then
-			print_panic "${REPO} is not installed..."
+			printPanic "${REPO} is not installed..."
 		fi
 
-		inspect_metadata
+		inspectMetadata
 
-		plugin_root
+		pluginRoot
 
-		print_info "Removing $TYPE '$NAME'..."
+		printInfo "Removing $TYPE '$NAME'..."
 
 		rm -fr ${PLUGIN_ROOT}
-		remove_plugin_record
+		removePluginRecord
 		;;
 
 	plug:rm:all) ## %% Remove all Harpoon plugins
@@ -238,11 +238,11 @@ case "${command}" in
 		;;
 
 	plug:ls) ## %% List Harpoon plugins
-		print_info "Harpoon plugins:"
+		printInfo "Harpoon plugins:"
 		cat ${PLUGINS_FILE}
 		echo ""
 		;;
 
 	*)
-		task_help
+		taskHelp
 esac

@@ -42,5 +42,5 @@ case "${command}" in
 		${DIND_EXEC_IT} ${args} ;;
 
 	*)
-		task_help
+		taskHelp
 esac

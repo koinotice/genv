@@ -67,32 +67,32 @@ fi
 
 # $1 ARGS
 tf() {
-	docker_run_with_dynamic_env "-e TF_DEBUG -w ${TERRAFORM_TEMP} ${TERRAFORM_IMAGE}" "${TERRAFORM_CMD} ${1}"
+	dockerRunWithDynamicEnv "-e TF_DEBUG -w ${TERRAFORM_TEMP} ${TERRAFORM_IMAGE}" "${TERRAFORM_CMD} ${1}"
 }
 
-tf_clean() {
-	docker_run_with_dynamic_env ${TERRAFORM_IMAGE} "rm -fr ${TERRAFORM_TEMP}"
+tfClean() {
+	dockerRunWithDynamicEnv ${TERRAFORM_IMAGE} "rm -fr ${TERRAFORM_TEMP}"
 }
 
-tf_init() {
-	tf_clean
+tfInit() {
+	tfClean
 	mkdir -p ${TERRAFORM_TEMP}
 
 	if [ ${HAS_BACKEND_CONFIG} == true ]; then
-		print_info "Initializing Terraform configuration..."
+		printInfo "Initializing Terraform configuration..."
 	    tf "init ${TERRAFORM_DIR}"
     else
-		print_info "Initializing Terraform backend configuration..."
+		printInfo "Initializing Terraform backend configuration..."
         echo -e "${BACKEND_CONFIG}" >> ${BACKEND_FILE}
         tf "init -backend-config ${BACKEND_FILE} ${TERRAFORM_DIR}"
     fi
 }
 
-tf_get() {
+tfGet() {
 	tf "get"
 }
 
-tf_with_vars() {
+tfWithVars() {
 	tf "${1} ${TERRAFORM_TFVARS:-}"
 }
 
@@ -101,60 +101,54 @@ case "${command}" in
 		tf "${args}" ;;
 
 	tf:init) ## %% Run `tf:clean`, then `terraform init`, loading the backend.tfvars for the specified DEPLOY_ENV
-		tf_init ;;
+		tfInit ;;
 
 	tf:with-vars) ## <arg>... %% Run Terraform with secret variables/environment (requires 'secrets' directory in project)
-		tf_with_vars "${args}" ;;
+		tfWithVars "${args}" ;;
 
 	tf:get) ## %% Run `terraform get`
-		tf_get ;;
+		tfGet ;;
 
 	tf:clean) ## %% 🗑  Clean up temporary Terraform files
-		tf_clean ;;
+		tfClean ;;
 
 	tf:run) ## %% 🏃  Run `tf:init`, `terraform plan`, `terraform apply`, then `tf:clean`
-		tf_init
-		tf_get
-		tf_with_vars "plan ${args}"
-		tf_with_vars "apply ${args}"
-#		tf_clean
+		tfInit
+		tfGet
+		tfWithVars "plan ${args}"
+		tfWithVars "apply ${args}"
 		;;
 
 	tf:refresh) ## %% 🔄  Run `terraform refresh` with secret/environment, then `tf:clean`
-		tf_init
-		tf_get
-		tf_with_vars "refresh ${args}"
-#		tf_clean
+		tfInit
+		tfGet
+		tfWithVars "refresh ${args}"
 		;;
 
 	tf:plan) ## %% Run `tf:init`, `terraform plan` with secret/environment, then `tf:clean`
-		tf_init
-		tf_get
-		tf_with_vars "plan ${args}"
-#		tf_clean
+		tfInit
+		tfGet
+		tfWithVars "plan ${args}"
 		;;
 
 	tf:destroy) ## %% ⚠️  Run `tf:init`, `terraform destroy` with secret/environment, then `tf:clean`
-		tf_init
-		tf_get
-		docker_run_with_dynamic_env -ti "${TERRAFORM_IMAGE} terraform destroy ${args}"
-#		tf_clean
+		tfInit
+		tfGet
+		dockerRunWithDynamicEnv -ti "${TERRAFORM_IMAGE} terraform destroy ${args}"
 		;;
 
 	tf:rekt) ## %% ☠  Run `tf:init`, `terraform destroy -force` with secret/environment, then `tf:clean`
-		tf_init
-		tf_get
-		tf_with_vars "destroy -force ${args}"
-#		tf_clean
+		tfInit
+		tfGet
+		tfWithVars "destroy -force ${args}"
 		;;
 
 	tf:unlock) ## <lock id> %% 🔓  Run `terraform init`, `terraform force-unlock` with secret/environment
-		tf_init
-		tf_get
-		tf_with_vars "force-unlock -force"
-#		tf_clean
+		tfInit
+		tfGet
+		tfWithVars "force-unlock -force"
 		;;
 
 	*)
-		task_help
+		taskHelp
 esac

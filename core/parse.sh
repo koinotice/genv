@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
 # $1 command
-parse_module() {
+parseModule() {
 	echo ${1:-} | cut -d ':' -f 1
 }
 
 # $1 command
-parse_subcmd() {
+parseSubCmd() {
 	echo ${1:-} | cut -d ':' -f 2
 }

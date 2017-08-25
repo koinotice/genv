@@ -13,6 +13,6 @@ if [ ! ${AWS_CMD:-} ]; then
 fi
 
 aws_cli() {
-	print_debug "aws args: $@"
-	docker_run -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -e AWS_REGION -v ${HOME}/.aws/:/root/.aws ${AWS_IMAGE} ${AWS_CMD} $@
+	printDebug "aws args: $@"
+	dockerRun -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -e AWS_REGION -v ${HOME}/.aws/:/root/.aws ${AWS_IMAGE} ${AWS_CMD} $@
 }

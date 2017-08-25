@@ -20,27 +20,27 @@ fi
 export POSTGRES_VOLUME_NAME=pgdata
 
 postgres_pre_up() {
-	VOLUME_CREATED=$(docker volume ls | grep ${POSTGRES_VOLUME_NAME}) || true
+	local volumeCreated=$(docker volume ls | grep ${POSTGRES_VOLUME_NAME}) || true
 
-	if [[ "${VOLUME_CREATED}" == "" ]]; then
-		print_info "Creating docker volume named '${POSTGRES_VOLUME_NAME}'..."
+	if [[ "${volumeCreated}" == "" ]]; then
+		printInfo "Creating docker volume named '${POSTGRES_VOLUME_NAME}'..."
 		docker volume create --name=${POSTGRES_VOLUME_NAME}
 	fi
 }
 
-postgres_remove_volume() {
-	VOLUME_CREATED=$(docker volume ls | grep ${POSTGRES_VOLUME_NAME}) || true
+postgresRemoveVolume() {
+	local volumeCreated=$(docker volume ls | grep ${POSTGRES_VOLUME_NAME}) || true
 
-	if [[ "${VOLUME_CREATED}" != "" ]]; then
-		print_info "Removing docker volume named '${POSTGRES_VOLUME_NAME}'..."
+	if [[ "${volumeCreated}" != "" ]]; then
+		printInfo "Removing docker volume named '${POSTGRES_VOLUME_NAME}'..."
 		docker volume rm ${POSTGRES_VOLUME_NAME}
 	fi
 }
 
 postgres_post_destroy() {
-	postgres_remove_volume
+	postgresRemoveVolume
 }
 
 postgres_post_clean() {
-	postgres_remove_volume
+	postgresRemoveVolume
 }

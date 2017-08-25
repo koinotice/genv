@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # $1 service name
-service_exists() {
+serviceExists() {
 	if [ -d ${SERVICES_ROOT}/${1} ]; then
 		export SERVICE_ROOT=${SERVICES_ROOT}/${1}
 	elif [ -d ${VENDOR_ROOT}/services/${1} ]; then
@@ -9,26 +9,26 @@ service_exists() {
 	fi
 }
 
-source_bootstrap() {
+serviceSourceBootstrap() {
 	if [ -f ${SERVICE_ROOT}/bootstrap.sh ]; then
 		source ${SERVICE_ROOT}/bootstrap.sh
 	fi
 }
 
-services() {
-	services=""
+listServices() {
+	local services=""
 
 	for f in $(ls ${SERVICES_ROOT}); do
 		if [[ ${f} =~ services.sh|tasks.sh ]]; then
 			continue
 		fi
 
-		services+="$f\n"
+		local services+="$f\n"
 	done
 
 	if [ -d ${VENDOR_ROOT}/services ]; then
 		for v in $(ls ${VENDOR_ROOT}/services); do
-			services+="$v\n"
+			local services+="$v\n"
 		done
 	fi
 
@@ -36,52 +36,59 @@ services() {
 }
 
 # $1 service name
-service_status() {
-	service_exists ${1}
+serviceStatus() {
+	serviceExists $1
 
-	source_bootstrap
+	export COMPOSE_PROJECT_NAME=$1
+	local dockerComposeFile="-f ${SERVICE_ROOT}/$1.yml"
+	local dockerComposePs="${DOCKER_COMPOSE_CMD} ${dockerComposeFile} ps"
+	local serviceStatus="$(echo $1 | sed 's/-/_/g')_status"
 
-	SERVICE_STATUS="$(echo $1 | sed 's/-/_/g')_status"
+	serviceSourceBootstrap
 
-	IS_UP=$(${DOCKER_COMPOSE_CMD} -f ${SERVICE_ROOT}/${1}.yml ps | grep 'Up') || true
-	if [[ ${IS_UP} ]]; then
-		printf "%-25s%s\n" "${1}" "${UP}"
-		export $SERVICE_STATUS='Up'
+	local isUp=$(${dockerComposePs} | grep Up > /dev/null && echo "true" || echo "false")
+
+	if [[ "${isUp}" == "true" ]]; then
+		printf "%-25s%s\n" "$1" "${UP}"
+		export $serviceStatus='Up'
 	else
-		printf "%-25s%s\n" "${1}" "${DOWN}"
-		export $SERVICE_STATUS='Down'
+		printf "%-25s%s\n" "$1" "${DOWN}"
+		export $serviceStatus='Down'
 	fi
 }
 
 # $1 service name
-check_service_status() {
-	service_status ${1}
-	SERVICE_STATUS="$(echo $1 | sed 's/-/_/g')_status"
-	if [ ${!SERVICE_STATUS} == "Down" ]; then
+checkServiceStatus() {
+	serviceStatus ${1}
+
+	local serviceStatus="$(echo $1 | sed 's/-/_/g')_status"
+
+	if [ ${!serviceStatus} == "Down" ]; then
 		exit 1
 	fi
 }
 
-services_status() {
-	for f in $(ls ${SERVICES_ROOT}/${1:-}); do
+servicesStatus() {
+	for f in $(ls ${SERVICES_ROOT}); do
 		if [[ ${f} =~ services.sh|tasks.sh ]]; then
 			continue
 		fi
 
-		service_status ${f}
+		serviceStatus ${f}
 	done
 
 	if [ -d ${VENDOR_ROOT}/services ]; then
 		for v in $(ls ${VENDOR_ROOT}/services); do
-			service_status ${v}
+			serviceStatus ${v}
 		done
 	fi
+
 	echo ""
 }
 
 # $1 service name
-print_service_help() {
-	print_usage
+printServiceHelp() {
+	printUsage
 	echo "  harpoon <service-name>:<command> [<arg>...]"
 	echo "  harpoon <service-name>:help"
 	echo ""
@@ -121,22 +128,28 @@ ${1}:status) ## %% 🚦  Display the status of the ${1} service
 }
 
 # $1 service name
-service_help() {
-	service_exists ${1}
+serviceHelp() {
+	serviceExists $1
 
-	print_service_help ${1}
+	printServiceHelp $1
 
 	if [ -f ${SERVICE_ROOT}/handler.sh ]; then
-		print_help ${SERVICE_ROOT}/handler.sh
+		printHelp ${SERVICE_ROOT}/handler.sh
 		echo ""
 	fi
+}
+
+# DEPRECATED
+service_help() {
+	printWarn "service_help() is deprecated. Please use serviceHelp()"
+	serviceHelp $1
 }
 
 # $1 service name
 # $2 docker-compose file name
 # $3 args
-service_up() {
-	print_info "\n🔼  Bringing up ${1}..."
+serviceUp() {
+	printInfo "\n🔼  Bringing up ${1}..."
 
 	${DOCKER_COMPOSE_CMD} ${2} pull --ignore-pull-failures --parallel
 
@@ -152,8 +165,8 @@ service_up() {
 # $1 service name
 # $2 docker-compose file name
 # $3 args
-service_down() {
-	print_info "\n🔽  Taking down ${1}..."
+serviceDown() {
+	printInfo "\n🔽  Taking down ${1}..."
 
 	# execute service pre_down hook
 	if [ -n "$(type -t ${1}_pre_down)" ] && [ "$(type -t ${1}_pre_down)" = function ]; then ${1}_pre_down "${2}"; fi
@@ -164,21 +177,21 @@ service_down() {
 	if [ -n "$(type -t ${1}_post_down)" ] && [ "$(type -t ${1}_post_down)" = function ]; then ${1}_post_down "${2}"; fi
 }
 
-service_reset() {
-	print_info "\n🌯  Resetting ${1}..."
+serviceReset() {
+	printInfo "\n🌯  Resetting ${1}..."
 
 	if [ -n "$(type -t ${1}_pre_reset)" ] && [ "$(type -t ${1}_pre_reset)" = function ]; then ${1}_pre_reset "${DKR_COMPOSE_FILE}"; fi
 
-	service_down ${1} "${2}" "-v"
-	service_up ${1} "${2}"
+	serviceDown ${1} "${2}" "-v"
+	serviceUp ${1} "${2}"
 
 	if [ -n "$(type -t ${1}_post_reset)" ] && [ "$(type -t ${1}_post_reset)" = function ]; then ${1}_post_reset "${DKR_COMPOSE_FILE}"; fi
 }
 
 # $1 service name
 # $2 docker-compose file name
-service_destroy() {
-	print_info "\n🔽  Destroying ${1}..."
+serviceDestroy() {
+	printInfo "\n🔽  Destroying ${1}..."
 
 	# execute service pre_down hook
 	if [ -n "$(type -t ${1}_pre_destroy)" ] && [ "$(type -t ${1}_pre_destroy)" = function ]; then ${1}_pre_destroy "${2}"; fi
@@ -191,8 +204,8 @@ service_destroy() {
 
 # $1 service name
 # $2 docker-compose file name
-service_clean() {
-	print_info "\n🛀  Cleaning ${1}..."
+serviceClean() {
+	printInfo "\n🛀  Cleaning ${1}..."
 
 	# execute service pre_clean hook
 	if [ -n "$(type -t ${1}_pre_clean)" ] && [ "$(type -t ${1}_pre_clean)" = function ]; then ${1}_pre_clean "${2}"; fi
@@ -206,74 +219,74 @@ service_clean() {
 
 # $1 service name
 # $2 command
-handle_service() {
-	COMPOSE_PROJECT_NAME=$1
-	DKR_COMPOSE_FILE="-f ${SERVICE_ROOT}/${1}.yml"
-	DOCKER_COMPOSE_EXEC="${DOCKER_COMPOSE_CMD} ${DKR_COMPOSE_FILE} exec"
+handleService() {
+	export COMPOSE_PROJECT_NAME=$1
+	local DKR_COMPOSE_FILE="-f ${SERVICE_ROOT}/$1.yml"
+	local DOCKER_COMPOSE_EXEC="${DOCKER_COMPOSE_CMD} ${DKR_COMPOSE_FILE} exec"
 
 	if [ "${CI:-}" ]; then
-		DOCKER_COMPOSE_EXEC+=" -T"
+		local DOCKER_COMPOSE_EXEC+=" -T"
 	fi
 
-	if [[ "${first_arg:-}" == "--help" || "${first_arg:-}" == "-h" ]]; then
-		subcmd=$(parse_subcmd ${command})
+	if [[ "${firstArg:-}" == "--help" || "${firstArg:-}" == "-h" ]]; then
+		subcmd=$(parseSubCmd ${command})
 
 		dchelp=$(${DOCKER_COMPOSE_CMD} ${subcmd} -h 2>&1) || EXIT_CODE=$?
 
 		if [ ! -v EXIT_CODE ]; then
 			echo -e "${dchelp}"
 		else
-			service_help ${1} | grep ${subcmd}
+			serviceHelp ${1} | grep ${subcmd}
 		fi
 
 		exit $?
 	fi
 
-	source_bootstrap
+	serviceSourceBootstrap
 
 	case "$2" in
 		${1}:up)
-			service_up ${1} "${DKR_COMPOSE_FILE}" "${args}" ;;
+			serviceUp ${1} "${DKR_COMPOSE_FILE}" "${args}" ;;
 
 		${1}:up-if-down)
-			if ! SVC_STATUS=$(check_service_status ${1}); then
-				service_up ${1} "${DKR_COMPOSE_FILE}" "${args}"
+			if ! SVC_STATUS=$(checkServiceStatus ${1}); then
+				serviceUp ${1} "${DKR_COMPOSE_FILE}" "${args}"
 			fi
 			;;
 
 		${1}:down)
-			service_down ${1} "${DKR_COMPOSE_FILE}" "${args}" ;;
+			serviceDown ${1} "${DKR_COMPOSE_FILE}" "${args}" ;;
 
 		${1}:down-if-up)
-			if SVC_STATUS=$(check_service_status ${1}); then
-				service_down ${1} "${DKR_COMPOSE_FILE}" "${args}"
+			if SVC_STATUS=$(checkServiceStatus ${1}); then
+				serviceDown ${1} "${DKR_COMPOSE_FILE}" "${args}"
 			fi
 			;;
 
 		${1}:reset)
-			service_reset ${1} "${DKR_COMPOSE_FILE}" ;;
+			serviceReset ${1} "${DKR_COMPOSE_FILE}" ;;
 
 		${1}:reset-if-up)
-			if SVC_STATUS=$(check_service_status ${1}); then
-				service_reset ${1} "${DKR_COMPOSE_FILE}"
+			if SVC_STATUS=$(checkServiceStatus ${1}); then
+				serviceReset ${1} "${DKR_COMPOSE_FILE}"
 			fi
 			;;
 
 		${1}:destroy)
-			service_destroy ${1} "${DKR_COMPOSE_FILE}" ;;
+			serviceDestroy ${1} "${DKR_COMPOSE_FILE}" ;;
 
 		${1}:destroy-if-up)
-			if SVC_STATUS=$(check_service_status ${1}); then
-				service_destroy ${1} "${DKR_COMPOSE_FILE}"
+			if SVC_STATUS=$(checkServiceStatus ${1}); then
+				serviceDestroy ${1} "${DKR_COMPOSE_FILE}"
 			fi
 			;;
 
 		${1}:clean)
-			service_clean ${1} "${DKR_COMPOSE_FILE}" ;;
+			serviceClean ${1} "${DKR_COMPOSE_FILE}" ;;
 
 		${1}:clean-if-up)
-			if SVC_STATUS=$(check_service_status ${1}); then
-				service_clean ${1} "${DKR_COMPOSE_FILE}"
+			if SVC_STATUS=$(checkServiceStatus ${1}); then
+				serviceClean ${1} "${DKR_COMPOSE_FILE}"
 			fi
 			;;
 
@@ -317,13 +330,13 @@ handle_service() {
 			${DOCKER_COMPOSE_CMD} ${DKR_COMPOSE_FILE} logs ${args} ;;
 
 		${1}:status)
-			check_service_status ${1} ;;
+			checkServiceStatus ${1} ;;
 
 		${1}:sh)
 			${DOCKER_COMPOSE_EXEC} ${args} sh ;;
 
 		${1}:help)
-			service_help ${1}
+			serviceHelp ${1}
 			;;
 
 		${1}:exec)
@@ -333,7 +346,7 @@ handle_service() {
 			if [ -f "${SERVICE_ROOT}/handler.sh" ]; then
 				source "${SERVICE_ROOT}/handler.sh"
 			else
-				service_help ${1}
+				serviceHelp ${1}
 			fi
 	esac
 }

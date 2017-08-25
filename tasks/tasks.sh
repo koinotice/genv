@@ -10,11 +10,11 @@ task_aliases=(
 export task_aliases
 
 # $1 task name
-task_exists() {
-	task=${1}
+taskExists() {
+	local task=$1
 
 	if [ ${task_aliases[$1]:-} ]; then
-		task=${task_aliases[$1]}
+		local task=${task_aliases[$1]}
 	fi
 
 	if [ -d ${TASKS_ROOT}/${task} ]; then
@@ -24,44 +24,64 @@ task_exists() {
 	fi
 }
 
-tasks() {
-	tasks=""
+listTasks() {
+	local tasks=""
 
 	for f in $(ls ${TASKS_ROOT}); do
 		if [[ "$f" == "tasks.sh" || "$f" == "_templates" ]]; then
 			continue
 		fi
 
-		task=${f}
+		local task=${f}
 
 		if [ ${task_aliases[$f]:-} ]; then
-			task=${task_aliases[$f]}
+			local task=${task_aliases[$f]}
 		fi
 
-		tasks+="$task\n"
+		local tasks+="$task\n"
 	done
 
 	if [ -d ${VENDOR_ROOT}/tasks ]; then
 		for f in $(ls ${VENDOR_ROOT}/tasks); do
-			task=${f}
+			local task=${f}
 
 			# fixme support aliases for vendored tasks
 			if [ ${task_aliases[$f]:-} ]; then
-				task=${task_aliases[$f]}
+				local task=${task_aliases[$f]}
 			fi
 
-			tasks+="$task\n"
+			local tasks+="$task\n"
 		done
 	fi
 
 	echo -e "$tasks" | sort
 }
 
+taskHelp() {
+	printUsage
+	echo ""
+	printHelp ${TASK_ROOT}/handler.sh
+	echo ""
+}
+
+tasksHelp() {
+	if [ -v ROOT_TASKS_FILE ]; then
+		printf "\n${PROJECT_TITLE} Tasks:\n"
+		printHelp ${ROOT_TASKS_FILE} ${PROJECT_TASK_PREFIX}
+		if [ -v ADDITIONAL_TASK_FILES ]; then
+			IFS=',' read -ra ATFS <<< "$ADDITIONAL_TASK_FILES"
+			for i in "${ATFS[@]}"; do
+				printHelp ${i} ${PROJECT_TASK_PREFIX}
+			done
+		fi
+		echo ""
+	fi
+}
+
+# DEPRECATED
 task_help() {
-	print_usage
-	echo ""
-	print_help ${TASK_ROOT}/handler.sh
-	echo ""
+	printWarn "task_help() is deprecated. Please use taskHelp()."
+	taskHelp
 }
 
 # bootstrap tasks

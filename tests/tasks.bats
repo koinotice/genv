@@ -5,9 +5,9 @@ setup() {
 }
 
 @test "task exists" {
-	set_harpoon_roots
-	harpoon_load tasks/tasks.sh
-	task_exists aws
+	setHarpoonRoots
+	harpoonLoad tasks/tasks.sh
+	taskExists aws
 	[ $? -eq 0 ]
 	[ "${TASK_ROOT}" != "" ]
 }

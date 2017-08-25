@@ -16,21 +16,21 @@ if [ ! -v HARPOON_IMAGE ]; then
 	export HARPOON_IMAGE=wheniwork/harpoon
 fi
 
-print_debug "HARPOON_IMAGE: $HARPOON_IMAGE"
+printDebug "HARPOON_IMAGE: $HARPOON_IMAGE"
 
 # loopback alias ip
 if [ ! -v LOOPBACK_ALIAS_IP ]; then
 	export LOOPBACK_ALIAS_IP="10.254.253.1"
 fi
 
-print_debug "LOOPBACK_ALIAS_IP: $LOOPBACK_ALIAS_IP"
+printDebug "LOOPBACK_ALIAS_IP: $LOOPBACK_ALIAS_IP"
 
 # docker network
 if [ ! -v HARPOON_DOCKER_NETWORK ]; then
 	export HARPOON_DOCKER_NETWORK="harpoon"
 fi
 
-print_debug "HARPOON_DOCKER_NETWORK: $HARPOON_DOCKER_NETWORK"
+printDebug "HARPOON_DOCKER_NETWORK: $HARPOON_DOCKER_NETWORK"
 
 # docker subnet
 export HARPOON_DIND_DOCKER_SUBNET="10.254.252.0/24"
@@ -43,7 +43,7 @@ if [ ! -v HARPOON_DOCKER_SUBNET ]; then
 	fi
 fi
 
-print_debug "HARPOON_DOCKER_SUBNET: $HARPOON_DOCKER_SUBNET"
+printDebug "HARPOON_DOCKER_SUBNET: $HARPOON_DOCKER_SUBNET"
 
 # core service container ips
 harpoon_docker_net_prefix=$(echo ${HARPOON_DOCKER_SUBNET} | awk -F "/" '{print $1}' | awk -F "." '{printf "%d.%d.%d", $1, $2, $3}')
@@ -84,7 +84,7 @@ else
 	fi
 fi
 
-print_debug "HARPOON_DOCKER_HOST_IP: $HARPOON_DOCKER_HOST_IP"
+printDebug "HARPOON_DOCKER_HOST_IP: $HARPOON_DOCKER_HOST_IP"
 
 # docker / dind
 DOCKER_RUN_ARGS="--rm -v $PWD:$PWD -w $PWD --net=${HARPOON_DOCKER_NETWORK} -e 'TERM=xterm' -e USER_UID -e USER_GID"
@@ -116,10 +116,10 @@ fi
 
 export DOCKER_RUN
 
-print_debug "DOCKER_RUN: $DOCKER_RUN"
+printDebug "DOCKER_RUN: $DOCKER_RUN"
 
 if [ -f "${DOCKER_INHERIT_ENV_FILE:-}" ]; then
-	print_debug "Docker will inherit environment from ${DOCKER_INHERIT_ENV_FILE}"
+	printDebug "Docker will inherit environment from ${DOCKER_INHERIT_ENV_FILE}"
 	export DOCKER_RUN_WITH_ENV="${DOCKER_RUN} --env-file ${TASKS_ROOT}/docker/inherit.env --env-file ${DOCKER_INHERIT_ENV_FILE}"
 else
 	export DOCKER_RUN_WITH_ENV="${DOCKER_RUN} --env-file ${TASKS_ROOT}/docker/inherit.env"
@@ -131,23 +131,35 @@ export HARPOON_DOCKER_COMPOSE="docker-compose -p harpoon -f ${HARPOON_DOCKER_COM
 
 # $1 IMAGE
 # $2 ARGS
-docker_run_with_dynamic_env() {
-	config_docker_network
+dockerRunWithDynamicEnv() {
+	configDockerNetwork
 
 	if [ -f "${DOCKER_DYNAMIC_ENV_FILE:-}" ]; then
-		print_debug "Loading environment variables from ${DOCKER_DYNAMIC_ENV_FILE}..."
+		printDebug "Loading environment variables from ${DOCKER_DYNAMIC_ENV_FILE}..."
 		source ${DOCKER_DYNAMIC_ENV_FILE}
 	fi
 
-	print_debug "EXECUTING: ${DOCKER_RUN_WITH_ENV} $1 $2..."
+	printDebug "EXECUTING: ${DOCKER_RUN_WITH_ENV} $1 $2..."
 
 	${DOCKER_RUN_WITH_ENV} $1 $2
 }
 
-docker_run() {
-	config_docker_network
+# DEPRECATED
+docker_run_with_dynamic_env() {
+	printWarn "docker_run_with_dynamic_env() is deprecated. Please use dockerRunWithDynamicEnv()."
+	dockerRunWithDynamicEnv $1 $2
+}
 
-	print_debug "EXECUTING: ${DOCKER_RUN} $@"
+dockerRun() {
+	configDockerNetwork
+
+	printDebug "EXECUTING: ${DOCKER_RUN} $@"
 
 	${DOCKER_RUN} $@
+}
+
+# DEPRECATED
+docker_run() {
+	printWarn "docker_run() is deprecated. Please use dockerRun()."
+	dockerRun $@
 }

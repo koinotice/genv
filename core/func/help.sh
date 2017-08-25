@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-print_help() {
+printHelp() {
 	prefix=""
 
 	if [ ${2:-} ]; then
@@ -11,30 +11,16 @@ print_help() {
 	echo -e "$help"
 }
 
-tasks_help() {
-	if [ -v ROOT_TASKS_FILE ]; then
-		printf "\n${PROJECT_TITLE} Tasks:\n"
-		print_help ${ROOT_TASKS_FILE} ${PROJECT_TASK_PREFIX}
-		if [ -v ADDITIONAL_TASK_FILES ]; then
-			IFS=',' read -ra ATFS <<< "$ADDITIONAL_TASK_FILES"
-			for i in "${ATFS[@]}"; do
-				print_help ${i} ${PROJECT_TASK_PREFIX}
-			done
-		fi
-		echo ""
-	fi
-}
-
-all_help() {
-	print_usage
+printAllHelp() {
+	printUsage
 	echo ""
 
-	print_help "${HARPOON_ROOT}/harpoon"
+	printHelp "${HARPOON_ROOT}/harpoon"
 
 	printf "  $COLOR_CYAN%-45s$COLOR_NC %s\n" "<service-name>:help" "❓  Get help for a particular service"
 	printf "  $COLOR_CYAN%-45s$COLOR_NC %s\n" "<service-name>:<command> [<arg...>]" "Alternative syntax for running a service command"
 
-	tasks_help
+	tasksHelp
 
 	printf "\nTasks:\n"
 
@@ -44,7 +30,7 @@ all_help() {
 		fi
 
 		printf "  $(tr '[:lower:]' '[:upper:]' <<< ${m}):\n"
-		print_help ${TASKS_ROOT}/${m}/handler.sh
+		printHelp ${TASKS_ROOT}/${m}/handler.sh
 		echo ""
 	done
 
@@ -52,7 +38,7 @@ all_help() {
 		printf "\nTask Plugins:\n"
 		for v in $(ls ${VENDOR_ROOT}/tasks); do
 			printf "  $(tr '[:lower:]' '[:upper:]' <<< ${v}):\n"
-			print_help ${VENDOR_ROOT}/tasks/${v}/handler.sh
+			printHelp ${VENDOR_ROOT}/tasks/${v}/handler.sh
 			echo ""
 		done
 	fi
@@ -62,22 +48,22 @@ all_help() {
 }
 
 help() {
-	if [[ "$args" == "" ]]; then all_help; fi
+	if [[ "$args" == "" ]]; then printAllHelp; fi
 
 	# try tasks
-	task_exists ${args}
+	taskExists ${args}
 
 	if [ -v TASK_ROOT ]; then
-		task_help
+		taskHelp
 	else
 		# try services
-		service_exists ${args}
+		serviceExists ${args}
 
 		if [ -v SERVICE_ROOT ]; then
-			service_help ${args};
+			serviceHelp ${args};
 		elif [ -v ROOT_TASKS_FILE ]; then
 			# try custom task handler in working directory
-			tasks_help
+			tasksHelp
 		fi
 	fi
 }

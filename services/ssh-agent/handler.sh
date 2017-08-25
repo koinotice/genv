@@ -1,20 +1,20 @@
 #!/usr/bin/env bash
 
 add() {
-	FILE=${1}
-	NAME=$(basename ${FILE})
-	print_info "Adding ${FILE}..."
+	local file=${1}
+	local name=$(basename ${file})
+	printInfo "Adding ${file}..."
 
 
 	if [ ! -v CI ]; then
 		# must use interactive TTY to support password entry
-		dkr_run_args="-it"
+		local dockerRunArgs="-it"
 	fi
 
-	docker run ${dkr_run_args:-} --rm --volumes-from=harpoon_ssh-agent -v ${FILE}:/root/.ssh/${NAME} wheniwork/ssh-agent ssh-add /root/.ssh/${NAME}
+	docker run ${dockerRunArgs:-} --rm --volumes-from=harpoon_ssh-agent -v ${file}:/root/.ssh/${name} wheniwork/ssh-agent ssh-add /root/.ssh/${name}
 }
 
-add_all() {
+addAll() {
 	for file in $(find ~/.ssh -type f -name 'id_*' -a ! -name '*.pub'); do
 		add "$file"
 	done
@@ -25,21 +25,21 @@ case "${command}" in
 	ssh-agent:add) ## <keyfile> %% Add a key
 		file=${args}
 		if [ -z "${file}" ]; then
-			add_all
+			addAll
 		else
 			add ${file}
 		fi
 		;;
 
 	ssh-agent:add:all) ## %% Add all your keys
-		add_all ;;
+		addAll ;;
 
 	ssh-agent:add-if-none)
 		${DOCKER_COMPOSE_EXEC} ssh-agent ssh-add -l || EXIT_CODE=$?
 
 		if [ ${EXIT_CODE:-} ]; then
-			print_info "Adding all SSH keys..."
-			add_all
+			printInfo "Adding all SSH keys..."
+			addAll
 		fi
 		;;
 
@@ -47,5 +47,5 @@ case "${command}" in
 		${DOCKER_COMPOSE_EXEC} ssh-agent ssh-add -l ;;
 
 	*)
-		service_help ssh-agent
+		serviceHelp ssh-agent
 esac

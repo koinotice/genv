@@ -14,6 +14,6 @@ if [ ! ${JP_CMD:-} ]; then
 fi
 
 jp_cli() {
-	print_debug "jp args: $@"
-	docker_run -i ${JP_IMAGE} ${JP_CMD} $@
+	printDebug "jp args: $@"
+	dockerRun -i ${JP_IMAGE} ${JP_CMD} $@
 }

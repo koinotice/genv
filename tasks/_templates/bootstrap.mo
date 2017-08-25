@@ -12,7 +12,7 @@ if [ ! -v HARPOON_{{NAME}}_CMD ]; then
 	export HARPOON_{{NAME}}_CMD=""
 fi
 
-harpoon_{{NAME}}_cli() {
-	print_debug "{{NAME}} args: $@"
-	docker_run -i ${HARPOON_{{NAME}}_IMAGE} ${HARPOON_{{NAME}}_CMD} $@
+harpoon_{{NAME}}CLI() {
+	printDebug "{{NAME}} args: $@"
+	dockerRun -i ${HARPOON_{{NAME}}_IMAGE} ${HARPOON_{{NAME}}_CMD} $@
 }

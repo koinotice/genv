@@ -61,19 +61,19 @@ MariaDB.
       export MARIADB_VOLUME_NAME=mariadb
 
       mariadb_pre_up() {
-        VOLUME_CREATED=$(docker volume ls | grep ${MARIADB_VOLUME_NAME}) || true
+        local volumeCreated=$(docker volume ls | grep ${MARIADB_VOLUME_NAME}) || true
 
-        if [[ "${VOLUME_CREATED}" == "" ]]; then
-            print_info "Creating docker volume named '${MARIADB_VOLUME_NAME}'..."
+        if [[ "${volumeCreated}" == "" ]]; then
+            printInfo "Creating docker volume named '${MARIADB_VOLUME_NAME}'..."
             docker volume create --name=${MARIADB_VOLUME_NAME}
         fi
       }
 
       mariadb_remove_volume() {
-        VOLUME_CREATED=$(docker volume ls | grep ${MARIADB_VOLUME_NAME}) || true
+        local volumeCreated=$(docker volume ls | grep ${MARIADB_VOLUME_NAME}) || true
 
-        if [[ "${VOLUME_CREATED}" != "" ]]; then
-            print_info "Removing docker volume named '${MARIADB_VOLUME_NAME}'..."
+        if [[ "${volumeCreated}" != "" ]]; then
+            printInfo "Removing docker volume named '${MARIADB_VOLUME_NAME}'..."
             docker volume rm ${MARIADB_VOLUME_NAME}
         fi
       }
@@ -120,7 +120,7 @@ MariaDB.
               ;;
       
           *)
-              service_help mariadb ;;
+              serviceHelp mariadb ;;
       esac
       ```
 

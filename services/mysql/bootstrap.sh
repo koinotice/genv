@@ -20,27 +20,27 @@ fi
 export MYSQL_VOLUME_NAME=mysql
 
 mysql_pre_up() {
-	VOLUME_CREATED=$(docker volume ls | grep ${MYSQL_VOLUME_NAME}) || true
+	local volumeCreated=$(docker volume ls | grep ${MYSQL_VOLUME_NAME}) || true
 
-	if [[ "${VOLUME_CREATED}" == "" ]]; then
-		print_info "Creating docker volume named '${MYSQL_VOLUME_NAME}'..."
+	if [[ "${volumeCreated}" == "" ]]; then
+		printInfo "Creating docker volume named '${MYSQL_VOLUME_NAME}'..."
 		docker volume create --name=${MYSQL_VOLUME_NAME}
 	fi
 }
 
-mysql_remove_volume() {
-	VOLUME_CREATED=$(docker volume ls | grep ${MYSQL_VOLUME_NAME}) || true
+mySQLRemoveVolume() {
+	local volumeCreated=$(docker volume ls | grep ${MYSQL_VOLUME_NAME}) || true
 
-	if [[ "${VOLUME_CREATED}" != "" ]]; then
-		print_info "Removing docker volume named '${MYSQL_VOLUME_NAME}'..."
+	if [[ "${volumeCreated}" != "" ]]; then
+		printInfo "Removing docker volume named '${MYSQL_VOLUME_NAME}'..."
 		docker volume rm ${MYSQL_VOLUME_NAME}
 	fi
 }
 
 mysql_post_destroy() {
-	mysql_remove_volume
+	mySQLRemoveVolume
 }
 
 mysql_post_clean() {
-	mysql_remove_volume
+	mySQLRemoveVolume
 }

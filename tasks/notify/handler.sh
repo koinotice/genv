@@ -4,11 +4,11 @@
 
 DATADOG_EVENTS_URL="https://app.datadoghq.com/api/v1/events?api_key=${DATADOG_API_KEY}"
 
-deploy_msg_text() {
+deployMsgText() {
 	echo "\``whoami`\` deployed \`${PROJECT}\` version \`${PROJECT_VERSION}\` to *\`${DEPLOY_ENV}\`*\nBranch: \`${1}\`\nCommit: \`${VCS_REVISION}\`\nBuild Number: \`${BUILD_NUMBER}\`"
 }
 
-notify_rollbar() {
+notifyRollbar() {
 	curl https://api.rollbar.com/api/1/deploy/ \
 	-F access_token=${ROLLBAR_ACCESS_TOKEN} \
 	-F environment=${DEPLOY_ENV} \
@@ -17,7 +17,7 @@ notify_rollbar() {
 	-F comment="Build Number: ${BUILD_NUMBER}, Project Version: ${PROJECT_VERSION}"
 }
 
-notify_datadog() {
+notifyDatadog() {
 	case "$1" in
 		start)
 			title="Deployment Started..."
@@ -36,12 +36,12 @@ notify_datadog() {
 			alert_type="warning"
 	esac
 
-	TEXT=$(deploy_msg_text ${VCS_BRANCH})
+	local text=$(deployMsgText ${VCS_BRANCH})
 
-	DD_MSG=$(cat <<-END
+	local ddMsg=$(cat <<-END
 	{
     	"title": "${title}",
-    	"text": "${TEXT}",
+    	"text": "${text}",
     	"tags": ["env:${DEPLOY_ENV}", "project:${PROJECT}"],
     	"alert_type": "${alert_type}",
     	"aggregation_key": "${VCS_REVISION}"
@@ -49,35 +49,35 @@ notify_datadog() {
 	END
 	)
 
-	echo "${DD_MSG}" | harpoon http ${DATADOG_EVENTS_URL}
+	echo "${ddMsg}" | harpoon http ${DATADOG_EVENTS_URL}
 }
 
-notify_slack() {
+notifySlack() {
 	case "$1" in
 		start)
-			msg="Deployment Started... :continue:"
-			color="#447EA6"
+			local msg="Deployment Started... :continue:"
+			local color="#447EA6"
 			;;
 		success)
-			msg="Deployment Success! :successful:"
-			color="good"
+			local msg="Deployment Success! :successful:"
+			local color="good"
 			;;
 		failure)
-			msg="Deployment FAILURE! :failed:"
-			color="danger"
+			local msg="Deployment FAILURE! :failed:"
+			local color="danger"
 			;;
 		*)
-			msg="Deployment Unknown State!? :unknown:"
-			color="warning"
+			local msg="Deployment Unknown State!? :unknown:"
+			local color="warning"
 	esac
 
-	FALLBACK=$(deploy_msg_text ${VCS_BRANCH})
-	SLACK_TEXT="\"text\": \"${FALLBACK}\""
+	local fallback=$(deployMsgText ${VCS_BRANCH})
+	local slackText="\"text\": \"${fallback}\""
 
-	SLACK_MSG=$(cat <<-END
+	local slackMsg=$(cat <<-END
 	"attachments": [
 		{
-			"fallback": "${FALLBACK}",
+			"fallback": "${fallback}",
 			"color": "${color}",
 			"title": "${PROJECT_TITLE} ${msg}",
 			"fields": [
@@ -114,26 +114,26 @@ notify_slack() {
 
 	if [ "$DEPLOY_ENV" == "production" ]; then
 		# notify #deployments
-		echo "{${SLACK_MSG}}" | harpoon http ${SLACK_WEBHOOK_URL}
+		echo "{${slackMsg}}" | harpoon http ${SLACK_WEBHOOK_URL}
 	fi
 
 	if [ "$DEPLOY_ENV" == "staging" ]; then
-		echo "{\"channel\": \"#deployments-staging\", ${SLACK_MSG}}" | harpoon http ${SLACK_WEBHOOK_URL}
+		echo "{\"channel\": \"#deployments-staging\", ${slackMsg}}" | harpoon http ${SLACK_WEBHOOK_URL}
 	fi
 
-	echo "{\"channel\": \"${SLACK_CHANNEL}\", ${SLACK_MSG}}" | harpoon http ${SLACK_WEBHOOK_URL}
+	echo "{\"channel\": \"${SLACK_CHANNEL}\", ${slackMsg}}" | harpoon http ${SLACK_WEBHOOK_URL}
 }
 
 case "${command}" in
 	notify:rollbar) ## %% 📣  Send a deployment notification to Rollbar
-		notify_rollbar ;;
+		notifyRollbar ;;
 
 	notify:datadog) ## <start | success | failure> %% 📣  Send a deployment notification to Datadog
-		notify_datadog ${args} ;;
+		notifyDatadog ${args} ;;
 
 	notify:slack) ## <start | success | failure> %% 📣  Send deployment notifications to the appropriate Slack channels
-		notify_slack ${args} ;;
+		notifySlack ${args} ;;
 
 	*)
-		task_help
+		taskHelp
 esac
