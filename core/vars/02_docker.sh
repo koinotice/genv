@@ -128,6 +128,20 @@ fi
 export HARPOON_DOCKER_COMPOSE_CFG="${HARPOON_ROOT}/docker-compose.yml"
 export HARPOON_DOCKER_COMPOSE="docker-compose -p harpoon -f ${HARPOON_DOCKER_COMPOSE_CFG}"
 
+# app container command execution
+if [ ! -v CI ]
+then
+	if [ -f "docker-compose.dev.yml" ]; then
+		export DOCKER_COMPOSE_DEV="docker-compose -f docker-compose.yml -f docker-compose.dev.yml"
+	else
+		export DOCKER_COMPOSE_DEV="docker-compose"
+	fi
+	export EXEC="${DOCKER_COMPOSE_DEV} exec ${PROJECT}"
+else
+	export DOCKER_COMPOSE_DEV="docker-compose"
+	export EXEC="${DOCKER_COMPOSE_DEV} exec -T ${PROJECT}"
+fi
+
 loadDynamicEnv() {
 	if [ -f "${DOCKER_DYNAMIC_ENV_FILE:-}" ]; then
 		printDebug "Loading environment variables from ${DOCKER_DYNAMIC_ENV_FILE}..."
