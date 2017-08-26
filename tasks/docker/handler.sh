@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
 
-if [ ! -v DOCKER_IMAGE ]; then
-	export DOCKER_IMAGE=wheniwork/harpoon
-fi
-
 case "${command}" in
 	docker) ## <arg>... %% 🐳  Execute a `docker` command in the Harpoon environment
 		docker ${args} ;;
@@ -15,10 +11,12 @@ case "${command}" in
 		dockerRunWithDynamicEnv ${args} ;;
 
 	docker:compose) ## <arg>... %% 🐳  Run docker-compose with your project configuration
-		dockerRun ${DOCKER_IMAGE} "docker-compose ${args}" ;;
+		${DOCKER_COMPOSE_CMD} ${args} ;;
 
 	docker:compose:dynamic) ## <arg>...	%% 🐳  Run docker-compose with your project configuration and dynamic env vars
-		dockerRunWithDynamicEnv ${DOCKER_IMAGE} "docker-compose ${args}" ;;
+		loadDynamicEnv
+		${DOCKER_COMPOSE_CMD} ${args}
+		;;
 
 	docker:prune) ## %% 🐳  Remove dangling images and volumes
 		printInfo "Removing dangling images and volumes..."

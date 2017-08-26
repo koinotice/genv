@@ -128,16 +128,19 @@ fi
 export HARPOON_DOCKER_COMPOSE_CFG="${HARPOON_ROOT}/docker-compose.yml"
 export HARPOON_DOCKER_COMPOSE="docker-compose -p harpoon -f ${HARPOON_DOCKER_COMPOSE_CFG}"
 
+loadDynamicEnv() {
+	if [ -f "${DOCKER_DYNAMIC_ENV_FILE:-}" ]; then
+		printDebug "Loading environment variables from ${DOCKER_DYNAMIC_ENV_FILE}..."
+		source ${DOCKER_DYNAMIC_ENV_FILE}
+	fi
+}
 
 # $1 IMAGE
 # $2 ARGS
 dockerRunWithDynamicEnv() {
 	configDockerNetwork
 
-	if [ -f "${DOCKER_DYNAMIC_ENV_FILE:-}" ]; then
-		printDebug "Loading environment variables from ${DOCKER_DYNAMIC_ENV_FILE}..."
-		source ${DOCKER_DYNAMIC_ENV_FILE}
-	fi
+	loadDynamicEnv
 
 	printDebug "EXECUTING: ${DOCKER_RUN_WITH_ENV} $1 $2..."
 
