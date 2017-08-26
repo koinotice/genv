@@ -38,9 +38,9 @@ done
 
 source ${HARPOON_ROOT}/core/parse.sh
 
-MODULE_NAME=$(parseModule ${command})
+moduleName=$(parseModule ${command})
 
-if [[ -v USE_DIND && "$MODULE_NAME" != "dind" ]]; then
+if [[ -v USE_DIND && "$moduleName" != "dind" ]]; then
 	printInfo "Harpoon is running in dind mode"
 	${DIND_EXEC_TTY} harpoon "$@"
 	exit $?
@@ -123,17 +123,17 @@ case "${command}" in
 		servicesStatus ;;
 
 	status) ## %% 🚥  Display the status of Harpoon core services
-		DOWN_HOSTS=0
+		downServices=0
 		for i in dnsmasq consul traefik; do
 			IS_UP=$(${HARPOON_DOCKER_COMPOSE} ps ${i} | grep 'Up') || true
 			if [[ ${IS_UP} ]]; then
 				printf "%-20s%s\n" "${i}" "${UP}"
 			else
 				printf "%-20s%s\n" "${i}" "${DOWN}"
-				DOWN_HOSTS+=1
+				downServices+=1
 			fi
 		done
-		if [ ${DOWN_HOSTS} -gt 0 ]; then
+		if [ ${downServices} -gt 0 ]; then
 			exit 1
 		fi
 		;;
@@ -157,24 +157,24 @@ case "${command}" in
 		say -v Fred -r 190 "Fitter. Happier. More productive." ;;
 
 	*)
-		if [ "${MODULE_NAME}" == "" ]; then all_help; fi
+		if [ "${moduleName}" == "" ]; then all_help; fi
 
 		# try tasks
-		taskExists ${MODULE_NAME}
+		taskExists ${moduleName}
 
 		if [ -v TASK_ROOT ]; then
 			if [[ "${firstArg:-}" == "--help" || "${firstArg:-}" == "-h" ]]; then
-				taskHelp ${MODULE_NAME}
+				taskHelp ${moduleName}
 				exit $?
 			fi
 
 			source ${TASK_ROOT}/handler.sh
 		else
 			# try services
-			serviceExists ${MODULE_NAME}
+			serviceExists ${moduleName}
 
 			if [ -v SERVICE_ROOT ]; then
-				handleService ${MODULE_NAME} ${command};
+				handleService ${moduleName} ${command};
 			elif [ -v ROOT_TASKS_FILE ]; then
 				# try custom task/command handler in working directory
 				command=${command#${PROJECT_TASK_PREFIX}:}

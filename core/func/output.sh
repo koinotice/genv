@@ -48,7 +48,7 @@ fi
 
 speak() {
 	if [[ $(uname) == 'Darwin' && ${HARPOON_SPEECH} == true ]]; then
-		speech=$(echo -e "$1" | sed 's/\n//g')
+		local speech=$(echo -e "$1" | sed 's/\n//g')
 		say -v ${HARPOON_VOICE} -r ${HARPOON_SPEECH_RATE} "${speech}" &
 	fi
 }
@@ -59,7 +59,7 @@ speakGreeting() {
 		if [ -x "$(command -v finger)" ]; then
 			name=$(finger `whoami` | awk -F: '{ print $3 }' | head -n1 | sed 's/^ //' | cut -d " " -f 1)
 		fi
-		msg="Hey ${name:-}! ${GREETING}"
+		local msg="Hey ${name:-}! ${GREETING}"
 		$(sleep 5 && speak "${msg}") &
 		if [[ ${HARPOON_SPEECH} == false ]]; then
 			echo -e "\n${COLOR_LIGHT_PURPLE}${msg}${COLOR_NC}\n"

@@ -1,7 +1,7 @@
 ## dnsmasq config, for a complete example, see:
 ## http://oss.segetech.com/intra/srv/dnsmasq.conf
 ## log all dns queries
-# log-queries
+log-queries
 ## dont use hosts nameservers
 no-resolv
 # If you want to disable negative caching, uncomment this.
