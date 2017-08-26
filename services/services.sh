@@ -180,7 +180,7 @@ serviceUp() {
 # $3 args
 serviceUpIfDown() {
 	if ! SVC_STATUS=$(checkServiceStatus $1); then
-		serviceUp $1 $2 ${3:-}
+		serviceUp $1 "$2" "${3:-}"
 	fi
 }
 
@@ -204,7 +204,7 @@ serviceDown() {
 # $3 args
 serviceDownIfUp() {
 	if SVC_STATUS=$(checkServiceStatus $1); then
-		serviceDown $1 $2 ${3:-}
+		serviceDown $1 "$2" "${3:-}"
 	fi
 }
 
@@ -225,7 +225,7 @@ serviceReset() {
 # $2 docker-compose file
 serviceResetIfUp() {
 	if SVC_STATUS=$(checkServiceStatus $1); then
-		serviceReset $1 $2
+		serviceReset $1 "$2"
 	fi
 }
 
@@ -247,7 +247,7 @@ serviceDestroy() {
 # $2 docker-compose file
 serviceDestroyIfUp() {
 	if SVC_STATUS=$(checkServiceStatus $1); then
-		serviceDestroy $1 $2
+		serviceDestroy $1 "$2"
 	fi
 }
 
@@ -269,7 +269,7 @@ serviceClean() {
 # $2 docker-compose file
 serviceCleanIfUp() {
 	if SVC_STATUS=$(checkServiceStatus $1); then
-		serviceClean $1 $2
+		serviceClean $1 "$2"
 	fi
 }
 
