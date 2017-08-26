@@ -18,40 +18,58 @@ case "${firstArg}" in
 
 	up) ## <service>... %% 🔼️  Create and start one or more services
 		services=( "${@:3}" )
-		servicesUp services ;;
+		servicesUp services
+		;;
 
 	up-if-down) ## <service>... %% ❔ 🔼️  If down, bring up one or more services
 		services=( "${@:3}" )
-		servicesUpIfDown services ;;
+		servicesUpIfDown services
+		;;
 
 	down) ## <service>... %% 🔽  Stop and remove one or more services
 		services=( "${@:3}" )
-		servicesDown services ;;
+		servicesDown services
+		;;
 
 	down-if-up) ## <service>... %% ❔ 🔽  If up, take down one or more services
 		services=( "${@:3}" )
-		servicesDownIfUp services ;;
+		servicesDownIfUp services
+		;;
 
 	reset) ## <service>... %% 🌯  Bring down, removing volumes, and restart one or more services. Data will be ERASED! ⚠️
-		servicesReset "${@:3}" ;;
+		services=( "${@:3}" )
+		servicesReset services
+		;;
 
 	reset-if-up) ## %% 🌯  If up, reset one or more services. Data will be ERASED! ⚠️
-		servicesResetIfUp "${@:3}" ;;
+		services=( "${@:3}" )
+		servicesResetIfUp services
+		;;
 
 	destroy) ## <service>... %% 🔽  Stop and remove one or more service container(s) and volume(s). Data will be ERASED! ⚠️
-		servicesDestroy "${@:3}" ;;
+		services=( "${@:3}" )
+		servicesDestroy services
+		;;
 
 	destroy-if-up) ## <service>... %% ❔ 🔽  If up, destroy one or more services. Data will be ERASED! ⚠️
-		servicesDestroyIfUp "${@:3}" ;;
+		services=( "${@:3}" )
+		servicesDestroyIfUp services
+		;;
 
 	clean) ## <service>... %% 🛀  Stop and remove one or more service container(s), image(s), and volume(s). Data will be ERASED! ⚠️
-		servicesClean "${@:3}" ;;
+		services=( "${@:3}" )
+		servicesClean services
+		;;
 
 	clean-if-up) ## <service>... %% ❔ 🛀  If up, clean one or more services. Data will be ERASED! ⚠️
-		servicesCleanIfUp "${@:3}" ;;
+		services=( "${@:3}" )
+		servicesCleanIfUp services
+		;;
 
 	status) ## <service>... %% 🚦  Display the status of one or more services
-		partialServicesStatus "${@:3}" ;;
+		services=( "${@:3}" )
+		partialServicesStatus services
+		;;
 
 	*)
 		name=${2:-}

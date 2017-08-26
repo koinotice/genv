@@ -2,6 +2,7 @@
 
 setup() {
 	load helper
+	export HARPOON_USE_EMOJI=false
 }
 
 @test "service exists" {
@@ -18,8 +19,7 @@ setup() {
 	grep "MySQL Client" <<< "$output"
 }
 
-@test "cadvisor status - up" {
-	export HARPOON_USE_EMOJI=false
+@test "service status - up" {
 	run ./harpoon cadvisor:up
 	[ "$status" -eq 0 ]
 	run ./harpoon cadvisor:status
@@ -30,9 +30,16 @@ setup() {
 	egrep "cadvisor\s+Up" <<< "$output"
 }
 
-@test "cadvisor status - down" {
-	export HARPOON_USE_EMOJI=false
-	run ./harpoon cadvisor:destroy
+@test "service reset" {
+	run ./harpoon cadvisor:reset
+	[ "$status" -eq 0 ]
+	run ./harpoon cadvisor:status
+	[ "$status" -eq 0 ]
+	egrep "cadvisor\s+Up" <<< "$output"
+}
+
+@test "service status - down" {
+	run ./harpoon cadvisor:down
 	[ "$status" -eq 0 ]
 	run ./harpoon cadvisor:status
 	[ "$status" -eq 1 ]
@@ -42,8 +49,27 @@ setup() {
 	egrep "cadvisor\s+Down" <<< "$output"
 }
 
-@test "multiple status - up" {
-	export HARPOON_USE_EMOJI=false
+@test "service destroy" {
+	run ./harpoon redis:up
+	[ "$status" -eq 0 ]
+	run ./harpoon redis:destroy
+	[ "$status" -eq 0 ]
+	run ./harpoon redis:status
+	[ "$status" -eq 1 ]
+	egrep "redis\s+Down" <<< "$output"
+}
+
+@test "service clean" {
+	run ./harpoon redis:up
+	[ "$status" -eq 0 ]
+	run ./harpoon redis:clean
+	[ "$status" -eq 0 ]
+	run ./harpoon redis:status
+	[ "$status" -eq 1 ]
+	egrep "redis\s+Down" <<< "$output"
+}
+
+@test "multiple service statuses - up" {
 	run ./harpoon service up portainer mailhog
 	[ "$status" -eq 0 ]
 	run ./harpoon service status portainer
@@ -58,8 +84,7 @@ setup() {
 	egrep "mailhog\s+Up" <<< "$output"
 }
 
-@test "multiple status - down" {
-	export HARPOON_USE_EMOJI=false
+@test "multiple service statuses - down" {
 	run ./harpoon service down portainer mailhog
 	[ "$status" -eq 0 ]
 	run ./harpoon service status portainer
@@ -72,4 +97,53 @@ setup() {
 	[ "$status" -eq 0 ]
 	egrep "portainer\s+Down" <<< "$output"
 	egrep "mailhog\s+Down" <<< "$output"
+}
+
+@test "multiple services: up-if-down" {
+	run ./harpoon service up-if-down portainer mailhog
+	[ "$status" -eq 0 ]
+	run ./harpoon service status portainer mailhog
+	[ "$status" -eq 0 ]
+	egrep "portainer\s+Up" <<< "$output"
+	egrep "mailhog\s+Up" <<< "$output"
+}
+
+@test "multiple services: down-if-up" {
+	run ./harpoon service down-if-up portainer mailhog
+	[ "$status" -eq 0 ]
+	run ./harpoon service status portainer mailhog
+	[ "$status" -eq 0 ]
+	egrep "portainer\s+Down" <<< "$output"
+	egrep "mailhog\s+Down" <<< "$output"
+}
+
+@test "multiple services: reset-if-up" {
+	run ./harpoon service up beanstalk-console dynamodb-admin
+	[ "$status" -eq 0 ]
+	run ./harpoon service reset-if-up beanstalk-console dynamodb-admin
+	[ "$status" -eq 0 ]
+	run ./harpoon service status beanstalk-console dynamodb-admin
+	[ "$status" -eq 0 ]
+	egrep "beanstalk-console\s+Up" <<< "$output"
+	egrep "dynamodb-admin\s+Up" <<< "$output"
+}
+
+@test "multiple services: destroy-if-up" {
+	run ./harpoon service destroy-if-up beanstalk-console dynamodb-admin
+	[ "$status" -eq 0 ]
+	run ./harpoon service status beanstalk-console dynamodb-admin
+	[ "$status" -eq 0 ]
+	egrep "beanstalk-console\s+Down" <<< "$output"
+	egrep "dynamodb-admin\s+Down" <<< "$output"
+}
+
+@test "multiple services: clean-if-up" {
+	run ./harpoon service up sqs-admin ssh-agent
+	[ "$status" -eq 0 ]
+	run ./harpoon service clean-if-up sqs-admin ssh-agent
+	[ "$status" -eq 0 ]
+	run ./harpoon service status sqs-admin ssh-agent
+	[ "$status" -eq 0 ]
+	egrep "sqs-admin\s+Down" <<< "$output"
+	egrep "ssh-agent\s+Down" <<< "$output"
 }

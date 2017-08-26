@@ -440,9 +440,10 @@ servicesDownIfUp() {
 	done
 }
 
-# $services
+# $1 name of services array
 servicesReset() {
-	for service; do
+	local servicesArrayName="${1}[@]"
+	for service in "${!servicesArrayName}"; do
 		serviceExists ${service}
 
 		if [ -v SERVICE_ROOT ]; then
@@ -452,9 +453,10 @@ servicesReset() {
 	done
 }
 
-# $services
+# $1 name of services array
 servicesResetIfUp() {
-	for service; do
+	local servicesArrayName="${1}[@]"
+	for service in "${!servicesArrayName}"; do
 		serviceExists ${service}
 
 		if [ -v SERVICE_ROOT ]; then
@@ -464,9 +466,10 @@ servicesResetIfUp() {
 	done
 }
 
-# $services
+# $1 name of services array
 servicesDestroy() {
-	for service; do
+	local servicesArrayName="${1}[@]"
+	for service in "${!servicesArrayName}"; do
 		serviceExists ${service}
 
 		if [ -v SERVICE_ROOT ]; then
@@ -476,9 +479,10 @@ servicesDestroy() {
 	done
 }
 
-# $services
+# $1 name of services array
 servicesDestroyIfUp() {
-	for service; do
+	local servicesArrayName="${1}[@]"
+	for service in "${!servicesArrayName}"; do
 		serviceExists ${service}
 
 		if [ -v SERVICE_ROOT ]; then
@@ -488,9 +492,10 @@ servicesDestroyIfUp() {
 	done
 }
 
-# $services
+# $1 name of services array
 servicesClean() {
-	for service; do
+	local servicesArrayName="${1}[@]"
+	for service in "${!servicesArrayName}"; do
 		serviceExists ${service}
 
 		if [ -v SERVICE_ROOT ]; then
@@ -500,9 +505,10 @@ servicesClean() {
 	done
 }
 
-# $services
+# $1 name of services array
 servicesCleanIfUp() {
-	for service; do
+	local servicesArrayName="${1}[@]"
+	for service in "${!servicesArrayName}"; do
 		serviceExists ${service}
 
 		if [ -v SERVICE_ROOT ]; then
@@ -512,9 +518,10 @@ servicesCleanIfUp() {
 	done
 }
 
-# $services
+# # $1 name of services array
 partialServicesStatus() {
-	for service; do
+	local servicesArrayName="${1}[@]"
+	for service in "${!servicesArrayName}"; do
 		serviceStatus ${service}
 	done
 }
