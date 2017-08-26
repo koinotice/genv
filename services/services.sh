@@ -11,17 +11,19 @@ serviceExists() {
 
 # $1 service name
 serviceBootstrap() {
-	if [ -f ${SERVICE_ROOT}/bootstrap.sh ]; then
-		source ${SERVICE_ROOT}/bootstrap.sh
-	fi
-
-	export COMPOSE_PROJECT_NAME=$1
+	export DOCKER_COMPOSE_CMD="docker-compose -p $1"
 	export DKR_COMPOSE_FILE="-f ${SERVICE_ROOT}/$1.yml"
 	export DOCKER_COMPOSE_EXEC="${DOCKER_COMPOSE_CMD} ${DKR_COMPOSE_FILE} exec"
 
 	if [ -v CI ]; then
 		export DOCKER_COMPOSE_EXEC+=" -T"
 	fi
+
+	if [ -f ${SERVICE_ROOT}/bootstrap.sh ]; then
+		source ${SERVICE_ROOT}/bootstrap.sh
+	fi
+
+	printDebug "DOCKER_COMPOSE_CMD: $DOCKER_COMPOSE_CMD"
 }
 
 listServices() {
@@ -163,13 +165,14 @@ service_help() {
 # $3 args
 serviceUp() {
 	printInfo "\n🔼  Bringing up $1..."
+	local dkrComposeCmd=${DOCKER_COMPOSE_CMD}
 
-	${DOCKER_COMPOSE_CMD} $2 pull --ignore-pull-failures --parallel
+	${dkrComposeCmd} $2 pull --ignore-pull-failures --parallel
 
 	# execute service pre_up hook
 	if [ -n "$(type -t ${1}_pre_up)" ] && [ "$(type -t ${1}_pre_up)" = function ]; then ${1}_pre_up "$2"; fi
 
-	${DOCKER_COMPOSE_CMD} $2 up -d ${3:-}
+	${dkrComposeCmd} $2 up -d ${3:-}
 
 	# execute service post_up hook
 	if [ -n "$(type -t ${1}_post_up)" ] && [ "$(type -t ${1}_post_up)" = function ]; then ${1}_post_up "$2"; fi
@@ -179,7 +182,7 @@ serviceUp() {
 # $2 docker-compose file
 # $3 args
 serviceUpIfDown() {
-	if ! SVC_STATUS=$(checkServiceStatus $1); then
+	if ! svcStatus=$(checkServiceStatus $1); then
 		serviceUp $1 "$2" "${3:-}"
 	fi
 }
@@ -189,11 +192,12 @@ serviceUpIfDown() {
 # $3 args
 serviceDown() {
 	printInfo "\n🔽  Taking down $1..."
+	local dkrComposeCmd=${DOCKER_COMPOSE_CMD}
 
 	# execute service pre_down hook
 	if [ -n "$(type -t ${1}_pre_down)" ] && [ "$(type -t ${1}_pre_down)" = function ]; then ${1}_pre_down "$2"; fi
 
-	${DOCKER_COMPOSE_CMD} $2 down ${3:-}
+	${dkrComposeCmd} $2 down ${3:-}
 
 	# execute service post_down hook
 	if [ -n "$(type -t ${1}_post_down)" ] && [ "$(type -t ${1}_post_down)" = function ]; then ${1}_post_down "$2"; fi
@@ -203,7 +207,7 @@ serviceDown() {
 # $2 docker-compose file
 # $3 args
 serviceDownIfUp() {
-	if SVC_STATUS=$(checkServiceStatus $1); then
+	if svcStatus=$(checkServiceStatus $1); then
 		serviceDown $1 "$2" "${3:-}"
 	fi
 }
@@ -224,7 +228,7 @@ serviceReset() {
 # $1 service name
 # $2 docker-compose file
 serviceResetIfUp() {
-	if SVC_STATUS=$(checkServiceStatus $1); then
+	if svcStatus=$(checkServiceStatus $1); then
 		serviceReset $1 "$2"
 	fi
 }
@@ -233,11 +237,12 @@ serviceResetIfUp() {
 # $2 docker-compose file
 serviceDestroy() {
 	printInfo "\n🔽  Destroying $1..."
+	local dkrComposeCmd=${DOCKER_COMPOSE_CMD}
 
 	# execute service pre_down hook
 	if [ -n "$(type -t ${1}_pre_destroy)" ] && [ "$(type -t ${1}_pre_destroy)" = function ]; then ${1}_pre_destroy "$2"; fi
 
-	${DOCKER_COMPOSE_CMD} $2 down -v
+	${dkrComposeCmd} $2 down -v
 
 	# execute service post_down hook
 	if [ -n "$(type -t ${1}_post_destroy)" ] && [ "$(type -t ${1}_post_destroy)" = function ]; then ${1}_post_destroy "$2"; fi
@@ -246,7 +251,7 @@ serviceDestroy() {
 # $1 service name
 # $2 docker-compose file
 serviceDestroyIfUp() {
-	if SVC_STATUS=$(checkServiceStatus $1); then
+	if svcStatus=$(checkServiceStatus $1); then
 		serviceDestroy $1 "$2"
 	fi
 }
@@ -255,11 +260,12 @@ serviceDestroyIfUp() {
 # $2 docker-compose file
 serviceClean() {
 	printInfo "\n🛀  Cleaning $1..."
+	local dkrComposeCmd=${DOCKER_COMPOSE_CMD}
 
 	# execute service pre_clean hook
 	if [ -n "$(type -t ${1}_pre_clean)" ] && [ "$(type -t ${1}_pre_clean)" = function ]; then ${1}_pre_clean "$2"; fi
 
-	${DOCKER_COMPOSE_CMD} $2 down --rmi all -v
+	${dkrComposeCmd} $2 down --rmi all -v
 
 	# execute service post_clean hook
 	if [ -n "$(type -t ${1}_post_clean)" ] && [ "$(type -t ${1}_post_clean)" = function ]; then ${1}_post_clean "$2"; fi
@@ -268,7 +274,7 @@ serviceClean() {
 # $1 service name
 # $2 docker-compose file
 serviceCleanIfUp() {
-	if SVC_STATUS=$(checkServiceStatus $1); then
+	if svcStatus=$(checkServiceStatus $1); then
 		serviceClean $1 "$2"
 	fi
 }
