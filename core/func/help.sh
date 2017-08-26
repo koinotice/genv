@@ -14,7 +14,7 @@ printHelp() {
 printAllHelp() {
 	printUsage
 	echo ""
-
+	echo "Commands:"
 	printHelp "${HARPOON_ROOT}/harpoon"
 
 	printf "  $COLOR_CYAN%-45s$COLOR_NC %s\n" "<service-name>:help" "❓  Get help for a particular service"

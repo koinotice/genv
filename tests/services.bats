@@ -18,22 +18,58 @@ setup() {
 	grep "MySQL Client" <<< "$output"
 }
 
-@test "mysql status - up" {
+@test "cadvisor status - up" {
 	export HARPOON_USE_EMOJI=false
-	run ./harpoon mysql:up
-	run ./harpoon mysql:status
+	run ./harpoon cadvisor:up
 	[ "$status" -eq 0 ]
-	egrep "mysql\s+Up" <<< "$output"
+	run ./harpoon cadvisor:status
+	[ "$status" -eq 0 ]
+	egrep "cadvisor\s+Up" <<< "$output"
 	run ./harpoon services:status
-	egrep "mysql\s+Up" <<< "$output"
+	[ "$status" -eq 0 ]
+	egrep "cadvisor\s+Up" <<< "$output"
 }
 
-@test "mysql status - down" {
+@test "cadvisor status - down" {
 	export HARPOON_USE_EMOJI=false
-	run ./harpoon mysql:destroy
-	run ./harpoon mysql:status
+	run ./harpoon cadvisor:destroy
+	[ "$status" -eq 0 ]
+	run ./harpoon cadvisor:status
 	[ "$status" -eq 1 ]
-	egrep "mysql\s+Down" <<< "$output"
+	egrep "cadvisor\s+Down" <<< "$output"
 	run ./harpoon services:status
-	egrep "mysql\s+Down" <<< "$output"
+	[ "$status" -eq 0 ]
+	egrep "cadvisor\s+Down" <<< "$output"
+}
+
+@test "multiple status - up" {
+	export HARPOON_USE_EMOJI=false
+	run ./harpoon service up portainer mailhog
+	[ "$status" -eq 0 ]
+	run ./harpoon service status portainer
+	[ "$status" -eq 0 ]
+	egrep "portainer\s+Up" <<< "$output"
+	run ./harpoon service status mailhog
+	[ "$status" -eq 0 ]
+	egrep "mailhog\s+Up" <<< "$output"
+	run ./harpoon service status portainer mailhog
+	[ "$status" -eq 0 ]
+	egrep "portainer\s+Up" <<< "$output"
+	egrep "mailhog\s+Up" <<< "$output"
+}
+
+@test "multiple status - down" {
+	export HARPOON_USE_EMOJI=false
+	run ./harpoon service down portainer mailhog
+	[ "$status" -eq 0 ]
+	run ./harpoon service status portainer
+	[ "$status" -eq 0 ]
+	egrep "portainer\s+Down" <<< "$output"
+	run ./harpoon service status mailhog
+	[ "$status" -eq 0 ]
+	egrep "mailhog\s+Down" <<< "$output"
+	run ./harpoon service status portainer mailhog
+	[ "$status" -eq 0 ]
+	egrep "portainer\s+Down" <<< "$output"
+	egrep "mailhog\s+Down" <<< "$output"
 }
