@@ -2,7 +2,7 @@
 
 case "${command}" in
 	mysql:client) ## [<arg>...] %% MySQL Client
-		${DOCKER_COMPOSE_EXEC} mysql mysql -uroot -p${MYSQL_ROOT_PASSWORD} "${args}" ;;
+		$(serviceDockerComposeExec mysql) mysql mysql -uroot -p${MYSQL_ROOT_PASSWORD} "${args}" ;;
 	*)
 		serviceHelp mysql
 esac

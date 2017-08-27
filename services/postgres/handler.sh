@@ -2,7 +2,7 @@
 
 case "${command}" in
 	postgres:psql) ## [<arg>...] %% Postgres PSQL
-		${DOCKER_COMPOSE_EXEC} postgres psql -U ${POSTGRES_USER} "${args}" ;;
+		$(serviceDockerComposeExec postgres) postgres psql -U ${POSTGRES_USER} "${args}" ;;
 	*)
 		serviceHelp postgres
 esac

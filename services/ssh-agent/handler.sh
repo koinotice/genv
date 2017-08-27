@@ -35,7 +35,7 @@ case "${command}" in
 		addAll ;;
 
 	ssh-agent:add-if-none)
-		${DOCKER_COMPOSE_EXEC} ssh-agent ssh-add -l || EXIT_CODE=$?
+		$(serviceDockerComposeExec ssh-agent) ssh-agent ssh-add -l || EXIT_CODE=$?
 
 		if [ ${EXIT_CODE:-} ]; then
 			printInfo "Adding all SSH keys..."
@@ -44,7 +44,7 @@ case "${command}" in
 		;;
 
 	ssh-agent:list) ## %% List your keys
-		${DOCKER_COMPOSE_EXEC} ssh-agent ssh-add -l ;;
+		$(serviceDockerComposeExec ssh-agent) ssh-agent ssh-add -l ;;
 
 	*)
 		serviceHelp ssh-agent
