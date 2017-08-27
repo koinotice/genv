@@ -206,7 +206,7 @@ serviceDown() {
 # $2 args
 serviceDownIfUp() {
 	if svcStatus=$(checkServiceStatus $1); then
-		serviceDown "${2:-}"
+		serviceDown $1 "${2:-}"
 	fi
 }
 
@@ -286,7 +286,7 @@ handleService() {
 		exit $?
 	fi
 
-	serviceBootstrap $1
+	serviceBootstrap
 
 	case "$2" in
 		$1:up)
