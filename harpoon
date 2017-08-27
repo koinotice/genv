@@ -14,11 +14,11 @@ while [ -h "$SOURCE" ]; do
 done
 export HARPOON_ROOT="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 
-export TASKS_ROOT=${HARPOON_ROOT}/tasks
-export SERVICES_ROOT=${HARPOON_ROOT}/services
-export VENDOR_ROOT=${HARPOON_ROOT}/vendor
-export IMAGES_ROOT=${HARPOON_ROOT}/images
-export LIB_ROOT=${HARPOON_ROOT}/lib
+export HARPOON_TASKS_ROOT=${HARPOON_ROOT}/tasks
+export HARPOON_SERVICES_ROOT=${HARPOON_ROOT}/services
+export HARPOON_VENDOR_ROOT=${HARPOON_ROOT}/vendor
+export HARPOON_IMAGES_ROOT=${HARPOON_ROOT}/images
+export HARPOON_LIB_ROOT=${HARPOON_ROOT}/lib
 
 if [[ "$command" == "initpath" ]]; then
 	echo "${HARPOON_ROOT}/completion/init.sh" && exit 0
@@ -42,16 +42,16 @@ moduleName=$(parseModule ${command})
 
 if [[ -v USE_DIND && "$moduleName" != "dind" ]]; then
 	printInfo "Harpoon is running in dind mode"
-	${DIND_EXEC_TTY} harpoon "$@"
+	${HARPOON_DIND_EXEC_TTY} harpoon "$@"
 	exit $?
 fi
 
 # this should always be loaded AFTER core vars and func
 source ${HARPOON_ROOT}/core/boot.sh
 
-source ${TASKS_ROOT}/tasks.sh
+source ${HARPOON_TASKS_ROOT}/tasks.sh
 
-source ${SERVICES_ROOT}/services.sh
+source ${HARPOON_SERVICES_ROOT}/services.sh
 
 # setup temp directory
 mkdir -p ${HARPOON_TEMP}
@@ -145,7 +145,7 @@ case "${command}" in
 		listTasks ;;
 
 	service) ## <name> <command> [<arg>...] %% 🍽  Run a (docker-compose) command or task for a service
-		source ${SERVICES_ROOT}/tasks.sh ;;
+		source ${HARPOON_SERVICES_ROOT}/tasks.sh ;;
 
 	stfu) ## %% 🤐  Please stop talking
 		echo "export HARPOON_SPEECH=false" >> $HOME/harpoon.env.sh ;;

@@ -27,19 +27,19 @@ case "${command}" in
 		--workdir $PWD --privileged --name ${COMPOSE_PROJECT_NAME}_dind -d ${DIND_IMAGE} \
 		--storage-driver=${DIND_STORAGE_DRIVER} --dns=10.254.252.254
 
-		${DIND_EXEC} harpoon docker:load
+		${HARPOON_DIND_EXEC} harpoon docker:load
 
-		${DIND_EXEC} harpoon install
+		${HARPOON_DIND_EXEC} harpoon install
 		;;
 
 	dind:stop) ## %% 🐳  Stop the docker-in-docker container
 		docker rm -f -v ${COMPOSE_PROJECT_NAME}_dind ;;
 
 	dind:exec) ## %% 🐳  Run a command inside the docker-in-docker container
-		${DIND_EXEC} ${args} ;;
+		${HARPOON_DIND_EXEC} ${args} ;;
 
 	dind:exec:it) ## %% 🐳  Run an interactive command inside the docker-in-docker container
-		${DIND_EXEC_IT} ${args} ;;
+		${HARPOON_DIND_EXEC_IT} ${args} ;;
 
 	*)
 		taskHelp

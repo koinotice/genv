@@ -2,6 +2,7 @@
 
 setup() {
 	load helper
+	unset HARPOON_DEBUG
 }
 
 @test "initpath" {
@@ -50,7 +51,7 @@ setup() {
 	env=$(unset ${PAGER} && ./harpoon env 2>&1)
 	[ $? -eq 0 ]
 	echo -e "$env" | grep "DEPLOY_ENV"
-	echo -e "$env" | grep "DIND_EXEC"
+	echo -e "$env" | grep "HARPOON_DIND_EXEC"
 	echo -e "$env" | grep "HARPOON_"
 	echo -e "$env" | grep "PROJECT="
 	echo -e "$env" | grep "PROJECT_"

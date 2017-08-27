@@ -19,11 +19,11 @@ fi
 printDebug "HARPOON_IMAGE: $HARPOON_IMAGE"
 
 # loopback alias ip
-if [ ! -v LOOPBACK_ALIAS_IP ]; then
-	export LOOPBACK_ALIAS_IP="10.254.253.1"
+if [ ! -v HARPOON_LOOPBACK_ALIAS_IP ]; then
+	export HARPOON_LOOPBACK_ALIAS_IP="10.254.253.1"
 fi
 
-printDebug "LOOPBACK_ALIAS_IP: $LOOPBACK_ALIAS_IP"
+printDebug "HARPOON_LOOPBACK_ALIAS_IP: $HARPOON_LOOPBACK_ALIAS_IP"
 
 # docker network
 if [ ! -v HARPOON_DOCKER_NETWORK ]; then
@@ -46,14 +46,14 @@ fi
 printDebug "HARPOON_DOCKER_SUBNET: $HARPOON_DOCKER_SUBNET"
 
 # core service container ips
-harpoon_docker_net_prefix=$(echo ${HARPOON_DOCKER_SUBNET} | awk -F "/" '{print $1}' | awk -F "." '{printf "%d.%d.%d", $1, $2, $3}')
+dockerNetPrefix=$(echo ${HARPOON_DOCKER_SUBNET} | awk -F "/" '{print $1}' | awk -F "." '{printf "%d.%d.%d", $1, $2, $3}')
 
 if [ ! -v HARPOON_DNSMASQ_IP ]; then
-	export HARPOON_DNSMASQ_IP="${harpoon_docker_net_prefix}.254"
+	export HARPOON_DNSMASQ_IP="${dockerNetPrefix}.254"
 fi
 
 if [ ! -v HARPOON_TRAEFIK_IP ]; then
-	export HARPOON_TRAEFIK_IP="${harpoon_docker_net_prefix}.253"
+	export HARPOON_TRAEFIK_IP="${dockerNetPrefix}.253"
 fi
 
 # core service hostnames
@@ -71,43 +71,43 @@ fi
 
 # docker-machine detection
 if [ -x "$(command -v docker-machine)" ]; then
-	export DOCKER_MACHINE_IP=$(docker-machine ip $(docker-machine ls | grep \* | awk '{ print $1 }'))
+	export HARPOON_DOCKER_MACHINE_IP=$(docker-machine ip $(docker-machine ls | grep \* | awk '{ print $1 }'))
 fi
 
-if [ -v DOCKER_MACHINE_IP ]; then
-	export HARPOON_DOCKER_HOST_IP=${DOCKER_MACHINE_IP}
+if [ -v HARPOON_DOCKER_MACHINE_IP ]; then
+	export HARPOON_DOCKER_HOST_IP=${HARPOON_DOCKER_MACHINE_IP}
 else
 	if [ -v RUNNING_IN_CONTAINER ]; then
 		export HARPOON_DOCKER_HOST_IP=${HARPOON_TRAEFIK_IP}
 	else
-		export HARPOON_DOCKER_HOST_IP=${LOOPBACK_ALIAS_IP}
+		export HARPOON_DOCKER_HOST_IP=${HARPOON_LOOPBACK_ALIAS_IP}
 	fi
 fi
 
 printDebug "HARPOON_DOCKER_HOST_IP: $HARPOON_DOCKER_HOST_IP"
 
 # docker / dind
-DOCKER_RUN_ARGS="--rm -v $PWD:$PWD -w $PWD --net=${HARPOON_DOCKER_NETWORK} -e 'TERM=xterm' -e USER_UID -e USER_GID"
+dockerRunArgs="--rm -v $PWD:$PWD -w $PWD --net=${HARPOON_DOCKER_NETWORK} -e 'TERM=xterm' -e USER_UID -e USER_GID"
 
-export SOCK=/var/run/docker.sock
+dockerSock=/var/run/docker.sock
 
-export DIND_EXEC="docker exec ${COMPOSE_PROJECT_NAME}_dind"
-export DIND_EXEC_TTY="docker exec -t ${COMPOSE_PROJECT_NAME}_dind"
-export DIND_EXEC_IT="docker exec -it ${COMPOSE_PROJECT_NAME}_dind"
+export HARPOON_DIND_EXEC="docker exec ${COMPOSE_PROJECT_NAME}_dind"
+export HARPOON_DIND_EXEC_TTY="docker exec -t ${COMPOSE_PROJECT_NAME}_dind"
+export HARPOON_DIND_EXEC_IT="docker exec -it ${COMPOSE_PROJECT_NAME}_dind"
 
-export DOCKER_COMPOSE_CMD="docker-compose"
+export HARPOON_DOCKER_COMPOSE_CMD="docker-compose"
 
-if [ -f ${SOCK} ]; then
+if [ -f ${dockerSock} ]; then
 	# local docker server
-	export DOCKER_HOST=unix://${SOCK}
-	DOCKER_RUN="docker run ${DOCKER_RUN_ARGS} -v ${SOCK}:${SOCK}"
+	export DOCKER_HOST=unix://${dockerSock}
+	DOCKER_RUN="docker run ${dockerRunArgs} -v ${dockerSock}:${dockerSock}"
 
 	if [ -d "${HOME}/.docker" ]; then
 		DOCKER_RUN+=" -v ${HOME}/.docker:/root/.docker"
 	fi
 else
 	# remote docker server
-	DOCKER_RUN="docker run ${DOCKER_RUN_ARGS}"
+	DOCKER_RUN="docker run ${dockerRunArgs}"
 
 	if [ -d "${HOME}/.docker" ]; then
 		DOCKER_RUN+=" -v ${HOME}/.docker:/root/.docker"
@@ -120,9 +120,9 @@ printDebug "DOCKER_RUN: $DOCKER_RUN"
 
 if [ -f "${DOCKER_INHERIT_ENV_FILE:-}" ]; then
 	printDebug "Docker will inherit environment from ${DOCKER_INHERIT_ENV_FILE}"
-	export DOCKER_RUN_WITH_ENV="${DOCKER_RUN} --env-file ${TASKS_ROOT}/docker/inherit.env --env-file ${DOCKER_INHERIT_ENV_FILE}"
+	export DOCKER_RUN_WITH_ENV="${DOCKER_RUN} --env-file ${HARPOON_TASKS_ROOT}/docker/inherit.env --env-file ${DOCKER_INHERIT_ENV_FILE}"
 else
-	export DOCKER_RUN_WITH_ENV="${DOCKER_RUN} --env-file ${TASKS_ROOT}/docker/inherit.env"
+	export DOCKER_RUN_WITH_ENV="${DOCKER_RUN} --env-file ${HARPOON_TASKS_ROOT}/docker/inherit.env"
 fi
 
 export HARPOON_DOCKER_COMPOSE_CFG="${HARPOON_ROOT}/docker-compose.yml"

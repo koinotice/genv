@@ -11,11 +11,11 @@ case "${command}" in
 		dockerRunWithDynamicEnv ${args} ;;
 
 	docker:compose) ## <arg>... %% 🐳  Run docker-compose with your project configuration
-		${DOCKER_COMPOSE_CMD} ${args} ;;
+		${HARPOON_DOCKER_COMPOSE_CMD} ${args} ;;
 
 	docker:compose:dynamic) ## <arg>...	%% 🐳  Run docker-compose with your project configuration and dynamic env vars
 		loadDynamicEnv
-		${DOCKER_COMPOSE_CMD} ${args}
+		${HARPOON_DOCKER_COMPOSE_CMD} ${args}
 		;;
 
 	docker:prune) ## %% 🐳  Remove dangling images and volumes
@@ -36,7 +36,7 @@ case "${command}" in
 		;;
 
 	docker:load) ## [dir] %% 🐳  Load Docker image (tar) files from a directory [default: $HARPOON_ROOT/images]
-		images_dir=${args:-$IMAGES_ROOT}
+		images_dir=${args:-$HARPOON_IMAGES_ROOT}
 
 		if [ ! -d ${images_dir} ]; then
 			printWarn "Skipping image loading: '${images_dir}' is not a directory."

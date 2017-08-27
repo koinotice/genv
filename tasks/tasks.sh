@@ -17,17 +17,17 @@ taskExists() {
 		local task=${task_aliases[$1]}
 	fi
 
-	if [ -d ${TASKS_ROOT}/${task} ]; then
-		export TASK_ROOT=${TASKS_ROOT}/${task}
-	elif [ -d ${VENDOR_ROOT}/tasks/${task} ]; then
-		export TASK_ROOT=${VENDOR_ROOT}/tasks/${task}
+	if [ -d ${HARPOON_TASKS_ROOT}/${task} ]; then
+		export TASK_ROOT=${HARPOON_TASKS_ROOT}/${task}
+	elif [ -d ${HARPOON_VENDOR_ROOT}/tasks/${task} ]; then
+		export TASK_ROOT=${HARPOON_VENDOR_ROOT}/tasks/${task}
 	fi
 }
 
 listTasks() {
 	local tasks=""
 
-	for f in $(ls ${TASKS_ROOT}); do
+	for f in $(ls ${HARPOON_TASKS_ROOT}); do
 		if [[ "$f" == "tasks.sh" || "$f" == "_templates" ]]; then
 			continue
 		fi
@@ -41,8 +41,8 @@ listTasks() {
 		local tasks+="$task\n"
 	done
 
-	if [ -d ${VENDOR_ROOT}/tasks ]; then
-		for f in $(ls ${VENDOR_ROOT}/tasks); do
+	if [ -d ${HARPOON_VENDOR_ROOT}/tasks ]; then
+		for f in $(ls ${HARPOON_VENDOR_ROOT}/tasks); do
 			local task=${f}
 
 			# fixme support aliases for vendored tasks
@@ -85,20 +85,20 @@ task_help() {
 }
 
 # bootstrap tasks
-for f in $(ls ${TASKS_ROOT}); do
+for f in $(ls ${HARPOON_TASKS_ROOT}); do
 	if [[ "$f" == "tasks.sh" || "$f" == "_templates" ]]; then
 		continue
 	fi
 
-	if [ -f ${TASKS_ROOT}/${f}/bootstrap.sh ]; then
-		source ${TASKS_ROOT}/${f}/bootstrap.sh;
+	if [ -f ${HARPOON_TASKS_ROOT}/${f}/bootstrap.sh ]; then
+		source ${HARPOON_TASKS_ROOT}/${f}/bootstrap.sh;
 	fi
 done
 
-if [ -d ${VENDOR_ROOT}/tasks ]; then
-	for f in $(ls ${VENDOR_ROOT}/tasks); do
-		if [ -f ${VENDOR_ROOT}/tasks/${f}/bootstrap.sh ]; then
-			source ${VENDOR_ROOT}/tasks/${f}/bootstrap.sh;
+if [ -d ${HARPOON_VENDOR_ROOT}/tasks ]; then
+	for f in $(ls ${HARPOON_VENDOR_ROOT}/tasks); do
+		if [ -f ${HARPOON_VENDOR_ROOT}/tasks/${f}/bootstrap.sh ]; then
+			source ${HARPOON_VENDOR_ROOT}/tasks/${f}/bootstrap.sh;
 		fi
 	done
 fi

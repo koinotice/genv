@@ -80,13 +80,13 @@ configMacOS() {
 		done
 	fi
 
-	sudo ifconfig lo0 alias ${LOOPBACK_ALIAS_IP}/32 || true
+	sudo ifconfig lo0 alias ${HARPOON_LOOPBACK_ALIAS_IP}/32 || true
 	${HARPOON_DOCKER_COMPOSE} up -d dnsmasq consul
 }
 
 configLinux() {
 	if [ ! -v RUNNING_IN_CONTAINER ]; then
-		sudo ifconfig lo:0 ${LOOPBACK_ALIAS_IP}/32 || true
+		sudo ifconfig lo:0 ${HARPOON_LOOPBACK_ALIAS_IP}/32 || true
 
 		if [ -d /etc/NetworkManager ]; then
 			sudo ln -fs ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf /etc/NetworkManager/dnsmasq.d/harpoon
@@ -254,7 +254,7 @@ selfUpdate() {
 
 	if [ -d ${installTemp}/harpoon/images ]; then
 		printInfo "Replacing images..."
-		rm -fr ${IMAGES_ROOT}
+		rm -fr ${HARPOON_IMAGES_ROOT}
 		cp -a ${installTemp}/harpoon/images ${HARPOON_ROOT}/
 	fi
 
@@ -262,7 +262,7 @@ selfUpdate() {
 
 	install
 
-	if [ -d ${IMAGES_ROOT} ]; then
+	if [ -d ${HARPOON_IMAGES_ROOT} ]; then
 		harpoon docker:load
 	fi
 

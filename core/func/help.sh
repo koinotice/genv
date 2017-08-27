@@ -24,21 +24,21 @@ printAllHelp() {
 
 	printf "\nTasks:\n"
 
-	for m in $(ls ${TASKS_ROOT}); do
+	for m in $(ls ${HARPOON_TASKS_ROOT}); do
 		if [[ "$m" == "tasks.sh" || "$m" == "_templates" ]]; then
 			continue
 		fi
 
 		printf "  $(tr '[:lower:]' '[:upper:]' <<< ${m}):\n"
-		printHelp ${TASKS_ROOT}/${m}/handler.sh
+		printHelp ${HARPOON_TASKS_ROOT}/${m}/handler.sh
 		echo ""
 	done
 
-	if [ -d ${VENDOR_ROOT}/tasks ]; then
+	if [ -d ${HARPOON_VENDOR_ROOT}/tasks ]; then
 		printf "\nTask Plugins:\n"
-		for v in $(ls ${VENDOR_ROOT}/tasks); do
+		for v in $(ls ${HARPOON_VENDOR_ROOT}/tasks); do
 			printf "  $(tr '[:lower:]' '[:upper:]' <<< ${v}):\n"
-			printHelp ${VENDOR_ROOT}/tasks/${v}/handler.sh
+			printHelp ${HARPOON_VENDOR_ROOT}/tasks/${v}/handler.sh
 			echo ""
 		done
 	fi

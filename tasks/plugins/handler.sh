@@ -50,11 +50,11 @@ pluginRoot() {
 	case "$TYPE" in
 		module) # deprecated
 			printWarn "Plugin type 'module' has been deprecated, please change to 'task'."
-			export PLUGIN_ROOT=${VENDOR_ROOT}/tasks ;;
+			export PLUGIN_ROOT=${HARPOON_VENDOR_ROOT}/tasks ;;
 		task)
-			export PLUGIN_ROOT=${VENDOR_ROOT}/tasks ;;
+			export PLUGIN_ROOT=${HARPOON_VENDOR_ROOT}/tasks ;;
 		service)
-			export PLUGIN_ROOT=${VENDOR_ROOT}/services ;;
+			export PLUGIN_ROOT=${HARPOON_VENDOR_ROOT}/services ;;
 		*)
 			printPanic "Unknown plugin type '$TYPE'"
 	esac
@@ -82,9 +82,9 @@ extractPlugin() {
 
 		set +u
 
-		source ${LIB_ROOT}/mo/mo
+		source ${HARPOON_LIB_ROOT}/mo/mo
 
-		cat ${TASKS_ROOT}/_templates/bootstrap.mo | mo > ${PLUGIN_ROOT}/${NAME}/bootstrap.sh
+		cat ${HARPOON_TASKS_ROOT}/_templates/bootstrap.mo | mo > ${PLUGIN_ROOT}/${NAME}/bootstrap.sh
 
 		if [[ ${CMD_ARGS} == null ]]; then
 			export CMD_ARGS=""
@@ -94,7 +94,7 @@ extractPlugin() {
 			export DESCRIPTION=""
 		fi
 
-		cat ${TASKS_ROOT}/_templates/handler.mo | mo > ${PLUGIN_ROOT}/${NAME}/handler.sh
+		cat ${HARPOON_TASKS_ROOT}/_templates/handler.mo | mo > ${PLUGIN_ROOT}/${NAME}/handler.sh
 
 		set -u
 	fi
@@ -182,7 +182,7 @@ case "${command}" in
 	plug:reinstall) ## %% Reinstall all Harpoon plugins
 		PLUGIN_REINSTALL=true
 
-		rm -fr ${VENDOR_ROOT}
+		rm -fr ${HARPOON_VENDOR_ROOT}
 
 		installFromFile ${PLUGINS_FILE}
       	;;
@@ -228,7 +228,7 @@ case "${command}" in
 		;;
 
 	plug:rm:all) ## %% Remove all Harpoon plugins
-		rm -fr ${VENDOR_ROOT}
+		rm -fr ${HARPOON_VENDOR_ROOT}
 
 		for p in $(cat ${PLUGINS_FILE}); do
 			docker rmi "${p}" || true

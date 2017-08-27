@@ -11,7 +11,7 @@ case "${firstArg}" in
 		echo "Usage:"
 		echo -e "  harpoon service <command> [<arg>...]\n"
 		echo "Commands:"
-		help=$(grep -E '^\s[a-zA-Z0-9:|_-]+\)\s##\s.*$' ${SERVICES_ROOT}/tasks.sh | sort | awk 'BEGIN {FS = "\\).*?## |%%"}; {gsub(/\t/,"  "); printf "\033[36m%-18s\033[0m%-20s%s\n", $1, $2, $3}')
+		help=$(grep -E '^\s[a-zA-Z0-9:|_-]+\)\s##\s.*$' ${HARPOON_SERVICES_ROOT}/tasks.sh | sort | awk 'BEGIN {FS = "\\).*?## |%%"}; {gsub(/\t/,"  "); printf "\033[36m%-18s\033[0m%-20s%s\n", $1, $2, $3}')
 		echo -e "$help"
 		echo ""
 		;;

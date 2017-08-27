@@ -2,10 +2,10 @@
 
 # $1 service name
 serviceRoot() {
-	if [ -d ${SERVICES_ROOT}/$1 ]; then
-		echo "${SERVICES_ROOT}/$1"
-	elif [ -d ${VENDOR_ROOT}/services/$1 ]; then
-		echo "${VENDOR_ROOT}/services/$1"
+	if [ -d ${HARPOON_SERVICES_ROOT}/$1 ]; then
+		echo "${HARPOON_SERVICES_ROOT}/$1"
+	elif [ -d ${HARPOON_VENDOR_ROOT}/services/$1 ]; then
+		echo "${HARPOON_VENDOR_ROOT}/services/$1"
 	else
 		printPanic "No such service $1"
 	fi
@@ -13,7 +13,7 @@ serviceRoot() {
 
 # $1 service name
 serviceDockerCompose() {
-	echo "${DOCKER_COMPOSE_CMD} -p $1 -f $(serviceRoot $1)/$1.yml"
+	echo "${HARPOON_DOCKER_COMPOSE_CMD} -p $1 -f $(serviceRoot $1)/$1.yml"
 }
 
 # $1 service name
@@ -38,7 +38,7 @@ serviceBootstrap() {
 listServices() {
 	local services=""
 
-	for f in $(ls ${SERVICES_ROOT}); do
+	for f in $(ls ${HARPOON_SERVICES_ROOT}); do
 		if [[ ${f} =~ services.sh|tasks.sh ]]; then
 			continue
 		fi
@@ -46,8 +46,8 @@ listServices() {
 		local services+="$f\n"
 	done
 
-	if [ -d ${VENDOR_ROOT}/services ]; then
-		for v in $(ls ${VENDOR_ROOT}/services); do
+	if [ -d ${HARPOON_VENDOR_ROOT}/services ]; then
+		for v in $(ls ${HARPOON_VENDOR_ROOT}/services); do
 			local services+="$v\n"
 		done
 	fi
@@ -84,7 +84,7 @@ checkServiceStatus() {
 }
 
 servicesStatus() {
-	for f in $(ls ${SERVICES_ROOT}); do
+	for f in $(ls ${HARPOON_SERVICES_ROOT}); do
 		if [[ ${f} =~ services.sh|tasks.sh ]]; then
 			continue
 		fi
@@ -92,8 +92,8 @@ servicesStatus() {
 		serviceStatus ${f}
 	done
 
-	if [ -d ${VENDOR_ROOT}/services ]; then
-		for v in $(ls ${VENDOR_ROOT}/services); do
+	if [ -d ${HARPOON_VENDOR_ROOT}/services ]; then
+		for v in $(ls ${HARPOON_VENDOR_ROOT}/services); do
 			serviceStatus ${v}
 		done
 	fi

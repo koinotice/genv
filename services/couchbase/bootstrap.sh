@@ -16,7 +16,7 @@ fi
 export COUCHBASE_VOLUME_NAME=couchbase
 
 couchbaseProvisionerRun() {
-	cat ${SERVICES_ROOT}/couchbase/couchbase_default.yaml | sed -e "s/CB_HOST/${CB_HOST}/" | httpie -v -F --verify=no -a 12345:secret --pretty=all POST http://cbpvr.harpoon.dev:8080/clusters/ Content-Type:application/yaml
+	cat ${HARPOON_SERVICES_ROOT}/couchbase/couchbase_default.yaml | sed -e "s/CB_HOST/${CB_HOST}/" | httpie -v -F --verify=no -a 12345:secret --pretty=all POST http://cbpvr.harpoon.dev:8080/clusters/ Content-Type:application/yaml
 }
 
 couchbase_post_up() {
