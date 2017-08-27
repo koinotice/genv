@@ -64,11 +64,7 @@ case "${2:-}" in
 			cmplt ${TASK_ROOT}/handler.sh
 			echo -e "\n"
 		else
-			if [ -d ${HARPOON_SERVICES_ROOT}/$1 ]; then
-				svcRoot="${HARPOON_SERVICES_ROOT}/$1"
-			elif [ -d ${HARPOON_VENDOR_ROOT}/services/$1 ]; then
-				svcRoot="${HARPOON_VENDOR_ROOT}/services/$1"
-			fi
+			svcRoot=$(serviceRoot ${moduleName})
 
 			if [[ "${svcRoot:-}" != "" ]]; then
 				service_c_cmds ${moduleName}

@@ -157,7 +157,7 @@ case "${command}" in
 		say -v Fred -r 190 "Fitter. Happier. More productive." ;;
 
 	*)
-		if [ "${moduleName}" == "" ]; then all_help; fi
+		if [ "${moduleName}" == "" ]; then printAllHelp; fi
 
 		# try tasks
 		taskExists ${moduleName}

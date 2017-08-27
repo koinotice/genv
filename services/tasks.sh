@@ -1,5 +1,14 @@
 #!/usr/bin/env bash
 
+serviceUsage() {
+	echo "Usage:"
+	echo -e "  harpoon service <command> [<arg>...]\n"
+	echo "Commands:"
+	help=$(grep -E '^\s[a-zA-Z0-9:|_-]+\)\s##\s.*$' ${HARPOON_SERVICES_ROOT}/tasks.sh | sort | awk 'BEGIN {FS = "\\).*?## |%%"}; {gsub(/\t/,"  "); printf "\033[36m%-18s\033[0m%-20s%s\n", $1, $2, $3}')
+	echo -e "$help"
+	echo ""
+}
+
 case "${firstArg}" in
 	list) ## %% 👓  List services available in Harpoon
 		listServices ;;
@@ -8,12 +17,7 @@ case "${firstArg}" in
 		listServices ;;
 
 	help)
-		echo "Usage:"
-		echo -e "  harpoon service <command> [<arg>...]\n"
-		echo "Commands:"
-		help=$(grep -E '^\s[a-zA-Z0-9:|_-]+\)\s##\s.*$' ${HARPOON_SERVICES_ROOT}/tasks.sh | sort | awk 'BEGIN {FS = "\\).*?## |%%"}; {gsub(/\t/,"  "); printf "\033[36m%-18s\033[0m%-20s%s\n", $1, $2, $3}')
-		echo -e "$help"
-		echo ""
+		serviceUsage
 		;;
 
 	up) ## <service>... %% 🔼️  Create and start one or more services
@@ -73,6 +77,12 @@ case "${firstArg}" in
 
 	*)
 		name=${2:-}
+
+		if [[ "$name" == "" ]]; then
+			serviceUsage
+			exit 1
+		fi
+
 		command="${name}:${3:-}"
 		args=${@:4}
 

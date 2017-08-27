@@ -6,8 +6,6 @@ serviceRoot() {
 		echo "${HARPOON_SERVICES_ROOT}/$1"
 	elif [ -d ${HARPOON_VENDOR_ROOT}/services/$1 ]; then
 		echo "${HARPOON_VENDOR_ROOT}/services/$1"
-	else
-		printPanic "No service named '$1'"
 	fi
 }
 
@@ -146,6 +144,10 @@ $1:status) ## %% 🚦  Display the status of the $1 service
 # $1 service name
 serviceHelp() {
 	local svcRoot=$(serviceRoot $1)
+
+	if [[ "$svcRoot" == "" ]]; then
+		printPanic "No service named $1" "😞"
+	fi
 
 	printServiceHelp $1
 
@@ -375,6 +377,10 @@ handleService() {
 
 		$1:*)
 			svcRoot=$(serviceRoot $1)
+
+			if [[ "$svcRoot" == "" ]]; then
+				printPanic "No service named $1" "😞"
+			fi
 
 			serviceBootstrap $1
 
