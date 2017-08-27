@@ -14,8 +14,6 @@ services:
       - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
       - "traefik.docker.network=${HARPOON_DOCKER_NETWORK}"
       - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
-#    links:
-#      - couchbase-provisioner
     ports:
       - "8091-8094:8091-8094"
       - "11207:11207"

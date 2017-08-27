@@ -19,11 +19,6 @@ couchbaseProvisionerRun() {
 	cat ${HARPOON_SERVICES_ROOT}/couchbase/couchbase_default.yaml | sed -e "s/CB_HOST/${CB_HOST}/" | httpie -v -F --verify=no -a 12345:secret --pretty=all POST http://cbpvr.harpoon.dev:8080/clusters/ Content-Type:application/yaml
 }
 
-couchbase_post_up() {
-	sleep 10
-	couchbaseProvisionerRun
-}
-
 couchbase_pre_up() {
 	local volumeCreated=$(docker volume ls | grep ${COUCHBASE_VOLUME_NAME}) || true
 
@@ -31,6 +26,11 @@ couchbase_pre_up() {
 		printInfo "Creating docker volume named '${COUCHBASE_VOLUME_NAME}'..."
 		docker volume create --name=${COUCHBASE_VOLUME_NAME}
 	fi
+}
+
+couchbase_post_up() {
+	sleep 10
+	couchbaseProvisionerRun
 }
 
 couchbaseRemoveVolume() {

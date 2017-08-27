@@ -54,5 +54,8 @@ case "${command}" in
 		;;
 
 	docker:help)
+		taskHelp ;;
+
+	*)
 		taskHelp
 esac

@@ -7,7 +7,7 @@ serviceRoot() {
 	elif [ -d ${HARPOON_VENDOR_ROOT}/services/$1 ]; then
 		echo "${HARPOON_VENDOR_ROOT}/services/$1"
 	else
-		printPanic "No such service $1"
+		printPanic "No service named '$1'"
 	fi
 }
 
