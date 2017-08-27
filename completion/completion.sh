@@ -64,9 +64,13 @@ case "${2:-}" in
 			cmplt ${TASK_ROOT}/handler.sh
 			echo -e "\n"
 		else
-			svcRoot=$(serviceRoot ${moduleName})
+			if [ -d ${HARPOON_SERVICES_ROOT}/$1 ]; then
+				svcRoot="${HARPOON_SERVICES_ROOT}/$1"
+			elif [ -d ${HARPOON_VENDOR_ROOT}/services/$1 ]; then
+				svcRoot="${HARPOON_VENDOR_ROOT}/services/$1"
+			fi
 
-			if [[ "$svcRoot" != "" ]]; then
+			if [[ "${svcRoot:-}" != "" ]]; then
 				service_c_cmds ${moduleName}
 				echo -e "\n"
 				service_d_cmds ${moduleName}
@@ -91,13 +95,10 @@ case "${2:-}" in
 		;;
 	*)
 		cmplt ${HARPOON_ROOT}/harpoon
-		echo ""
 
 		listTasks
-		echo ""
 
 		listServices
-		echo ""
 
 		if [ -v ROOT_TASKS_FILE ]; then
 			cmplt ${ROOT_TASKS_FILE} ${PROJECT_TASK_PREFIX}
