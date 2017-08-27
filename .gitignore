@@ -9,6 +9,7 @@ harpoon.env.sh
 harpoon.boot.sh
 services/custom
 vendor/
+vendor
 .harpoon/
 plugins.txt
 _kcov
