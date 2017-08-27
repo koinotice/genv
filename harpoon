@@ -171,9 +171,9 @@ case "${command}" in
 			source ${TASK_ROOT}/handler.sh
 		else
 			# try services
-			serviceExists ${moduleName}
+			svcRoot=$(serviceRoot ${moduleName})
 
-			if [ -v SERVICE_ROOT ]; then
+			if [[ "$svcRoot" != "" ]]; then
 				handleService ${moduleName} ${command};
 			elif [ -v ROOT_TASKS_FILE ]; then
 				# try custom task/command handler in working directory
