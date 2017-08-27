@@ -8,9 +8,9 @@ setup() {
 @test "service exists" {
 	setHarpoonRoots
 	harpoonLoad services/services.sh
-	serviceExists mysql
+	svcRoot=$(serviceRoot mysql)
 	[ $? -eq 0 ]
-	[ "${SERVICE_ROOT}" != "" ]
+	[ "$svcRoot" != "" ]
 }
 
 @test "mysql help" {
