@@ -57,9 +57,9 @@ help() {
 		taskHelp
 	else
 		# try services
-		serviceExists ${args}
+		svcRoot=$(serviceRoot ${args})
 
-		if [ -v SERVICE_ROOT ]; then
+		if [[ "$svcRoot" != "" ]]; then
 			serviceHelp ${args};
 		elif [ -v ROOT_TASKS_FILE ]; then
 			# try custom task handler in working directory

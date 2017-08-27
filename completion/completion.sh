@@ -64,9 +64,9 @@ case "${2:-}" in
 			cmplt ${TASK_ROOT}/handler.sh
 			echo -e "\n"
 		else
-			serviceExists ${moduleName}
+			svcRoot=$(serviceRoot ${moduleName})
 
-			if [ -v SERVICE_ROOT ]; then
+			if [[ "$svcRoot" != "" ]]; then
 				service_c_cmds ${moduleName}
 				echo -e "\n"
 				service_d_cmds ${moduleName}
@@ -85,7 +85,7 @@ case "${2:-}" in
 				echo -e "\n"
 				service_u_cmds ${moduleName}
 				echo -e "\n"
-				cmplt ${SERVICE_ROOT}/handler.sh;
+				cmplt ${svcRoot}/handler.sh;
 			fi
 		fi
 		;;

@@ -73,8 +73,6 @@ case "${firstArg}" in
 
 	*)
 		name=${2:-}
-		serviceExists ${name}
-
 		command="${name}:${3:-}"
 		args=${@:4}
 

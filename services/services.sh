@@ -1,17 +1,19 @@
 #!/usr/bin/env bash
 
 # $1 service name
-serviceExists() {
+serviceRoot() {
 	if [ -d ${SERVICES_ROOT}/$1 ]; then
-		export SERVICE_ROOT=${SERVICES_ROOT}/$1
+		echo "${SERVICES_ROOT}/$1"
 	elif [ -d ${VENDOR_ROOT}/services/$1 ]; then
-		export SERVICE_ROOT=${VENDOR_ROOT}/services/$1
+		echo "${VENDOR_ROOT}/services/$1"
+	else
+		printPanic "No such service $1"
 	fi
 }
 
 # $1 service name
 serviceDockerCompose() {
-	echo "${DOCKER_COMPOSE_CMD} -p $1 -f ${SERVICE_ROOT}/$1.yml"
+	echo "${DOCKER_COMPOSE_CMD} -p $1 -f $(serviceRoot $1)/$1.yml"
 }
 
 # $1 service name
@@ -25,9 +27,11 @@ serviceDockerComposeExec() {
 	echo ${dockerComposeExec}
 }
 
+# $1 service name
 serviceBootstrap() {
-	if [ -f ${SERVICE_ROOT}/bootstrap.sh ]; then
-		source ${SERVICE_ROOT}/bootstrap.sh
+	if [ -f $(serviceRoot $1)/bootstrap.sh ]; then
+		printDebug "Bootstrapping $1..."
+		source $(serviceRoot $1)/bootstrap.sh
 	fi
 }
 
@@ -53,14 +57,7 @@ listServices() {
 
 # $1 service name
 serviceStatus() {
-	serviceExists $1
-
-	if [ ! -v SERVICE_ROOT ]; then
-		print_error "No such service $1"
-		return
-	fi
-
-	serviceBootstrap
+	serviceBootstrap $1
 
 	local serviceStatus="$(echo $1 | sed 's/-/_/g')_status"
 
@@ -148,12 +145,12 @@ $1:status) ## %% 🚦  Display the status of the $1 service
 
 # $1 service name
 serviceHelp() {
-	serviceExists $1
+	local svcRoot=$(serviceRoot $1)
 
 	printServiceHelp $1
 
-	if [ -f ${SERVICE_ROOT}/handler.sh ]; then
-		printHelp ${SERVICE_ROOT}/handler.sh
+	if [ -f ${svcRoot}/handler.sh ]; then
+		printHelp ${svcRoot}/handler.sh
 		echo ""
 	fi
 }
@@ -168,6 +165,8 @@ service_help() {
 # $2 args
 serviceUp() {
 	printInfo "\n🔼  Bringing up $1..."
+
+	serviceBootstrap $1
 
 	$(serviceDockerCompose $1) pull --ignore-pull-failures --parallel
 
@@ -192,6 +191,8 @@ serviceUpIfDown() {
 # $2 args
 serviceDown() {
 	printInfo "\n🔽  Taking down $1..."
+
+	serviceBootstrap $1
 
 	# execute service pre_down hook
 	if [ -n "$(type -t ${1}_pre_down)" ] && [ "$(type -t ${1}_pre_down)" = function ]; then ${1}_pre_down $1; fi
@@ -233,6 +234,8 @@ serviceResetIfUp() {
 serviceDestroy() {
 	printInfo "\n🔽  Destroying $1..."
 
+	serviceBootstrap $1
+
 	# execute service pre_down hook
 	if [ -n "$(type -t ${1}_pre_destroy)" ] && [ "$(type -t ${1}_pre_destroy)" = function ]; then ${1}_pre_destroy $1; fi
 
@@ -252,6 +255,8 @@ serviceDestroyIfUp() {
 # $1 service name
 serviceClean() {
 	printInfo "\n🛀  Cleaning $1..."
+
+	serviceBootstrap $1
 
 	# execute service pre_clean hook
 	if [ -n "$(type -t ${1}_pre_clean)" ] && [ "$(type -t ${1}_pre_clean)" = function ]; then ${1}_pre_clean $1; fi
@@ -285,8 +290,6 @@ handleService() {
 
 		exit $?
 	fi
-
-	serviceBootstrap
 
 	case "$2" in
 		$1:up)
@@ -371,8 +374,12 @@ handleService() {
 			$(serviceDockerComposeExec $1) ${args} ;;
 
 		$1:*)
-			if [ -f "${SERVICE_ROOT}/handler.sh" ]; then
-				source "${SERVICE_ROOT}/handler.sh"
+			svcRoot=$(serviceRoot $1)
+
+			serviceBootstrap $1
+
+			if [ -f ${svcRoot}/handler.sh ]; then
+				source ${svcRoot}/handler.sh
 			else
 				serviceHelp $1
 			fi
@@ -384,12 +391,7 @@ handleService() {
 servicesUp() {
 	local servicesArrayName="${1}[@]"
 	for service in "${!servicesArrayName}"; do
-		serviceExists ${service}
-
-		if [ -v SERVICE_ROOT ]; then
-			serviceBootstrap
-			serviceUp ${service} "${2:-}"
-		fi
+		serviceUp ${service} "${2:-}"
 	done
 }
 
@@ -398,12 +400,7 @@ servicesUp() {
 servicesUpIfDown() {
 	local servicesArrayName="${1}[@]"
 	for service in "${!servicesArrayName}"; do
-		serviceExists ${service}
-
-		if [ -v SERVICE_ROOT ]; then
-			serviceBootstrap
-			serviceUpIfDown ${service} "${2:-}"
-		fi
+		serviceUpIfDown ${service} "${2:-}"
 	done
 }
 
@@ -412,12 +409,7 @@ servicesUpIfDown() {
 servicesDown() {
 	local servicesArrayName="${1}[@]"
 	for service in "${!servicesArrayName}"; do
-		serviceExists ${service}
-
-		if [ -v SERVICE_ROOT ]; then
-			serviceBootstrap
-			serviceDown ${service} "${2:-}"
-		fi
+		serviceDown ${service} "${2:-}"
 	done
 }
 
@@ -426,12 +418,7 @@ servicesDown() {
 servicesDownIfUp() {
 	local servicesArrayName="${1}[@]"
 	for service in "${!servicesArrayName}"; do
-		serviceExists ${service}
-
-		if [ -v SERVICE_ROOT ]; then
-			serviceBootstrap
-			serviceDownIfUp ${service} "${2:-}"
-		fi
+		serviceDownIfUp ${service} "${2:-}"
 	done
 }
 
@@ -439,12 +426,7 @@ servicesDownIfUp() {
 servicesReset() {
 	local servicesArrayName="${1}[@]"
 	for service in "${!servicesArrayName}"; do
-		serviceExists ${service}
-
-		if [ -v SERVICE_ROOT ]; then
-			serviceBootstrap
-			serviceReset ${service}
-		fi
+		serviceReset ${service}
 	done
 }
 
@@ -452,12 +434,7 @@ servicesReset() {
 servicesResetIfUp() {
 	local servicesArrayName="${1}[@]"
 	for service in "${!servicesArrayName}"; do
-		serviceExists ${service}
-
-		if [ -v SERVICE_ROOT ]; then
-			serviceBootstrap
-			serviceResetIfUp ${service}
-		fi
+		serviceResetIfUp ${service}
 	done
 }
 
@@ -465,12 +442,7 @@ servicesResetIfUp() {
 servicesDestroy() {
 	local servicesArrayName="${1}[@]"
 	for service in "${!servicesArrayName}"; do
-		serviceExists ${service}
-
-		if [ -v SERVICE_ROOT ]; then
-			serviceBootstrap
-			serviceDestroy ${service}
-		fi
+		serviceDestroy ${service}
 	done
 }
 
@@ -478,12 +450,7 @@ servicesDestroy() {
 servicesDestroyIfUp() {
 	local servicesArrayName="${1}[@]"
 	for service in "${!servicesArrayName}"; do
-		serviceExists ${service}
-
-		if [ -v SERVICE_ROOT ]; then
-			serviceBootstrap
-			serviceDestroyIfUp ${service}
-		fi
+		serviceDestroyIfUp ${service}
 	done
 }
 
@@ -491,12 +458,7 @@ servicesDestroyIfUp() {
 servicesClean() {
 	local servicesArrayName="${1}[@]"
 	for service in "${!servicesArrayName}"; do
-		serviceExists ${service}
-
-		if [ -v SERVICE_ROOT ]; then
-			serviceBootstrap
-			serviceClean ${service}
-		fi
+		serviceClean ${service}
 	done
 }
 
@@ -504,12 +466,7 @@ servicesClean() {
 servicesCleanIfUp() {
 	local servicesArrayName="${1}[@]"
 	for service in "${!servicesArrayName}"; do
-		serviceExists ${service}
-
-		if [ -v SERVICE_ROOT ]; then
-			serviceBootstrap
-			serviceCleanIfUp ${service}
-		fi
+		serviceCleanIfUp ${service}
 	done
 }
 
