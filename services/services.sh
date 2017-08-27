@@ -127,7 +127,6 @@ $1:rm) ## [options] [SERVICE...] %% 🗑  Remove stopped $1 container(s)
 $1:run) ## [options] [-v VOLUME...] [-p PORT...] [-e KEY=VAL...] SERVICE [COMMAND] [ARGS...] %% 🏃  Run a one-off command in a $1 container
 $1:pause) ## [SERVICE...] %% ⏸  Pause $1
 $1:unpause) ## [SERVICE...] %% ⏯  Unpause $1
-$1:port:primary) ## %% Print the public port for the port binding of the primary $1 service
 $1:port) ## [options] SERVICE PRIVATE_PORT %% Print the public port for a port binding
 $1:ps) ## [options] [SERVICE...] %% 👓  List $1 container(s)
 $1:logs) ## [options] [SERVICE...] %% 🖥  View $1 container output
@@ -277,6 +276,97 @@ serviceCleanIfUp() {
 }
 
 # $1 service name
+# $2 args
+serviceConfig() {
+	serviceBootstrap $1
+	$(serviceDockerCompose $1) config $2
+}
+
+# $1 service name
+# $2 args
+serviceKill() {
+	serviceBootstrap $1
+	$(serviceDockerCompose $1) kill $2
+}
+
+# $1 service name
+# $2 args
+serviceStop() {
+	serviceBootstrap $1
+	$(serviceDockerCompose $1) stop $2
+}
+
+# $1 service name
+# $2 args
+serviceStart() {
+	serviceBootstrap $1
+	$(serviceDockerCompose $1) start $2
+}
+
+# $1 service name
+# $2 args
+serviceRestart() {
+	serviceBootstrap $1
+	$(serviceDockerCompose $1) restart $2
+}
+
+# $1 service name
+# $2 args
+serviceRm() {
+	serviceBootstrap $1
+	$(serviceDockerCompose $1) rm $2
+}
+
+# $1 service name
+# $2 args
+serviceRun() {
+	serviceBootstrap $1
+	$(serviceDockerCompose $1) run $2
+}
+
+# $1 service name
+# $2 args
+servicePause() {
+	serviceBootstrap $1
+	$(serviceDockerCompose $1) pause $2
+}
+
+# $1 service name
+# $2 args
+serviceUnpause() {
+	serviceBootstrap $1
+	$(serviceDockerCompose $1) unpause $2
+}
+
+# $1 service name
+# $2 args
+servicePort() {
+	serviceBootstrap $1
+	$(serviceDockerCompose $1) port $2
+}
+
+# $1 service name
+# $2 args
+servicePs() {
+	serviceBootstrap $1
+	$(serviceDockerCompose $1) ps $2
+}
+
+# $1 service name
+# $2 args
+serviceLogs() {
+	serviceBootstrap $1
+	$(serviceDockerCompose $1) logs $2
+}
+
+# $1 service name
+# $2 args
+serviceExec() {
+	serviceBootstrap $1
+	$(serviceDockerCompose $1) exec $2
+}
+
+# $1 service name
 # $2 command
 handleService() {
 	if [[ "${firstArg:-}" == "--help" || "${firstArg:-}" == "-h" ]]; then
@@ -325,55 +415,54 @@ handleService() {
 			serviceCleanIfUp $1 ;;
 
 		$1:config)
-			$(serviceDockerCompose $1) config ${args} ;;
+			serviceConfig $1 "${args}" ;;
 
 		$1:kill)
-			$(serviceDockerCompose $1) kill ${args} ;;
+			serviceKill $1 "${args}" ;;
 
 		$1:stop)
-			$(serviceDockerCompose $1) stop ${args} ;;
+			serviceStop $1 "${args}" ;;
 
 		$1:start)
-			$(serviceDockerCompose $1) start ${args} ;;
+			serviceStart $1 "${args}" ;;
 
 		$1:restart)
-			$(serviceDockerCompose $1) restart ${args} ;;
+			serviceRestart $1 "${args}" ;;
 
 		$1:rm)
-			$(serviceDockerCompose $1) rm ${args} ;;
+			serviceRm $1 "${args}" ;;
 
 		$1:run)
-			$(serviceDockerCompose $1) run ${args} ;;
+			serviceRun $1 "${args}" ;;
 
 		$1:pause)
-			$(serviceDockerCompose $1) pause ${args} ;;
+			servicePause $1 "${args}" ;;
 
 		$1:unpause)
-			$(serviceDockerCompose $1) unpause ${args} ;;
-
-		$1:port:primary)
-			$(serviceDockerCompose $1) port $1 ${PRIVATE_PORT:-} ;;
+			serviceUnpause $1 "${args} ";;
 
 		$1:port)
-			$(serviceDockerCompose $1) port ${args} ;;
+			servicePort $1 "${args}" ;;
 
 		$1:ps)
-			$(serviceDockerCompose $1) ps ${args} ;;
+			servicePs $1 "${args}" ;;
 
 		$1:logs)
-			$(serviceDockerCompose $1) logs ${args} ;;
+			serviceLogs $1 "${args}" ;;
 
 		$1:status)
 			checkServiceStatus $1 ;;
 
 		$1:sh)
-			$(serviceDockerComposeExec $1) ${args} sh ;;
+			serviceBootstrap $1
+			$(serviceDockerComposeExec $1) ${args} sh
+			;;
 
 		$1:help)
 			serviceHelp $1 ;;
 
 		$1:exec)
-			$(serviceDockerComposeExec $1) ${args} ;;
+			serviceExec $1 "${args}" ;;
 
 		$1:*)
 			svcRoot=$(serviceRoot $1)
