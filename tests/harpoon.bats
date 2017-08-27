@@ -71,8 +71,8 @@ HELP
 	[ "$output" = "$help" ]
 }
 
-@test "show-nameserver-ip" {
-	run ./harpoon show-nameserver-ip
+@test "show docker host ip" {
+	run ./harpoon show-docker-host-ip
 	[ "$status" -eq 0 ]
 }
 
