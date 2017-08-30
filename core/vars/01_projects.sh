@@ -106,7 +106,7 @@ elif [[ "${GIT_TAG:-}" != "" ]]; then
 
 elif [ -v GIT_BRANCH ]; then
 	# lowercase, and replace '/' and '_' with '-' (like CI_COMMIT_REF_SLUG)
-	export TAG_NAME=$(echo "${GIT_BRANCH},," | sed -e 's/[\/_]/-/g')
+	export TAG_NAME=$(echo "${GIT_BRANCH,,}" | sed -e 's/[\/_]/-/g')
 
 else
 	export TAG_NAME=${NOW}
