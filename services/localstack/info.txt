@@ -1,0 +1,1 @@
+💻  A fully functional local AWS cloud stack. https://localstack.cloud

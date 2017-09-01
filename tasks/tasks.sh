@@ -64,20 +64,6 @@ taskHelp() {
 	echo ""
 }
 
-tasksHelp() {
-	if [ -v ROOT_TASKS_FILE ]; then
-		printf "\n${PROJECT_TITLE} Tasks:\n"
-		printHelp ${ROOT_TASKS_FILE} ${PROJECT_TASK_PREFIX}
-		if [ -v ADDITIONAL_TASK_FILES ]; then
-			IFS=',' read -ra ATFS <<< "$ADDITIONAL_TASK_FILES"
-			for i in "${ATFS[@]}"; do
-				printHelp ${i} ${PROJECT_TASK_PREFIX}
-			done
-		fi
-		echo ""
-	fi
-}
-
 # DEPRECATED
 task_help() {
 	printWarn "task_help() is deprecated. Please use taskHelp()."

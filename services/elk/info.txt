@@ -1,0 +1,1 @@
+📒  The ELK stack: Elasticsearch, Logstash, and Kibana

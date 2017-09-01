@@ -1,0 +1,1 @@
+🛢  Web UI for DynamoDB, pre-configured for use with LocalStack

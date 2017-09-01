@@ -55,6 +55,12 @@ listServices() {
 
 # $1 service name
 serviceStatus() {
+	local svcRoot=$(serviceRoot $1)
+
+	if [[ "$svcRoot" == "" ]]; then
+		printPanic "No service named '$1'" " 😞"
+	fi
+
 	serviceBootstrap $1
 
 	local serviceStatus="$(echo $1 | sed 's/-/_/g')_status"

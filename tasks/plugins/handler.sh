@@ -92,6 +92,8 @@ extractPlugin() {
 
 		if [[ ${DESCRIPTION} == null ]]; then
 			export DESCRIPTION=""
+		else
+			echo "${DESCRIPTION}" > ${PLUGIN_ROOT}/${NAME}/info.txt
 		fi
 
 		cat ${HARPOON_TASKS_ROOT}/_templates/handler.mo | mo > ${PLUGIN_ROOT}/${NAME}/handler.sh

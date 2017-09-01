@@ -1,0 +1,1 @@
+⏳  Web UI for AWS SQS, pre-configured for LocalStack

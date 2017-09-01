@@ -80,7 +80,7 @@ case "${command}" in
 		fi
 		;;
 
-	help) ## [<task> | <service>] %% ⁉️  Get help
+	help) ## [<task> | <service>] %% ⁉️  Get help for a task or service
 		help ;;
 
 	--help|-h)
@@ -113,10 +113,10 @@ case "${command}" in
 	clean) ## [<all>] %% 🛀  Completely uninstall Harpoon core, and optionally, all supporting services
 		clean ${args} ;;
 
-	services:ls) ## %% Alias for `services:list`
+	services:ls)
 		listServices ;;
 
-	services:list) ## %% 👓  List services available in Harpoon
+	services:list)
 		listServices ;;
 
 	services:status) ## %% 🚦  Display the status for all supporting services
@@ -138,13 +138,13 @@ case "${command}" in
 		fi
 		;;
 
-	tasks:ls) ## %% Alias for `tasks:list`
+	tasks:ls)
 		listTasks ;;
 
-	tasks:list) ## %% 👓  List tasks available in Harpoon
+	tasks:list)
 		listTasks ;;
 
-	service) ## <name> <command> [<arg>...] %% 🍽  Run a (docker-compose) command or task for a service
+	service) ## <name> <command> [<arg>...] %% 🍽  Run a command for a service
 		source ${HARPOON_SERVICES_ROOT}/tasks.sh ;;
 
 	stfu) ## %% 🤐  Please stop talking

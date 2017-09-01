@@ -16,35 +16,57 @@ printAllHelp() {
 	echo ""
 	echo "Commands:"
 	printHelp "${HARPOON_ROOT}/harpoon"
-
-	printf "  $COLOR_CYAN%-45s$COLOR_NC %s\n" "<service-name>:help" "❓  Get help for a particular service"
-	printf "  $COLOR_CYAN%-45s$COLOR_NC %s\n" "<service-name>:<command> [<arg...>]" "Alternative syntax for running a service command"
-
-	tasksHelp
+	projectTasksHelp
 
 	printf "\nTasks:\n"
+	printf "  $COLOR_CYAN%-45s$COLOR_NC %s\n" "<task>:<command> [<arg...>]"
+	printf "  $COLOR_CYAN%-45s$COLOR_NC%s\n\n" "<task>:help"
+	for t in $(listTasks); do
+		taskExists ${t}
+		infoFile="${TASK_ROOT}/info.txt"
 
-	for m in $(ls ${HARPOON_TASKS_ROOT}); do
-		if [[ "$m" == "tasks.sh" || "$m" == "_templates" ]]; then
-			continue
+		if [ -f ${infoFile} ]; then
+			info=$(cat ${infoFile} | head -n 1)
+		else
+			info=""
 		fi
 
-		printf "  $(tr '[:lower:]' '[:upper:]' <<< ${m}):\n"
-		printHelp ${HARPOON_TASKS_ROOT}/${m}/handler.sh
-		echo ""
+		printf "  $COLOR_CYAN%-20s$COLOR_NC %s\n" "${t}" "${info}"
 	done
 
-	if [ -d ${HARPOON_VENDOR_ROOT}/tasks ]; then
-		printf "\nTask Plugins:\n"
-		for v in $(ls ${HARPOON_VENDOR_ROOT}/tasks); do
-			printf "  $(tr '[:lower:]' '[:upper:]' <<< ${v}):\n"
-			printHelp ${HARPOON_VENDOR_ROOT}/tasks/${v}/handler.sh
-			echo ""
-		done
-	fi
+	printf "\nServices:\n"
+	printf "  $COLOR_CYAN%-45s$COLOR_NC %s\n" "<service>:<command> [<arg...>]"
+	printf "  $COLOR_CYAN%-45s$COLOR_NC%s\n\n" "<service>:help"
+	for s in $(listServices); do
+		svcRoot=$(serviceRoot ${s})
 
-	printf "\nHarpoon help may be somewhat long...be sure to scroll up to make sure you see everything! 😉\n"
+		infoFile="${svcRoot}/info.txt"
+
+		if [ -f ${infoFile} ]; then
+			info=$(cat ${infoFile} | head -n 1)
+		else
+			info=""
+		fi
+
+		printf "  $COLOR_CYAN%-20s$COLOR_NC %s\n" "${s}" "${info}"
+	done
+	echo ""
+	printf "\nℹ️  Run '${COLOR_CYAN}harpoon help [<task> | <service>]${COLOR_NC}' for more information\n"
 	exit 1
+}
+
+projectTasksHelp() {
+	if [ -v ROOT_TASKS_FILE ]; then
+		printf "\n${PROJECT_TITLE} Tasks:\n"
+		printHelp ${ROOT_TASKS_FILE} ${PROJECT_TASK_PREFIX}
+		if [ -v ADDITIONAL_TASK_FILES ]; then
+			IFS=',' read -ra ATFS <<< "$ADDITIONAL_TASK_FILES"
+			for i in "${ATFS[@]}"; do
+				printHelp ${i} ${PROJECT_TASK_PREFIX}
+			done
+		fi
+		echo ""
+	fi
 }
 
 help() {
@@ -63,7 +85,7 @@ help() {
 			serviceHelp ${args};
 		elif [ -v ROOT_TASKS_FILE ]; then
 			# try custom task handler in working directory
-			tasksHelp
+			projectTasksHelp
 		fi
 	fi
 }

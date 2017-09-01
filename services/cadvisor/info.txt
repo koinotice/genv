@@ -1,0 +1,1 @@
+🌡  Analyzes resource usage and performance characteristics of running containers

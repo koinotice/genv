@@ -16,9 +16,16 @@ case "${firstArg}" in
 	ls) ## %% Alias for `list`
 		listServices ;;
 
-	help)
-		serviceUsage
+	help) ## [<service>] %% ⁉️  Get help
+		if [[ "${@:3}" != "" ]]; then
+			serviceHelp ${@:3}
+		else
+			serviceUsage
+		fi
 		;;
+
+	--help|-h)
+		serviceUsage ;;
 
 	up) ## <service>... %% 🔼️  Create and start one or more services
 		services=( "${@:3}" )
