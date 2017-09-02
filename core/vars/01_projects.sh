@@ -80,8 +80,13 @@ fi
 # set vcs_branch
 if [ -v CI_COMMIT_REF_NAME ]; then
 	export VCS_BRANCH=${CI_COMMIT_REF_NAME}
+
+elif [ -v TRAVIS ]; then
+	export VCS_BRANCH=${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH}
+
 elif [ -v GIT_BRANCH ]; then
 	export VCS_BRANCH=${GIT_BRANCH}
+
 else
 	export VCS_BRANCH='n/a'
 fi
@@ -100,6 +105,9 @@ elif [ -v TAG_WITH_GIT_REVISION ]; then
 
 elif [ -v CI_COMMIT_REF_SLUG ]; then
 	export TAG_NAME=${CI_COMMIT_REF_SLUG}
+
+elif [ -v TRAVIS ]; then
+	export TAG_NAME=${TRAVIS_TAG}
 
 elif [[ "${GIT_TAG:-}" != "" ]]; then
 	export TAG_NAME=${GIT_TAG}
