@@ -222,6 +222,8 @@ serviceDownIfUp() {
 serviceReset() {
 	printInfo "\n🌯  Resetting $1..."
 
+	serviceBootstrap $1
+
 	if [ -n "$(type -t ${1}_pre_reset)" ] && [ "$(type -t ${1}_pre_reset)" = function ]; then ${1}_pre_reset $1; fi
 
 	serviceDown $1 "-v"
