@@ -4,6 +4,12 @@ case "${command}" in
 	info:branch) ## %% Display the current VCS branch
 		echo ${VCS_BRANCH} ;;
 
+	info:tag) ## %% Display the interpolated tag name (used with the image:* tasks)
+		echo ${TAG_NAME} ;;
+
+	info:build-number) ## %% Display the current build number
+		echo ${BUILD_NUMBER} ;;
+
 	info:version) ## %% Display the project version
 		echo ${PROJECT_VERSION} ;;
 

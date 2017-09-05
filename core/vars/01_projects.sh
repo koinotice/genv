@@ -125,6 +125,8 @@ printDebug "TAG_NAME: $TAG_NAME"
 # set build_number
 if [ -v CI_PIPELINE_ID ]; then
 	export BUILD_NUMBER=${CI_PIPELINE_ID}
+elif [ -v TRAVIS_BUILD_NUMBER ]; then
+	export BUILD_NUMBER=${TRAVIS_BUILD_NUMBER}
 else
 	export BUILD_NUMBER='n/a'
 fi
@@ -134,6 +136,8 @@ printDebug "BUILD_NUMBER: $BUILD_NUMBER"
 # set project_version
 if [ -v CI_COMMIT_TAG ]; then
 	export PROJECT_VERSION=${CI_COMMIT_TAG}
+elif [ -v TRAVIS_BRANCH ]; then
+	export PROJECT_VERSION=${TRAVIS_BRANCH}
 elif [ -v GIT_TAG ]; then
 	export PROJECT_VERSION=${GIT_TAG}
 else
@@ -145,6 +149,8 @@ printDebug "PROJECT_VERSION: $PROJECT_VERSION"
 # set vcs_revision
 if [ -v CI_COMMIT_SHA ]; then
 	export VCS_REVISION=${CI_COMMIT_SHA}
+elif [ -v TRAVIS_COMMIT ]; then
+	export VCS_REVISION=${TRAVIS_COMMIT}
 elif [ -v GIT_REVISION ]; then
 	export VCS_REVISION=${GIT_REVISION}
 else
