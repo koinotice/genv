@@ -82,7 +82,7 @@ if [ -v CI_COMMIT_REF_NAME ]; then
 	export VCS_BRANCH=${CI_COMMIT_REF_NAME}
 
 elif [ -v TRAVIS ]; then
-	export VCS_BRANCH=${GIT_BRANCH}
+	export VCS_BRANCH=${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH}
 
 elif [ -v GIT_BRANCH ]; then
 	export VCS_BRANCH=${GIT_BRANCH}

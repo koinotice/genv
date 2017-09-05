@@ -163,7 +163,7 @@ imageUpload() {
 	printInfo "REPOSITORY=${REPOSITORY}"
 	printInfo "BUILD_IMAGE=${BUILD_IMAGE}"
 
-	if [[ "${VCS_BRANCH}" == "master" ]]; then
+	if [[ "${VCS_BRANCH}" == "master" || -v TRAVIS_TAG ]]; then
 		imageTagPushClean "${REPOSITORY}:master"
 		imageTagPushClean "${REPOSITORY}:latest"
 
