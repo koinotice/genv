@@ -2,7 +2,9 @@
 
 set -euo pipefail
 
-HARPOON_IMAGE=wheniwork/harpoon:master
+if [ ! -v HARPOON_IMAGE ]; then
+	export HARPOON_IMAGE=wheniwork/harpoon:master
+fi
 
 docker pull ${HARPOON_IMAGE}
 

@@ -37,13 +37,12 @@ _Harpoon_ has been tested with:
 
 ## Quick Start
 
-1. Clone this repository
-2. Run `cd harpoon && ./harpoon install`
-   * On MacOS, you'll be asked for your password
-3. **Recommended:** Add the `harpoon` directory to your `$PATH`. Edit
-   your `.bash_profile`, `.bashrc`, or `.zshrc` accordingly.
-4. _Optional:_ Load completion scripts by adding `which harpoon >
-   /dev/null && . "$(harpoon initpath)"` to your profile.
+1. curl
+   https://raw.githubusercontent.com/wheniwork/harpoon/master/install.sh
+   | bash
+2. _Optional:_ Load completion scripts by adding `which harpoon >
+   /dev/null && . "$(harpoon initpath)"` to your profile (`~/.bashrc`,
+   `~/.bash_profile`, `~/.zshrc`).
 
 ## [Documentation](https://wheniwork.github.io/harpoon/)
 
