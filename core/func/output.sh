@@ -39,8 +39,8 @@ if [ ! -v HARPOON_USE_EMOJI ]; then
 fi
 
 if [[ ${HARPOON_USE_EMOJI} == true ]]; then
-	export UP="👍"
-	export DOWN="👎"
+	export UP="✅"
+	export DOWN="❌"
 else
 	export UP="Up"
 	export DOWN="Down"
