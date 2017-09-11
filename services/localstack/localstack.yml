@@ -3,7 +3,9 @@ version: '2'
 services:
   localstack:
     container_name: harpoon_localstack
-    image: localstack/localstack
+#    image: localstack/localstack
+#    can't use latest image until https://github.com/localstack/localstack/issues/308 is fixed :(
+    image: atlassianlabs/localstack
     environment:
       - TERM=xterm
       - SERVICES=${LOCALSTACK_SERVICES}
