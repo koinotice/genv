@@ -238,6 +238,11 @@ selfUpdate() {
 		printInfo "Replacing plugins..."
 		rm -fr ${HARPOON_ROOT}/{vendor,plugins.txt}
 		cp -a ${installTemp}/harpoon/{vendor,plugins.txt} ${HARPOON_ROOT}/
+
+		for p in $(cat ${HARPOON_ROOT}/plugins.txt); do
+			[[ ${p} =~ ^# ]] && continue
+			docker pull ${p}
+		done
 	fi
 
 	if [ -f ${installTemp}/harpoon/harpoon.env.sh ]; then
