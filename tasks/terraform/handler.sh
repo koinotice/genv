@@ -1,40 +1,48 @@
 #!/usr/bin/env bash
 
-if [[ ${AWS_ACCESS_KEY_ID:-} && ${AWS_SECRET_ACCESS_KEY:-} ]]; then
+if [[ -v AWS_ACCESS_KEY_ID && -v AWS_SECRET_ACCESS_KEY ]]; then
 	DOCKER_RUN_WITH_ENV+=" -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY"
 fi
 
-if [ ! ${TERRAFORM_IMAGE_VERSION:-} ]; then
+#% 🔺 TERRAFORM_IMAGE_VERSION %% Terraform Docker image version %% latest
+if [ ! -v TERRAFORM_IMAGE_VERSION ]; then
 	export TERRAFORM_IMAGE_VERSION=latest
 fi
 
-if [ ! ${TERRAFORM_IMAGE:-} ]; then
+#% 🔺 TERRAFORM_IMAGE %% Terraform Docker image %% hashicorp/terraform:${TERRAFORM_IMAGE_VERSION}
+if [ ! -v TERRAFORM_IMAGE ]; then
 	export TERRAFORM_IMAGE=hashicorp/terraform:${TERRAFORM_IMAGE_VERSION}
 fi
 
-if [ ! ${TERRAFORM_CMD:-} ]; then
+#% 🔺 TERRAFORM_CMD %% Override Terraform Docker container command
+if [ ! -v TERRAFORM_CMD ]; then
 	export TERRAFORM_CMD=""
 fi
 
-if [ ! ${TERRAFORM_DIR:-} ]; then
+#% 🔺 TERRAFORM_DIR %% Path to your project's Terraform modules %% $PWD/terraform
+if [ ! -v TERRAFORM_DIR ]; then
 	export TERRAFORM_DIR=$PWD/terraform
 fi
 
 # terraform tfvars
-if [ ${TERRAFORM_TFVARS:-} ]; then
+#% 🔺 TERRAFORM_TFVARS %% Terraform variables file %% -var-file ${TERRAFORM_TFVARS}
+if [ -v TERRAFORM_TFVARS ]; then
 	export TERRAFORM_TFVARS="-var-file ${TERRAFORM_TFVARS}"
 fi
 
+#% 🔹 TERRAFORM_TEMP %% Terraform temp directory %% ${HARPOON_TEMP}/terraform
 export TERRAFORM_TEMP="${HARPOON_TEMP}/terraform"
 
+#% 🔹 BACKEND_FILE %% Generated Terraform variables file for backend config %% ${TERRAFORM_TEMP}/backend.tfvars
 export BACKEND_FILE="${TERRAFORM_TEMP}/backend.tfvars"
 
-
-if [ ! ${REMOTE_STATEFILE_PREFIX:-} ]; then
+#% 🔺 REMOTE_STATEFILE_PREFIX %% Remote statefile prefix %% $REPO_ROOT
+if [ ! -v REMOTE_STATEFILE_PREFIX ]; then
 	export REMOTE_STATEFILE_PREFIX=${REPO_ROOT}
 fi
 
-if [ ! ${TF_BACKEND_BUCKET_PREFIX:-} ]; then
+#% 🔺 TF_BACKEND_BUCKET_PREFIX %% Backend S3 bucket prefix %% terraform-state
+if [ ! -v TF_BACKEND_BUCKET_PREFIX ]; then
 	export TF_BACKEND_BUCKET_PREFIX=terraform-state
 fi
 

@@ -1,13 +1,16 @@
 #!/usr/bin/env bash
 
+#% 🔺 DIND_IMAGE %% Docker-in-Docker (dind) image %% wheniwork/harpoon
 if [ ! -v DIND_IMAGE ]; then
 	export DIND_IMAGE=wheniwork/harpoon
 fi
 
+#% 🔺 DIND_STORAGE_DRIVER %% DinD Storage Driver %% aufs
 if [ ! -v DIND_STORAGE_DRIVER ]; then
 	export DIND_STORAGE_DRIVER=aufs
 fi
 
+#% 🔺 DIND_HOME %% Home directory to mount on DinD container %% $HOME
 if [ ! -v DIND_HOME ]; then
 	export DIND_HOME=$HOME
 fi

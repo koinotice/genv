@@ -16,6 +16,15 @@ case "${firstArg}" in
 	ls) ## %% Alias for `list`
 		listServices ;;
 
+	env:doc) ## [<service>] %% List available/exported environment variables
+		svcRoot=$(serviceRoot ${@:3})
+
+		if [[ "$svcRoot" != "" ]]; then
+			printModuleInfo "${svcRoot}/info.txt" "${@:3}"
+			printEnv ${svcRoot}
+		fi
+		;;
+
 	help) ## [<service>] %% ⁉️  Get help
 		if [[ "${@:3}" != "" ]]; then
 			serviceHelp ${@:3}

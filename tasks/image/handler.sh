@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 # set repository and build image name (repo+tag)
+#% 🔺 REPOSITORY %% Docker image repository %% $CI_REGISTRY_IMAGE | ${REGISTRY_HOST}/${REPO_ROOT}
 if [ ! -v REPOSITORY ]; then
 	if [ -v CI_REGISTRY_IMAGE ]; then
 		export REPOSITORY=${CI_REGISTRY_IMAGE}
@@ -11,12 +12,14 @@ fi
 
 printDebug "REPOSITORY: $REPOSITORY"
 
+#% 🔺 BUILD_IMAGE %% Docker repoistory:tag to build %% ${REPOSITORY}:${TAG_NAME}
 if [ ! -v BUILD_IMAGE ]; then
 	export BUILD_IMAGE=${REPOSITORY}:${TAG_NAME}
 fi
 
 printDebug "BUILD_IMAGE (default): $BUILD_IMAGE"
 
+#% 🔺 BUILD_DOCKERFILE %% Dockerfile to build %% Dockerfile
 if [ ! -v BUILD_DOCKERFILE ]; then
 	export BUILD_DOCKERFILE=Dockerfile
 fi
@@ -29,6 +32,7 @@ fi
 
 printDebug "BUILD_FROM: $BUILD_FROM"
 
+#% 🔺 CONTAINER_OS %% OS referenced in build FROM statement %% alpine
 if [ ! -v CONTAINER_OS ]; then
 	export CONTAINER_OS="$(echo "${BUILD_FROM:-}" | grep -oe alpine -e xenial -e trusty || echo alpine)"
 fi
@@ -37,22 +41,26 @@ printDebug "CONTAINER_OS: $CONTAINER_OS"
 
 ## Detect whether we can / want to run tests on the container
 
+#% 🔺 TESTS_ENABLED %% Run tests on built image %% true
 if [ ! -v TESTS_ENABLED ]; then
 	export TESTS_ENABLED=true
 fi
 
+#% 🔺 HAS_TESTS %% Image build has custom tests %% no (if no Gossfile exists)
 if [[ -f 'Gossfile' && ! "${HAS_TESTS:-}" ]]; then
 	export HAS_TESTS="$(grep -q Gossfile "${BUILD_DOCKERFILE}" && echo yes || echo no)"
 fi
 
 printDebug "HAS_TESTS: ${HAS_TESTS:-}"
 
+#% 🔺 TEST_TYPE %% Image test type %% cli (if no HEALTHCHECKs)
 if [[ -f "${BUILD_DOCKERFILE}" && ! -v TEST_TYPE ]]; then
 	export TEST_TYPE="$(grep -q HEALTHCHECK "${BUILD_DOCKERFILE}" && echo service || echo cli)"
 fi
 
 printDebug "TEST_TYPE: $TEST_TYPE"
 
+#% 🔺 TEST_RUN_TIME %% Wait time before tests run (in seconds) %% 5
 if [ ! -v TEST_RUN_TIME ]; then
 	export TEST_RUN_TIME=5
 fi

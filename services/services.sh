@@ -241,7 +241,7 @@ serviceResetIfUp() {
 
 # $1 service name
 serviceDestroy() {
-	printInfo "\n🔽  Destroying $1..."
+	printInfo "\n🗑  Destroying $1..."
 
 	serviceBootstrap $1
 

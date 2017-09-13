@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 # Derive an SSH url for the origin
+#% 🔹 ORIGIN_SSH_URL %% SSH URL for the git 'origin' remote
 export ORIGIN_SSH_URL="$( git remote show origin | grep Push | awk '{print $3}' | sed 's/https:.*@/git@/' | sed 's|\.com/|.com:|' | sed 's|\.git/|.git|' )"
 
 gitAddSSHOrigin() {

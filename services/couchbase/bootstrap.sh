@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+#% 🔺 COUCHBASE_VERSION %% Couchbase Docker image version %% latest
 if [ ! -v COUCHBASE_VERSION ]; then
 	export COUCHBASE_VERSION="latest"
 fi
@@ -8,11 +9,13 @@ fi
 export CB_HOST=couchbase.harpoon.dev
 export CBPVR_HOSTS="couchbase-provisioner.harpoon.dev,cbpvr.harpoon.dev"
 
+#% 🔺 CUSTOM_COUCHBASE_DOMAIN %% Custom domain name for Couchbase containers
 if [ -v CUSTOM_COUCHBASE_DOMAIN ]; then
 	export CB_HOST="couchbase.${CUSTOM_COUCHBASE_DOMAIN}"
 	export CBPVR_HOSTS+=",couchbase-provisioner.${CUSTOM_COUCHBASE_DOMAIN},cbpvr.${CUSTOM_COUCHBASE_DOMAIN}"
 fi
 
+#% 🔹 COUCHBASE_VOLUME_NAME %% Couchbase Docker volume name %% couchbase
 export COUCHBASE_VOLUME_NAME=couchbase
 
 couchbaseProvisionerRun() {

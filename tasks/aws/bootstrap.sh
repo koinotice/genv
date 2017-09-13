@@ -1,14 +1,17 @@
 #!/usr/bin/env
 
-if [ ! ${AWS_IMAGE_VERSION:-} ]; then
+#% 🔺 AWS_IMAGE_VERSION %% AWS CLI Docker image version %% latest
+if [ ! -v AWS_IMAGE_VERSION ]; then
 	export AWS_IMAGE_VERSION=latest
 fi
 
-if [ ! ${AWS_IMAGE:-} ]; then
+#% 🔺 AWS_IMAGE %% AWS CLI Docker image %% cgswong/aws:${AWS_IMAGE_VERSION}
+if [ ! -v AWS_IMAGE ]; then
 	export AWS_IMAGE=cgswong/aws:${AWS_IMAGE_VERSION}
 fi
 
-if [ ! ${AWS_CMD:-} ]; then
+#% 🔺 AWS_CMD %% Override command for AWS CLI Docker container %%
+if [ ! -v AWS_CMD ]; then
 	export AWS_CMD=""
 fi
 

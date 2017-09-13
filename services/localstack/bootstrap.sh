@@ -1,52 +1,63 @@
 #!/usr/bin/env bash
 
-if [ ! ${LOCALSTACK_SERVICES:-} ]; then
+#% 🔺 LOCALSTACK_SERVICES %% LocalStack services %% all
+if [ ! -v LOCALSTACK_SERVICES ]; then
 	export LOCALSTACK_SERVICES=""
 fi
 
-if [ ! ${PORT_MAPPINGS:-} ]; then
+#% 🔺 PORT_MAPPINGS %% LocalStack container port mappings %% 4567-4582:4567-4582
+if [ ! -v PORT_MAPPINGS ]; then
 	export PORT_MAPPINGS="4567-4582:4567-4582"
 #	export PORT_MAPPINGS=$(echo ${SERVICES} | sed 's/[^0-9]/ /g' | sed 's/\([0-9][0-9]*\)/-p \1:\1/g' | sed 's/  */ /g')
 fi
 
-
-if [ ! ${DEFAULT_REGION:-} ]; then
+#% 🔺 DEFAULT_REGION %% Default AWS region %% us-east-1
+if [ ! -v DEFAULT_REGION ]; then
 	export DEFAULT_REGION="us-east-1"
 fi
 
-if [ ! ${KINESIS_ERROR_PROBABILITY:-} ]; then
+#% 🔺 KINESIS_ERROR_PROBABILITY %% Kinesis error probability %% 0.0
+if [ ! -v KINESIS_ERROR_PROBABILITY ]; then
 	export KINESIS_ERROR_PROBABILITY=0.0
 fi
 
-if [ ! ${DYNAMODB_ERROR_PROBABILITY:-} ]; then
+#% 🔺 DYNAMODB_ERROR_PROBABILITY %% DynamoDB error probability %% 0.0
+if [ ! -v DYNAMODB_ERROR_PROBABILITY ]; then
 	export DYNAMODB_ERROR_PROBABILITY=0.0
 fi
 
+#% 🔹 LAMBDA_EXECUTOR %% Lambda executor %% docker
 export LAMBDA_EXECUTOR="docker"
+
+#% 🔹 DATA_DIR %% Persistent data storage on Docker host %% /tmp/localstack/data
 export DATA_DIR="/tmp/localstack/data"
+
+#% 🔹 TMP_DIR %% Temp data storage on Docker host %% /tmp/localstack
 export TMP_DIR="/tmp/localstack"
 
 # Localstack hostnames
-if [ ! ${TRAEFIK_ACME:-} ]; then
+if [ ! -v TRAEFIK_ACME ]; then
 	export LS_HOSTS=localstack.harpoon.dev
 fi
 
-if [ ${CUSTOM_DOMAINS:-} ]; then
+if [ -v CUSTOM_DOMAINS ]; then
 	for i in "${CUSTOM_DOMAINS[@]}"; do
 		export LS_HOSTS+=",localstack.${i}"
 	done
 fi
 
-
-if [ ! ${AWS_ACCESS_KEY_ID:-} ]; then
+#% 🔺 AWS_ACCESS_KEY_ID %% AWS API Access Key ID %% foobar
+if [ ! -v AWS_ACCESS_KEY_ID ]; then
     export AWS_ACCESS_KEY_ID=foobar
 fi
 
-if [ ! ${AWS_SECRET_ACCESS_KEY:-} ]; then
+#% 🔺 AWS_SECRET_ACCESS_KEY %% AWS API Secret Access Key %% foobar
+if [ ! -v AWS_SECRET_ACCESS_KEY ]; then
     export AWS_SECRET_ACCESS_KEY=foobar
 fi
 
-if [ ! ${AWS_REGION:-} ]; then
+#% 🔺 AWS_REGION %% AWS API Region %% $DEFAULT_REGION
+if [ ! -v AWS_REGION ]; then
     export AWS_REGION=${DEFAULT_REGION}
 fi
 

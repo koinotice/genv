@@ -22,18 +22,22 @@ export COLOR_LIGHT_GRAY='\e[0;37m'
 export COLOR_DARK_GRAY='\e[0;90m'
 export BG_COLOR_LIGHT_GREY="\e[100m" # Background
 
+#% 🔺 HARPOON_SPEECH %% Speak important notifications (macOS only) %% true
 if [ ! -v HARPOON_SPEECH ]; then
 	export HARPOON_SPEECH=true
 fi
 
+#% 🔺 HARPOON_VOICE %% Speech voice %% Fred
 if [ ! -v HARPOON_VOICE ]; then
 	export HARPOON_VOICE="Fred"
 fi
 
+#% 🔺 HARPOON_SPEECH_RATE %% Speech rate %% 200
 if [ ! -v HARPOON_SPEECH_RATE ]; then
 	export HARPOON_SPEECH_RATE=200
 fi
 
+#% 🔺 HARPOON_USE_EMOJI %% Use emoji for boolean indicators %% true
 if [ ! -v HARPOON_USE_EMOJI ]; then
 	export HARPOON_USE_EMOJI=true
 fi

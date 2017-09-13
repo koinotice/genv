@@ -12,12 +12,23 @@ while [ -h "$SOURCE" ]; do
 	SOURCE="$( readlink "$SOURCE" )"
 	[[ ${SOURCE} != /* ]] && SOURCE="$HARPOON_ROOT/$SOURCE"
 done
+
+#% 🔹 HARPOON_ROOT %% Harpoon root directory %% $HOME/harpoon
 export HARPOON_ROOT="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 
+#% 🔹 HARPOON_TASKS_ROOT %% Tasks directory relative to Harpoon root %% $HOME/harpoon/tasks
 export HARPOON_TASKS_ROOT=${HARPOON_ROOT}/tasks
+
+#% 🔹 HARPOON_SERVICES_ROOT %% Services directory relative to Harpoon root %% $HOME/harpoon/services
 export HARPOON_SERVICES_ROOT=${HARPOON_ROOT}/services
+
+#% 🔹 HARPOON_VENDOR_ROOT %% Vendor (plugins) directory relative to Harpoon root %% $HOME/harpoon/vendor
 export HARPOON_VENDOR_ROOT=${HARPOON_ROOT}/vendor
+
+#% 🔹 HARPOON_IMAGES_ROOT %% Compressed Docker images directory relative to Harpoon root %% $HOME/harpoon/images
 export HARPOON_IMAGES_ROOT=${HARPOON_ROOT}/images
+
+#% 🔹 HARPOON_LIB_ROOT %% Libraries directory relative to Harpoon root %% $HOME/harpoon/lib
 export HARPOON_LIB_ROOT=${HARPOON_ROOT}/lib
 
 if [[ "$command" == "initpath" ]]; then
@@ -72,12 +83,18 @@ case "${command}" in
 	config-docker-network)
 		configDockerNetwork ;;
 
-	env) ## %% Show environment variables
+	env) ## %% List all current environment variables
 		if [ -v PAGER ]; then
 			env | sort | ${PAGER}
 		else
 			env | sort
 		fi
+		;;
+
+	env:doc) ## [<task> | <service>] %% List available/exported environment variables
+		envdoc ;;
+
+	func) #todo List built-in functions
 		;;
 
 	help) ## [<task> | <service>] %% ⁉️  Get help for a task or service
