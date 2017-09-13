@@ -134,6 +134,7 @@ print_debug() {
 
 logDebug() {
 	if [ ${HARPOON_DEBUG:-} ]; then
+		mkdir -p ${HARPOON_TEMP}
 		echo -e "[$(date)] ${1}" >> ${HARPOON_TEMP}/debug.log
 	fi
 }
