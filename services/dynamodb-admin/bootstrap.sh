@@ -25,7 +25,7 @@ if [ ! -v TRAEFIK_ACME ]; then
 	export DDB_ADMIN_HOSTS=ddbadmin.harpoon.dev,dynamodb-admin.harpoon.dev
 fi
 
-if [ ! -v CUSTOM_DOMAINS ]; then
+if [ -v CUSTOM_DOMAINS ]; then
 	for i in "${CUSTOM_DOMAINS[@]}"; do
 		export DDB_ADMIN_HOSTS+=",ddbadmin.${i},dynamodb-admin.${i}"
 	done

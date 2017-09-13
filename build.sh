@@ -26,13 +26,13 @@ case "${command}" in
 	test:dind)
 		rm -fr _kcov
 		docker run --privileged -d -v $PWD:/src --name dind-kcov-bats wheniwork/dind-kcov-bats --storage-driver=aufs
-		docker exec dind-kcov-bats bash -c "kcov --coveralls-id ${TRAVIS_JOB_ID} --include-path=/src --exclude-path=/src/tests _kcov bats tests"
+		docker exec dind-kcov-bats bash -c "kcov --coveralls-id ${TRAVIS_JOB_ID} --include-path=/src --exclude-path=/src/tests --exclude-path=/src/lib _kcov bats tests"
 		bash <(curl -s https://codecov.io/bash) -s _kcov
 		;;
 
 	test:local)
 		rm -fr _kcov
 		docker run --privileged -d -v $PWD:/src --name dind-kcov-bats wheniwork/dind-kcov-bats --storage-driver=aufs
-		docker exec dind-kcov-bats bash -c "kcov --include-path=/src --exclude-path=/src/tests _kcov bats tests"
+		docker exec dind-kcov-bats bash -c "kcov --include-path=/src --exclude-path=/src/tests --exclude-path=/src/lib _kcov bats tests"
 		docker rm -f dind-kcov-bats
 esac
