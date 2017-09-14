@@ -49,7 +49,7 @@ notifyDatadog() {
 	END
 	)
 
-	echo "${ddMsg}" | harpoon http ${DATADOG_EVENTS_URL}
+	echo "${ddMsg}" | httpie ${DATADOG_EVENTS_URL}
 }
 
 notifySlack() {
@@ -112,16 +112,22 @@ notifySlack() {
 	END
 	)
 
+	#todo create map of environments to slack channels and allow customization
+
 	if [ "$DEPLOY_ENV" == "production" ]; then
 		# notify #deployments
-		echo "{${slackMsg}}" | harpoon http ${SLACK_WEBHOOK_URL}
+		echo "{${slackMsg}}" | httpie ${SLACK_WEBHOOK_URL}
 	fi
 
 	if [ "$DEPLOY_ENV" == "staging" ]; then
-		echo "{\"channel\": \"#deployments-staging\", ${slackMsg}}" | harpoon http ${SLACK_WEBHOOK_URL}
+		echo "{\"channel\": \"#deployments-staging\", ${slackMsg}}" | httpie ${SLACK_WEBHOOK_URL}
 	fi
 
-	echo "{\"channel\": \"${SLACK_CHANNEL}\", ${slackMsg}}" | harpoon http ${SLACK_WEBHOOK_URL}
+	if [ "$DEPLOY_ENV" == "acceptance" ]; then
+		echo "{\"channel\": \"#deployments-accept\", ${slackMsg}}" | httpie ${SLACK_WEBHOOK_URL}
+	fi
+
+	echo "{\"channel\": \"${SLACK_CHANNEL}\", ${slackMsg}}" | httpie ${SLACK_WEBHOOK_URL}
 }
 
 case "${command}" in
