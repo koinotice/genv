@@ -99,7 +99,7 @@ fi
 printDebug "HARPOON_DOCKER_HOST_IP: $HARPOON_DOCKER_HOST_IP"
 
 # docker / dind
-dockerRunArgs="--rm -v $PWD:$PWD -w $PWD --net=${HARPOON_DOCKER_NETWORK} -e 'TERM=xterm' -e USER_UID -e USER_GID"
+dockerRunArgs="--rm -v $PWD:$PWD -w $PWD --net=${HARPOON_DOCKER_NETWORK} -e 'TERM=xterm' -e USER_UID -e USER_GID ${HARPOON_DOCKER_ADDITIONAL_RUN_ARGS:-}"
 
 dockerSock=/var/run/docker.sock
 

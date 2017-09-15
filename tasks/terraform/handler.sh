@@ -75,7 +75,7 @@ fi
 
 # $1 ARGS
 tf() {
-	dockerRunWithDynamicEnv "-e TF_DEBUG -w ${TERRAFORM_TEMP} ${TERRAFORM_IMAGE}" "${TERRAFORM_CMD} ${1}"
+	dockerRunWithDynamicEnv "-v ${HOME}/.aws:/root/.aws -e TF_DEBUG -w ${TERRAFORM_TEMP} ${TERRAFORM_IMAGE}" "${TERRAFORM_CMD} ${1}"
 }
 
 tfClean() {
