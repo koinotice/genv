@@ -17,5 +17,5 @@ fi
 
 aws_cli() {
 	printDebug "aws args: $@"
-	dockerRun -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -e AWS_REGION -v ${HOME}/.aws/:/root/.aws ${AWS_IMAGE} ${AWS_CMD} $@
+	dockerRun -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -e AWS_DEFAULT_REGION -e AWS_PROFILE -v ${HOME}/.aws/:/root/.aws ${AWS_IMAGE} ${AWS_CMD} $@
 }
