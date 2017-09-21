@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  redis-commander:
+    container_name: harpoon_redis-commander
+    image: rediscommander/redis-commander:${REDIS_COMMANDER_VERSION}
+    restart: always
+    environment:
+      - REDIS_HOSTS
+      - REDIS_PORT
+    labels:
+      - "traefik.backend=redis-commander"
+      - "traefik.port=8081"
+      - "traefik.frontend.rule=Host:${REDIS_COMMANDER_HOSTS}"
+      - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
+      - "traefik.docker.network=${HARPOON_DOCKER_NETWORK}"
+      - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
+    ports:
+      - "8081"
+
+networks:
+  default:
+    external:
+      name: ${HARPOON_DOCKER_NETWORK}
