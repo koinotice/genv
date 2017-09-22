@@ -27,7 +27,8 @@ fi
 printDebug "BUILD_DOCKERFILE: $BUILD_DOCKERFILE"
 
 if [ -f "${BUILD_DOCKERFILE}" ]; then
-	BUILD_FROM="$(grep FROM "${BUILD_DOCKERFILE}" | sed 's/FROM //g')"
+	BUILD_FROM="$(grep FROM "${BUILD_DOCKERFILE}" | sed 's/FROM //g' | tr '\n' ' ')"
+	IFS=' ' read -a FROM_ARRAY <<< "$BUILD_FROM"
 fi
 
 printDebug "BUILD_FROM: $BUILD_FROM"
@@ -115,11 +116,13 @@ imageSmokeTest() {
 }
 
 imageBuild() {
-	if [ "${BUILD_FROM}" = "scratch" ]; then
-	  printInfo "Found 'FROM scratch'. Skipping pull..."
-	else
-	  docker pull "${BUILD_FROM}" || { printPanic "Failed to pull ${BUILD_FROM}!"; }
-	fi
+	for img in ${FROM_ARRAY}; do
+		if [ "${img}" = "scratch" ]; then
+		  	printInfo "Found 'FROM scratch'. Skipping pull..."
+		else
+		  	docker pull "${img}" || { printPanic "Failed to pull ${img}!"; }
+		fi
+	done
 
 	docker build --squash -f ${BUILD_DOCKERFILE} -t ${PROJECT} . || { printPanic "Failed to build ${PROJECT}!"; }
 	docker history ${PROJECT}
