@@ -139,9 +139,9 @@ imageCleanBuildTest() {
 	if [[ ${TESTS_ENABLED} == true ]]; then
 		if [ "${HAS_TESTS:-}" = "yes" ]; then
 		 if [ "${TEST_TYPE}" = "service" ]; then
-		   imageTestService || { printPanic "Container failed tests!"; }
+		   imageTestService || { printPanic "Container failed service tests!"; }
 		 else
-		   imageTestCLI || { printPanic "Container failed tests!"; }
+		   imageTestCLI || { printPanic "Container failed CLI tests!"; }
 		 fi
 		fi
 	fi
