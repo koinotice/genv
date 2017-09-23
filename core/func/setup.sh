@@ -241,7 +241,7 @@ selfUpdate() {
 
 		for p in $(cat ${HARPOON_ROOT}/plugins.txt); do
 			[[ ${p} =~ ^# ]] && continue
-			docker pull ${p}
+			docker pull ${p} || printError "Failed to pull Docker image for ${p}"
 		done
 	fi
 
