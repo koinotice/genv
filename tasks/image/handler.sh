@@ -35,7 +35,11 @@ printDebug "BUILD_FROM: $BUILD_FROM"
 
 #% 🔺 CONTAINER_OS %% OS referenced in build FROM statement %% alpine
 if [ ! -v CONTAINER_OS ]; then
-	export CONTAINER_OS="$(echo "${BUILD_FROM:-}" | grep -oe alpine -e xenial -e trusty || echo alpine)"
+	if [ ${#FROM_ARRAY[@]} -gt 1 ]; then
+		export CONTAINER_OS="$(echo "${FROM_ARRAY[-1]}" | grep -oe alpine -e xenial -e trusty || echo alpine)"
+	else
+		export CONTAINER_OS="$(echo "${BUILD_FROM:-}" | grep -oe alpine -e xenial -e trusty || echo alpine)"
+	fi
 fi
 
 printDebug "CONTAINER_OS: $CONTAINER_OS"
