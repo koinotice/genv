@@ -84,6 +84,10 @@ and data integrity.
 Redis is an open source key-value store that functions as a data
 structure server.
 
+## [Redis Commander](https://github.com/joeferner/redis-commander)
+
+* **Web UI:** http://redis-commander.harpoon.dev
+
 ## [SQS-admin](https://github.com/wheniwork/sqs-admin)
 
 * **Web UI:** http://sqsadmin.harpoon.dev
