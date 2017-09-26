@@ -25,13 +25,23 @@ parsePlugin() {
 }
 
 inspectMetadata() {
+	printInfo "Inspecting metadata for $PLUGIN..."
+
 	local metadata=$(docker image inspect -f "{{json .ContainerConfig.Labels}}" ${PLUGIN})
 	printDebug "METADATA: $metadata"
 
 	export NAME=$(jq_cli -r ".harpoon_name" <<< ${metadata})
+	printDebug "NAME: $NAME"
+
 	export TYPE=$(jq_cli -r ".harpoon_type" <<< ${metadata})
+	printDebug "TYPE: $TYPE"
+
 	export CMD_ARGS=$(jq_cli -r ".harpoon_args" <<< ${metadata})
+	printDebug "CMD_ARGS: $CMD_ARGS"
+
 	export DESCRIPTION=$(jq_cli -r ".harpoon_description" <<< ${metadata})
+	printDebug "DESCRIPTION: $DESCRIPTION"
+
 	IMAGE_DIR=$(jq_cli -r ".harpoon_dir" <<< ${metadata})
 
 	if [[ ${IMAGE_DIR} == null ]]; then
@@ -61,9 +71,11 @@ pluginRoot() {
 }
 
 extractPlugin() {
+	printInfo "Extracting $TYPE '$NAME'..."
+
 	pluginRoot
 
-	if [[ "${ACTION:-}" == "Updating" ]]; then
+	if [[ "${ACTION:-}" == "Updated" ]]; then
 		rm -fr ${PLUGIN_ROOT}/${NAME}
 	fi
 
@@ -107,16 +119,11 @@ extractPlugin() {
 pluginInstalled() {
 	PLUGIN_INSTALLED=$(grep ${REPO} ${PLUGINS_FILE}) || PLUGIN_INSTALLED=""
 	export PLUGIN_INSTALLED
-}
-
-tagInstalled() {
-	TAG_INSTALLED=true
-	grep ${PLUGIN} ${PLUGINS_FILE} > /dev/null || TAG_INSTALLED=false
-	export TAG_INSTALLED
+	printDebug "PLUGIN_INSTALLED: $PLUGIN_INSTALLED"
 }
 
 removePluginRecord() {
-	cat ${PLUGINS_FILE} | sed "s#${PLUGIN_INSTALLED}##" > ${PLUGINS_FILE}
+	grep -v ${PLUGIN_INSTALLED} ${PLUGINS_FILE} | tee ${PLUGINS_FILE} > /dev/null
 }
 
 install() {
@@ -132,18 +139,20 @@ install() {
 
 	inspectMetadata
 
-	printInfo "Installing $TYPE '$NAME'..."
-
 	extractPlugin
 
 	if [ ! -v PLUGIN_REINSTALL ]; then
 		echo "$PLUGIN" >> ${PLUGINS_FILE}
 	fi
+
+	printSuccess "Installed $TYPE '$NAME'"
 }
 
 # $1 filename
 installFromFile() {
-	for p in $(cat ${1}); do
+	plugins=$(cat ${1})
+
+	for p in ${plugins}; do
 		[[ ${p} =~ ^# ]] && continue
 		install "${p}"
 	done
@@ -154,7 +163,7 @@ update() {
 
 	pluginInstalled
 
-	export ACTION=Updating
+	export ACTION=Updated
 
 	if [[ "$PLUGIN_INSTALLED" == "" ]]; then
 		printWarn "${REPO} is not installed..."
@@ -165,16 +174,15 @@ update() {
 
 	inspectMetadata
 
-	printInfo "$ACTION $TYPE '$NAME'..."
-
 	extractPlugin
 
-	if [[ "$PLUGIN_INSTALLED" != "" ]]; then
+	if [[ "$PLUGIN" != "$PLUGIN_INSTALLED" ]]; then
 		removePluginRecord
-		printSuccess "Replaced $PLUGIN_INSTALLED with $PLUGIN"
+		echo "$PLUGIN" >> ${PLUGINS_FILE}
+		printInfo "Replaced $PLUGIN_INSTALLED with $PLUGIN"
 	fi
 
-	echo "$PLUGIN" >> ${PLUGINS_FILE}
+	printSuccess "$ACTION $TYPE '$NAME'"
 }
 
 case "${command}" in
@@ -205,7 +213,9 @@ case "${command}" in
 		update "${args}" ;;
 
 	plug:up:all) ## %% Update all Harpoon plugins
-		for p in $(cat ${PLUGINS_FILE}); do
+		plugins=$(cat ${PLUGINS_FILE})
+
+		for p in ${plugins}; do
         	update "${p}"
       	done
 		;;
@@ -223,16 +233,18 @@ case "${command}" in
 
 		pluginRoot
 
-		printInfo "Removing $TYPE '$NAME'..."
-
 		rm -fr ${PLUGIN_ROOT}
 		removePluginRecord
+
+		printSuccess "Removed $TYPE '$NAME'"
 		;;
 
 	plug:rm:all) ## %% Remove all Harpoon plugins
 		rm -fr ${HARPOON_VENDOR_ROOT}
 
-		for p in $(cat ${PLUGINS_FILE}); do
+		plugins=$(cat ${PLUGINS_FILE})
+
+		for p in ${plugins}; do
 			docker rmi "${p}" || true
       	done
 

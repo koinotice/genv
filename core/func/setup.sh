@@ -239,7 +239,9 @@ selfUpdate() {
 		rm -fr ${HARPOON_ROOT}/{vendor,plugins.txt}
 		cp -a ${installTemp}/harpoon/{vendor,plugins.txt} ${HARPOON_ROOT}/
 
-		for p in $(cat ${HARPOON_ROOT}/plugins.txt); do
+		plugins=$(cat ${HARPOON_ROOT}/plugins.txt)
+
+		for p in ${plugins}; do
 			[[ ${p} =~ ^# ]] && continue
 			docker pull ${p} || printError "Failed to pull Docker image for ${p}"
 		done
