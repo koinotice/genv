@@ -17,3 +17,9 @@ setup() {
 	[ "$status" -eq 0 ]
 	grep "AWS CLI" <<< "$output"
 }
+
+@test "jq args" {
+	run ./harpoon jq -c -r '. | keys_unsorted' <<< '{"a":1}'
+	[ "$status" -eq 0 ]
+	grep "["a"]" <<< "$output"
+}

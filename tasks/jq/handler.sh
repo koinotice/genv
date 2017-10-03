@@ -2,5 +2,5 @@
 
 case "${command}" in
 	jq) ## [options] <jq filter> [file...] %% A lightweight and flexible command-line JSON processor
-		jq_cli "${args_array[@]}" ;;
+		jq_cli "${args_array[@]:-}" ;;
 esac
