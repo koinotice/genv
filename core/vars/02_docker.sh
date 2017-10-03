@@ -196,11 +196,11 @@ dockerRun() {
 
 	printDebug "EXECUTING: ${DOCKER_RUN} $@"
 
-	${DOCKER_RUN} $@
+	${DOCKER_RUN} "$@"
 }
 
 # DEPRECATED
 docker_run() {
 	printWarn "docker_run() is deprecated. Please use dockerRun()."
-	dockerRun $@
+	dockerRun "$@"
 }

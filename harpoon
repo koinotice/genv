@@ -2,9 +2,12 @@
 
 set -euo pipefail
 
-command=${1:-}
-args=${@:2}
-firstArg=${2:-}
+command="${1:-}"
+shift
+
+firstArg="${1:-}"
+args=${@}
+args_array=( "$@" )
 
 SOURCE="${BASH_SOURCE[0]}"
 while [ -h "$SOURCE" ]; do

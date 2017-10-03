@@ -17,5 +17,5 @@ fi
 
 jq_cli() {
 	printDebug "jq args: $@"
-	dockerRun -i ${JQ_IMAGE} ${JQ_CMD} $@
+	dockerRun -i ${JQ_IMAGE} ${JQ_CMD} "$@"
 }
