@@ -9,6 +9,10 @@ serviceUsage() {
 	echo ""
 }
 
+if [[ "${#args_array[@]}" -gt 1 ]]; then
+	services=( "${args_array[@]:1}" )
+fi
+
 case "${firstArg}" in
 	list) ## %% 👓  List services available in Harpoon
 		listServices ;;
@@ -17,17 +21,17 @@ case "${firstArg}" in
 		listServices ;;
 
 	env:doc) ## [<service>] %% List available/exported environment variables
-		svcRoot=$(serviceRoot ${@:3})
+		svcRoot=$(serviceRoot ${services[@]})
 
 		if [[ "$svcRoot" != "" ]]; then
-			printModuleInfo "${svcRoot}/info.txt" "${@:3}"
+			printModuleInfo "${svcRoot}/info.txt" "${services[@]}"
 			printEnv ${svcRoot}
 		fi
 		;;
 
 	help) ## [<service>] %% ⁉️  Get help
-		if [[ "${@:3}" != "" ]]; then
-			serviceHelp ${@:3}
+		if [[ "${services[1]:-}" != "" ]]; then
+			serviceHelp ${services[@]}
 		else
 			serviceUsage
 		fi
@@ -37,70 +41,63 @@ case "${firstArg}" in
 		serviceUsage ;;
 
 	up) ## <service>... %% 🔼️  Create and start one or more services
-		services=( "${@:3}" )
 		servicesUp services
 		;;
 
 	up-if-down) ## <service>... %% ❔ 🔼️  If down, bring up one or more services
-		services=( "${@:3}" )
 		servicesUpIfDown services
 		;;
 
 	down) ## <service>... %% 🔽  Stop and remove one or more services
-		services=( "${@:3}" )
 		servicesDown services
 		;;
 
 	down-if-up) ## <service>... %% ❔ 🔽  If up, take down one or more services
-		services=( "${@:3}" )
 		servicesDownIfUp services
 		;;
 
 	reset) ## <service>... %% 🌯  Bring down, removing volumes, and restart one or more services. Data will be ERASED! ⚠️
-		services=( "${@:3}" )
 		servicesReset services
 		;;
 
 	reset-if-up) ## %% 🌯  If up, reset one or more services. Data will be ERASED! ⚠️
-		services=( "${@:3}" )
 		servicesResetIfUp services
 		;;
 
 	destroy) ## <service>... %% 🔽  Stop and remove one or more service container(s) and volume(s). Data will be ERASED! ⚠️
-		services=( "${@:3}" )
 		servicesDestroy services
 		;;
 
 	destroy-if-up) ## <service>... %% ❔ 🔽  If up, destroy one or more services. Data will be ERASED! ⚠️
-		services=( "${@:3}" )
 		servicesDestroyIfUp services
 		;;
 
 	clean) ## <service>... %% 🛀  Stop and remove one or more service container(s), image(s), and volume(s). Data will be ERASED! ⚠️
-		services=( "${@:3}" )
 		servicesClean services
 		;;
 
 	clean-if-up) ## <service>... %% ❔ 🛀  If up, clean one or more services. Data will be ERASED! ⚠️
-		services=( "${@:3}" )
 		servicesCleanIfUp services
 		;;
 
 	status) ## <service>... %% 🚦  Display the status of one or more services
-		services=( "${@:3}" )
 		partialServicesStatus services
 		;;
 
 	*)
-		name=${2:-}
+		name="${args_array[0]}"
+		cmd="${args_array[1]}"
 
-		if [[ "$name" == "" ]]; then
+		if [[ "${name}" == "" ]]; then
 			serviceUsage
 			exit 1
 		fi
 
-		command="${name}:${3:-}"
-		args=${@:4}
+		command="${name}:${cmd}"
+
+		if [[ "${#args_array[@]}" -gt 2 ]]; then
+			args="${args_array[@]:2}"
+		fi
 
 		handleService ${name} ${command}
 esac
