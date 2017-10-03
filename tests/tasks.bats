@@ -21,5 +21,5 @@ setup() {
 @test "jq args" {
 	run ./harpoon jq -c -r '. | keys_unsorted' <<< '{"a":1}'
 	[ "$status" -eq 0 ]
-	grep "["a"]" <<< "$output"
+	grep '["a"]' <<< "$output"
 }
