@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+if [ ! -v REDIS_HOST ]; then
+	export REDIS_HOST=harpoon_redis
+fi
+
+# LaunchDarkly Relay Proxy hostnames
+if [ ! -v TRAEFIK_ACME ]; then
+	export LDRELAY_HOSTS=ld-relay.harpoon.dev,ldrelay.harpoon.dev
+fi
+
+if [ -v CUSTOM_DOMAINS ]; then
+	for i in "${CUSTOM_DOMAINS[@]}"; do
+		export LDRELAY_HOSTS+=",ld-relay.${i},ldrelay.${i}"
+	done
+fi
+
+ld-relay_pre_up() {
+	if [ -v USE_REDIS ]; then
+		serviceUpIfDown redis
+	fi
+}
+
+ld-relay_post_down() {
+	if [ -v USE_REDIS ]; then
+		serviceDownIfUp redis
+	fi
+}
+
+ld-relay_post_destroy() {
+	if [ -v USE_REDIS ]; then
+		serviceDestroyIfUp redis
+	fi
+}
+
+ld-relay_post_clean() {
+	if [ -v USE_REDIS ]; then
+		serviceCleanIfUp redis
+	fi
+}

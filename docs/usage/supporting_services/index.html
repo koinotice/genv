@@ -7,7 +7,7 @@
         <title>Supporting Services · A Whale of a Guide to Harpoon</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 3.2.3">
+        <meta name="generator" content="GitBook 3.2.2">
         <meta name="author" content="Ben Getsug">
         
         
@@ -679,6 +679,33 @@ characteristics of running containers.</p>
 <li>Elasticsearch, Logstach, &amp; Kibana</li>
 <li><a href="http://elk-docker.readthedocs.io/" target="_blank">http://elk-docker.readthedocs.io/</a></li>
 </ul>
+<h2 id="launchdarkly-relay-proxy"><a href="https://github.com/launchdarkly/ld-relay" target="_blank">LaunchDarkly Relay Proxy</a></h2>
+<p><strong>Docker Image:</strong> <a href="https://hub.docker.com/r/wheniwork/ld-relay/" target="_blank">https://hub.docker.com/r/wheniwork/ld-relay/</a></p>
+<p><strong>API:</strong> <a href="http://ldrelay.harpoon.dev" target="_blank">http://ldrelay.harpoon.dev</a></p>
+<p><strong>Environment Variables:</strong></p>
+<ul>
+<li><code>LD_ENV_dev</code>: The value should be the api key for the desired
+environment.</li>
+<li><code>LD_PREFIX_dev</code>: This variable is optional. Configures a Redis prefix
+for the desired environment.</li>
+<li><code>USE_REDIS</code>: This variable is optional. If set to <code>1</code>, Redis
+configuration will be added.</li>
+<li><code>REDIS_HOST</code>: This variable is optional. Sets the hostname of the
+Redis server. The default value is <code>harpoon_redis</code>.</li>
+<li><code>REDIS_PORT</code>: This variable is optional. Sets the port of the Redis
+server. The default value is <code>6379</code>.</li>
+<li><code>REDIS_TTL</code>: This variable is optional. Sets the TTL in milliseconds,
+defaults to <code>30000</code>.</li>
+<li><code>USE_EVENTS</code>: This variable is optional. If set to <code>1</code>, enables event
+buffering.</li>
+<li><code>EVENTS_HOST</code>: This variable is optional. URI of the LaunchDarkly
+events endpoint, defaults to <code>https://events.launchdarkly.com</code>.</li>
+<li><code>EVENTS_SEND</code>: This variable is optional. Defaults to <code>true</code>.</li>
+<li><code>EVENTS_FLUSH_INTERVAL</code>: This variable is optional. Sets how often
+events are flushed, defaults to <code>5</code> (seconds).</li>
+<li><code>EVENTS_SAMPLING_INTERVAL</code>: This variable is optional. Defaults to
+<code>10000</code>.</li>
+</ul>
 <h2 id="localstack"><a href="https://github.com/localstack/localstack" target="_blank">LocalStack</a></h2>
 <p>Local AWS cloud stack</p>
 <ul>
@@ -710,6 +737,10 @@ and data integrity.</p>
 <h2 id="redis"><a href="https://hub.docker.com/_/redis/" target="_blank">Redis</a></h2>
 <p>Redis is an open source key-value store that functions as a data
 structure server.</p>
+<h2 id="redis-commander"><a href="https://github.com/joeferner/redis-commander" target="_blank">Redis Commander</a></h2>
+<ul>
+<li><strong>Web UI:</strong> <a href="http://redis-commander.harpoon.dev" target="_blank">http://redis-commander.harpoon.dev</a></li>
+</ul>
 <h2 id="sqs-admin"><a href="https://github.com/wheniwork/sqs-admin" target="_blank">SQS-admin</a></h2>
 <ul>
 <li><strong>Web UI:</strong> <a href="http://sqsadmin.harpoon.dev" target="_blank">http://sqsadmin.harpoon.dev</a></li>
@@ -770,7 +801,7 @@ services.</li>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Supporting Services","level":"2.4.7","depth":2,"next":{"title":"Beanstalk Console","level":"2.4.7.1","depth":3,"anchor":"#beanstalk-console","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#beanstalk-console","articles":[]},"previous":{"title":"Using with your project","level":"2.4.6.3","depth":3,"path":"usage/projects.md","ref":"usage/projects.md","articles":[]},"dir":"ltr"},"config":{"plugins":[],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Ben Getsug","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"A Whale of a Guide to Harpoon","gitbook":"*"},"file":{"path":"usage/supporting_services/README.md","mtime":"2017-08-25T18:49:29.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-09-05T20:39:47.286Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Supporting Services","level":"2.4.7","depth":2,"next":{"title":"Beanstalk Console","level":"2.4.7.1","depth":3,"anchor":"#beanstalk-console","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#beanstalk-console","articles":[]},"previous":{"title":"Using with your project","level":"2.4.6.3","depth":3,"path":"usage/projects.md","ref":"usage/projects.md","articles":[]},"dir":"ltr"},"config":{"plugins":[],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Ben Getsug","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"A Whale of a Guide to Harpoon","gitbook":"*"},"file":{"path":"usage/supporting_services/README.md","mtime":"2017-11-15T20:14:47.302Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-11-15T20:15:47.879Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

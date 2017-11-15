@@ -1,0 +1,38 @@
+version: '2'
+
+services:
+  ld-relay:
+    container_name: harpoon_ld_relay
+    image: wheniwork/ld-relay
+    environment:
+      - TERM=xterm
+      - LD_ENV_dev
+      - LD_PREFIX_dev
+      - USE_REDIS
+      - REDIS_HOST
+      - REDIS_PORT
+      - REDIS_TTL
+      - USE_EVENTS
+      - EVENTS_HOST
+      - EVENTS_SEND
+      - EVENTS_FLUSH_INTERVAL
+      - EVENTS_SAMPLING_INTERVAL
+    labels:
+      - "traefik.backend=ld-relay"
+      - "traefik.port=8030"
+      - "traefik.frontend.rule=Host:${LDRELAY_HOSTS}"
+      - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
+      - "traefik.docker.network=${HARPOON_DOCKER_NETWORK}"
+      - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
+    networks:
+      default:
+        aliases:
+          - ld-relay.harpoon
+          - ld-relay.harpoon.dev
+    ports:
+      - "8030"
+
+networks:
+  default:
+    external:
+      name: ${HARPOON_DOCKER_NETWORK}

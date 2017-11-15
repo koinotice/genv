@@ -41,6 +41,37 @@ export COUCHBASE_VERSION="latest"
 * Elasticsearch, Logstach, & Kibana
 * http://elk-docker.readthedocs.io/
 
+## [LaunchDarkly Relay Proxy](https://github.com/launchdarkly/ld-relay)
+
+**Docker Image:** https://hub.docker.com/r/wheniwork/ld-relay/
+
+**API:** http://ldrelay.harpoon.dev
+
+**Environment Variables:**
+
+* `LD_ENV_dev`: The value should be the api key for the desired
+  environment.
+* `LD_PREFIX_dev`: This variable is optional. Configures a Redis prefix
+  for the desired environment.
+* `USE_REDIS`: This variable is optional. If set to `1`, Redis
+  configuration will be added.
+* `REDIS_HOST`: This variable is optional. Sets the hostname of the
+  Redis server. The default value is `harpoon_redis`.
+* `REDIS_PORT`: This variable is optional. Sets the port of the Redis
+  server. The default value is `6379`.
+* `REDIS_TTL`: This variable is optional. Sets the TTL in milliseconds,
+  defaults to `30000`.
+* `USE_EVENTS`: This variable is optional. If set to `1`, enables event
+  buffering.
+* `EVENTS_HOST`: This variable is optional. URI of the LaunchDarkly
+  events endpoint, defaults to `https://events.launchdarkly.com`.
+* `EVENTS_SEND`: This variable is optional. Defaults to `true`.
+* `EVENTS_FLUSH_INTERVAL`: This variable is optional. Sets how often
+  events are flushed, defaults to `5` (seconds).
+* `EVENTS_SAMPLING_INTERVAL`: This variable is optional. Defaults to
+  `10000`.
+
+
 ## [LocalStack](https://github.com/localstack/localstack)
 
 Local AWS cloud stack
