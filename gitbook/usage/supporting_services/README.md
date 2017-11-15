@@ -49,6 +49,8 @@ export COUCHBASE_VERSION="latest"
 
 **Environment Variables:**
 
+* `LD_RELAY_REDIS_HOST`: Default is `harpoon_redis`.
+* `LD_RELAY_REDIS_PORT`: Default is `6379`.
 * `LD_RELAY_PORT`: The HTTP port of the service as published to the
   Docker host. Default is `8030`.
 * `LD_ENV_dev`: The value should be the api key for the desired

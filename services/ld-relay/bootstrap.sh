@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 
-if [ ! -v REDIS_HOST ]; then
+if [ ! -v LD_RELAY_REDIS_HOST ]; then
 	export REDIS_HOST=harpoon_redis
+fi
+
+if [ ! -v LD_RELAY_REDIS_PORT ]; then
+	export REDIS_PORT=6379
 fi
 
 #% 🔺 LD_RELAY_PORT %% LaunchDarkly Relay Proxy HTTP port %% 8030
