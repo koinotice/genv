@@ -2,10 +2,14 @@
 
 if [ ! -v LD_RELAY_REDIS_HOST ]; then
 	export REDIS_HOST=harpoon_redis
+else
+	export REDIS_HOST=${LD_RELAY_REDIS_HOST}
 fi
 
 if [ ! -v LD_RELAY_REDIS_PORT ]; then
 	export REDIS_PORT=6379
+else
+	export REDIS_PORT=${LD_RELAY_REDIS_PORT}
 fi
 
 #% 🔺 LD_RELAY_PORT %% LaunchDarkly Relay Proxy HTTP port %% 8030
