@@ -30,7 +30,7 @@ services:
           - ld-relay.harpoon
           - ld-relay.harpoon.dev
     ports:
-      - "8030"
+      - "${LD_RELAY_PORT}:8030"
 
 networks:
   default:

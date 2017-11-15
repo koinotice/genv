@@ -4,6 +4,11 @@ if [ ! -v REDIS_HOST ]; then
 	export REDIS_HOST=harpoon_redis
 fi
 
+#% 🔺 LD_RELAY_PORT %% LaunchDarkly Relay Proxy HTTP port %% 8030
+if [ ! -v LD_RELAY_PORT ]; then
+	export LD_RELAY_PORT=8030
+fi
+
 # LaunchDarkly Relay Proxy hostnames
 if [ ! -v TRAEFIK_ACME ]; then
 	export LDRELAY_HOSTS=ld-relay.harpoon.dev,ldrelay.harpoon.dev

@@ -49,6 +49,8 @@ export COUCHBASE_VERSION="latest"
 
 **Environment Variables:**
 
+* `LD_RELAY_PORT`: The HTTP port of the service as published to the
+  Docker host. Default is `8030`.
 * `LD_ENV_dev`: The value should be the api key for the desired
   environment.
 * `LD_PREFIX_dev`: This variable is optional. Configures a Redis prefix
