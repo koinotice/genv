@@ -36,10 +36,31 @@ export COUCHBASE_VERSION="latest"
 
 * **Web UI:** http://ddbadmin.harpoon.dev
 
-## [ELK Stack](https://hub.docker.com/r/sebp/elk/)
+## [Elastic (ELK) Stack](https://www.elastic.co)
 
-* Elasticsearch, Logstach, & Kibana
-* http://elk-docker.readthedocs.io/
+### Elasticsearch
+
+* **URL:** http://es.harpoon.dev
+
+### Logstash
+
+* **URL:** http://ls.harpoon.dev
+
+#### Input
+* **TCP**
+  * **Port:** `12345`
+  * **Codec:** `json`
+* **UDP**
+  * **Port:** `12345`
+  * **Codec:** `json`
+
+#### Output
+* **Elasticsearch**
+
+### Kibana
+
+* **Web UI:** http://kibana.harpoon.dev
+
 
 ## [LaunchDarkly Relay Proxy](https://github.com/launchdarkly/ld-relay)
 
@@ -82,6 +103,10 @@ Local AWS cloud stack
 
 * **Web UI:** http://localstack.harpoon.dev
 * **AWS CLI:** `harpoon localstack:aws <arg...>`
+
+## [Logspout](https://github.com/gliderlabs/logspout)
+
+* Sends (raw) JSON to the `harpoon_logstash` container via `udp:12345`
 
 ## [Mailhog](https://hub.docker.com/r/mailhog/mailhog/)
 

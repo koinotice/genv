@@ -674,10 +674,35 @@ characteristics of running containers.</p>
 <ul>
 <li><strong>Web UI:</strong> <a href="http://ddbadmin.harpoon.dev" target="_blank">http://ddbadmin.harpoon.dev</a></li>
 </ul>
-<h2 id="elk-stack"><a href="https://hub.docker.com/r/sebp/elk/" target="_blank">ELK Stack</a></h2>
+<h2 id="elastic-elk-stack"><a href="https://www.elastic.co" target="_blank">Elastic (ELK) Stack</a></h2>
+<h3 id="elasticsearch">Elasticsearch</h3>
 <ul>
-<li>Elasticsearch, Logstach, &amp; Kibana</li>
-<li><a href="http://elk-docker.readthedocs.io/" target="_blank">http://elk-docker.readthedocs.io/</a></li>
+<li><strong>URL:</strong> <a href="http://es.harpoon.dev" target="_blank">http://es.harpoon.dev</a></li>
+</ul>
+<h3 id="logstash">Logstash</h3>
+<ul>
+<li><strong>URL:</strong> <a href="http://ls.harpoon.dev" target="_blank">http://ls.harpoon.dev</a></li>
+</ul>
+<h4 id="input">Input</h4>
+<ul>
+<li><strong>TCP</strong><ul>
+<li><strong>Port:</strong> <code>12345</code></li>
+<li><strong>Codec:</strong> <code>json</code></li>
+</ul>
+</li>
+<li><strong>UDP</strong><ul>
+<li><strong>Port:</strong> <code>12345</code></li>
+<li><strong>Codec:</strong> <code>json</code></li>
+</ul>
+</li>
+</ul>
+<h4 id="output">Output</h4>
+<ul>
+<li><strong>Elasticsearch</strong></li>
+</ul>
+<h3 id="kibana">Kibana</h3>
+<ul>
+<li><strong>Web UI:</strong> <a href="http://kibana.harpoon.dev" target="_blank">http://kibana.harpoon.dev</a></li>
 </ul>
 <h2 id="launchdarkly-relay-proxy"><a href="https://github.com/launchdarkly/ld-relay" target="_blank">LaunchDarkly Relay Proxy</a></h2>
 <p><strong>Docker Image:</strong> <a href="https://hub.docker.com/r/wheniwork/ld-relay/" target="_blank">https://hub.docker.com/r/wheniwork/ld-relay/</a></p>
@@ -715,6 +740,10 @@ events are flushed, defaults to <code>5</code> (seconds).</li>
 <ul>
 <li><strong>Web UI:</strong> <a href="http://localstack.harpoon.dev" target="_blank">http://localstack.harpoon.dev</a></li>
 <li><strong>AWS CLI:</strong> <code>harpoon localstack:aws &lt;arg...&gt;</code></li>
+</ul>
+<h2 id="logspout"><a href="https://github.com/gliderlabs/logspout" target="_blank">Logspout</a></h2>
+<ul>
+<li>Sends (raw) JSON to the <code>harpoon_logstash</code> container via <code>udp:12345</code></li>
 </ul>
 <h2 id="mailhog"><a href="https://hub.docker.com/r/mailhog/mailhog/" target="_blank">Mailhog</a></h2>
 <p>Web and API based SMTP testing</p>
@@ -805,7 +834,7 @@ services.</li>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Supporting Services","level":"2.4.7","depth":2,"next":{"title":"Beanstalk Console","level":"2.4.7.1","depth":3,"anchor":"#beanstalk-console","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#beanstalk-console","articles":[]},"previous":{"title":"Using with your project","level":"2.4.6.3","depth":3,"path":"usage/projects.md","ref":"usage/projects.md","articles":[]},"dir":"ltr"},"config":{"plugins":[],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Ben Getsug","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"A Whale of a Guide to Harpoon","gitbook":"*"},"file":{"path":"usage/supporting_services/README.md","mtime":"2017-11-15T23:00:53.218Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-11-15T23:00:59.635Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Supporting Services","level":"2.4.7","depth":2,"next":{"title":"Beanstalk Console","level":"2.4.7.1","depth":3,"anchor":"#beanstalk-console","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#beanstalk-console","articles":[]},"previous":{"title":"Using with your project","level":"2.4.6.3","depth":3,"path":"usage/projects.md","ref":"usage/projects.md","articles":[]},"dir":"ltr"},"config":{"plugins":[],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Ben Getsug","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"A Whale of a Guide to Harpoon","gitbook":"*"},"file":{"path":"usage/supporting_services/README.md","mtime":"2017-11-18T09:36:17.238Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-11-18T09:39:34.703Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

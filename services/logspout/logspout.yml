@@ -1,0 +1,26 @@
+version: '2.2'
+
+services:
+  logspout:
+    image: gliderlabs/logspout:${LOGSPOUT_VERSION}
+    container_name: harpoon_logspout
+    environment:
+      RAW_FORMAT: |
+        { "container" : "{{ .Container.Name }}", "labels": {{ toJSON .Container.Config.Labels }}, "timestamp": "{{ .Time.Format "2006-01-02T15:04:05Z07:00" }}", "source" : "{{ .Source }}", "message": {{ toJSON .Data }} }
+    command: raw://harpoon_logstash:12345
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      - "traefik.backend=logspout"
+      - "traefik.port=80"
+      - "traefik.frontend.rule=Host:${LOGSPOUT_HOSTS}"
+      - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
+      - "traefik.docker.network=${HARPOON_DOCKER_NETWORK}"
+      - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
+    ports:
+      - 80
+
+networks:
+  default:
+    external:
+      name: ${HARPOON_DOCKER_NETWORK}
