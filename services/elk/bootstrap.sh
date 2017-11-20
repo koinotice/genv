@@ -15,6 +15,11 @@ if [ ! -v KIBANA_VERSION ]; then
 	export KIBANA_VERSION=6.0.0
 fi
 
+#% 🔺 FILEBEAT_VERSION %% Filebeat Docker image version %% 6.0.0
+if [ ! -v FILEBEAT_VERSION ]; then
+	export FILEBEAT_VERSION=6.0.0
+fi
+
 #% 🔹 ES_VOLUME_NAME %% ELK Docker volume name %% esdata
 export ES_VOLUME_NAME=esdata
 
@@ -48,6 +53,13 @@ elk_pre_up() {
 		printInfo "Creating docker volume named '${ES_VOLUME_NAME}'..."
 		docker volume create --name=${ES_VOLUME_NAME}
 	fi
+}
+
+elk_post_up() {
+	printInfo "Waiting 30 seconds for ElasticSearch..."
+	sleep 30
+	printInfo "Creating Filebeat dashboards in Kibana..."
+	serviceExec elk "filebeat filebeat setup --dashboards"
 }
 
 esRemoveVolume() {

@@ -45,6 +45,8 @@ services:
       - "traefik.docker.network=${HARPOON_DOCKER_NETWORK}"
       - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
     ports:
+      - 5044
+      - 8911
       - 9600
   kibana:
     image: docker.elastic.co/kibana/kibana:${KIBANA_VERSION}
@@ -62,6 +64,18 @@ services:
       - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
     ports:
       - 5601
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:${FILEBEAT_VERSION}
+    container_name: harpoon_filebeat
+    restart: unless-stopped
+    volumes:
+      - ./usr/share/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/lib/docker/containers/:/var/lib/docker/containers/
+    user: root
+    depends_on:
+      - elasticsearch
+      - kibana
 
 networks:
   default:
