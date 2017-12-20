@@ -32,6 +32,7 @@ _Harpoon_ has been tested with:
 ## Requirements
 
 * Bash 4 (`bash`) or ZSH (`zsh`)
+  * macOS users should upgrade bash with [Homebrew](https://brew.sh/): `brew install bash`
 * Docker (`docker`)
 * Docker Compose (`docker-compose`)
 
