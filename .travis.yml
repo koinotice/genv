@@ -14,7 +14,7 @@ before_install:
   - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
   - sudo apt-get update
   - sudo apt-cache madison docker-ce
-  - sudo apt-get -y install docker-ce
+  - sudo apt-get -y install docker-ce=17.09.1~ce-0~ubuntu
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
 
 install:
