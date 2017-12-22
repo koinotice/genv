@@ -60,15 +60,20 @@ if [ ! -v HARPOON_DNSMASQ_IP ]; then
 	export HARPOON_DNSMASQ_IP="${dockerNetPrefix}.254"
 fi
 
-#% 🔺 HARPOON_TRAEFIK_IP %% Traefik container IP address %% 10.254.254.253
+#% 🔺 HARPOON_CONSUL_IP %% Traefik container IP address %% 10.254.254.253
+if [ ! -v HARPOON_CONSUL_IP ]; then
+	export HARPOON_CONSUL_IP="${dockerNetPrefix}.253"
+fi
+
+#% 🔺 HARPOON_TRAEFIK_IP %% Traefik container IP address %% 10.254.254.252
 if [ ! -v HARPOON_TRAEFIK_IP ]; then
-	export HARPOON_TRAEFIK_IP="${dockerNetPrefix}.253"
+	export HARPOON_TRAEFIK_IP="${dockerNetPrefix}.252"
 fi
 
 # core service hostnames
 if [ ! -v TRAEFIK_ACME ]; then
-	export CONSUL_HOSTS=consul.harpoon.dev
-	export TRAEFIK_HOSTS=traefik.harpoon.dev
+	export CONSUL_HOSTS=consul.harpoon,consul.harpoon.dev
+	export TRAEFIK_HOSTS=traefik.harpoon,traefik.harpoon.dev
 fi
 
 #% 🔺 CUSTOM_DOMAINS %% Array of custom domain names
@@ -99,7 +104,7 @@ fi
 printDebug "HARPOON_DOCKER_HOST_IP: $HARPOON_DOCKER_HOST_IP"
 
 # docker / dind
-dockerRunArgs="--rm -v $PWD:$PWD -w $PWD --net=${HARPOON_DOCKER_NETWORK} -e 'TERM=xterm' -e USER_UID -e USER_GID ${HARPOON_DOCKER_ADDITIONAL_RUN_ARGS:-}"
+dockerRunArgs="--rm -v $PWD:$PWD -w $PWD --net=${HARPOON_DOCKER_NETWORK} --dns ${HARPOON_DNSMASQ_IP} -e 'TERM=xterm' -e USER_UID -e USER_GID ${HARPOON_DOCKER_ADDITIONAL_RUN_ARGS:-}"
 
 dockerSock=/var/run/docker.sock
 

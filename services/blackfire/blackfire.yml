@@ -12,6 +12,7 @@ services:
       default:
         aliases:
           - blackfire
+          - blackfire.harpoon
     ports:
       - "8707"
     restart: on-failure

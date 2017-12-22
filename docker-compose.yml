@@ -7,11 +7,15 @@ services:
     environment:
       - USER=dev
       - PASS=harpoon
-      - HARPOON_DOCKER_HOST_IP
+      - HARPOON_TRAEFIK_IP
     networks:
       default:
         ipv4_address: ${HARPOON_DNSMASQ_IP}
+        aliases:
+          - dnsmasq.harpoon
+          - dnsmasq.harpoon.dev
     ports:
+      - "53:53"
       - "53:53/udp"
       - "5380:8080"
     logging:
@@ -42,7 +46,9 @@ services:
       - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
     networks:
       default:
+        ipv4_address: ${HARPOON_CONSUL_IP}
         aliases:
+          - consul.harpoon
           - consul.harpoon.dev
 
   traefik:
@@ -109,6 +115,7 @@ services:
       default:
         ipv4_address: ${HARPOON_TRAEFIK_IP}
         aliases:
+          - traefik.harpoon
           - traefik.harpoon.dev
     volumes:
       - ./core/traefik/:/etc/traefik/

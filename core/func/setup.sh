@@ -12,10 +12,9 @@ up() {
 		for i in "${CUSTOM_DOMAINS[@]}"; do
 			echo -e "\t$i"
 		done
-		echo -e "\tharpoon.dev"
-	else
-		echo -e "\tharpoon.dev"
 	fi
+	echo -e "\t.harpoon"
+	echo -e "\tharpoon.dev (deprecated)"
 	echo ""
 
 	speakGreeting
@@ -32,11 +31,11 @@ install() {
 generateDnsmasqConfig() {
 	printInfo "Generating dnsmasq configuration..."
 
-	echo -e "$(cat ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf.template | sed "s/HARPOON_DOCKER_HOST_IP/${HARPOON_DOCKER_HOST_IP}/")" > ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
+	echo -e "$(cat ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf.template | sed "s/HARPOON_TRAEFIK_IP/${HARPOON_TRAEFIK_IP}/")" > ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
 
 	if [ -v CUSTOM_DOMAINS ]; then
 		for i in "${CUSTOM_DOMAINS[@]}"; do
-			echo -e "\naddress=/${i}/${HARPOON_DOCKER_HOST_IP}" >> ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
+			echo -e "\naddress=/${i}/${HARPOON_TRAEFIK_IP}" >> ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
 		done
 	fi
 }
@@ -65,68 +64,72 @@ configOS() {
 		configLinux
 	fi
 
-	${HARPOON_DOCKER_COMPOSE} up -d traefik
+	${HARPOON_DOCKER_COMPOSE} up -d traefik consul
 }
 
 configMacOS() {
+	printInfo "Configuring network routes..."
+
+	sudo ifconfig lo0 alias ${HARPOON_LOOPBACK_ALIAS_IP}/32 || true
+
+	if [[ "$HARPOON_DOCKER_HOST_IP" != "$HARPOON_LOOPBACK_ALIAS_IP" ]]; then
+		sudo route add -net ${HARPOON_DOCKER_SUBNET} ${HARPOON_DOCKER_HOST_IP}
+	fi
+
+	printInfo "Configuring DNS..."
+
 	sudo mkdir -p /etc/resolver
-	echo "nameserver ${HARPOON_DOCKER_HOST_IP}" | sudo tee /etc/resolver/harpoon.dev
-	echo "nameserver ${HARPOON_DOCKER_HOST_IP}" | sudo tee /etc/resolver/consul
+	echo "nameserver ${HARPOON_DNSMASQ_IP}" | sudo tee /etc/resolver/harpoon
+	echo "nameserver ${HARPOON_DNSMASQ_IP}" | sudo tee /etc/resolver/harpoon.dev
+	echo "nameserver ${HARPOON_CONSUL_IP}" | sudo tee /etc/resolver/consul
 	echo "port 8600" | sudo tee -a /etc/resolver/consul
 
 	if [ -v CUSTOM_DOMAINS ]; then
 		for i in "${CUSTOM_DOMAINS[@]}"; do
-			echo "nameserver ${HARPOON_DOCKER_HOST_IP}" | sudo tee /etc/resolver/${i}
+			echo "nameserver ${HARPOON_DNSMASQ_IP}" | sudo tee /etc/resolver/${i}
 		done
 	fi
 
-	sudo ifconfig lo0 alias ${HARPOON_LOOPBACK_ALIAS_IP}/32 || true
-	${HARPOON_DOCKER_COMPOSE} up -d dnsmasq consul
+	${HARPOON_DOCKER_COMPOSE} up -d dnsmasq
 }
 
 configLinux() {
 	if [ ! -v RUNNING_IN_CONTAINER ]; then
 		sudo ifconfig lo:0 ${HARPOON_LOOPBACK_ALIAS_IP}/32 || true
 
+		printInfo "Configuring DNS..."
+
 		if [ -d /etc/NetworkManager ]; then
 			sudo ln -fs ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf /etc/NetworkManager/dnsmasq.d/harpoon
 			sudo systemctl restart NetworkManager
 		elif [ -d /etc/dnsmasq.d ]; then
-			configDnsmasqLinux
+			grep "^#conf-dir=/etc/dnsmasq.d$" /etc/dnsmasq.conf || CONF_DIR_EXISTS=true
+
+			if [ ! -v CONF_DIR_EXISTS ]; then
+				sed -r "s/^#conf-dir=\/etc\/dnsmasq.d$/conf-dir=\/etc\/dnsmasq.d/" /etc/dnsmasq.conf | sudo tee /etc/dnsmasq.conf
+			fi
+
+			sudo ln -fs ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf /etc/dnsmasq.d/harpoon
+			sudo service dnsmasq restart
 		else
-			printInfo "Installing dnsmasq..."
-			sudo apt-get install dnsmasq
-			configDnsmasqLinux
+			${HARPOON_DOCKER_COMPOSE} up -d dnsmasq
 		fi
-
-		${HARPOON_DOCKER_COMPOSE} up -d consul
-	else
-		${HARPOON_DOCKER_COMPOSE} up -d dnsmasq consul
 	fi
-}
-
-configDnsmasqLinux() {
-	printInfo "Configuring dnsmasq..."
-
-	grep "^#conf-dir=/etc/dnsmasq.d$" /etc/dnsmasq.conf || CONF_DIR_EXISTS=true
-
-	if [ ! -v CONF_DIR_EXISTS ]; then
-		sed -r "s/^#conf-dir=\/etc\/dnsmasq.d$/conf-dir=\/etc\/dnsmasq.d/" /etc/dnsmasq.conf | sudo tee /etc/dnsmasq.conf
-	fi
-
-	sudo ln -fs ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf /etc/dnsmasq.d/harpoon
-	sudo service dnsmasq restart
 }
 
 cleanup() {
 	if [[ $(uname) == 'Darwin' ]]; then
-		sudo rm -f /etc/resolver/harpoon.dev
+		sudo rm -f /etc/resolver/harpoon*
 		sudo rm -f /etc/resolver/consul
 
 		if [ -v CUSTOM_DOMAINS ]; then
 			for i in  "${CUSTOM_DOMAINS[@]}"; do
 				sudo rm -f /etc/resolver/${i}
 			done
+		fi
+
+		if [[ "$HARPOON_DOCKER_HOST_IP" != "$HARPOON_LOOPBACK_ALIAS_IP" ]]; then
+			sudo route delete -net ${HARPOON_DOCKER_SUBNET}
 		fi
 	fi
 

@@ -16,6 +16,7 @@ services:
     networks:
       default:
         aliases:
+          - cadvisor.harpoon
           - cadvisor.harpoon.dev
     volumes:
       - /:/rootfs:ro

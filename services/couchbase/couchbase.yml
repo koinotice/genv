@@ -41,6 +41,8 @@ services:
     networks:
       default:
         aliases:
+          - couchbase-provisioner.harpoon
+          - cbpvr.harpoon
           - couchbase-provisioner.harpoon.dev
           - cbpvr.harpoon.dev
     ports:

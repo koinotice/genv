@@ -8,7 +8,10 @@ services:
       - TERM=xterm
     ports:
       - "${REDIS_PORT}:6379"
-
+    networks:
+      default:
+        aliases:
+          - redis.harpoon
 networks:
   default:
     external:

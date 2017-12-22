@@ -12,6 +12,10 @@ services:
       - "${MYSQL_PORT}:3306"
     volumes:
       - mysql:/var/lib/mysql
+    networks:
+      default:
+        aliases:
+          - mysql.harpoon
 
 networks:
   default:
