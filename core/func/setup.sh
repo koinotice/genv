@@ -114,7 +114,10 @@ configLinux() {
 		else
 			${HARPOON_DOCKER_COMPOSE} up -d dnsmasq
 		fi
+	else
+		${HARPOON_DOCKER_COMPOSE} up -d dnsmasq
 	fi
+
 }
 
 cleanup() {
