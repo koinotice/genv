@@ -10,11 +10,13 @@ up() {
 
 	if [ -v CUSTOM_DOMAINS ]; then
 		for i in "${CUSTOM_DOMAINS[@]}"; do
-			echo -e "\t$i"
+			echo -e "\t$i (resolves to Traefik IP)"
 		done
 	fi
-	echo -e "\t.harpoon"
-	echo -e "\tharpoon.dev (deprecated)"
+	echo -e "\t.harpoon (resolves to Traefik IP)"
+	echo -e "\text.harpoon (resolves to Traefik IP)"
+	echo -e "\tint.harpoon (resolves to Docker host IP)"
+	echo -e "\tharpoon.dev (resolves to Docker host IP) [deprecated]"
 	echo ""
 
 	speakGreeting
