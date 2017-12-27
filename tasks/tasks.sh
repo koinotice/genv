@@ -27,7 +27,8 @@ taskExists() {
 listTasks() {
 	local tasks=""
 
-	for f in $(ls ${HARPOON_TASKS_ROOT}); do
+	local tsks=$(ls ${HARPOON_TASKS_ROOT})
+	for f in ${tsks}; do
 		if [[ "$f" == "tasks.sh" || "$f" == "_templates" ]]; then
 			continue
 		fi
@@ -42,7 +43,8 @@ listTasks() {
 	done
 
 	if [ -d ${HARPOON_VENDOR_ROOT}/tasks ]; then
-		for f in $(ls ${HARPOON_VENDOR_ROOT}/tasks); do
+		local tsks=$(ls ${HARPOON_VENDOR_ROOT}/tasks)
+		for f in ${tsks}; do
 			local task=${f}
 
 			# fixme support aliases for vendored tasks
@@ -71,7 +73,8 @@ task_help() {
 }
 
 # bootstrap tasks
-for f in $(ls ${HARPOON_TASKS_ROOT}); do
+TASKS=$(ls ${HARPOON_TASKS_ROOT})
+for f in ${TASKS}; do
 	if [[ "$f" == "tasks.sh" || "$f" == "_templates" ]]; then
 		continue
 	fi
@@ -82,7 +85,8 @@ for f in $(ls ${HARPOON_TASKS_ROOT}); do
 done
 
 if [ -d ${HARPOON_VENDOR_ROOT}/tasks ]; then
-	for f in $(ls ${HARPOON_VENDOR_ROOT}/tasks); do
+	TASKS=$(ls ${HARPOON_VENDOR_ROOT}/tasks)
+	for f in ${TASKS}; do
 		if [ -f ${HARPOON_VENDOR_ROOT}/tasks/${f}/bootstrap.sh ]; then
 			source ${HARPOON_VENDOR_ROOT}/tasks/${f}/bootstrap.sh;
 		fi

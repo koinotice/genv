@@ -31,7 +31,12 @@ install() {
 generateDnsmasqConfig() {
 	printInfo "Generating dnsmasq configuration..."
 
-	echo -e "$(cat ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf.template | sed "s/HARPOON_TRAEFIK_IP/${HARPOON_TRAEFIK_IP}/")" > ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
+	cp ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf.template ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
+
+	echo -e "\naddress=/harpoon/${HARPOON_TRAEFIK_IP}" >> ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
+	echo -e "\naddress=/ext.harpoon/${HARPOON_TRAEFIK_IP}" >> ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
+	echo -e "\naddress=/int.harpoon/${HARPOON_DOCKER_HOST_IP}" >> ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
+	echo -e "\naddress=/harpoon.dev/${HARPOON_DOCKER_HOST_IP}" >> ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
 
 	if [ -v CUSTOM_DOMAINS ]; then
 		for i in "${CUSTOM_DOMAINS[@]}"; do
@@ -157,7 +162,8 @@ uninstall() {
 	${HARPOON_DOCKER_COMPOSE} down -v
 
 	if [[ "${1:-}" == "all" ]]; then
-		for s in $(listServices); do
+		local services=$(listServices)
+		for s in ${services}; do
 			printInfo "Removing ${s}..."
 			harpoon ${s}:down-if-up
 		done
@@ -192,7 +198,8 @@ clean() {
 	${HARPOON_DOCKER_COMPOSE} down -v --rmi all
 
 	if [[ "${1:-}" == "all" ]]; then
-		for s in $(services); do
+		local services=$(services)
+		for s in ${services}; do
 			printInfo "Completely removing ${s}..."
 			harpoon ${s}:clean-if-up
 		done

@@ -39,13 +39,15 @@ fi
 
 
 # functions
-for f in $(ls ${HARPOON_ROOT}/core/func); do
+func=$(ls ${HARPOON_ROOT}/core/func)
+for f in ${func}; do
 	source ${HARPOON_ROOT}/core/func/${f}
 done
 
 
 # variables
-for f in $(ls ${HARPOON_ROOT}/core/vars); do
+vars=$(ls ${HARPOON_ROOT}/core/vars)
+for f in ${vars}; do
 	source ${HARPOON_ROOT}/core/vars/${f}
 done
 

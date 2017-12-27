@@ -36,7 +36,8 @@ serviceBootstrap() {
 listServices() {
 	local services=""
 
-	for f in $(ls ${HARPOON_SERVICES_ROOT}); do
+	local svcs=$(ls ${HARPOON_SERVICES_ROOT})
+	for f in ${svcs}; do
 		if [[ ${f} =~ services.sh|tasks.sh ]]; then
 			continue
 		fi
@@ -45,7 +46,8 @@ listServices() {
 	done
 
 	if [ -d ${HARPOON_VENDOR_ROOT}/services ]; then
-		for v in $(ls ${HARPOON_VENDOR_ROOT}/services); do
+		local svcs=$(ls ${HARPOON_VENDOR_ROOT}/services)
+		for v in ${svcs}; do
 			local services+="$v\n"
 		done
 	fi
@@ -88,7 +90,8 @@ checkServiceStatus() {
 }
 
 servicesStatus() {
-	for f in $(ls ${HARPOON_SERVICES_ROOT}); do
+	local services=$(ls ${HARPOON_SERVICES_ROOT})
+	for f in ${services}; do
 		if [[ ${f} =~ services.sh|tasks.sh ]]; then
 			continue
 		fi
@@ -97,7 +100,8 @@ servicesStatus() {
 	done
 
 	if [ -d ${HARPOON_VENDOR_ROOT}/services ]; then
-		for v in $(ls ${HARPOON_VENDOR_ROOT}/services); do
+		local services=$(ls ${HARPOON_VENDOR_ROOT}/services)
+		for v in ${services}; do
 			serviceStatus ${v}
 		done
 	fi

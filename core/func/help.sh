@@ -21,7 +21,8 @@ printAllHelp() {
 	printf "\nTasks:\n"
 	printf "  $COLOR_CYAN%-45s$COLOR_NC %s\n" "<task>:<command> [<arg...>]"
 	printf "  $COLOR_CYAN%-45s$COLOR_NC%s\n\n" "<task>:help"
-	for t in $(listTasks); do
+	tasks=$(listTasks)
+	for t in ${tasks}; do
 		taskExists ${t}
 		infoFile="${TASK_ROOT}/info.txt"
 
@@ -37,7 +38,8 @@ printAllHelp() {
 	printf "\nServices:\n"
 	printf "  $COLOR_CYAN%-45s$COLOR_NC %s\n" "<service>:<command> [<arg...>]"
 	printf "  $COLOR_CYAN%-45s$COLOR_NC%s\n\n" "<service>:help"
-	for s in $(listServices); do
+	services=$(listServices)
+	for s in ${services}; do
 		svcRoot=$(serviceRoot ${s})
 
 		infoFile="${svcRoot}/info.txt"
