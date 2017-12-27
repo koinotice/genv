@@ -37,6 +37,7 @@ generateDnsmasqConfig() {
 	echo -e "\naddress=/ext.harpoon/${HARPOON_TRAEFIK_IP}" >> ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
 	echo -e "\naddress=/int.harpoon/${HARPOON_DOCKER_HOST_IP}" >> ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
 	echo -e "\naddress=/harpoon.dev/${HARPOON_DOCKER_HOST_IP}" >> ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
+	echo -e "\naddress=/consul/${HARPOON_CONSUL_IP}" >> ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
 
 	if [ -v CUSTOM_DOMAINS ]; then
 		for i in "${CUSTOM_DOMAINS[@]}"; do
@@ -85,7 +86,10 @@ configMacOS() {
 
 	sudo mkdir -p /etc/resolver
 	echo "nameserver ${HARPOON_DNSMASQ_IP}" | sudo tee /etc/resolver/harpoon
+	echo "nameserver ${HARPOON_DNSMASQ_IP}" | sudo tee /etc/resolver/ext.harpoon
+	echo "nameserver ${HARPOON_DNSMASQ_IP}" | sudo tee /etc/resolver/int.harpoon
 	echo "nameserver ${HARPOON_DNSMASQ_IP}" | sudo tee /etc/resolver/harpoon.dev
+
 	echo "nameserver ${HARPOON_CONSUL_IP}" | sudo tee /etc/resolver/consul
 	echo "port 8600" | sudo tee -a /etc/resolver/consul
 
