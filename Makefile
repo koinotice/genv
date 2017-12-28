@@ -22,6 +22,9 @@ test:
 test-dind:
 	./build.sh test:dind
 
+test-local:
+	./build.sh test:local
+
 show-metadata:
 	@echo "REF: $$REF"
 	@echo "TAG: $$TAG"

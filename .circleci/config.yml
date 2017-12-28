@@ -12,4 +12,4 @@ jobs:
           command: make build
       - run:
           name: Test
-          command: make test-dind
+          command: make test-local
