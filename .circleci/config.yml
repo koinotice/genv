@@ -6,17 +6,7 @@ jobs:
       - checkout
       - run:
           name: Before
-          command: |
-#            uname -a && lsb_release -a
-#            curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-#            sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-#            sudo apt-get update
-#            sudo apt-get install linux-image-extra-virtual
-#            sudo apt-cache madison docker-ce
-#            sudo apt-get -y install docker-ce=17.09.1~ce-0~ubuntu
-#            sudo service docker restart
-            sudo docker info
-            docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+          command: sudo docker info #docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
       - run:
           name: Build
           command: make build
