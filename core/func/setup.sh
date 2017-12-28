@@ -13,9 +13,9 @@ up() {
 			echo -e "\t$i (resolves to Traefik IP)"
 		done
 	fi
-	echo -e "\t.harpoon (resolves to Traefik IP)"
-	echo -e "\text.harpoon (resolves to Traefik IP)"
+	echo -e "\t.harpoon (resolves to Docker host IP)"
 	echo -e "\tint.harpoon (resolves to Docker host IP)"
+	echo -e "\text.harpoon (resolves to Traefik IP)"
 	echo -e "\tharpoon.dev (resolves to Docker host IP) [deprecated]"
 	echo ""
 
@@ -35,11 +35,14 @@ generateDnsmasqConfig() {
 
 	cp ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf.template ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
 
-	echo -e "\naddress=/harpoon/${HARPOON_TRAEFIK_IP}" >> ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
+	echo -e "\naddress=/harpoon/${HARPOON_DOCKER_HOST_IP}" >> ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
 	echo -e "\naddress=/ext.harpoon/${HARPOON_TRAEFIK_IP}" >> ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
 	echo -e "\naddress=/int.harpoon/${HARPOON_DOCKER_HOST_IP}" >> ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
-	echo -e "\naddress=/harpoon.dev/${HARPOON_DOCKER_HOST_IP}" >> ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
 	echo -e "\nserver=/consul/${HARPOON_CONSUL_IP}#8600" >> ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
+
+	#deprecated
+	echo -e "\naddress=/harpoon.dev/${HARPOON_DOCKER_HOST_IP}" >> ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
+
 
 	if [ -v CUSTOM_DOMAINS ]; then
 		for i in "${CUSTOM_DOMAINS[@]}"; do
@@ -90,6 +93,8 @@ configMacOS() {
 	echo "nameserver ${HARPOON_DNSMASQ_IP}" | sudo tee /etc/resolver/harpoon
 	echo "nameserver ${HARPOON_DNSMASQ_IP}" | sudo tee /etc/resolver/ext.harpoon
 	echo "nameserver ${HARPOON_DNSMASQ_IP}" | sudo tee /etc/resolver/int.harpoon
+
+	# deprecated
 	echo "nameserver ${HARPOON_DNSMASQ_IP}" | sudo tee /etc/resolver/harpoon.dev
 
 	echo "nameserver ${HARPOON_CONSUL_IP}" | sudo tee /etc/resolver/consul

@@ -27,6 +27,7 @@ services:
       default:
         aliases:
           - localstack.harpoon
+          - localstack.int.harpoon
     ports:
       - "8080"
       - ${PORT_MAPPINGS}

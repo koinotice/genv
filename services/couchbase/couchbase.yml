@@ -23,6 +23,7 @@ services:
       default:
         aliases:
           - ${CB_HOST}
+          - couchbase.int.harpoon
     volumes:
       - couchbase:/opt/couchbase/var
 
@@ -43,6 +44,9 @@ services:
         aliases:
           - couchbase-provisioner.harpoon
           - cbpvr.harpoon
+          - couchbase-provisioner.int.harpoon
+          - cbpvr.int.harpoon
+          # deprecated
           - couchbase-provisioner.harpoon.dev
           - cbpvr.harpoon.dev
     ports:

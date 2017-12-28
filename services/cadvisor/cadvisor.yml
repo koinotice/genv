@@ -13,11 +13,6 @@ services:
       - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
       - "traefik.docker.network=${HARPOON_DOCKER_NETWORK}"
       - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
-    networks:
-      default:
-        aliases:
-          - cadvisor.harpoon
-          - cadvisor.harpoon.dev
     volumes:
       - /:/rootfs:ro
       - /var/run:/var/run:rw

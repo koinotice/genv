@@ -15,7 +15,7 @@ services:
     networks:
       default:
         aliases:
-          - mysql.harpoon
+          - mysql.int.harpoon
 
 networks:
   default:

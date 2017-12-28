@@ -27,7 +27,7 @@ services:
     networks:
       default:
         aliases:
-          - ld-relay.harpoon
+          - ld-relay.int.harpoon
           - ld-relay.harpoon.dev
     ports:
       - "${LD_RELAY_PORT}:8030"
