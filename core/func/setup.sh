@@ -46,7 +46,7 @@ generateDnsmasqConfig() {
 
 	if [ -v CUSTOM_DOMAINS ]; then
 		for i in "${CUSTOM_DOMAINS[@]}"; do
-			echo -e "\naddress=/${i}/${HARPOON_TRAEFIK_IP}" >> ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
+			echo -e "\naddress=/${i}/${HARPOON_DOCKER_HOST_IP}" >> ${HARPOON_ROOT}/core/dnsmasq/dnsmasq.conf
 		done
 	fi
 }
