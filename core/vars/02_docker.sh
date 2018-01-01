@@ -21,6 +21,11 @@ fi
 
 printDebug "HARPOON_IMAGE: $HARPOON_IMAGE"
 
+#% 🔹 HARPOON_INT_DOMAIN %% Harpoon internal domain name %% service.int.harpoon
+export HARPOON_INT_DOMAIN=service.int.harpoon
+
+printDebug "HARPOON_IMAGE: $HARPOON_IMAGE"
+
 # loopback alias ip
 #% 🔺 HARPOON_LOOPBACK_ALIAS_IP %% Loopback alias IP address %% 10.254.253.1
 if [ ! -v HARPOON_LOOPBACK_ALIAS_IP ]; then
@@ -72,13 +77,15 @@ fi
 
 # core service hostnames
 if [ ! -v TRAEFIK_ACME ]; then
-	export CONSUL_HOSTS=consul.harpoon,consul.harpoon.dev
-	export TRAEFIK_HOSTS=traefik.harpoon,traefik.harpoon.dev
+	export DNSMASQ_HOSTS=dnsmasq.harpoon
+	export CONSUL_HOSTS=consul.harpoon
+	export TRAEFIK_HOSTS=traefik.harpoon
 fi
 
 #% 🔺 CUSTOM_DOMAINS %% Array of custom domain names
 if [ -v CUSTOM_DOMAINS ]; then
 	for i in "${CUSTOM_DOMAINS[@]}"; do
+		export DNSMASQ_HOSTS+=",dnsmasq.${i}"
 		export CONSUL_HOSTS+=",consul.${i}"
 		export TRAEFIK_HOSTS+=",traefik.${i}"
 	done
@@ -95,7 +102,7 @@ if [ -v HARPOON_DOCKER_MACHINE_IP ]; then
 	export HARPOON_DOCKER_HOST_IP=${HARPOON_DOCKER_MACHINE_IP}
 else
 	if [ -v RUNNING_IN_CONTAINER ]; then
-		export HARPOON_DOCKER_HOST_IP=${HARPOON_TRAEFIK_IP}
+		export HARPOON_DOCKER_HOST_IP="127.0.0.1"
 	else
 		export HARPOON_DOCKER_HOST_IP=${HARPOON_LOOPBACK_ALIAS_IP}
 	fi

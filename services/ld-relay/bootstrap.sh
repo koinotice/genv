@@ -19,7 +19,7 @@ fi
 
 # LaunchDarkly Relay Proxy hostnames
 if [ ! -v TRAEFIK_ACME ]; then
-	export LDRELAY_HOSTS=ld-relay.harpoon.dev,ldrelay.harpoon.dev
+	export LDRELAY_HOSTS=ld-relay.harpoon,ldrelay.harpoon
 fi
 
 if [ -v CUSTOM_DOMAINS ]; then

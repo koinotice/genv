@@ -5,7 +5,7 @@ configurations for commonly used databases, DevOps tools, etc:
 
 ## [Beanstalk Console](https://github.com/ptrofimov/beanstalk_console)
 
-* **Web UI:** http://beanstalk-console.harpoon.dev
+* **Web UI:** http://beanstalk-console.harpoon
 
 ## [Blackfire](https://blackfire.io/)
 
@@ -16,7 +16,7 @@ PHP profiler
 Provides a web UI for analyzing the resource usage and performance
 characteristics of running containers.
 
-* **Web UI:** http://cadvisor.harpoon.dev
+* **Web UI:** http://cadvisor.harpoon
 
 ## [Couchbase](https://hub.docker.com/_/couchbase/)
 
@@ -28,23 +28,23 @@ export COUCHBASE_VERSION="latest"
 
 ### Admin Web UI
 
-* **URL:** http://couchbase.harpoon.dev
+* **URL:** http://couchbase.harpoon
 * **Username:** Administrator
 * **Password:** abc123
 
 ## [DynamoDB Admin](https://github.com/wheniwork/dynamodb-admin)
 
-* **Web UI:** http://ddbadmin.harpoon.dev
+* **Web UI:** http://ddbadmin.harpoon
 
 ## [Elastic (ELK) Stack](https://www.elastic.co)
 
 ### Elasticsearch
 
-* **URL:** http://es.harpoon.dev
+* **URL:** http://es.harpoon
 
 ### Logstash
 
-* **URL:** http://ls.harpoon.dev
+* **URL:** http://ls.harpoon
 
 #### Input
 * **TCP**
@@ -59,14 +59,14 @@ export COUCHBASE_VERSION="latest"
 
 ### Kibana
 
-* **Web UI:** http://kibana.harpoon.dev
+* **Web UI:** http://kibana.harpoon
 
 
 ## [LaunchDarkly Relay Proxy](https://github.com/launchdarkly/ld-relay)
 
 **Docker Image:** https://hub.docker.com/r/wheniwork/ld-relay/
 
-**API:** http://ldrelay.harpoon.dev
+**API:** http://ldrelay.harpoon
 
 **Environment Variables:**
 
@@ -101,7 +101,7 @@ export COUCHBASE_VERSION="latest"
 
 Local AWS cloud stack
 
-* **Web UI:** http://localstack.harpoon.dev
+* **Web UI:** http://localstack.harpoon
 * **AWS CLI:** `harpoon localstack:aws <arg...>`
 
 ## [Logspout](https://github.com/gliderlabs/logspout)
@@ -112,7 +112,7 @@ Local AWS cloud stack
 
 Web and API based SMTP testing
 
-* **Web UI:** http://mailhog.harpoon.dev
+* **Web UI:** http://mailhog.harpoon
 
 ## [MySQL](https://hub.docker.com/_/mysql/)
 
@@ -132,7 +132,7 @@ export MYSQL_PORT=3306 # exposed to Docker host
 
 Container management UI
 
-* **Web UI:** http://portainer.harpoon.dev
+* **Web UI:** http://portainer.harpoon
 
 ## [Postgres](https://hub.docker.com/_/postgres/)
 
@@ -146,11 +146,11 @@ structure server.
 
 ## [Redis Commander](https://github.com/joeferner/redis-commander)
 
-* **Web UI:** http://redis-commander.harpoon.dev
+* **Web UI:** http://redis-commander.harpoon
 
 ## [SQS-admin](https://github.com/wheniwork/sqs-admin)
 
-* **Web UI:** http://sqsadmin.harpoon.dev
+* **Web UI:** http://sqsadmin.harpoon
 
 ## SSH Agent
 

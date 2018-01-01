@@ -1,4 +1,4 @@
-version: '2'
+version: '3.4'
 
 services:
   blackfire:
@@ -11,8 +11,9 @@ services:
     networks:
       default:
         aliases:
-          - blackfire
-          - blackfire.harpoon
+          - blackfire.${HARPOON_INT_DOMAIN}
+    labels:
+      - "SERVICE_8707_NAME=blackfire"
     ports:
       - "8707"
     restart: on-failure

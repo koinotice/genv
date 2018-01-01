@@ -1,4 +1,4 @@
-version: '2'
+version: '3.4'
 
 services:
   mailhog:
@@ -13,15 +13,15 @@ services:
       - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
       - "traefik.docker.network=${HARPOON_DOCKER_NETWORK}"
       - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
-    networks:
-      default:
-        aliases:
-          - mailhog.harpoon
-          - mailhog.int.harpoon
-          - mailhog.harpoon.dev
+      - "SERVICE_1025_NAME=mailhog"
+      - "SERVICE_8025_NAME=mailhog-ui"
     ports:
       - "1025:1025"
       - "8025"
+    networks:
+      default:
+        aliases:
+          - mailhog.${HARPOON_INT_DOMAIN}
 
 networks:
   default:

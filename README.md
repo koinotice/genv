@@ -20,8 +20,10 @@ collection of common services, which are essentially wrappers around
 Harpoon services are designed to work together on a Docker network
 (named `harpoon` by default), with web-based services registering
 automatically with a proxy server (Traefik). The use of `dnsmasq`
-enables accessing services via one or more domains (`harpoon.dev` by
-default).
+enables accessing services "externally" via one or more domains
+(`.harpoon` by default). Internal name resolution and service discovery
+(`.service.int.harpoon`) is supported with Consul and Registrator, as
+well as Docker's own internal DNS server.
 
 _Harpoon_ has been tested with:
 * [Docker for Mac](https://www.docker.com/docker-mac)

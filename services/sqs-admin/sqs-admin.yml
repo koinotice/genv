@@ -1,4 +1,4 @@
-version: '2'
+version: '3.4'
 
 services:
   sqs-admin:
@@ -19,6 +19,11 @@ services:
       - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
     ports:
       - "${SQS_ADMIN_PORT}"
+    networks:
+      default:
+        aliases:
+          - sqs-admin.${HARPOON_INT_DOMAIN}
+          - sqsadmin.${HARPOON_INT_DOMAIN}
 
 networks:
   default:

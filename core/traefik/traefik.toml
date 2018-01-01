@@ -417,7 +417,7 @@ endpoint = "unix:///var/run/docker.sock"
 #
 # Required
 #
-domain = "harpoon.dev"
+domain = "harpoon"
 
 # Enable watch docker changes
 #
@@ -529,7 +529,7 @@ watch = true
 ################################################################
 [consulCatalog]
 	endpoint = "consul:8500"
-	domain = "harpoon.dev"
+	domain = "harpoon"
 	prefix = "traefik"
 
 

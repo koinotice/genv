@@ -6,20 +6,21 @@ if [ ! -v COUCHBASE_VERSION ]; then
 fi
 
 # Couchbase hostnames
-export CB_HOST=couchbase.int.harpoon
-export CBPVR_HOSTS="couchbase-provisioner.harpoon,cbpvr.harpoon,couchbase-provisioner.harpoon.dev,cbpvr.harpoon.dev"
+export CB_HOSTS="couchbase.harpoon"
+export CBPVR_HOSTS="couchbase-provisioner.harpoon,cbpvr.harpoon"
 
-#% 🔺 CUSTOM_COUCHBASE_DOMAIN %% Custom domain name for Couchbase containers
-if [ -v CUSTOM_COUCHBASE_DOMAIN ]; then
-	export CB_HOST="couchbase.${CUSTOM_COUCHBASE_DOMAIN}"
-	export CBPVR_HOSTS+=",couchbase-provisioner.${CUSTOM_COUCHBASE_DOMAIN},cbpvr.${CUSTOM_COUCHBASE_DOMAIN}"
+if [ -v CUSTOM_DOMAINS ]; then
+	for i in "${CUSTOM_DOMAINS[@]}"; do
+		export CB_HOSTS+=",couchbase.${i}"
+		export CBPVR_HOSTS+=",couchbase-provisioner.${i},cbpvr.${i}"
+	done
 fi
 
 #% 🔹 COUCHBASE_VOLUME_NAME %% Couchbase Docker volume name %% couchbase
 export COUCHBASE_VOLUME_NAME=couchbase
 
 couchbaseProvisionerRun() {
-	cat ${HARPOON_SERVICES_ROOT}/couchbase/couchbase_default.yaml | sed -e "s/CB_HOST/${CB_HOST}/" | httpie -v -F --verify=no -a 12345:secret --pretty=all POST http://cbpvr.int.harpoon:8080/clusters/ Content-Type:application/yaml
+	cat ${HARPOON_SERVICES_ROOT}/couchbase/couchbase_default.yaml | httpie -v -F --verify=no -a 12345:secret --pretty=all POST http://cbpvr.${HARPOON_INT_DOMAIN}:8080/clusters/ Content-Type:application/yaml
 }
 
 couchbase_pre_up() {

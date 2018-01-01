@@ -19,7 +19,7 @@ case "${command}" in
 			COMMAND=${argsarray:0}
 		fi
 
-		ENDPOINT_URL='http://localstack.harpoon:'
+		ENDPOINT_URL="http://localstack.${HARPOON_INT_DOMAIN}:"
 
 		case "${COMMAND}" in
 			apigateway)

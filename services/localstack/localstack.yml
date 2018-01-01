@@ -1,4 +1,4 @@
-version: '2'
+version: '3.4'
 
 services:
   localstack:
@@ -23,14 +23,14 @@ services:
       - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
       - "traefik.docker.network=${HARPOON_DOCKER_NETWORK}"
       - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
-    networks:
-      default:
-        aliases:
-          - localstack.harpoon
-          - localstack.int.harpoon
+      - "SERVICE_8080_NAME=localstack"
     ports:
       - "8080"
       - ${PORT_MAPPINGS}
+    networks:
+      default:
+        aliases:
+          - localstack.${HARPOON_INT_DOMAIN}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ${TMP_DIR}:${TMP_DIR}

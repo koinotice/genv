@@ -1,19 +1,20 @@
-version: '2'
+version: '3.4'
 
 services:
   couchbase:
     container_name: harpoon_couchbase
-    hostname: ${CB_HOST}
+    hostname: couchbase.${HARPOON_INT_DOMAIN}
     image: couchbase:${COUCHBASE_VERSION}
     environment:
       - TERM=xterm
     labels:
       - "traefik.backend=couchbase"
       - "traefik.port=8091"
-      - "traefik.frontend.rule=Host:${CB_HOST}"
+      - "traefik.frontend.rule=Host:${CB_HOSTS}"
       - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
       - "traefik.docker.network=${HARPOON_DOCKER_NETWORK}"
       - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
+      - "SERVICE_8091_NAME=couchbase"
     ports:
       - "8091-8094:8091-8094"
       - "11207:11207"
@@ -22,8 +23,7 @@ services:
     networks:
       default:
         aliases:
-          - ${CB_HOST}
-          - couchbase.int.harpoon
+          - couchbase.${HARPOON_INT_DOMAIN}
     volumes:
       - couchbase:/opt/couchbase/var
 
@@ -39,18 +39,14 @@ services:
       - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
       - "traefik.docker.network=${HARPOON_DOCKER_NETWORK}"
       - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
+      - "SERVICE_8080_NAME=cbpvr"
+    ports:
+      - "8080"
     networks:
       default:
         aliases:
-          - couchbase-provisioner.harpoon
-          - cbpvr.harpoon
-          - couchbase-provisioner.int.harpoon
-          - cbpvr.int.harpoon
-          # deprecated
-          - couchbase-provisioner.harpoon.dev
-          - cbpvr.harpoon.dev
-    ports:
-      - "8080"
+          - couchbase-provisioner.${HARPOON_INT_DOMAIN}
+          - cbpvr.${HARPOON_INT_DOMAIN}
     volumes:
       - ./provisioner_config.yaml:/etc/couchbase-provisioner/config.yaml
 

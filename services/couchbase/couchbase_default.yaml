@@ -2,7 +2,7 @@
 clusters:
   - name: Harpoon
     hosts:
-      - CB_HOST
+      - couchbase.service.int.harpoon
     adminUsername: Administrator
     adminPassword: abc123
     clusterRamsize: 1024

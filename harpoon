@@ -145,7 +145,7 @@ case "${command}" in
 
 	status) ## %% 🚥  Display the status of Harpoon core services
 		downServices=0
-		for i in dnsmasq consul traefik; do
+		for i in dnsmasq consul registrator traefik; do
 			IS_UP=$(${HARPOON_DOCKER_COMPOSE} ps ${i} | grep 'Up') || true
 			if [[ ${IS_UP} ]]; then
 				printf "%-20s%s\n" "${i}" "${UP}"

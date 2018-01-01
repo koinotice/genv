@@ -28,7 +28,7 @@
     * [cAdvisor](usage/supporting_services/README.md#cadvisor)
     * [Couchbase](usage/supporting_services/README.md#couchbase)
     * [DynamoDB Admin](usage/supporting_services/README.md#dynamodb-admin)
-    * [ELK Stack](usage/supporting_services/README.md#elk-stack)
+    * [Elastic (ELK) Stack](usage/supporting_services/README.md#elastic-elk-stack)
     * [LocalStack](usage/supporting_services/README.md#localstack)
     * [Mailhog](usage/supporting_services/README.md#mailhog)
     * [MySQL](usage/supporting_services/README.md#mysql)

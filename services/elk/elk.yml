@@ -1,4 +1,4 @@
-version: '2.2'
+version: '3.4'
 
 services:
   elasticsearch:
@@ -29,6 +29,12 @@ services:
     ports:
       - 9200:9200
       - 9300:9300
+    networks:
+      default:
+        aliases:
+          - elasticsearch.${HARPOON_INT_DOMAIN}
+          - es.${HARPOON_INT_DOMAIN}
+
   logstash:
     image: docker.elastic.co/logstash/logstash:${LOGSTASH_VERSION}
     container_name: harpoon_logstash
@@ -48,6 +54,11 @@ services:
       - 5044
       - 8911
       - 9600
+    networks:
+      default:
+        aliases:
+          - logstash.${HARPOON_INT_DOMAIN}
+
   kibana:
     image: docker.elastic.co/kibana/kibana:${KIBANA_VERSION}
     container_name: harpoon_kibana
@@ -62,8 +73,14 @@ services:
       - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
       - "traefik.docker.network=${HARPOON_DOCKER_NETWORK}"
       - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
+      - "SERVICE_5601_NAME=kibana"
     ports:
       - 5601
+    networks:
+      default:
+        aliases:
+          - kibana.${HARPOON_INT_DOMAIN}
+
   filebeat:
     image: docker.elastic.co/beats/filebeat:${FILEBEAT_VERSION}
     container_name: harpoon_filebeat
@@ -76,6 +93,10 @@ services:
     depends_on:
       - elasticsearch
       - kibana
+    networks:
+      default:
+        aliases:
+          - filebeat.${HARPOON_INT_DOMAIN}
 
 networks:
   default:

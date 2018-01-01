@@ -29,6 +29,14 @@ show-metadata:
 	@echo "REF: $$REF"
 	@echo "TAG: $$TAG"
 
+copy-local:
+	cp -a completion ~/harpoon/
+	cp -a core ~/harpoon/
+	cp -a lib ~/harpoon/
+	cp -a services ~/harpoon/
+	cp -a tasks ~/harpoon/
+	cp harpoon docker-compose.yml ~/harpoon/
+
 push:
 	./build.sh push
 

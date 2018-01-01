@@ -8,10 +8,11 @@ add() {
 
 	if [ ! -v CI ]; then
 		# must use interactive TTY to support password entry
-		local dockerRunArgs="-it"
+		local dkrRunFlags="-it"
 	fi
 
-	docker run ${dockerRunArgs:-} --rm --volumes-from=harpoon_ssh-agent -v ${file}:/root/.ssh/${name} wheniwork/ssh-agent ssh-add /root/.ssh/${name}
+	docker cp ${file} harpoon_ssh-agent:/root/.ssh/${name}
+	docker exec ${dkrRunFlags:-} harpoon_ssh-agent ssh-add /root/.ssh/${name}
 }
 
 addAll() {

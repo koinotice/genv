@@ -11,7 +11,7 @@ If your project uses `docker-compose`, here's an example
 `docker-compose.yml`:
 
 ```yaml
-version: '2'
+version: '3.4'
 services:
   app:
     build: .

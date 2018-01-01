@@ -6,7 +6,7 @@ if [ ! -v LOGSPOUT_VERSION ]; then
 fi
 
 if [ ! -v TRAEFIK_ACME ]; then
-	export LOGSPOUT_HOSTS=logspout.harpoon.dev
+	export LOGSPOUT_HOSTS=logspout.harpoon
 fi
 
 if [ -v CUSTOM_DOMAINS ]; then

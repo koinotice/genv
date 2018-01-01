@@ -1,4 +1,4 @@
-version: '2'
+version: '3.4'
 
 services:
   postgres:
@@ -11,14 +11,16 @@ services:
       - POSTGRES_DB
       - POSTGRES_INITDB_ARGS
       - POSTGRES_INITDB_XLOGDIR
+      - SERVICE_5432_NAME=postgres
     ports:
       - "${POSTGRES_PORT}:5432"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
     networks:
       default:
         aliases:
-          - postgres.int.harpoon
+          - postgres.${HARPOON_INT_DOMAIN}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
 networks:
   default:
     external:

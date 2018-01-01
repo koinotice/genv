@@ -53,8 +53,8 @@ export TRAEFIK_HTTPS_PORT=8843
 
 ## Web UIs
 
-* **Consul:** http://consul.harpoon.dev
-* **Traefik:** http://traefik.harpoon.dev
+* **Consul:** http://consul.harpoon
+* **Traefik:** http://traefik.harpoon
 
 ## Removal
 

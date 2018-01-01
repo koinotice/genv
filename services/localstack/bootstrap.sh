@@ -37,7 +37,7 @@ export TMP_DIR="/tmp/localstack"
 
 # Localstack hostnames
 if [ ! -v TRAEFIK_ACME ]; then
-	export LS_HOSTS=localstack.harpoon.dev
+	export LS_HOSTS=localstack.harpoon
 fi
 
 if [ -v CUSTOM_DOMAINS ]; then

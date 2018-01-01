@@ -1,4 +1,4 @@
-version: '2'
+version: '3.4'
 
 services:
   mysql:
@@ -8,6 +8,7 @@ services:
       - TERM=xterm
       - MYSQL_ROOT_PASSWORD
       - MYSQL_DATABASE
+      - SERVICE_3306_NAME=mysql
     ports:
       - "${MYSQL_PORT}:3306"
     volumes:
@@ -15,7 +16,7 @@ services:
     networks:
       default:
         aliases:
-          - mysql.int.harpoon
+          - mysql.${HARPOON_INT_DOMAIN}
 
 networks:
   default:

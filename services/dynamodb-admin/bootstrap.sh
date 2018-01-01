@@ -15,14 +15,14 @@ if [ ! -v AWS_REGION ]; then
     export AWS_REGION=us-east-1
 fi
 
-#% 🔺 DYNAMO_ENDPOINT %% DynamoDB endpoint URL %% http://harpoon.dev:4569 (LocalStack)
+#% 🔺 DYNAMO_ENDPOINT %% DynamoDB endpoint URL %% http://localstack.harpoon:4569 (LocalStack)
 if [ ! -v DYNAMO_ENDPOINT ]; then
-	export DYNAMO_ENDPOINT=http://harpoon.dev:4569
+	export DYNAMO_ENDPOINT=http://localstack.harpoon:4569
 fi
 
 # DynamoDB Admin hostnames
 if [ ! -v TRAEFIK_ACME ]; then
-	export DDB_ADMIN_HOSTS=ddbadmin.harpoon.dev,dynamodb-admin.harpoon.dev
+	export DDB_ADMIN_HOSTS=ddbadmin.harpoon,dynamodb-admin.harpoon
 fi
 
 if [ -v CUSTOM_DOMAINS ]; then

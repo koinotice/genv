@@ -1,4 +1,4 @@
-version: '2'
+version: '3.4'
 
 services:
   ld-relay:
@@ -24,13 +24,13 @@ services:
       - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
       - "traefik.docker.network=${HARPOON_DOCKER_NETWORK}"
       - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
+    ports:
+      - "${LD_RELAY_PORT}:8030"
     networks:
       default:
         aliases:
-          - ld-relay.int.harpoon
-          - ld-relay.harpoon.dev
-    ports:
-      - "${LD_RELAY_PORT}:8030"
+          - ld-relay.${HARPOON_INT_DOMAIN}
+          - ldrelay.${HARPOON_INT_DOMAIN}
 
 networks:
   default:

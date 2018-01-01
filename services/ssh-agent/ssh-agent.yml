@@ -1,11 +1,20 @@
-version: '2'
+version: '3.4'
 
 services:
   ssh-agent:
     image: wheniwork/ssh-agent
     container_name: harpoon_ssh-agent
+    volumes:
+      - root-ssh:/root/.ssh
+      - ssh-agent:/.ssh-agent
 
 networks:
   default:
     external:
       name: ${HARPOON_DOCKER_NETWORK}
+
+volumes:
+  root-ssh:
+    name: root-ssh
+  ssh-agent:
+    name: ssh-agent
