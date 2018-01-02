@@ -1,4 +1,4 @@
-version: '2'
+version: '3.4'
 
 services:
   dnsmasq:
@@ -25,6 +25,7 @@ services:
       - "traefik.docker.network=${HARPOON_DOCKER_NETWORK}"
       - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
       - "SERVICE_8080_NAME=dnsmasq"
+      - "SERVICE_8080_IP=${HARPOON_DNSMASQ_IP}"
     logging:
       options:
         max-size: 100m
@@ -47,22 +48,28 @@ services:
       - "traefik.docker.network=${HARPOON_DOCKER_NETWORK}"
       - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
       - "SERVICE_8500_NAME=consul"
+      - "SERVICE_8500_NAME=consul-http"
+      - "SERVICE_8500_IP=${HARPOON_CONSUL_IP}"
     networks:
       default:
         ipv4_address: ${HARPOON_CONSUL_IP}
         aliases:
           - consul.${HARPOON_INT_DOMAIN}
+    dns:
+      - ${HARPOON_DNSMASQ_IP}
 
   registrator:
-      container_name: harpoon_registrator
-      image: gliderlabs/registrator:latest
-      command: -internal consul://harpoon_consul:8500
-      restart: always
-      depends_on:
-        - dnsmasq
-        - consul
-      volumes:
-        - /var/run/docker.sock:/tmp/docker.sock
+    container_name: harpoon_registrator
+    image: gliderlabs/registrator:latest
+    command: -internal consul://harpoon_consul:8500
+    restart: always
+    depends_on:
+      - dnsmasq
+      - consul
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock
+    dns:
+      - ${HARPOON_DNSMASQ_IP}
 
   traefik:
     container_name: harpoon_traefik
@@ -130,11 +137,14 @@ services:
       - "SERVICE_80_IGNORE=true"
       - "SERVICE_443_IGNORE=true"
       - "SERVICE_8075_NAME=traefik"
+      - "SERVICE_8075_IP=${HARPOON_TRAEFIK_IP}"
     networks:
       default:
         ipv4_address: ${HARPOON_TRAEFIK_IP}
         aliases:
           - traefik.${HARPOON_INT_DOMAIN}
+    dns:
+      - ${HARPOON_DNSMASQ_IP}
     volumes:
       - ./core/traefik/:/etc/traefik/
       - /var/run/docker.sock:/var/run/docker.sock
