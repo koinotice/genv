@@ -121,6 +121,9 @@ if [ -v TAG_WITH_LATEST_GIT_TAG ]; then
 elif [ -v TAG_WITH_GIT_REVISION ]; then
 	export TAG_NAME=${GIT_REVISION}
 
+elif [ -v CI_COMMIT_TAG ]; then
+	export TAG_NAME=${CI_COMMIT_TAG}
+
 elif [ -v CI_COMMIT_REF_SLUG ]; then
 	export TAG_NAME=${CI_COMMIT_REF_SLUG}
 
