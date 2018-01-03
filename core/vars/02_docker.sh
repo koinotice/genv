@@ -110,8 +110,14 @@ fi
 
 printDebug "HARPOON_DOCKER_HOST_IP: $HARPOON_DOCKER_HOST_IP"
 
+if (timeout 1 bash -c "</dev/tcp/${HARPOON_DNSMASQ_IP}/53") 2>/dev/null ; then
+		HARPOON_DOCKER_DNS_ARG="--dns ${HARPOON_DNSMASQ_IP}"
+fi
+
+printDebug "HARPOON_DOCKER_DNS_ARG: ${HARPOON_DOCKER_DNS_ARG:-}"
+
 # docker / dind
-dockerRunArgs="--rm -v $PWD:$PWD -w $PWD --net=${HARPOON_DOCKER_NETWORK} --dns ${HARPOON_DNSMASQ_IP} -e 'TERM=xterm' -e USER_UID -e USER_GID ${HARPOON_DOCKER_ADDITIONAL_RUN_ARGS:-}"
+dockerRunArgs="--rm -v $PWD:$PWD -w $PWD --net=${HARPOON_DOCKER_NETWORK} ${HARPOON_DOCKER_DNS_ARG:-} -e 'TERM=xterm' -e USER_UID -e USER_GID ${HARPOON_DOCKER_ADDITIONAL_RUN_ARGS:-}"
 
 dockerSock=/var/run/docker.sock
 
