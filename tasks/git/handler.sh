@@ -6,15 +6,15 @@ export ORIGIN_SSH_URL="$( git remote show origin | grep Push | awk '{print $3}' 
 
 gitAddSSHOrigin() {
   git remote remove sshorigin || true
-  git remote add sshorigin "${ORIGIN_SSH_URL}" || { printPanic "Failed to add remote ${ORIGIN_SSH_URL}!" }
-  git fetch sshorigin || { printPanic "Failed to fetch remote ${ORIGIN_SSH_URL}!"  }
-  git fetch sshorigin --tags || { printPanic "Failed to fetch remote tags!" }
+  git remote add sshorigin "${ORIGIN_SSH_URL}" || printPanic "Failed to add remote ${ORIGIN_SSH_URL}!"
+  git fetch sshorigin || printPanic "Failed to fetch remote ${ORIGIN_SSH_URL}!" 
+  git fetch sshorigin --tags || printPanic "Failed to fetch remote tags!"
 }
 
 gitAutoIncrementTag() {
-  gitAddSSHOrigin || { printPanic "Failed to add ssh remote!" }
-	git tag "${NEXT_GIT_TAG}" || { printPanic "Failed to tag ${NEXT_GIT_TAG}!" }
-	git push sshorigin --tags || { printPanic "Failed to push tags!" }
+  gitAddSSHOrigin || printPanic "Failed to add ssh remote!"
+	git tag "${NEXT_GIT_TAG}" || printPanic "Failed to tag ${NEXT_GIT_TAG}!"
+	git push sshorigin --tags || printPanic "Failed to push tags!"
 }
 
 case "${command}" in
