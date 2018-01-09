@@ -15,9 +15,9 @@ if [ ! -v AWS_REGION ]; then
     export AWS_REGION=us-east-1
 fi
 
-#% 🔺 DYNAMO_ENDPOINT %% DynamoDB endpoint URL %% http://localstack.harpoon:4569 (LocalStack)
+#% 🔺 DYNAMO_ENDPOINT %% DynamoDB endpoint URL %% http://localstack.service.int.harpoon:4569 (LocalStack)
 if [ ! -v DYNAMO_ENDPOINT ]; then
-	export DYNAMO_ENDPOINT=http://localstack.harpoon:4569
+	export DYNAMO_ENDPOINT=http://localstack.service.int.harpoon:4569
 fi
 
 # DynamoDB Admin hostnames
