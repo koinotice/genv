@@ -128,7 +128,7 @@ imageBuild() {
 		fi
 	done
 
-	docker build --squash -f ${BUILD_DOCKERFILE} -t ${PROJECT} . || { printPanic "Failed to build ${PROJECT}!"; }
+	docker build -f ${BUILD_DOCKERFILE} -t ${PROJECT} . || { printPanic "Failed to build ${PROJECT}!"; }
 	docker history ${PROJECT}
 
 	if [[ ${TESTS_ENABLED} == true ]]; then
