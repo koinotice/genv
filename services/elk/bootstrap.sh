@@ -1,23 +1,23 @@
 #!/usr/bin/env bash
 
-#% 🔺 ES_VERSION %% Elasticsearch Docker image version %% 6.0.2
+#% 🔺 ES_VERSION %% Elasticsearch Docker image version %% 6.1.2
 if [ ! -v ES_VERSION ]; then
-	export ES_VERSION=6.0.2
+	export ES_VERSION=6.1.2
 fi
 
-#% 🔺 LOGSTASH_VERSION %% Logstash Docker image version %% 6.0.2
+#% 🔺 LOGSTASH_VERSION %% Logstash Docker image version %% 6.1.2
 if [ ! -v LOGSTASH_VERSION ]; then
-	export LOGSTASH_VERSION=6.0.2
+	export LOGSTASH_VERSION=6.1.2
 fi
 
-#% 🔺 KIBANA_VERSION %% Kibana Docker image version %% 6.0.2
+#% 🔺 KIBANA_VERSION %% Kibana Docker image version %% 6.1.2
 if [ ! -v KIBANA_VERSION ]; then
-	export KIBANA_VERSION=6.0.2
+	export KIBANA_VERSION=6.1.2
 fi
 
-#% 🔺 FILEBEAT_VERSION %% Filebeat Docker image version %% 6.0.2
+#% 🔺 FILEBEAT_VERSION %% Filebeat Docker image version %% 6.1.2
 if [ ! -v FILEBEAT_VERSION ]; then
-	export FILEBEAT_VERSION=6.0.2
+	export FILEBEAT_VERSION=6.1.2
 fi
 
 #% 🔹 ES_VOLUME_NAME %% ELK Docker volume name %% esdata
