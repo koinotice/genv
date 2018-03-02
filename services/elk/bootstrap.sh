@@ -1,23 +1,23 @@
 #!/usr/bin/env bash
 
-#% 🔺 ES_VERSION %% Elasticsearch Docker image version %% 6.0.0
+#% 🔺 ES_VERSION %% Elasticsearch Docker image version %% 6.0.2
 if [ ! -v ES_VERSION ]; then
-	export ES_VERSION=6.0.0
+	export ES_VERSION=6.0.2
 fi
 
-#% 🔺 LOGSTASH_VERSION %% Logstash Docker image version %% 6.0.0
+#% 🔺 LOGSTASH_VERSION %% Logstash Docker image version %% 6.0.2
 if [ ! -v LOGSTASH_VERSION ]; then
-	export LOGSTASH_VERSION=6.0.0
+	export LOGSTASH_VERSION=6.0.2
 fi
 
-#% 🔺 KIBANA_VERSION %% Kibana Docker image version %% 6.0.0
+#% 🔺 KIBANA_VERSION %% Kibana Docker image version %% 6.0.2
 if [ ! -v KIBANA_VERSION ]; then
-	export KIBANA_VERSION=6.0.0
+	export KIBANA_VERSION=6.0.2
 fi
 
-#% 🔺 FILEBEAT_VERSION %% Filebeat Docker image version %% 6.0.0
+#% 🔺 FILEBEAT_VERSION %% Filebeat Docker image version %% 6.0.2
 if [ ! -v FILEBEAT_VERSION ]; then
-	export FILEBEAT_VERSION=6.0.0
+	export FILEBEAT_VERSION=6.0.2
 fi
 
 #% 🔹 ES_VOLUME_NAME %% ELK Docker volume name %% esdata
@@ -25,11 +25,11 @@ export ES_VOLUME_NAME=esdata
 
 # ELK hostnames
 if [ ! -v KIBANA_SERVER_NAME ]; then
-	export KIBANA_SERVER_NAME=kibana.harpoon
+	export KIBANA_SERVER_NAME=kibana.service.int.harpoon
 fi
 
 if [ ! -v ELASTICSEARCH_URL ]; then
-	export ELASTICSEARCH_URL=http://es.harpoon
+	export ELASTICSEARCH_URL=http://es.service.int.harpoon:9200
 fi
 
 if [ ! -v TRAEFIK_ACME ]; then
@@ -46,36 +46,10 @@ if [ -v CUSTOM_DOMAINS ]; then
 	done
 fi
 
-elk_pre_up() {
-	local volumeCreated=$(docker volume ls | grep ${ES_VOLUME_NAME}) || true
-
-	if [[ "${volumeCreated}" == "" ]]; then
-		printInfo "Creating docker volume named '${ES_VOLUME_NAME}'..."
-		docker volume create --name=${ES_VOLUME_NAME}
-	fi
-}
-
 elk_post_up() {
 	printInfo "Waiting 30 seconds for ElasticSearch..."
 	sleep 30
 	printInfo "Creating Filebeat dashboards in Kibana..."
 	serviceExec elk "filebeat filebeat setup --dashboards"
-}
-
-esRemoveVolume() {
-	local volumeCreated=$(docker volume ls | grep ${ES_VOLUME_NAME}) || true
-
-	if [[ "${volumeCreated}" != "" ]]; then
-		printInfo "Removing docker volume named '${ES_VOLUME_NAME}'..."
-		docker volume rm ${ES_VOLUME_NAME}
-	fi
-}
-
-elk_post_destroy() {
-	esRemoveVolume
-}
-
-elk_post_clean() {
-	esRemoveVolume
 }
 

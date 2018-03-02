@@ -13,6 +13,7 @@ services:
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
       - LOGSPOUT=ignore
+      - SERVICE_9200_NAME=es
     ulimits:
       memlock:
         soft: -1
@@ -105,4 +106,3 @@ networks:
 
 volumes:
   esdata:
-    external: true
