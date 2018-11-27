@@ -1,12 +1,12 @@
-# <a href='http://wheniwork.github.io/harpoon'><img src='https://cloud.githubusercontent.com/assets/202546/26421606/407b9eb8-408c-11e7-8fc4-9ed0c61afcc7.png' height='75'></a>
+# <a href='http://koinotice.github.io/harpoon'><img src='https://cloud.githubusercontent.com/assets/202546/26421606/407b9eb8-408c-11e7-8fc4-9ed0c61afcc7.png' height='75'></a>
 
 
 **A lightweight toolkit for local development with
 [Docker](https://www.docker.com/)**
 
-[![Build Status](https://travis-ci.org/wheniwork/harpoon.svg?branch=master)](https://travis-ci.org/wheniwork/harpoon)
-[![Coverage Status](https://coveralls.io/repos/github/wheniwork/harpoon/badge.svg?branch=master)](https://coveralls.io/github/wheniwork/harpoon?branch=master)
-[![codecov](https://codecov.io/gh/wheniwork/harpoon/branch/master/graph/badge.svg)](https://codecov.io/gh/wheniwork/harpoon)
+[![Build Status](https://travis-ci.org/koinotice/harpoon.svg?branch=master)](https://travis-ci.org/koinotice/harpoon)
+[![Coverage Status](https://coveralls.io/repos/github/koinotice/harpoon/badge.svg?branch=master)](https://coveralls.io/github/koinotice/harpoon?branch=master)
+[![codecov](https://codecov.io/gh/koinotice/harpoon/branch/master/graph/badge.svg)](https://codecov.io/gh/koinotice/harpoon)
 
 _Harpoon_ makes it easy to run a local/offline development environment
 composed of Docker containers. It's an ideal choice for those that don't
@@ -41,13 +41,13 @@ _Harpoon_ has been tested with:
 ## Quick Start
 
 1. curl
-   https://raw.githubusercontent.com/wheniwork/harpoon/master/install.sh
+   https://raw.githubusercontent.com/koinotice/harpoon/master/install.sh
    | bash
 2. _Optional:_ Load completion scripts by adding `which harpoon >
    /dev/null && . "$(harpoon initpath)"` to your profile (`~/.bashrc`,
    `~/.bash_profile`, `~/.zshrc`).
 
-## [Documentation](https://wheniwork.github.io/harpoon/)
+## [Documentation](https://koinotice.github.io/harpoon/)
 
 ## TODO
 

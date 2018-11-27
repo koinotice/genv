@@ -29,7 +29,7 @@ services:
 
   couchbase-provisioner:
     container_name: harpoon_couchbase-provisioner
-    image: wheniwork/couchbase-provisioner:master
+    image: koinotice/couchbase-provisioner:master
     environment:
       - TERM=xterm
     labels:

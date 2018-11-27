@@ -2,7 +2,7 @@
 
 ----
 
-* [Harpoon](https://github.com/wheniwork/harpoon)
+* [Harpoon](https://github.com/koinotice/harpoon)
 
 ----
 

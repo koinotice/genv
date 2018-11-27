@@ -41,7 +41,7 @@ export TRAEFIK_HTTPS_PORT=8843
 ### Get Harpoon
 
 1. curl
-   https://raw.githubusercontent.com/wheniwork/harpoon/master/install.sh
+   https://raw.githubusercontent.com/koinotice/harpoon/master/install.sh
    | bash
 2. _Optional:_ Load completion scripts by adding `which harpoon >
    /dev/null && . "$(harpoon initpath)"` to your profile (`~/.bashrc`,

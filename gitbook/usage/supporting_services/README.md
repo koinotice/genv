@@ -32,7 +32,7 @@ export COUCHBASE_VERSION="latest"
 * **Username:** Administrator
 * **Password:** abc123
 
-## [DynamoDB Admin](https://github.com/wheniwork/dynamodb-admin)
+## [DynamoDB Admin](https://github.com/koinotice/dynamodb-admin)
 
 * **Web UI:** http://ddbadmin.harpoon
 
@@ -64,7 +64,7 @@ export COUCHBASE_VERSION="latest"
 
 ## [LaunchDarkly Relay Proxy](https://github.com/launchdarkly/ld-relay)
 
-**Docker Image:** https://hub.docker.com/r/wheniwork/ld-relay/
+**Docker Image:** https://hub.docker.com/r/koinotice/ld-relay/
 
 **API:** http://ldrelay.harpoon
 
@@ -148,7 +148,7 @@ structure server.
 
 * **Web UI:** http://redis-commander.harpoon
 
-## [SQS-admin](https://github.com/wheniwork/sqs-admin)
+## [SQS-admin](https://github.com/koinotice/sqs-admin)
 
 * **Web UI:** http://sqsadmin.harpoon
 

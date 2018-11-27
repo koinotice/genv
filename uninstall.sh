@@ -3,7 +3,7 @@
 set -euo pipefail
 
 if [ ! -v HARPOON_IMAGE ]; then
-	export HARPOON_IMAGE=wheniwork/harpoon:master
+	export HARPOON_IMAGE=koinotice/harpoon:master
 fi
 
 harpoon uninstall all

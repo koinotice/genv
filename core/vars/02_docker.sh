@@ -14,9 +14,9 @@ if [ ! -v USER_GID ]; then
 	export USER_GID=$(id -g)
 fi
 
-#% 🔺 HARPOON_IMAGE %% Harpoon Docker image %% wheniwork/harpoon
+#% 🔺 HARPOON_IMAGE %% Harpoon Docker image %% koinotice/harpoon
 if [ ! -v HARPOON_IMAGE ]; then
-	export HARPOON_IMAGE=wheniwork/harpoon
+	export HARPOON_IMAGE=koinotice/harpoon
 fi
 
 printDebug "HARPOON_IMAGE: $HARPOON_IMAGE"

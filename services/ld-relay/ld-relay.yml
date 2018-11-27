@@ -3,7 +3,7 @@ version: '3.4'
 services:
   ld-relay:
     container_name: harpoon_ld_relay
-    image: wheniwork/ld-relay
+    image: koinotice/ld-relay
     environment:
       - TERM=xterm
       - LD_ENV_dev

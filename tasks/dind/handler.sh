@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-#% 🔺 DIND_IMAGE %% Docker-in-Docker (dind) image %% wheniwork/harpoon
+#% 🔺 DIND_IMAGE %% Docker-in-Docker (dind) image %% koinotice/harpoon
 if [ ! -v DIND_IMAGE ]; then
-	export DIND_IMAGE=wheniwork/harpoon
+	export DIND_IMAGE=koinotice/harpoon
 fi
 
 #% 🔺 DIND_STORAGE_DRIVER %% DinD Storage Driver %% overlay2
