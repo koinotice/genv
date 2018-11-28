@@ -15,7 +15,7 @@ printAllHelp() {
 	printUsage
 	echo ""
 	echo "Commands:"
-	printHelp "${HARPOON_ROOT}/harpoon"
+	printHelp "${GENV_ROOT}/genv"
 	projectTasksHelp
 
 	printf "\nTasks:\n"
@@ -53,7 +53,7 @@ printAllHelp() {
 		printf "  $COLOR_CYAN%-20s$COLOR_NC %s\n" "${s}" "${info}"
 	done
 	echo ""
-	printf "\nℹ️  Run '${COLOR_CYAN}harpoon help [<task> | <service>]${COLOR_NC}' for more information\n"
+	printf "\nℹ️  Run '${COLOR_CYAN}genv help [<task> | <service>]${COLOR_NC}' for more information\n"
 	exit 1
 }
 

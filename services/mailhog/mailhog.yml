@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   mailhog:
-    container_name: harpoon_mailhog
+    container_name: genv_mailhog
     image: mailhog/mailhog
     environment:
       - TERM=xterm
@@ -11,7 +11,7 @@ services:
       - "traefik.port=8025"
       - "traefik.frontend.rule=Host:${MH_HOSTS}"
       - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
-      - "traefik.docker.network=${HARPOON_DOCKER_NETWORK}"
+      - "traefik.docker.network=${GENV_DOCKER_NETWORK}"
       - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
       - "SERVICE_1025_NAME=mailhog"
       - "SERVICE_8025_NAME=mailhog-ui"
@@ -21,9 +21,9 @@ services:
     networks:
       default:
         aliases:
-          - mailhog.${HARPOON_INT_DOMAIN}
+          - mailhog.${GENV_INT_DOMAIN}
 
 networks:
   default:
     external:
-      name: ${HARPOON_DOCKER_NETWORK}
+      name: ${GENV_DOCKER_NETWORK}

@@ -2,7 +2,7 @@
 
 ## Environment Variables
 
-_Harpoon_ uses environment variables exclusively for all configuration
+_Genv_ uses environment variables exclusively for all configuration
 parameters, many of which are passed directly to the underlying
 containers.
 
@@ -11,29 +11,29 @@ For details, explore the
 repository, and the `.yml` files for each included service in
 `services/*`.
 
-## `harpoon.env.sh`
+## `genv.env.sh`
 
-Harpoon will look for and `source` files named `harpoon.env.sh` in the
+Genv will look for and `source` files named `genv.env.sh` in the
 following directories:
 
-* The directory where Harpoon is located (`$HARPOON_ROOT`)
+* The directory where Genv is located (`$GENV_ROOT`)
 * `/etc`
 * `$PWD`
 * `$HOME`
 
-## `harpoon.boot.sh`
+## `genv.boot.sh`
 
-Right before running a task, harpoon will look for and `source` files
-named `harpoon.boot.sh` in the following directories:
+Right before running a task, genv will look for and `source` files
+named `genv.boot.sh` in the following directories:
 
-* The directory where Harpoon is located (`$HARPOON_ROOT`)
+* The directory where Genv is located (`$GENV_ROOT`)
 * `/etc`
 * `$PWD`
 * `$HOME`
 
 ## Custom Domains
 
-_Harpoon_ uses `.harpoon` as its default domain for external ingress
+_Genv_ uses `.genv` as its default domain for external ingress
 traffic. You can configure your own domains with the `CUSTOM_DOMAINS`
 array:
 

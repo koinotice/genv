@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   redis:
-    container_name: harpoon_redis
+    container_name: genv_redis
     image: redis:${REDIS_VERSION}
     environment:
       - TERM=xterm
@@ -13,9 +13,9 @@ services:
     networks:
       default:
         aliases:
-          - redis.${HARPOON_INT_DOMAIN}
+          - redis.${GENV_INT_DOMAIN}
 
 networks:
   default:
     external:
-      name: ${HARPOON_DOCKER_NETWORK}
+      name: ${GENV_DOCKER_NETWORK}

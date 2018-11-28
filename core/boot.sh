@@ -1,21 +1,21 @@
 #!/usr/bin/env bash
 
-if [ -f ${HARPOON_ROOT}/harpoon.boot.sh ]; then
-	source ${HARPOON_ROOT}/harpoon.boot.sh
+if [ -f ${GENV_ROOT}/genv.boot.sh ]; then
+	source ${GENV_ROOT}/genv.boot.sh
 fi
 
-if [ -f /etc/harpoon.boot.sh ]; then
-	source /etc/harpoon.boot.sh
+if [ -f /etc/genv.boot.sh ]; then
+	source /etc/genv.boot.sh
 fi
 
-if [ -f $PWD/harpoon.boot.sh ]; then
-	source $PWD/harpoon.boot.sh
+if [ -f $PWD/genv.boot.sh ]; then
+	source $PWD/genv.boot.sh
 fi
 
-if [ -f $PWD/../harpoon.boot.sh ]; then
-	source $PWD/../harpoon.boot.sh
+if [ -f $PWD/../genv.boot.sh ]; then
+	source $PWD/../genv.boot.sh
 fi
 
-if [ -f $HOME/harpoon.boot.sh ]; then
-	source $HOME/harpoon.boot.sh
+if [ -f $HOME/genv.boot.sh ]; then
+	source $HOME/genv.boot.sh
 fi

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 if [ ! ${TRAEFIK_ACME:-} ]; then
-	export REDIS_COMMANDER_HOSTS=redis-commander.harpoon
+	export REDIS_COMMANDER_HOSTS=redis-commander.genv
 fi
 
 if [ ${CUSTOM_DOMAINS:-} ]; then

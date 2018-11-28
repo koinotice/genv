@@ -38,26 +38,26 @@ export TRAEFIK_HTTPS_PORT=8843
    the command `echo $ZSH_VERSION` to do the same.
 
 
-### Get Harpoon
+### Get Genv
 
 1. curl
-   https://raw.githubusercontent.com/koinotice/harpoon/master/install.sh
+   https://raw.githubusercontent.com/koinotice/genv/master/install.sh
    | bash
-2. _Optional:_ Load completion scripts by adding `which harpoon >
-   /dev/null && . "$(harpoon initpath)"` to your profile (`~/.bashrc`,
+2. _Optional:_ Load completion scripts by adding `which genv >
+   /dev/null && . "$(genv initpath)"` to your profile (`~/.bashrc`,
    `~/.bash_profile`, `~/.zshrc`).
 
 ## Help
 
-* `harpoon help [<task> | <service>]`
+* `genv help [<task> | <service>]`
 
 ## Web UIs
 
-* **Consul:** http://consul.harpoon
-* **Traefik:** http://traefik.harpoon
+* **Consul:** http://consul.genv
+* **Traefik:** http://traefik.genv
 
 ## Removal
 
-* Run `harpoon clean`
+* Run `genv clean`
   * On MacOS, you'll be asked for your password
 

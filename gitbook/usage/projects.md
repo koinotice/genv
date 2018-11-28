@@ -2,7 +2,7 @@
 
 ## Temp Directory
 
-_Harpoon_ will create a directory named `.harpoon` in your current
+_Genv_ will create a directory named `.genv` in your current
 working directory. You should add this to your `.gitignore`.
 
 ## Docker Compose
@@ -22,8 +22,8 @@ services:
       - "traefik.port=9000"
       - "traefik.frontend.rule=Host:app.example.com"
       - "traefik.frontend.entryPoints=http" # add ',https' for HTTPS support
-      - "traefik.docker.network=harpoon"
-      - "traefik.tags=harpoon"
+      - "traefik.docker.network=genv"
+      - "traefik.tags=genv"
     ports:
       - "9000:9000"
     volumes:
@@ -32,7 +32,7 @@ services:
 networks:
   default:
     external:
-      name: harpoon
+      name: genv
 ```
 
 1. You'll need to specify all the `traefik.*` labels for your web
@@ -43,7 +43,7 @@ networks:
 
 ## Tasks
 
-_Harpoon_ provides a simple task running engine, which you can customize
+_Genv_ provides a simple task running engine, which you can customize
 for your project. In the root of your project, just add a `tasks.sh`
 like the following:
 
@@ -58,7 +58,7 @@ case "$command" in
     welcome) ## <args...> %% Welcomes you
         welcome ;;
     *)
-        harpoon help ;;
+        genv help ;;
 esac
 ```
 
@@ -66,5 +66,5 @@ This is just like any other `bash` script, so you have full access to
 your shell.
 
 Custom environment variables, especially those that you're overriding
-from Harpoon's defaults, should go in your project root in
-[`harpoon.env.sh` or `harpoon.boot.sh`](configuration.md).
+from Genv's defaults, should go in your project root in
+[`genv.env.sh` or `genv.boot.sh`](configuration.md).

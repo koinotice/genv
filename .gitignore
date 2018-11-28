@@ -5,11 +5,11 @@ core/traefik/acme/acme.json
 core/traefik/certs/*.crt
 core/traefik/certs/*.pem
 core/traefik/certs/*.key
-harpoon.env.sh
-harpoon.boot.sh
+genv.env.sh
+genv.boot.sh
 services/custom
 vendor/
 vendor
-.harpoon/
+.genv/
 plugins.txt
 _kcov

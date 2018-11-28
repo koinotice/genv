@@ -30,19 +30,19 @@ inspectMetadata() {
 	local metadata=$(docker image inspect -f "{{json .ContainerConfig.Labels}}" ${PLUGIN})
 	printDebug "METADATA: $metadata"
 
-	export NAME=$(jq_cli -r ".harpoon_name" <<< ${metadata})
+	export NAME=$(jq_cli -r ".genv_name" <<< ${metadata})
 	printDebug "NAME: $NAME"
 
-	export TYPE=$(jq_cli -r ".harpoon_type" <<< ${metadata})
+	export TYPE=$(jq_cli -r ".genv_type" <<< ${metadata})
 	printDebug "TYPE: $TYPE"
 
-	export CMD_ARGS=$(jq_cli -r ".harpoon_args" <<< ${metadata})
+	export CMD_ARGS=$(jq_cli -r ".genv_args" <<< ${metadata})
 	printDebug "CMD_ARGS: $CMD_ARGS"
 
-	export DESCRIPTION=$(jq_cli -r ".harpoon_description" <<< ${metadata})
+	export DESCRIPTION=$(jq_cli -r ".genv_description" <<< ${metadata})
 	printDebug "DESCRIPTION: $DESCRIPTION"
 
-	IMAGE_DIR=$(jq_cli -r ".harpoon_dir" <<< ${metadata})
+	IMAGE_DIR=$(jq_cli -r ".genv_dir" <<< ${metadata})
 
 	if [[ ${IMAGE_DIR} == null ]]; then
 		IMAGE_DIR=${NAME}
@@ -52,7 +52,7 @@ inspectMetadata() {
 	printDebug "IMAGE_DIR: $IMAGE_DIR"
 
 	if [[ ${NAME} == null || ${TYPE} == null ]]; then
-		printPanic "${PLUGIN} is not a Harpoon plugin"
+		printPanic "${PLUGIN} is not a Genv plugin"
 	fi
 }
 
@@ -60,11 +60,11 @@ pluginRoot() {
 	case "$TYPE" in
 		module) # deprecated
 			printWarn "Plugin type 'module' has been deprecated, please change to 'task'."
-			export PLUGIN_ROOT=${HARPOON_VENDOR_ROOT}/tasks ;;
+			export PLUGIN_ROOT=${GENV_VENDOR_ROOT}/tasks ;;
 		task)
-			export PLUGIN_ROOT=${HARPOON_VENDOR_ROOT}/tasks ;;
+			export PLUGIN_ROOT=${GENV_VENDOR_ROOT}/tasks ;;
 		service)
-			export PLUGIN_ROOT=${HARPOON_VENDOR_ROOT}/services ;;
+			export PLUGIN_ROOT=${GENV_VENDOR_ROOT}/services ;;
 		*)
 			printPanic "Unknown plugin type '$TYPE'"
 	esac
@@ -94,9 +94,9 @@ extractPlugin() {
 
 		set +u
 
-		source ${HARPOON_LIB_ROOT}/mo/mo
+		source ${GENV_LIB_ROOT}/mo/mo
 
-		cat ${HARPOON_TASKS_ROOT}/_templates/bootstrap.mo | mo > ${PLUGIN_ROOT}/${NAME}/bootstrap.sh
+		cat ${GENV_TASKS_ROOT}/_templates/bootstrap.mo | mo > ${PLUGIN_ROOT}/${NAME}/bootstrap.sh
 
 		if [[ ${CMD_ARGS} == null ]]; then
 			export CMD_ARGS=""
@@ -108,7 +108,7 @@ extractPlugin() {
 			echo "${DESCRIPTION}" > ${PLUGIN_ROOT}/${NAME}/info.txt
 		fi
 
-		cat ${HARPOON_TASKS_ROOT}/_templates/handler.mo | mo > ${PLUGIN_ROOT}/${NAME}/handler.sh
+		cat ${GENV_TASKS_ROOT}/_templates/handler.mo | mo > ${PLUGIN_ROOT}/${NAME}/handler.sh
 
 		set -u
 	fi
@@ -186,13 +186,13 @@ update() {
 }
 
 case "${command}" in
-	plug:in) ## <plugin> %% Install a Harpoon plugin
+	plug:in) ## <plugin> %% Install a Genv plugin
 		install "${args}" ;;
 
-	plug:reinstall) ## %% Reinstall all Harpoon plugins
+	plug:reinstall) ## %% Reinstall all Genv plugins
 		PLUGIN_REINSTALL=true
 
-		rm -fr ${HARPOON_VENDOR_ROOT}
+		rm -fr ${GENV_VENDOR_ROOT}
 
 		installFromFile ${PLUGINS_FILE}
       	;;
@@ -209,10 +209,10 @@ case "${command}" in
 		installFromFile ${filename}
 		;;
 
-	plug:up) ## <plugin> %% Update a Harpoon plugin
+	plug:up) ## <plugin> %% Update a Genv plugin
 		update "${args}" ;;
 
-	plug:up:all) ## %% Update all Harpoon plugins
+	plug:up:all) ## %% Update all Genv plugins
 		plugins=$(cat ${PLUGINS_FILE})
 
 		for p in ${plugins}; do
@@ -220,7 +220,7 @@ case "${command}" in
       	done
 		;;
 
-	plug:rm) ## <plugin> %% Remove a Harpoon plugin
+	plug:rm) ## <plugin> %% Remove a Genv plugin
 		parsePlugin "${args}"
 
 		pluginInstalled
@@ -239,8 +239,8 @@ case "${command}" in
 		printSuccess "Removed $TYPE '$NAME'"
 		;;
 
-	plug:rm:all) ## %% Remove all Harpoon plugins
-		rm -fr ${HARPOON_VENDOR_ROOT}
+	plug:rm:all) ## %% Remove all Genv plugins
+		rm -fr ${GENV_VENDOR_ROOT}
 
 		plugins=$(cat ${PLUGINS_FILE})
 
@@ -251,8 +251,8 @@ case "${command}" in
 		rm -f ${PLUGINS_FILE}
 		;;
 
-	plug:ls) ## %% List Harpoon plugins
-		printInfo "Harpoon plugins:"
+	plug:ls) ## %% List Genv plugins
+		printInfo "Genv plugins:"
 		cat ${PLUGINS_FILE}
 		echo ""
 		;;

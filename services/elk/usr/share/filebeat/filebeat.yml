@@ -8,8 +8,8 @@ filebeat.prospectors:
   processors:
   - add_docker_metadata: ~
 output.elasticsearch:
-  hosts: ["harpoon_elasticsearch:9200"]
+  hosts: ["genv_elasticsearch:9200"]
 #output.logstash:
-#  hosts: ["harpoon_logstash:5044"]
+#  hosts: ["genv_logstash:5044"]
 setup.kibana:
-  host: "harpoon_kibana:5601"
+  host: "genv_kibana:5601"

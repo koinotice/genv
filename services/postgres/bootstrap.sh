@@ -5,9 +5,9 @@ if [ ! -v POSTGRES_VERSION ]; then
 	export POSTGRES_VERSION=9-alpine
 fi
 
-#% 🔺 POSTGRES_USER %% Postgres user %% harpoon
+#% 🔺 POSTGRES_USER %% Postgres user %% genv
 if [ ! -v POSTGRES_USER ]; then
-	export POSTGRES_USER="harpoon"
+	export POSTGRES_USER="genv"
 fi
 
 #% 🔺 POSTGRES_PASSWORD %% Postgres password %% abc123

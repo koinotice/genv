@@ -25,17 +25,17 @@ export ES_VOLUME_NAME=esdata
 
 # ELK hostnames
 if [ ! -v KIBANA_SERVER_NAME ]; then
-	export KIBANA_SERVER_NAME=kibana.service.int.harpoon
+	export KIBANA_SERVER_NAME=kibana.service.int.genv
 fi
 
 if [ ! -v ELASTICSEARCH_URL ]; then
-	export ELASTICSEARCH_URL=http://es.service.int.harpoon:9200
+	export ELASTICSEARCH_URL=http://es.service.int.genv:9200
 fi
 
 if [ ! -v TRAEFIK_ACME ]; then
-	export ES_HOSTS=es.harpoon,elasticsearch.harpoon
-	export LOGSTASH_HOSTS=logstash.harpoon,ls.harpoon
-	export KIBANA_HOSTS=kibana.harpoon
+	export ES_HOSTS=es.genv,elasticsearch.genv
+	export LOGSTASH_HOSTS=logstash.genv,ls.genv
+	export KIBANA_HOSTS=kibana.genv
 fi
 
 if [ -v CUSTOM_DOMAINS ]; then

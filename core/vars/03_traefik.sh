@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
-#% 🔺 TRAEFIK_DOCKER_CONSTRAINTS %% Traefik Docker backend constraints %% tag==harpoon
+#% 🔺 TRAEFIK_DOCKER_CONSTRAINTS %% Traefik Docker backend constraints %% tag==genv
 if [ ! -v TRAEFIK_DOCKER_CONSTRAINTS ]; then
-	export TRAEFIK_DOCKER_CONSTRAINTS='tag==harpoon'
+	export TRAEFIK_DOCKER_CONSTRAINTS='tag==genv'
 fi
 
-#% 🔺 TRAEFIK_DOCKER_TAGS %% Traefik Docker tags %% harpoon
+#% 🔺 TRAEFIK_DOCKER_TAGS %% Traefik Docker tags %% genv
 if [ ! -v TRAEFIK_DOCKER_TAGS ]; then
-	export TRAEFIK_DOCKER_TAGS='harpoon'
+	export TRAEFIK_DOCKER_TAGS='genv'
 fi
 
 export TRAEFIK_COMMAND="
@@ -85,7 +85,7 @@ fi
 
 if [ -v CUSTOM_DOMAINS ]; then
 	for i in "${CUSTOM_DOMAINS[@]}"; do
-		if [[ -f "${HARPOON_ROOT}/core/traefik/certs/${i}.crt" && -f "${HARPOON_ROOT}/core/traefik/certs/${i}.key" ]]; then
+		if [[ -f "${GENV_ROOT}/core/traefik/certs/${i}.crt" && -f "${GENV_ROOT}/core/traefik/certs/${i}.key" ]]; then
 			CERTS+="/etc/traefik/certs/${i}.crt,/etc/traefik/certs/${i}.key;"
 		fi
 	done

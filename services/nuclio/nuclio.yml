@@ -1,0 +1,33 @@
+version: '3.4'
+
+services:
+
+  nuclio:
+    image: nuclio/dashboard:stable-amd64
+    container_name: genv_nuclio
+    restart: always
+    ports:
+    - "8070:8070"
+
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    - /tmp:/tmp
+
+    labels:
+    - 'traefik.backend=nuclio'
+    - 'traefik.port=8070'
+    - 'traefik.frontend.rule=Host:nuclio.genv'
+    - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
+    - "traefik.docker.network=${GENV_DOCKER_NETWORK}"
+    - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
+    - "SERVICE_8070_NAME=nuclio"
+
+    networks:
+      default:
+        aliases:
+          - nuclio.${GENV_INT_DOMAIN}
+
+networks:
+  default:
+    external:
+      name: ${GENV_DOCKER_NETWORK}

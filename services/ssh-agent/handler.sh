@@ -11,8 +11,8 @@ add() {
 		local dkrRunFlags="-it"
 	fi
 
-	docker cp ${file} harpoon_ssh-agent:/root/.ssh/${name}
-	docker exec ${dkrRunFlags:-} harpoon_ssh-agent ssh-add /root/.ssh/${name}
+	docker cp ${file} genv_ssh-agent:/root/.ssh/${name}
+	docker exec ${dkrRunFlags:-} genv_ssh-agent ssh-add /root/.ssh/${name}
 }
 
 addAll() {

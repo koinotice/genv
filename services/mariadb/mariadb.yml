@@ -1,0 +1,22 @@
+version: '2'
+
+services:
+  mariadb:
+    container_name: genv_mariadb
+    image: mariadb:${MARIADB_VERSION}
+    environment:
+    - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    - MYSQL_DATABASE=${MARIADB_DATABASE}
+    ports:
+    - "${MARIADB_PORT}:3306"
+    volumes:
+    - mariadb:/var/lib/mysql
+
+networks:
+  default:
+    external:
+      name: ${GENV_DOCKER_NETWORK}
+
+volumes:
+  mariadb:
+    external: true

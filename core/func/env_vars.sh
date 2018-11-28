@@ -9,8 +9,8 @@ printEnv() {
 
 printAllEnv() {
 	echo "  Core:"
-	printEnv "${HARPOON_ROOT}/harpoon"
-	printEnv "${HARPOON_ROOT}/core"
+	printEnv "${GENV_ROOT}/genv"
+	printEnv "${GENV_ROOT}/core"
 	projectTasksEnv
 	echo ""
 	exit 0
@@ -40,7 +40,7 @@ printModuleInfo() {
 }
 
 envdoc() {
-	echo -e "\nHarpoon Environment Variables (🔺  = overridable, 🔹  = static):"
+	echo -e "\nGenv Environment Variables (🔺  = overridable, 🔹  = static):"
 	if [[ "$args" == "" ]]; then printAllEnv; fi
 
 	# try tasks

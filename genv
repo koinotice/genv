@@ -10,73 +10,73 @@ args_array=( "${@:2}" )
 
 SOURCE="${BASH_SOURCE[0]}"
 while [ -h "$SOURCE" ]; do
-	HARPOON_ROOT="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+	GENV_ROOT="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 	SOURCE="$( readlink "$SOURCE" )"
-	[[ ${SOURCE} != /* ]] && SOURCE="$HARPOON_ROOT/$SOURCE"
+	[[ ${SOURCE} != /* ]] && SOURCE="$GENV_ROOT/$SOURCE"
 done
 
-#% 🔹 HARPOON_ROOT %% Harpoon root directory %% $HOME/harpoon
-export HARPOON_ROOT="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+#% 🔹 GENV_ROOT %% Genv root directory %% $HOME/genv
+export GENV_ROOT="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 
-#% 🔹 HARPOON_TASKS_ROOT %% Tasks directory relative to Harpoon root %% $HOME/harpoon/tasks
-export HARPOON_TASKS_ROOT=${HARPOON_ROOT}/tasks
+#% 🔹 GENV_TASKS_ROOT %% Tasks directory relative to Genv root %% $HOME/genv/tasks
+export GENV_TASKS_ROOT=${GENV_ROOT}/tasks
 
-#% 🔹 HARPOON_SERVICES_ROOT %% Services directory relative to Harpoon root %% $HOME/harpoon/services
-export HARPOON_SERVICES_ROOT=${HARPOON_ROOT}/services
+#% 🔹 GENV_SERVICES_ROOT %% Services directory relative to Genv root %% $HOME/genv/services
+export GENV_SERVICES_ROOT=${GENV_ROOT}/services
 
-#% 🔹 HARPOON_VENDOR_ROOT %% Vendor (plugins) directory relative to Harpoon root %% $HOME/harpoon/vendor
-export HARPOON_VENDOR_ROOT=${HARPOON_ROOT}/vendor
+#% 🔹 GENV_VENDOR_ROOT %% Vendor (plugins) directory relative to Genv root %% $HOME/genv/vendor
+export GENV_VENDOR_ROOT=${GENV_ROOT}/vendor
 
-#% 🔹 HARPOON_IMAGES_ROOT %% Compressed Docker images directory relative to Harpoon root %% $HOME/harpoon/images
-export HARPOON_IMAGES_ROOT=${HARPOON_ROOT}/images
+#% 🔹 GENV_IMAGES_ROOT %% Compressed Docker images directory relative to Genv root %% $HOME/genv/images
+export GENV_IMAGES_ROOT=${GENV_ROOT}/images
 
-#% 🔹 HARPOON_LIB_ROOT %% Libraries directory relative to Harpoon root %% $HOME/harpoon/lib
-export HARPOON_LIB_ROOT=${HARPOON_ROOT}/lib
+#% 🔹 GENV_LIB_ROOT %% Libraries directory relative to Genv root %% $HOME/genv/lib
+export GENV_LIB_ROOT=${GENV_ROOT}/lib
 
 if [[ "$command" == "initpath" ]]; then
-	echo "${HARPOON_ROOT}/completion/init.sh" && exit 0
+	echo "${GENV_ROOT}/completion/init.sh" && exit 0
 fi
 
 
 # functions
-func=$(ls ${HARPOON_ROOT}/core/func)
+func=$(ls ${GENV_ROOT}/core/func)
 for f in ${func}; do
-	source ${HARPOON_ROOT}/core/func/${f}
+	source ${GENV_ROOT}/core/func/${f}
 done
 
 
 # variables
-vars=$(ls ${HARPOON_ROOT}/core/vars)
+vars=$(ls ${GENV_ROOT}/core/vars)
 for f in ${vars}; do
-	source ${HARPOON_ROOT}/core/vars/${f}
+	source ${GENV_ROOT}/core/vars/${f}
 done
 
-source ${HARPOON_ROOT}/core/parse.sh
+source ${GENV_ROOT}/core/parse.sh
 
 moduleName=$(parseModule ${command})
 
 if [[ -v USE_DIND && "$moduleName" != "dind" ]]; then
-	printInfo "Harpoon is running in dind mode"
-	${HARPOON_DIND_EXEC_TTY} harpoon "$@"
+	printInfo "Genv is running in dind mode"
+	${GENV_DIND_EXEC_TTY} genv "$@"
 	exit $?
 fi
 
 # this should always be loaded AFTER core vars and func
-source ${HARPOON_ROOT}/core/boot.sh
+source ${GENV_ROOT}/core/boot.sh
 
-source ${HARPOON_TASKS_ROOT}/tasks.sh
+source ${GENV_TASKS_ROOT}/tasks.sh
 
-source ${HARPOON_SERVICES_ROOT}/services.sh
+source ${GENV_SERVICES_ROOT}/services.sh
 
 # setup temp directory
-mkdir -p ${HARPOON_TEMP}
+mkdir -p ${GENV_TEMP}
 
 case "${command}" in
-	compose) ## <arg>... %% 🐳  Run docker-compose for the Harpoon core services
-		${HARPOON_DOCKER_COMPOSE} ${args} ;;
+	compose) ## <arg>... %% 🐳  Run docker-compose for the Genv core services
+		${GENV_DOCKER_COMPOSE} ${args} ;;
 
 	cmplt)
-		source ${HARPOON_ROOT}/completion/completion.sh ;;
+		source ${GENV_ROOT}/completion/completion.sh ;;
 
 	gen-dnsmasq)
 		generateDnsmasqConfig ;;
@@ -108,30 +108,30 @@ case "${command}" in
 		help ;;
 
 	show-docker-host-ip)
-		echo ${HARPOON_DOCKER_HOST_IP} ;;
+		echo ${GENV_DOCKER_HOST_IP} ;;
 
-	up) ## %% 🏁  Install Harpoon and start core services
+	up) ## %% 🏁  Install Genv and start core services
 		up ;;
 
 	install) ## %% Alias for `up`
 		up ;;
 
-	down) ## [<all>] %% 🔽  Stop and remove Harpoon core, and optionally, supporting services
+	down) ## [<all>] %% 🔽  Stop and remove Genv core, and optionally, supporting services
 		down ${args} ;;
 
 	uninstall) ## [<all>] %% Alias for `down`
 		down ${args} ;;
 
-	reset) ## %% 🌯  Stop, remove, and restart Harpoon core services
+	reset) ## %% 🌯  Stop, remove, and restart Genv core services
 		reset ;;
 
-	self-update) ## %% 💫  Update Harpoon and plugins
+	self-update) ## %% 💫  Update Genv and plugins
 		selfUpdate ;;
 
 	selfupdate) ## %% Alias for `self-update`
 		selfUpdate ;;
 
-	clean) ## [<all>] %% 🛀  Completely uninstall Harpoon core, and optionally, all supporting services
+	clean) ## [<all>] %% 🛀  Completely uninstall Genv core, and optionally, all supporting services
 		clean ${args} ;;
 
 	services:ls)
@@ -143,10 +143,10 @@ case "${command}" in
 	services:status) ## %% 🚦  Display the status for all supporting services
 		servicesStatus ;;
 
-	status) ## %% 🚥  Display the status of Harpoon core services
+	status) ## %% 🚥  Display the status of Genv core services
 		downServices=0
 		for i in dnsmasq consul registrator traefik; do
-			IS_UP=$(${HARPOON_DOCKER_COMPOSE} ps ${i} | grep 'Up') || true
+			IS_UP=$(${GENV_DOCKER_COMPOSE} ps ${i} | grep 'Up') || true
 			if [[ ${IS_UP} ]]; then
 				printf "%-20s%s\n" "${i}" "${UP}"
 			else
@@ -166,10 +166,10 @@ case "${command}" in
 		listTasks ;;
 
 	service) ## <name> <command> [<arg>...] %% 🍽  Run a command for a service
-		source ${HARPOON_SERVICES_ROOT}/tasks.sh ;;
+		source ${GENV_SERVICES_ROOT}/tasks.sh ;;
 
 	stfu) ## %% 🤐  Please stop talking
-		echo "export HARPOON_SPEECH=false" >> $HOME/harpoon.env.sh ;;
+		echo "export GENV_SPEECH=false" >> $HOME/genv.env.sh ;;
 
 	greet)
 		speakGreeting ;;

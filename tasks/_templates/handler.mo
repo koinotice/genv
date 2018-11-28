@@ -2,5 +2,5 @@
 
 case "${command}" in
 	{{NAME}}) ## {{ARGS}} %% {{DESCRIPTION}}
-        harpoon_{{NAME}}CLI "${args}" ;;
+        genv_{{NAME}}CLI "${args}" ;;
 esac

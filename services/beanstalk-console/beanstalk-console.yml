@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   beanstalk-console:
-    container_name: harpoon_beanstalk-console
+    container_name: genv_beanstalk-console
     image: agaveapi/beanstalkd-console
     environment:
       - BEANSTALKD_HOST
@@ -12,7 +12,7 @@ services:
       - "traefik.port=80"
       - "traefik.frontend.rule=Host:${BEANSTALK_CONSOLE_HOSTS}"
       - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
-      - "traefik.docker.network=${HARPOON_DOCKER_NETWORK}"
+      - "traefik.docker.network=${GENV_DOCKER_NETWORK}"
       - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
     ports:
       - "80"
@@ -20,4 +20,4 @@ services:
 networks:
   default:
     external:
-      name: ${HARPOON_DOCKER_NETWORK}
+      name: ${GENV_DOCKER_NETWORK}

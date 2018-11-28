@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 if [ ! -v TRAEFIK_ACME ]; then
-	export PORTAINER_HOSTS=portainer.harpoon
+	export PORTAINER_HOSTS=portainer.genv
 fi
 
 if [ -v CUSTOM_DOMAINS ]; then

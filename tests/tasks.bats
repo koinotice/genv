@@ -5,21 +5,21 @@ setup() {
 }
 
 @test "task exists" {
-	setHarpoonRoots
-	harpoonLoad tasks/tasks.sh
+	setGenvRoots
+	genvLoad tasks/tasks.sh
 	taskExists aws
 	[ $? -eq 0 ]
 	[ "${TASK_ROOT}" != "" ]
 }
 
 @test "aws help" {
-	run ./harpoon help aws
+	run ./genv help aws
 	[ "$status" -eq 0 ]
 	grep "AWS CLI" <<< "$output"
 }
 
 @test "jq args" {
-	run ./harpoon jq -c -r '. | keys_unsorted' <<< '{"a":1}'
+	run ./genv jq -c -r '. | keys_unsorted' <<< '{"a":1}'
 	[ "$status" -eq 0 ]
 	grep '["a"]' <<< "$output"
 }

@@ -30,8 +30,8 @@ if [ -v TERRAFORM_TFVARS ]; then
 	export TERRAFORM_TFVARS="-var-file ${TERRAFORM_TFVARS}"
 fi
 
-#% 🔹 TERRAFORM_TEMP %% Terraform temp directory %% ${HARPOON_TEMP}/terraform
-export TERRAFORM_TEMP="${HARPOON_TEMP}/terraform"
+#% 🔹 TERRAFORM_TEMP %% Terraform temp directory %% ${GENV_TEMP}/terraform
+export TERRAFORM_TEMP="${GENV_TEMP}/terraform"
 
 #% 🔹 BACKEND_FILE %% Generated Terraform variables file for backend config %% ${TERRAFORM_TEMP}/backend.tfvars
 export BACKEND_FILE="${TERRAFORM_TEMP}/backend.tfvars"

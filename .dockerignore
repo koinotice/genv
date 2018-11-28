@@ -3,12 +3,12 @@
 .git
 Dockerfile
 gitbook
-harpoon.env.sh
-harpoon.boot.sh
+genv.env.sh
+genv.boot.sh
 services/custom
 README.md
 Makefile
-.harpoon/
+.genv/
 plugins.txt
 vendor/
 .travis.yml

@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   redis-commander:
-    container_name: harpoon_redis-commander
+    container_name: genv_redis-commander
     image: rediscommander/redis-commander:${REDIS_COMMANDER_VERSION}
     restart: always
     environment:
@@ -13,17 +13,17 @@ services:
       - "traefik.port=8081"
       - "traefik.frontend.rule=Host:${REDIS_COMMANDER_HOSTS}"
       - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
-      - "traefik.docker.network=${HARPOON_DOCKER_NETWORK}"
+      - "traefik.docker.network=${GENV_DOCKER_NETWORK}"
       - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
       - "SERVICE_8081_NAME=redis-commander"
     networks:
       default:
         aliases:
-          - redis-commander.${HARPOON_INT_DOMAIN}
+          - redis-commander.${GENV_INT_DOMAIN}
     ports:
       - "8081"
 
 networks:
   default:
     external:
-      name: ${HARPOON_DOCKER_NETWORK}
+      name: ${GENV_DOCKER_NETWORK}

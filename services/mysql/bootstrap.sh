@@ -7,12 +7,12 @@ fi
 
 #% 🔺 MYSQL_ROOT_PASSWORD %% MySQL root password %% abc123
 if [ ! -v MYSQL_ROOT_PASSWORD ]; then
-	export MYSQL_ROOT_PASSWORD="abc123"
+	export MYSQL_ROOT_PASSWORD="root"
 fi
 
-#% 🔺 MYSQL_DATABASE %% MySQL database name %% harpoon
+#% 🔺 MYSQL_DATABASE %% MySQL database name %% genv
 if [ ! -v MYSQL_DATABASE ]; then
-	export MYSQL_DATABASE="harpoon"
+	export MYSQL_DATABASE="genv"
 fi
 
 #% 🔺 MYSQL_PORT %% MySQL TCP port %% 3306

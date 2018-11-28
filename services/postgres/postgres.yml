@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   postgres:
-    container_name: harpoon_postgres
+    container_name: genv_postgres
     image: postgres:${POSTGRES_VERSION}
     environment:
       - TERM=xterm
@@ -17,14 +17,14 @@ services:
     networks:
       default:
         aliases:
-          - postgres.${HARPOON_INT_DOMAIN}
+          - postgres.${GENV_INT_DOMAIN}
     volumes:
       - pgdata:/var/lib/postgresql/data
 
 networks:
   default:
     external:
-      name: ${HARPOON_DOCKER_NETWORK}
+      name: ${GENV_DOCKER_NETWORK}
 
 volumes:
   pgdata:

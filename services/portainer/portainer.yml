@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   portainer:
-    container_name: harpoon_portainer
+    container_name: genv_portainer
     command: --no-auth
     image: portainer/portainer
     environment:
@@ -12,7 +12,7 @@ services:
       - "traefik.port=9000"
       - "traefik.frontend.rule=Host:${PORTAINER_HOSTS}"
       - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
-      - "traefik.docker.network=${HARPOON_DOCKER_NETWORK}"
+      - "traefik.docker.network=${GENV_DOCKER_NETWORK}"
       - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
       - "SERVICE_9000_NAME=portainer"
     ports:
@@ -20,11 +20,11 @@ services:
     networks:
       default:
         aliases:
-          - portainer.${HARPOON_INT_DOMAIN}
+          - portainer.${GENV_INT_DOMAIN}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 
 networks:
   default:
     external:
-      name: ${HARPOON_DOCKER_NETWORK}
+      name: ${GENV_DOCKER_NETWORK}

@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   mysql:
-    container_name: harpoon_mysql
+    container_name: genv_mysql
     image: mysql:${MYSQL_VERSION}
     environment:
       - TERM=xterm
@@ -16,12 +16,12 @@ services:
     networks:
       default:
         aliases:
-          - mysql.${HARPOON_INT_DOMAIN}
+          - mysql.${GENV_INT_DOMAIN}
 
 networks:
   default:
     external:
-      name: ${HARPOON_DOCKER_NETWORK}
+      name: ${GENV_DOCKER_NETWORK}
 
 volumes:
   mysql:

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 if [ ! -v LD_RELAY_REDIS_HOST ]; then
-	export REDIS_HOST=harpoon_redis
+	export REDIS_HOST=genv_redis
 else
 	export REDIS_HOST=${LD_RELAY_REDIS_HOST}
 fi
@@ -19,7 +19,7 @@ fi
 
 # LaunchDarkly Relay Proxy hostnames
 if [ ! -v TRAEFIK_ACME ]; then
-	export LDRELAY_HOSTS=ld-relay.harpoon,ldrelay.harpoon
+	export LDRELAY_HOSTS=ld-relay.genv,ldrelay.genv
 fi
 
 if [ -v CUSTOM_DOMAINS ]; then

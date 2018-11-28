@@ -1,0 +1,24 @@
+version: '3.4'
+
+services:
+  redis:
+    container_name: genv_ss2
+    image: koinotice/ss2:${SS2_VERSION}
+    environment:
+      - TERM=xterm
+    labels:
+      - "SERVICE_6379_NAME=redis"
+    ports:
+      - "${SS2_PORT}:12222"
+    command:
+      -s "ss://aes-256-cfb:${PASSWORD}@0.0.0.0:12222" -verbose
+
+    networks:
+      default:
+        aliases:
+          - ss2.${GENV_INT_DOMAIN}
+
+networks:
+  default:
+    external:
+      name: ${GENV_DOCKER_NETWORK}

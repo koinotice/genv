@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Supporting Services · A Whale of a Guide to Harpoon</title>
+        <title>Supporting Services · A Whale of a Guide to Genv</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -91,10 +91,10 @@
     
         <li class="chapter " data-level="1.1" >
             
-                <a target="_blank" href="https://github.com/koinotice/harpoon">
+                <a target="_blank" href="https://github.com/koinotice/genv">
             
                     
-                    Harpoon
+                    Genv
             
                 </a>
             
@@ -646,11 +646,11 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="supporting-services">Supporting Services</h1>
-<p>For your convenience, <em>Harpoon</em> includes a handful of <code>docker-compose</code>
+<p>For your convenience, <em>Genv</em> includes a handful of <code>docker-compose</code>
 configurations for commonly used databases, DevOps tools, etc:</p>
 <h2 id="beanstalk-console"><a href="https://github.com/ptrofimov/beanstalk_console" target="_blank">Beanstalk Console</a></h2>
 <ul>
-<li><strong>Web UI:</strong> <a href="http://beanstalk-console.harpoon" target="_blank">http://beanstalk-console.harpoon</a></li>
+<li><strong>Web UI:</strong> <a href="http://beanstalk-console.genv" target="_blank">http://beanstalk-console.genv</a></li>
 </ul>
 <h2 id="blackfire"><a href="https://blackfire.io/" target="_blank">Blackfire</a></h2>
 <p>PHP profiler</p>
@@ -658,7 +658,7 @@ configurations for commonly used databases, DevOps tools, etc:</p>
 <p>Provides a web UI for analyzing the resource usage and performance
 characteristics of running containers.</p>
 <ul>
-<li><strong>Web UI:</strong> <a href="http://cadvisor.harpoon" target="_blank">http://cadvisor.harpoon</a></li>
+<li><strong>Web UI:</strong> <a href="http://cadvisor.genv" target="_blank">http://cadvisor.genv</a></li>
 </ul>
 <h2 id="couchbase"><a href="https://hub.docker.com/_/couchbase/" target="_blank">Couchbase</a></h2>
 <p><strong>Environment Variables (with defaults):</strong></p>
@@ -666,22 +666,22 @@ characteristics of running containers.</p>
 </code></pre>
 <h3 id="admin-web-ui">Admin Web UI</h3>
 <ul>
-<li><strong>URL:</strong> <a href="http://couchbase.harpoon" target="_blank">http://couchbase.harpoon</a></li>
+<li><strong>URL:</strong> <a href="http://couchbase.genv" target="_blank">http://couchbase.genv</a></li>
 <li><strong>Username:</strong> Administrator</li>
 <li><strong>Password:</strong> abc123</li>
 </ul>
 <h2 id="dynamodb-admin"><a href="https://github.com/koinotice/dynamodb-admin" target="_blank">DynamoDB Admin</a></h2>
 <ul>
-<li><strong>Web UI:</strong> <a href="http://ddbadmin.harpoon" target="_blank">http://ddbadmin.harpoon</a></li>
+<li><strong>Web UI:</strong> <a href="http://ddbadmin.genv" target="_blank">http://ddbadmin.genv</a></li>
 </ul>
 <h2 id="elastic-elk-stack"><a href="https://www.elastic.co" target="_blank">Elastic (ELK) Stack</a></h2>
 <h3 id="elasticsearch">Elasticsearch</h3>
 <ul>
-<li><strong>URL:</strong> <a href="http://es.harpoon" target="_blank">http://es.harpoon</a></li>
+<li><strong>URL:</strong> <a href="http://es.genv" target="_blank">http://es.genv</a></li>
 </ul>
 <h3 id="logstash">Logstash</h3>
 <ul>
-<li><strong>URL:</strong> <a href="http://ls.harpoon" target="_blank">http://ls.harpoon</a></li>
+<li><strong>URL:</strong> <a href="http://ls.genv" target="_blank">http://ls.genv</a></li>
 </ul>
 <h4 id="input">Input</h4>
 <ul>
@@ -702,14 +702,14 @@ characteristics of running containers.</p>
 </ul>
 <h3 id="kibana">Kibana</h3>
 <ul>
-<li><strong>Web UI:</strong> <a href="http://kibana.harpoon" target="_blank">http://kibana.harpoon</a></li>
+<li><strong>Web UI:</strong> <a href="http://kibana.genv" target="_blank">http://kibana.genv</a></li>
 </ul>
 <h2 id="launchdarkly-relay-proxy"><a href="https://github.com/launchdarkly/ld-relay" target="_blank">LaunchDarkly Relay Proxy</a></h2>
 <p><strong>Docker Image:</strong> <a href="https://hub.docker.com/r/koinotice/ld-relay/" target="_blank">https://hub.docker.com/r/koinotice/ld-relay/</a></p>
-<p><strong>API:</strong> <a href="http://ldrelay.harpoon" target="_blank">http://ldrelay.harpoon</a></p>
+<p><strong>API:</strong> <a href="http://ldrelay.genv" target="_blank">http://ldrelay.genv</a></p>
 <p><strong>Environment Variables:</strong></p>
 <ul>
-<li><code>LD_RELAY_REDIS_HOST</code>: Default is <code>harpoon_redis</code>.</li>
+<li><code>LD_RELAY_REDIS_HOST</code>: Default is <code>genv_redis</code>.</li>
 <li><code>LD_RELAY_REDIS_PORT</code>: Default is <code>6379</code>.</li>
 <li><code>LD_RELAY_PORT</code>: The HTTP port of the service as published to the
 Docker host. Default is <code>8030</code>.</li>
@@ -720,7 +720,7 @@ for the desired environment.</li>
 <li><code>USE_REDIS</code>: This variable is optional. If set to <code>1</code>, Redis
 configuration will be added.</li>
 <li><code>REDIS_HOST</code>: This variable is optional. Sets the hostname of the
-Redis server. The default value is <code>harpoon_redis</code>.</li>
+Redis server. The default value is <code>genv_redis</code>.</li>
 <li><code>REDIS_PORT</code>: This variable is optional. Sets the port of the Redis
 server. The default value is <code>6379</code>.</li>
 <li><code>REDIS_TTL</code>: This variable is optional. Sets the TTL in milliseconds,
@@ -738,17 +738,17 @@ events are flushed, defaults to <code>5</code> (seconds).</li>
 <h2 id="localstack"><a href="https://github.com/localstack/localstack" target="_blank">LocalStack</a></h2>
 <p>Local AWS cloud stack</p>
 <ul>
-<li><strong>Web UI:</strong> <a href="http://localstack.harpoon" target="_blank">http://localstack.harpoon</a></li>
-<li><strong>AWS CLI:</strong> <code>harpoon localstack:aws &lt;arg...&gt;</code></li>
+<li><strong>Web UI:</strong> <a href="http://localstack.genv" target="_blank">http://localstack.genv</a></li>
+<li><strong>AWS CLI:</strong> <code>genv localstack:aws &lt;arg...&gt;</code></li>
 </ul>
 <h2 id="logspout"><a href="https://github.com/gliderlabs/logspout" target="_blank">Logspout</a></h2>
 <ul>
-<li>Sends (raw) JSON to the <code>harpoon_logstash</code> container via <code>udp:12345</code></li>
+<li>Sends (raw) JSON to the <code>genv_logstash</code> container via <code>udp:12345</code></li>
 </ul>
 <h2 id="mailhog"><a href="https://hub.docker.com/r/mailhog/mailhog/" target="_blank">Mailhog</a></h2>
 <p>Web and API based SMTP testing</p>
 <ul>
-<li><strong>Web UI:</strong> <a href="http://mailhog.harpoon" target="_blank">http://mailhog.harpoon</a></li>
+<li><strong>Web UI:</strong> <a href="http://mailhog.genv" target="_blank">http://mailhog.genv</a></li>
 </ul>
 <h2 id="mysql"><a href="https://hub.docker.com/_/mysql/" target="_blank">MySQL</a></h2>
 <p>MySQL is a widely used, open-source relational database management
@@ -756,13 +756,13 @@ system (RDBMS).</p>
 <p><strong>Environment Variables (with defaults):</strong></p>
 <pre><code class="lang-bash"><span class="hljs-built_in">export</span> MYSQL_VERSION=5
 <span class="hljs-built_in">export</span> MYSQL_ROOT_PASSWORD=<span class="hljs-string">&quot;abc123&quot;</span>
-<span class="hljs-built_in">export</span> MYSQL_DATABASE=<span class="hljs-string">&quot;harpoon&quot;</span>
+<span class="hljs-built_in">export</span> MYSQL_DATABASE=<span class="hljs-string">&quot;genv&quot;</span>
 <span class="hljs-built_in">export</span> MYSQL_PORT=3306 <span class="hljs-comment"># exposed to Docker host</span>
 </code></pre>
 <h2 id="portainer"><a href="https://portainer.io" target="_blank">Portainer</a></h2>
 <p>Container management UI</p>
 <ul>
-<li><strong>Web UI:</strong> <a href="http://portainer.harpoon" target="_blank">http://portainer.harpoon</a></li>
+<li><strong>Web UI:</strong> <a href="http://portainer.genv" target="_blank">http://portainer.genv</a></li>
 </ul>
 <h2 id="postgres"><a href="https://hub.docker.com/_/postgres/" target="_blank">Postgres</a></h2>
 <p>The PostgreSQL object-relational database system provides reliability
@@ -772,24 +772,24 @@ and data integrity.</p>
 structure server.</p>
 <h2 id="redis-commander"><a href="https://github.com/joeferner/redis-commander" target="_blank">Redis Commander</a></h2>
 <ul>
-<li><strong>Web UI:</strong> <a href="http://redis-commander.harpoon" target="_blank">http://redis-commander.harpoon</a></li>
+<li><strong>Web UI:</strong> <a href="http://redis-commander.genv" target="_blank">http://redis-commander.genv</a></li>
 </ul>
 <h2 id="sqs-admin"><a href="https://github.com/koinotice/sqs-admin" target="_blank">SQS-admin</a></h2>
 <ul>
-<li><strong>Web UI:</strong> <a href="http://sqsadmin.harpoon" target="_blank">http://sqsadmin.harpoon</a></li>
+<li><strong>Web UI:</strong> <a href="http://sqsadmin.genv" target="_blank">http://sqsadmin.genv</a></li>
 </ul>
 <h2 id="ssh-agent">SSH Agent</h2>
 <ol>
-<li>Run: <code>harpoon ssh-agent:up</code></li>
-<li>Add your key: <code>harpoon ssh-agent:add &lt;filename&gt;</code>, where <code>&lt;filename&gt;</code>
+<li>Run: <code>genv ssh-agent:up</code></li>
+<li>Add your key: <code>genv ssh-agent:add &lt;filename&gt;</code>, where <code>&lt;filename&gt;</code>
 is located in <code>~/.ssh/</code>.</li>
 </ol>
 <h1 id="service-management">Service Management</h1>
 <ul>
-<li>Run <code>harpoon services:list</code> to get a list of the supporting services.</li>
-<li>Run <code>harpoon services:status</code> to display the state of all supporting
+<li>Run <code>genv services:list</code> to get a list of the supporting services.</li>
+<li>Run <code>genv services:status</code> to display the state of all supporting
 services.</li>
-<li>Run <code>harpoon (service):help</code> to get help for a particular service.</li>
+<li>Run <code>genv (service):help</code> to get help for a particular service.</li>
 </ul>
 
                                 
@@ -834,7 +834,7 @@ services.</li>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Supporting Services","level":"2.4.7","depth":2,"next":{"title":"Beanstalk Console","level":"2.4.7.1","depth":3,"anchor":"#beanstalk-console","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#beanstalk-console","articles":[]},"previous":{"title":"Using with your project","level":"2.4.6.3","depth":3,"path":"usage/projects.md","ref":"usage/projects.md","articles":[]},"dir":"ltr"},"config":{"plugins":[],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Ben Getsug","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"A Whale of a Guide to Harpoon","gitbook":"*"},"file":{"path":"usage/supporting_services/README.md","mtime":"2017-12-29T23:11:58.432Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-01-01T19:42:30.112Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Supporting Services","level":"2.4.7","depth":2,"next":{"title":"Beanstalk Console","level":"2.4.7.1","depth":3,"anchor":"#beanstalk-console","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#beanstalk-console","articles":[]},"previous":{"title":"Using with your project","level":"2.4.6.3","depth":3,"path":"usage/projects.md","ref":"usage/projects.md","articles":[]},"dir":"ltr"},"config":{"plugins":[],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Ben Getsug","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"A Whale of a Guide to Genv","gitbook":"*"},"file":{"path":"usage/supporting_services/README.md","mtime":"2017-12-29T23:11:58.432Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-01-01T19:42:30.112Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

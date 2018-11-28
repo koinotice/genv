@@ -2,57 +2,57 @@
 
 setup() {
 	load helper
-	unset HARPOON_DEBUG
+	unset GENV_DEBUG
 }
 
 @test "initpath" {
-	run ./harpoon initpath
+	run ./genv initpath
 	[ "$status" -eq 0 ]
 	egrep "completion/init.sh" <<< "$output"
 }
 
 @test "parse module" {
-	harpoonLoad core/parse.sh
+	genvLoad core/parse.sh
 	run parseModule "foo:bar"
 	[ "$status" -eq 0 ]
 	[ "$output" = "foo" ]
 }
 
 @test "parse sub-command" {
-	harpoonLoad core/parse.sh
+	genvLoad core/parse.sh
 	run parseSubCmd "foo:bar"
 	[ "$status" -eq 0 ]
 	[ "$output" = "bar" ]
 }
 
 @test "compose config" {
-	run ./harpoon compose config
+	run ./genv compose config
 	[ "$status" -eq 0 ]
 }
 
 @test "cmplt" {
-	run ./harpoon cmplt
+	run ./genv cmplt
 	[ "$status" -eq 0 ]
 }
 
 @test "generate dnsmasq config" {
-	run ./harpoon gen-dnsmasq
+	run ./genv gen-dnsmasq
 	[ "$status" -eq 0 ]
 }
 
 @test "config docker" {
-	run ./harpoon config-docker
+	run ./genv config-docker
 	[ "$status" -eq 0 ]
-	run bash -c "docker network ls | grep $(./harpoon env | grep 'HARPOON_DOCKER_NETWORK' | cut -d '=' -f 2)"
+	run bash -c "docker network ls | grep $(./genv env | grep 'GENV_DOCKER_NETWORK' | cut -d '=' -f 2)"
 	[ "$status" -eq 0 ]
 }
 
 @test "env" {
-	env=$(unset ${PAGER} && ./harpoon env 2>&1)
+	env=$(unset ${PAGER} && ./genv env 2>&1)
 	[ $? -eq 0 ]
 	echo -e "$env" | grep "DEPLOY_ENV"
-	echo -e "$env" | grep "HARPOON_DIND_EXEC"
-	echo -e "$env" | grep "HARPOON_"
+	echo -e "$env" | grep "GENV_DIND_EXEC"
+	echo -e "$env" | grep "GENV_"
 	echo -e "$env" | grep "PROJECT="
 	echo -e "$env" | grep "PROJECT_"
 	echo -e "$env" | grep "DOCKER_RUN"
@@ -61,25 +61,25 @@ setup() {
 }
 
 @test "help" {
-	run bash -c "./harpoon help | head -n 3"
+	run bash -c "./genv help | head -n 3"
 	[ "$status" -eq 0 ]
 	help=$(cat <<HELP
 Usage:
-  harpoon <command> [<arg>...]
-  harpoon -h|--help
+  genv <command> [<arg>...]
+  genv -h|--help
 HELP
 )
 	[ "$output" = "$help" ]
 }
 
 @test "show docker host ip" {
-	run ./harpoon show-docker-host-ip
+	run ./genv show-docker-host-ip
 	[ "$status" -eq 0 ]
 }
 
 @test "status down" {
-	./harpoon compose down
-	run ./harpoon status
+	./genv compose down
+	run ./genv status
 	[ "$status" -eq 1 ]
 	egrep "dnsmasq\s+?" <<< "$output"
 	egrep "consul\s+?" <<< "$output"
@@ -87,8 +87,8 @@ HELP
 }
 
 @test "status up" {
-	./harpoon compose up -d
-	run ./harpoon status
+	./genv compose up -d
+	run ./genv status
 	[ "$status" -eq 0 ]
 	egrep "dnsmasq\s+?" <<< "$output"
 	egrep "consul\s+?" <<< "$output"
@@ -96,9 +96,9 @@ HELP
 }
 
 @test "status up - no emoji" {
-	./harpoon compose up -d
-	export HARPOON_USE_EMOJI=false
-	run ./harpoon status
+	./genv compose up -d
+	export GENV_USE_EMOJI=false
+	run ./genv status
 	[ "$status" -eq 0 ]
 	egrep "dnsmasq\s+Up" <<< "$output"
 	egrep "consul\s+Up" <<< "$output"
@@ -106,7 +106,7 @@ HELP
 }
 
 @test "tasks list" {
-	run ./harpoon tasks:list
+	run ./genv tasks:list
 	[ "$status" -eq 0 ]
 	grep "aws" <<< "$output"
 	grep "deploy" <<< "$output"
@@ -124,7 +124,7 @@ HELP
 }
 
 @test "services list" {
-	run ./harpoon services:list
+	run ./genv services:list
 	[ "$status" -eq 0 ]
 	grep "beanstalk-console" <<< "$output"
 	grep "blackfire" <<< "$output"

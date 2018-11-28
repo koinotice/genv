@@ -2,18 +2,18 @@ version: '3.4'
 
 services:
   dnsmasq:
-    container_name: harpoon_dnsmasq
+    container_name: genv_dnsmasq
     image: jpillora/dnsmasq
     environment:
       - USER=dev
-      - PASS=harpoon
+      - PASS=genv
     dns:
-      - ${HARPOON_DNSMASQ_IP}
+      - ${GENV_DNSMASQ_IP}
     networks:
       default:
-        ipv4_address: ${HARPOON_DNSMASQ_IP}
+        ipv4_address: ${GENV_DNSMASQ_IP}
         aliases:
-          - dnsmasq.${HARPOON_INT_DOMAIN}
+          - dnsmasq.${GENV_INT_DOMAIN}
     ports:
       - "53:53"
       - "53:53/udp"
@@ -22,10 +22,10 @@ services:
       - "traefik.port=8080"
       - "traefik.frontend.rule=Host:${DNSMASQ_HOSTS}"
       - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
-      - "traefik.docker.network=${HARPOON_DOCKER_NETWORK}"
+      - "traefik.docker.network=${GENV_DOCKER_NETWORK}"
       - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
       - "SERVICE_8080_NAME=dnsmasq"
-      - "SERVICE_8080_IP=${HARPOON_DNSMASQ_IP}"
+      - "SERVICE_8080_IP=${GENV_DNSMASQ_IP}"
     logging:
       options:
         max-size: 100m
@@ -33,9 +33,9 @@ services:
       - ./core/dnsmasq/dnsmasq.conf:/etc/dnsmasq.conf
 
   consul:
-    container_name: harpoon_consul
+    container_name: genv_consul
     image: consul:1.0.2
-    command: agent -dev -client 0.0.0.0 -datacenter=int -domain=harpoon
+    command: agent -dev -client 0.0.0.0 -datacenter=int -domain=genv
     ports:
       - "8400:8400"
       - "8500:8500"
@@ -45,23 +45,23 @@ services:
       - "traefik.port=8500"
       - "traefik.frontend.rule=Host:${CONSUL_HOSTS}"
       - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
-      - "traefik.docker.network=${HARPOON_DOCKER_NETWORK}"
+      - "traefik.docker.network=${GENV_DOCKER_NETWORK}"
       - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
       - "SERVICE_8500_NAME=consul"
       - "SERVICE_8500_NAME=consul-http"
-      - "SERVICE_8500_IP=${HARPOON_CONSUL_IP}"
+      - "SERVICE_8500_IP=${GENV_CONSUL_IP}"
     networks:
       default:
-        ipv4_address: ${HARPOON_CONSUL_IP}
+        ipv4_address: ${GENV_CONSUL_IP}
         aliases:
-          - consul.${HARPOON_INT_DOMAIN}
+          - consul.${GENV_INT_DOMAIN}
     dns:
-      - ${HARPOON_DNSMASQ_IP}
+      - ${GENV_DNSMASQ_IP}
 
   registrator:
-    container_name: harpoon_registrator
+    container_name: genv_registrator
     image: gliderlabs/registrator:latest
-    command: -internal consul://harpoon_consul:8500
+    command: -internal consul://genv_consul:8500
     restart: always
     depends_on:
       - dnsmasq
@@ -69,10 +69,10 @@ services:
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock
     dns:
-      - ${HARPOON_DNSMASQ_IP}
+      - ${GENV_DNSMASQ_IP}
 
   traefik:
-    container_name: harpoon_traefik
+    container_name: genv_traefik
     image: traefik:1.4-alpine
     command: ${TRAEFIK_COMMAND}
     depends_on:
@@ -132,19 +132,19 @@ services:
       - "traefik.port=8075"
       - "traefik.frontend.rule=Host:${TRAEFIK_HOSTS}"
       - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
-      - "traefik.docker.network=${HARPOON_DOCKER_NETWORK}"
+      - "traefik.docker.network=${GENV_DOCKER_NETWORK}"
       - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
       - "SERVICE_80_IGNORE=true"
       - "SERVICE_443_IGNORE=true"
       - "SERVICE_8075_NAME=traefik"
-      - "SERVICE_8075_IP=${HARPOON_TRAEFIK_IP}"
+      - "SERVICE_8075_IP=${GENV_TRAEFIK_IP}"
     networks:
       default:
-        ipv4_address: ${HARPOON_TRAEFIK_IP}
+        ipv4_address: ${GENV_TRAEFIK_IP}
         aliases:
-          - traefik.${HARPOON_INT_DOMAIN}
+          - traefik.${GENV_INT_DOMAIN}
     dns:
-      - ${HARPOON_DNSMASQ_IP}
+      - ${GENV_DNSMASQ_IP}
     volumes:
       - ./core/traefik/:/etc/traefik/
       - /var/run/docker.sock:/var/run/docker.sock
@@ -152,4 +152,4 @@ services:
 networks:
   default:
     external:
-      name: ${HARPOON_DOCKER_NETWORK}
+      name: ${GENV_DOCKER_NETWORK}

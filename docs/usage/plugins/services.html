@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Services · A Whale of a Guide to Harpoon</title>
+        <title>Services · A Whale of a Guide to Genv</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -89,10 +89,10 @@
     
         <li class="chapter " data-level="1.1" >
             
-                <a target="_blank" href="https://github.com/koinotice/harpoon">
+                <a target="_blank" href="https://github.com/koinotice/genv">
             
                     
-                    Harpoon
+                    Genv
             
                 </a>
             
@@ -645,7 +645,7 @@
                                 
                                 <h1 id="service-plugins">Service Plugins</h1>
 <p>You can create your own custom service configurations and use them with
-<em>Harpoon</em>. For example, let&apos;s create a custom service for running
+<em>Genv</em>. For example, let&apos;s create a custom service for running
 MariaDB.</p>
 <ol>
 <li>Create a directory for your <em>plugin</em> project.</li>
@@ -653,13 +653,13 @@ MariaDB.</p>
 <li><p>In the <code>mariadb</code> directory:</p>
 <ol>
 <li><p>Create a file named <code>mariadb.yml</code>. The contents is just like any
-other <code>docker-compose.yml</code>, but with some <em>Harpoon</em>-driven
+other <code>docker-compose.yml</code>, but with some <em>Genv</em>-driven
 environment variables:</p>
 <pre><code class="lang-yaml"><span class="hljs-attr">version:</span> <span class="hljs-string">&apos;2&apos;</span>
 
 <span class="hljs-attr">services:</span>
 <span class="hljs-attr">  mariadb:</span>
-<span class="hljs-attr">    container_name:</span> harpoon_mariadb
+<span class="hljs-attr">    container_name:</span> genv_mariadb
 <span class="hljs-attr">    image:</span> mariadb:${MARIADB_VERSION}
 <span class="hljs-attr">    environment:</span>
 <span class="hljs-bullet">      -</span> MYSQL_ALLOW_EMPTY_PASSWORD=<span class="hljs-literal">yes</span>
@@ -672,16 +672,16 @@ environment variables:</p>
 <span class="hljs-attr">networks:</span>
 <span class="hljs-attr">  default:</span>
 <span class="hljs-attr">    external:</span>
-<span class="hljs-attr">      name:</span> ${HARPOON_DOCKER_NETWORK}
+<span class="hljs-attr">      name:</span> ${GENV_DOCKER_NETWORK}
 
 <span class="hljs-attr">volumes:</span>
 <span class="hljs-attr">  mariadb:</span>
 <span class="hljs-attr">    external:</span> <span class="hljs-literal">true</span>
 </code></pre>
 </li>
-<li><p>Create a file named <code>bootstrap.sh</code>. <em>Harpoon</em> will use this to
+<li><p>Create a file named <code>bootstrap.sh</code>. <em>Genv</em> will use this to
 load any custom environment variables you&apos;d like to set. You can
-also provide &quot;hook&quot; functions, which <em>Harpoon</em> will call at
+also provide &quot;hook&quot; functions, which <em>Genv</em> will call at
 various states of your service&apos;s lifecycle. (Examine
 <a href="../../../services/services.sh"><code>services/services.sh</code></a> for more
 details.)</p>
@@ -692,7 +692,7 @@ details.)</p>
 <span class="hljs-keyword">fi</span>
 
 <span class="hljs-keyword">if</span> [ ! -v MARIADB_DATABASE ]; <span class="hljs-keyword">then</span>
-    <span class="hljs-built_in">export</span> MARIADB_DATABASE=<span class="hljs-string">&quot;harpoon&quot;</span>
+    <span class="hljs-built_in">export</span> MARIADB_DATABASE=<span class="hljs-string">&quot;genv&quot;</span>
 <span class="hljs-keyword">fi</span>
 
 <span class="hljs-keyword">if</span> [ ! -v MARIADB_PORT ]; <span class="hljs-keyword">then</span>
@@ -728,7 +728,7 @@ details.)</p>
 }
 </code></pre>
 </li>
-<li><p>Create a file named <code>handler.sh</code>. <em>Harpoon</em> will use this to
+<li><p>Create a file named <code>handler.sh</code>. <em>Genv</em> will use this to
 handle any custom commands for your service.</p>
 <pre><code class="lang-bash"><span class="hljs-meta">#!/usr/bin/env bash
 </span>
@@ -754,7 +754,7 @@ handle any custom commands for your service.</p>
 
     mariadb:restore) <span class="hljs-comment">## %% Restore databases from mariadb_backup.sql in the current directory</span>
         <span class="hljs-built_in">echo</span> <span class="hljs-_">-e</span> <span class="hljs-string">&quot;Restoring from mariadb_backup.sql...\n&quot;</span>
-        docker cp <span class="hljs-variable">$PWD</span>/mariadb_backup.sql harpoon_mariadb:/mariadb_backup.sql
+        docker cp <span class="hljs-variable">$PWD</span>/mariadb_backup.sql genv_mariadb:/mariadb_backup.sql
         $(serviceDockerCompose mariadb) <span class="hljs-built_in">exec</span> -T mariadb bash -c <span class="hljs-string">&quot;mysql &lt; /mariadb_backup.sql &amp;&amp; rm -f /mariadb_backup.sql&quot;</span>
         ;;
 
@@ -768,18 +768,18 @@ and <code>$(serviceDockerCompose &lt;service-name&gt;)</code> functions for
 any calls you need to make to docker-compose with your
 configuration.</li>
 <li>Also note the use of the <code>## [&lt;arg&gt;...] %% Your description</code>
-comment convention. <em>Harpoon</em> will use this to automatically add
+comment convention. <em>Genv</em> will use this to automatically add
 your custom commands to the <code>help</code> output.</li>
 </ul>
 </li>
-<li><p>Create a <code>Dockerfile</code> containing metadata that <em>Harpoon</em> will use
+<li><p>Create a <code>Dockerfile</code> containing metadata that <em>Genv</em> will use
 for installation.</p>
 <pre><code class="lang-dockerfile"><span class="hljs-keyword">FROM</span> scratch
 
 <span class="hljs-keyword">COPY</span> <span class="bash">mariadb /mariadb
 </span>
-<span class="hljs-keyword">LABEL</span> <span class="bash">harpoon_name=mariadb
-</span><span class="hljs-keyword">LABEL</span> <span class="bash">harpoon_<span class="hljs-built_in">type</span>=service
+<span class="hljs-keyword">LABEL</span> <span class="bash">genv_name=mariadb
+</span><span class="hljs-keyword">LABEL</span> <span class="bash">genv_<span class="hljs-built_in">type</span>=service
 </span></code></pre>
 </li>
 <li><p>Build, tag, and push your plugin to any Docker registry.</p>
@@ -791,11 +791,11 @@ docker push &lt;repository&gt;/mariadb
 </ol>
 </li>
 <li><p>Install your plugin</p>
-<pre><code class="lang-bash">harpoon plug:<span class="hljs-keyword">in</span> &lt;repository&gt;/mariadb
+<pre><code class="lang-bash">genv plug:<span class="hljs-keyword">in</span> &lt;repository&gt;/mariadb
 </code></pre>
 </li>
 </ol>
-<p>This service can now be managed with <code>harpoon mariadb:*</code>. Try <code>harpoon
+<p>This service can now be managed with <code>genv mariadb:*</code>. Try <code>genv
 mariadb:help</code> &#x1F601;</p>
 
                                 
@@ -836,7 +836,7 @@ mariadb:help</code> &#x1F601;</p>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Services","level":"2.4.9.2","depth":3,"previous":{"title":"Tasks","level":"2.4.9.1","depth":3,"path":"usage/plugins/tasks.md","ref":"usage/plugins/tasks.md","articles":[]},"dir":"ltr"},"config":{"plugins":[],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Ben Getsug","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"A Whale of a Guide to Harpoon","gitbook":"*"},"file":{"path":"usage/plugins/services.md","mtime":"2017-12-29T22:26:09.239Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-01-01T19:42:30.112Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Services","level":"2.4.9.2","depth":3,"previous":{"title":"Tasks","level":"2.4.9.1","depth":3,"path":"usage/plugins/tasks.md","ref":"usage/plugins/tasks.md","articles":[]},"dir":"ltr"},"config":{"plugins":[],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Ben Getsug","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"A Whale of a Guide to Genv","gitbook":"*"},"file":{"path":"usage/plugins/services.md","mtime":"2017-12-29T22:26:09.239Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-01-01T19:42:30.112Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

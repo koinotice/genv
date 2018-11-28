@@ -315,8 +315,8 @@ debug = true
 #  address = ":443"
 #    [entryPoints.https.tls]
 #      [[entryPoints.https.tls.certificates]]
-#      certFile = "/etc/traefik/harpoon.crt"
-#      keyFile = "/etc/traefik/harpoon.key"
+#      certFile = "/etc/traefik/genv.crt"
+#      keyFile = "/etc/traefik/genv.key"
 
 ################################################################
 # Web configuration backend
@@ -514,7 +514,7 @@ watch = true
 # constraints = ["tag==api", "tag==he*ld"]
 # Matching with containers having the label "traefik.tags" set to "api,helloworld"
 # ex: $ docker run -d -P --label traefik.tags=api,helloworld emilevauge/whoami
-#constraints = ["tag==harpoon"]
+#constraints = ["tag==genv"]
 
 ################################################################
 # Consul KV configuration backend
@@ -529,7 +529,7 @@ watch = true
 ################################################################
 [consulCatalog]
 	endpoint = "consul:8500"
-	domain = "harpoon"
+	domain = "genv"
 	prefix = "traefik"
 
 

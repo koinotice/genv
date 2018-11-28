@@ -90,7 +90,7 @@ case "${2:-}" in
 		fi
 		;;
 	*)
-		cmplt ${HARPOON_ROOT}/harpoon
+		cmplt ${GENV_ROOT}/genv
 
 		listTasks
 

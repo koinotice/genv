@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 if [ ! -v TRAEFIK_ACME ]; then
-	export BEANSTALK_CONSOLE_HOSTS=beanstalk-console.harpoon
+	export BEANSTALK_CONSOLE_HOSTS=beanstalk-console.genv
 fi
 
 if [ -v CUSTOM_DOMAINS ]; then

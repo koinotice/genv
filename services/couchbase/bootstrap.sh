@@ -6,8 +6,8 @@ if [ ! -v COUCHBASE_VERSION ]; then
 fi
 
 # Couchbase hostnames
-export CB_HOSTS="couchbase.harpoon"
-export CBPVR_HOSTS="couchbase-provisioner.harpoon,cbpvr.harpoon"
+export CB_HOSTS="couchbase.genv"
+export CBPVR_HOSTS="couchbase-provisioner.genv,cbpvr.genv"
 
 if [ -v CUSTOM_DOMAINS ]; then
 	for i in "${CUSTOM_DOMAINS[@]}"; do
@@ -20,7 +20,7 @@ fi
 export COUCHBASE_VOLUME_NAME=couchbase
 
 couchbaseProvisionerRun() {
-	cat ${HARPOON_SERVICES_ROOT}/couchbase/couchbase_default.yaml | httpie -v -F --verify=no -a 12345:secret --pretty=all POST http://cbpvr.${HARPOON_INT_DOMAIN}:8080/clusters/ Content-Type:application/yaml
+	cat ${GENV_SERVICES_ROOT}/couchbase/couchbase_default.yaml | httpie -v -F --verify=no -a 12345:secret --pretty=all POST http://cbpvr.${GENV_INT_DOMAIN}:8080/clusters/ Content-Type:application/yaml
 }
 
 couchbase_pre_up() {

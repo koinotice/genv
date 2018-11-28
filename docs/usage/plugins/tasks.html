@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Tasks · A Whale of a Guide to Harpoon</title>
+        <title>Tasks · A Whale of a Guide to Genv</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -91,10 +91,10 @@
     
         <li class="chapter " data-level="1.1" >
             
-                <a target="_blank" href="https://github.com/koinotice/harpoon">
+                <a target="_blank" href="https://github.com/koinotice/genv">
             
                     
-                    Harpoon
+                    Genv
             
                 </a>
             
@@ -647,13 +647,13 @@
                                 
                                 <h1 id="task-plugins">Task Plugins</h1>
 <h2 id="wrapped-container-tasks">&quot;Wrapped Container&quot; Tasks</h2>
-<p>If you&apos;d like to run a Docker container as a <em>Harpoon</em> task:</p>
+<p>If you&apos;d like to run a Docker container as a <em>Genv</em> task:</p>
 <ol>
 <li><p>Add the following <code>LABEL</code>s to the <code>Dockerfile</code> for your image:</p>
-<pre><code class="lang-dockerfile"><span class="hljs-keyword">LABEL</span> <span class="bash">harpoon_name=mytask
-</span><span class="hljs-keyword">LABEL</span> <span class="bash">harpoon_<span class="hljs-built_in">type</span>=task
-</span><span class="hljs-keyword">LABEL</span> <span class="bash">harpoon_args=<span class="hljs-string">&quot;&lt;arg...&gt;&quot;</span>
-</span><span class="hljs-keyword">LABEL</span> <span class="bash">harpoon_description=<span class="hljs-string">&quot;My task does this and that&quot;</span>
+<pre><code class="lang-dockerfile"><span class="hljs-keyword">LABEL</span> <span class="bash">genv_name=mytask
+</span><span class="hljs-keyword">LABEL</span> <span class="bash">genv_<span class="hljs-built_in">type</span>=task
+</span><span class="hljs-keyword">LABEL</span> <span class="bash">genv_args=<span class="hljs-string">&quot;&lt;arg...&gt;&quot;</span>
+</span><span class="hljs-keyword">LABEL</span> <span class="bash">genv_description=<span class="hljs-string">&quot;My task does this and that&quot;</span>
 </span></code></pre>
 </li>
 <li><p>Build, tag, and push your plugin to any Docker registry.</p>
@@ -663,42 +663,42 @@ docker push &lt;repository&gt;/mytask
 </code></pre>
 </li>
 <li><p>Install your plugin.</p>
-<pre><code class="lang-bash">harpoon plug:<span class="hljs-keyword">in</span> &lt;repository&gt;/mytask
+<pre><code class="lang-bash">genv plug:<span class="hljs-keyword">in</span> &lt;repository&gt;/mytask
 </code></pre>
 </li>
 </ol>
-<p>This task&apos;s commands can now be run with <code>harpoon mytask &lt;arg...&gt;</code>. Try
-<code>harpoon mytask:help</code> &#x1F601;</p>
+<p>This task&apos;s commands can now be run with <code>genv mytask &lt;arg...&gt;</code>. Try
+<code>genv mytask:help</code> &#x1F601;</p>
 <h2 id="helper-tasks">Helper Tasks</h2>
-<p>You can provide your own custom tasks and use them with <em>Harpoon</em>. For a
+<p>You can provide your own custom tasks and use them with <em>Genv</em>. For a
 simple example, check out the <code>http</code> task&apos;s
 <a href="../../../tasks/http/handler.sh"><code>handler.sh</code></a> and
 <a href="../../../tasks/http/bootstrap.sh"><code>bootstrap.sh</code></a>. Note the use of the
-<code>## [&lt;arg&gt;...] %% Your description</code> comment convention. <em>Harpoon</em> will
+<code>## [&lt;arg&gt;...] %% Your description</code> comment convention. <em>Genv</em> will
 use this to automatically add your custom tasks to the <code>help</code> output.</p>
 <ol>
 <li>Create directory for your <em>task</em> project, or add to an existing
 project.</li>
 <li>Inside your project directory, create a directory named
-<code>harpoon-plugin</code>.</li>
-<li><p>In the <code>harpoon-plugin</code> directory:</p>
+<code>genv-plugin</code>.</li>
+<li><p>In the <code>genv-plugin</code> directory:</p>
 <ol>
-<li><p>Create a file named <code>handler.sh</code>. <em>Harpoon</em> will use this to
+<li><p>Create a file named <code>handler.sh</code>. <em>Genv</em> will use this to
 handle all commands/sub-commands for your task.</p>
 </li>
-<li><p>(Optional) Create a file named <code>bootstrap.sh</code>. <em>Harpoon</em> will use
+<li><p>(Optional) Create a file named <code>bootstrap.sh</code>. <em>Genv</em> will use
 this to load any custom environment variables you&apos;d like to set
 and share with other tasks.</p>
 </li>
 <li><p>Create a <code>Dockerfile</code> (or add to one that already exists) with
-metadata for <em>Harpoon</em> to use during installation.</p>
+metadata for <em>Genv</em> to use during installation.</p>
 <pre><code class="lang-dockerfile"><span class="hljs-keyword">FROM</span> scratch
 
-<span class="hljs-keyword">COPY</span> <span class="bash">harpoon-plugin /harpoon-plugin
+<span class="hljs-keyword">COPY</span> <span class="bash">genv-plugin /genv-plugin
 </span>
-<span class="hljs-keyword">LABEL</span> <span class="bash">harpoon_name=mytask
-</span><span class="hljs-keyword">LABEL</span> <span class="bash">harpoon_<span class="hljs-built_in">type</span>=task
-</span><span class="hljs-keyword">LABEL</span> <span class="bash">harpoon_dir=/harpoon-plugin
+<span class="hljs-keyword">LABEL</span> <span class="bash">genv_name=mytask
+</span><span class="hljs-keyword">LABEL</span> <span class="bash">genv_<span class="hljs-built_in">type</span>=task
+</span><span class="hljs-keyword">LABEL</span> <span class="bash">genv_dir=/genv-plugin
 </span></code></pre>
 </li>
 <li><p>Build, tag, and push your plugin to any Docker registry.</p>
@@ -710,12 +710,12 @@ docker push &lt;repository&gt;/mytask
 </ol>
 </li>
 <li><p>Install your plugin.</p>
-<pre><code class="lang-bash">harpoon plug:<span class="hljs-keyword">in</span> &lt;repository&gt;/mytask
+<pre><code class="lang-bash">genv plug:<span class="hljs-keyword">in</span> &lt;repository&gt;/mytask
 </code></pre>
 </li>
 </ol>
-<p>This task&apos;s commands can now be run with <code>harpoon mytask:*</code>. Try
-<code>harpoon mytask:help</code> &#x1F601;</p>
+<p>This task&apos;s commands can now be run with <code>genv mytask:*</code>. Try
+<code>genv mytask:help</code> &#x1F601;</p>
 
                                 
                                 </section>
@@ -759,7 +759,7 @@ docker push &lt;repository&gt;/mytask
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Tasks","level":"2.4.9.1","depth":3,"next":{"title":"Services","level":"2.4.9.2","depth":3,"path":"usage/plugins/services.md","ref":"usage/plugins/services.md","articles":[]},"previous":{"title":"Plugins","level":"2.4.9","depth":2,"path":"usage/plugins/README.md","ref":"usage/plugins/README.md","articles":[{"title":"Tasks","level":"2.4.9.1","depth":3,"path":"usage/plugins/tasks.md","ref":"usage/plugins/tasks.md","articles":[]},{"title":"Services","level":"2.4.9.2","depth":3,"path":"usage/plugins/services.md","ref":"usage/plugins/services.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":[],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Ben Getsug","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"A Whale of a Guide to Harpoon","gitbook":"*"},"file":{"path":"usage/plugins/tasks.md","mtime":"2017-12-29T22:26:09.239Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-01-01T19:42:30.112Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Tasks","level":"2.4.9.1","depth":3,"next":{"title":"Services","level":"2.4.9.2","depth":3,"path":"usage/plugins/services.md","ref":"usage/plugins/services.md","articles":[]},"previous":{"title":"Plugins","level":"2.4.9","depth":2,"path":"usage/plugins/README.md","ref":"usage/plugins/README.md","articles":[{"title":"Tasks","level":"2.4.9.1","depth":3,"path":"usage/plugins/tasks.md","ref":"usage/plugins/tasks.md","articles":[]},{"title":"Services","level":"2.4.9.2","depth":3,"path":"usage/plugins/services.md","ref":"usage/plugins/services.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":[],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Ben Getsug","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"A Whale of a Guide to Genv","gitbook":"*"},"file":{"path":"usage/plugins/tasks.md","mtime":"2017-12-29T22:26:09.239Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-01-01T19:42:30.112Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

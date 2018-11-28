@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   localstack:
-    container_name: harpoon_localstack
+    container_name: genv_localstack
 #    image: localstack/localstack
 #    can't use latest image until https://github.com/localstack/localstack/issues/308 is fixed :(
     image: atlassianlabs/localstack
@@ -10,7 +10,7 @@ services:
       - TERM=xterm
       - SERVICES=${LOCALSTACK_SERVICES}
       - DEFAULT_REGION
-      - HOSTNAME=${HARPOON_DOCKER_HOST_IP}
+      - HOSTNAME=${GENV_DOCKER_HOST_IP}
       - KINESIS_ERROR_PROBABILITY
       - DYNAMODB_ERROR_PROBABILITY
       - LAMBDA_EXECUTOR
@@ -21,7 +21,7 @@ services:
       - "traefik.port=8080"
       - "traefik.frontend.rule=Host:${LS_HOSTS}"
       - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
-      - "traefik.docker.network=${HARPOON_DOCKER_NETWORK}"
+      - "traefik.docker.network=${GENV_DOCKER_NETWORK}"
       - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
       - "SERVICE_8080_NAME=localstack"
     ports:
@@ -30,7 +30,7 @@ services:
     networks:
       default:
         aliases:
-          - localstack.${HARPOON_INT_DOMAIN}
+          - localstack.${GENV_INT_DOMAIN}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ${TMP_DIR}:${TMP_DIR}
@@ -38,4 +38,4 @@ services:
 networks:
   default:
     external:
-      name: ${HARPOON_DOCKER_NETWORK}
+      name: ${GENV_DOCKER_NETWORK}

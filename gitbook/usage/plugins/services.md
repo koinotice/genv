@@ -1,14 +1,14 @@
 # Service Plugins
 
 You can create your own custom service configurations and use them with
-_Harpoon_. For example, let's create a custom service for running
+_Genv_. For example, let's create a custom service for running
 MariaDB.
 
 1. Create a directory for your _plugin_ project.
 2. Inside your project directory, create a directory named `mariadb`.
 3. In the `mariadb` directory:
    1. Create a file named `mariadb.yml`. The contents is just like any
-      other `docker-compose.yml`, but with some _Harpoon_-driven
+      other `docker-compose.yml`, but with some _Genv_-driven
       environment variables:
 
       ```yaml
@@ -16,7 +16,7 @@ MariaDB.
         
       services:
         mariadb:
-          container_name: harpoon_mariadb
+          container_name: genv_mariadb
           image: mariadb:${MARIADB_VERSION}
           environment:
             - MYSQL_ALLOW_EMPTY_PASSWORD=yes
@@ -29,16 +29,16 @@ MariaDB.
       networks:
         default:
           external:
-            name: ${HARPOON_DOCKER_NETWORK}
+            name: ${GENV_DOCKER_NETWORK}
         
       volumes:
         mariadb:
           external: true
       ```
 
-   2. Create a file named `bootstrap.sh`. _Harpoon_ will use this to
+   2. Create a file named `bootstrap.sh`. _Genv_ will use this to
       load any custom environment variables you'd like to set. You can
-      also provide "hook" functions, which _Harpoon_ will call at
+      also provide "hook" functions, which _Genv_ will call at
       various states of your service's lifecycle. (Examine
       [`services/services.sh`](../../../services/services.sh) for more
       details.)
@@ -51,7 +51,7 @@ MariaDB.
       fi
 
       if [ ! -v MARIADB_DATABASE ]; then
-          export MARIADB_DATABASE="harpoon"
+          export MARIADB_DATABASE="genv"
       fi
 
       if [ ! -v MARIADB_PORT ]; then
@@ -87,7 +87,7 @@ MariaDB.
       }
       ```
 
-   3. Create a file named `handler.sh`. _Harpoon_ will use this to
+   3. Create a file named `handler.sh`. _Genv_ will use this to
       handle any custom commands for your service.
 
       ```bash
@@ -115,7 +115,7 @@ MariaDB.
       
           mariadb:restore) ## %% Restore databases from mariadb_backup.sql in the current directory
               echo -e "Restoring from mariadb_backup.sql...\n"
-              docker cp $PWD/mariadb_backup.sql harpoon_mariadb:/mariadb_backup.sql
+              docker cp $PWD/mariadb_backup.sql genv_mariadb:/mariadb_backup.sql
               $(serviceDockerCompose mariadb) exec -T mariadb bash -c "mysql < /mariadb_backup.sql && rm -f /mariadb_backup.sql"
               ;;
       
@@ -129,10 +129,10 @@ MariaDB.
         any calls you need to make to docker-compose with your
         configuration.
       * Also note the use of the `## [<arg>...] %% Your description`
-        comment convention. _Harpoon_ will use this to automatically add
+        comment convention. _Genv_ will use this to automatically add
         your custom commands to the `help` output.
 
-   4. Create a `Dockerfile` containing metadata that _Harpoon_ will use
+   4. Create a `Dockerfile` containing metadata that _Genv_ will use
       for installation.
 
       ```dockerfile
@@ -140,8 +140,8 @@ MariaDB.
       
       COPY mariadb /mariadb
       
-      LABEL harpoon_name=mariadb
-      LABEL harpoon_type=service
+      LABEL genv_name=mariadb
+      LABEL genv_type=service
       ```
 
    5. Build, tag, and push your plugin to any Docker registry.
@@ -155,8 +155,8 @@ MariaDB.
 4. Install your plugin
 
    ```bash
-   harpoon plug:in <repository>/mariadb
+   genv plug:in <repository>/mariadb
    ```
 
-This service can now be managed with `harpoon mariadb:*`. Try `harpoon
+This service can now be managed with `genv mariadb:*`. Try `genv
 mariadb:help` 😁

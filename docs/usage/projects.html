@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Using with your project · A Whale of a Guide to Harpoon</title>
+        <title>Using with your project · A Whale of a Guide to Genv</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -91,10 +91,10 @@
     
         <li class="chapter " data-level="1.1" >
             
-                <a target="_blank" href="https://github.com/koinotice/harpoon">
+                <a target="_blank" href="https://github.com/koinotice/genv">
             
                     
-                    Harpoon
+                    Genv
             
                 </a>
             
@@ -647,7 +647,7 @@
                                 
                                 <h1 id="projects">Projects</h1>
 <h2 id="temp-directory">Temp Directory</h2>
-<p><em>Harpoon</em> will create a directory named <code>.harpoon</code> in your current
+<p><em>Genv</em> will create a directory named <code>.genv</code> in your current
 working directory. You should add this to your <code>.gitignore</code>.</p>
 <h2 id="docker-compose">Docker Compose</h2>
 <p>If your project uses <code>docker-compose</code>, here&apos;s an example
@@ -663,8 +663,8 @@ working directory. You should add this to your <code>.gitignore</code>.</p>
 <span class="hljs-bullet">      -</span> <span class="hljs-string">&quot;traefik.port=9000&quot;</span>
 <span class="hljs-bullet">      -</span> <span class="hljs-string">&quot;traefik.frontend.rule=Host:app.example.com&quot;</span>
 <span class="hljs-bullet">      -</span> <span class="hljs-string">&quot;traefik.frontend.entryPoints=http&quot;</span> <span class="hljs-comment"># add &apos;,https&apos; for HTTPS support</span>
-<span class="hljs-bullet">      -</span> <span class="hljs-string">&quot;traefik.docker.network=harpoon&quot;</span>
-<span class="hljs-bullet">      -</span> <span class="hljs-string">&quot;traefik.tags=harpoon&quot;</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">&quot;traefik.docker.network=genv&quot;</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">&quot;traefik.tags=genv&quot;</span>
 <span class="hljs-attr">    ports:</span>
 <span class="hljs-bullet">      -</span> <span class="hljs-string">&quot;9000:9000&quot;</span>
 <span class="hljs-attr">    volumes:</span>
@@ -673,7 +673,7 @@ working directory. You should add this to your <code>.gitignore</code>.</p>
 <span class="hljs-attr">networks:</span>
 <span class="hljs-attr">  default:</span>
 <span class="hljs-attr">    external:</span>
-<span class="hljs-attr">      name:</span> harpoon
+<span class="hljs-attr">      name:</span> genv
 </code></pre>
 <ol>
 <li>You&apos;ll need to specify all the <code>traefik.*</code> labels for your web
@@ -683,7 +683,7 @@ accordingly.</li>
 <code>docker-compose.yml</code>.</li>
 </ol>
 <h2 id="tasks">Tasks</h2>
-<p><em>Harpoon</em> provides a simple task running engine, which you can customize
+<p><em>Genv</em> provides a simple task running engine, which you can customize
 for your project. In the root of your project, just add a <code>tasks.sh</code>
 like the following:</p>
 <pre><code class="lang-bash"><span class="hljs-meta">#!/usr/bin/env bash
@@ -696,14 +696,14 @@ like the following:</p>
     welcome) <span class="hljs-comment">## &lt;args...&gt; %% Welcomes you</span>
         welcome ;;
     *)
-        harpoon <span class="hljs-built_in">help</span> ;;
+        genv <span class="hljs-built_in">help</span> ;;
 <span class="hljs-keyword">esac</span>
 </code></pre>
 <p>This is just like any other <code>bash</code> script, so you have full access to
 your shell.</p>
 <p>Custom environment variables, especially those that you&apos;re overriding
-from Harpoon&apos;s defaults, should go in your project root in
-<a href="configuration.html"><code>harpoon.env.sh</code> or <code>harpoon.boot.sh</code></a>.</p>
+from Genv&apos;s defaults, should go in your project root in
+<a href="configuration.html"><code>genv.env.sh</code> or <code>genv.boot.sh</code></a>.</p>
 
                                 
                                 </section>
@@ -747,7 +747,7 @@ from Harpoon&apos;s defaults, should go in your project root in
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Using with your project","level":"2.4.6.3","depth":3,"next":{"title":"Supporting Services","level":"2.4.7","depth":2,"path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md","articles":[{"title":"Beanstalk Console","level":"2.4.7.1","depth":3,"anchor":"#beanstalk-console","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#beanstalk-console","articles":[]},{"title":"Blackfire","level":"2.4.7.2","depth":3,"anchor":"#blackfire","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#blackfire","articles":[]},{"title":"cAdvisor","level":"2.4.7.3","depth":3,"anchor":"#cadvisor","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#cadvisor","articles":[]},{"title":"Couchbase","level":"2.4.7.4","depth":3,"anchor":"#couchbase","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#couchbase","articles":[]},{"title":"DynamoDB Admin","level":"2.4.7.5","depth":3,"anchor":"#dynamodb-admin","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#dynamodb-admin","articles":[]},{"title":"Elastic (ELK) Stack","level":"2.4.7.6","depth":3,"anchor":"#elastic-elk-stack","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#elastic-elk-stack","articles":[]},{"title":"LocalStack","level":"2.4.7.7","depth":3,"anchor":"#localstack","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#localstack","articles":[]},{"title":"Mailhog","level":"2.4.7.8","depth":3,"anchor":"#mailhog","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#mailhog","articles":[]},{"title":"MySQL","level":"2.4.7.9","depth":3,"anchor":"#mysql","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#mysql","articles":[]},{"title":"Portainer","level":"2.4.7.10","depth":3,"anchor":"#portainer","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#portainer","articles":[]},{"title":"Postgres","level":"2.4.7.11","depth":3,"anchor":"#postgres","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#postgres","articles":[]},{"title":"Redis","level":"2.4.7.12","depth":3,"anchor":"#redis","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#redis","articles":[]},{"title":"SQS-admin","level":"2.4.7.13","depth":3,"anchor":"#sqs-admin","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#sqs-admin","articles":[]},{"title":"SSH Agent","level":"2.4.7.14","depth":3,"anchor":"#ssh-agent","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#ssh-agent","articles":[]}]},"previous":{"title":"HTTPS with Static Certificates","level":"2.4.6.2.2","depth":4,"anchor":"#https-with-static-or-self-signed-certificates","path":"usage/configuration.md","ref":"usage/configuration.md#https-with-static-or-self-signed-certificates","articles":[]},"dir":"ltr"},"config":{"plugins":[],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Ben Getsug","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"A Whale of a Guide to Harpoon","gitbook":"*"},"file":{"path":"usage/projects.md","mtime":"2018-01-01T19:40:58.050Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-01-01T19:42:30.112Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Using with your project","level":"2.4.6.3","depth":3,"next":{"title":"Supporting Services","level":"2.4.7","depth":2,"path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md","articles":[{"title":"Beanstalk Console","level":"2.4.7.1","depth":3,"anchor":"#beanstalk-console","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#beanstalk-console","articles":[]},{"title":"Blackfire","level":"2.4.7.2","depth":3,"anchor":"#blackfire","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#blackfire","articles":[]},{"title":"cAdvisor","level":"2.4.7.3","depth":3,"anchor":"#cadvisor","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#cadvisor","articles":[]},{"title":"Couchbase","level":"2.4.7.4","depth":3,"anchor":"#couchbase","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#couchbase","articles":[]},{"title":"DynamoDB Admin","level":"2.4.7.5","depth":3,"anchor":"#dynamodb-admin","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#dynamodb-admin","articles":[]},{"title":"Elastic (ELK) Stack","level":"2.4.7.6","depth":3,"anchor":"#elastic-elk-stack","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#elastic-elk-stack","articles":[]},{"title":"LocalStack","level":"2.4.7.7","depth":3,"anchor":"#localstack","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#localstack","articles":[]},{"title":"Mailhog","level":"2.4.7.8","depth":3,"anchor":"#mailhog","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#mailhog","articles":[]},{"title":"MySQL","level":"2.4.7.9","depth":3,"anchor":"#mysql","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#mysql","articles":[]},{"title":"Portainer","level":"2.4.7.10","depth":3,"anchor":"#portainer","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#portainer","articles":[]},{"title":"Postgres","level":"2.4.7.11","depth":3,"anchor":"#postgres","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#postgres","articles":[]},{"title":"Redis","level":"2.4.7.12","depth":3,"anchor":"#redis","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#redis","articles":[]},{"title":"SQS-admin","level":"2.4.7.13","depth":3,"anchor":"#sqs-admin","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#sqs-admin","articles":[]},{"title":"SSH Agent","level":"2.4.7.14","depth":3,"anchor":"#ssh-agent","path":"usage/supporting_services/README.md","ref":"usage/supporting_services/README.md#ssh-agent","articles":[]}]},"previous":{"title":"HTTPS with Static Certificates","level":"2.4.6.2.2","depth":4,"anchor":"#https-with-static-or-self-signed-certificates","path":"usage/configuration.md","ref":"usage/configuration.md#https-with-static-or-self-signed-certificates","articles":[]},"dir":"ltr"},"config":{"plugins":[],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Ben Getsug","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"A Whale of a Guide to Genv","gitbook":"*"},"file":{"path":"usage/projects.md","mtime":"2018-01-01T19:40:58.050Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-01-01T19:42:30.112Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

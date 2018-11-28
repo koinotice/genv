@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   sqs-admin:
-    container_name: harpoon_sqs-admin
+    container_name: genv_sqs-admin
     image: koinotice/sqs-admin
     environment:
       - AWS_ACCESS_KEY_ID
@@ -15,17 +15,17 @@ services:
       - "traefik.port=${SQS_ADMIN_PORT}"
       - "traefik.frontend.rule=Host:${SQS_ADMIN_HOSTS}"
       - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
-      - "traefik.docker.network=${HARPOON_DOCKER_NETWORK}"
+      - "traefik.docker.network=${GENV_DOCKER_NETWORK}"
       - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
     ports:
       - "${SQS_ADMIN_PORT}"
     networks:
       default:
         aliases:
-          - sqs-admin.${HARPOON_INT_DOMAIN}
-          - sqsadmin.${HARPOON_INT_DOMAIN}
+          - sqs-admin.${GENV_INT_DOMAIN}
+          - sqsadmin.${GENV_INT_DOMAIN}
 
 networks:
   default:
     external:
-      name: ${HARPOON_DOCKER_NETWORK}
+      name: ${GENV_DOCKER_NETWORK}

@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   dynamodb-admin:
-    container_name: harpoon_dynamodb-admin
+    container_name: genv_dynamodb-admin
     image: koinotice/dynamodb-admin
     environment:
       - AWS_ACCESS_KEY_ID
@@ -14,7 +14,7 @@ services:
       - "traefik.port=8001"
       - "traefik.frontend.rule=Host:${DDB_ADMIN_HOSTS}"
       - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
-      - "traefik.docker.network=${HARPOON_DOCKER_NETWORK}"
+      - "traefik.docker.network=${GENV_DOCKER_NETWORK}"
       - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
     ports:
       - "8001"
@@ -22,4 +22,4 @@ services:
 networks:
   default:
     external:
-      name: ${HARPOON_DOCKER_NETWORK}
+      name: ${GENV_DOCKER_NETWORK}

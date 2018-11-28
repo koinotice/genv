@@ -9,10 +9,10 @@ export DSOCK=/var/run/docker.sock
 
 case "${command}" in
 	push)
-		docker tag harpoon ${TAG}
+		docker tag genv ${TAG}
 		docker push ${TAG}
 		if [[ "${REF}" == 'master' ]]; then
-			docker tag harpoon "${REPOSITORY}:latest"
+			docker tag genv "${REPOSITORY}:latest"
 			docker push "${REPOSITORY}:latest"
 		fi
 		;;

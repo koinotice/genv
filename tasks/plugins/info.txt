@@ -1,1 +1,1 @@
-🔌  Manage Harpoon Plugins
+🔌  Manage Genv Plugins

@@ -3,12 +3,12 @@
 #% 🔺 NOW %% The current datetime %% date -u +"%Y-%m-%dT%H-%M-%SZ"
 export NOW=$(date -u +"%Y-%m-%dT%H-%M-%SZ")
 
-#% 🔺 HARPOON_TEMP %% Path to Harpoon temp directory %% $PWD/.harpoon
-if [ ! -v HARPOON_TEMP ]; then
-	export HARPOON_TEMP=$PWD/.harpoon
+#% 🔺 GENV_TEMP %% Path to Genv temp directory %% $PWD/.genv
+if [ ! -v GENV_TEMP ]; then
+	export GENV_TEMP=$PWD/.genv
 fi
 
-printDebug "HARPOON_TEMP: $HARPOON_TEMP"
+printDebug "GENV_TEMP: $GENV_TEMP"
 
 #% 🔹 IS_GIT_REPO %% Is the current working directory a git repo? %% false
 export IS_GIT_REPO=$(git status > /dev/null 2>&1 && echo true || echo false)

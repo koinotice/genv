@@ -22,27 +22,27 @@ export COLOR_LIGHT_GRAY='\e[0;37m'
 export COLOR_DARK_GRAY='\e[0;90m'
 export BG_COLOR_LIGHT_GREY="\e[100m" # Background
 
-#% 🔺 HARPOON_SPEECH %% Speak important notifications (macOS only) %% true
-if [ ! -v HARPOON_SPEECH ]; then
-	export HARPOON_SPEECH=true
+#% 🔺 GENV_SPEECH %% Speak important notifications (macOS only) %% true
+if [ ! -v GENV_SPEECH ]; then
+	export GENV_SPEECH=true
 fi
 
-#% 🔺 HARPOON_VOICE %% Speech voice %% Fred
-if [ ! -v HARPOON_VOICE ]; then
-	export HARPOON_VOICE="Fred"
+#% 🔺 GENV_VOICE %% Speech voice %% Fred
+if [ ! -v GENV_VOICE ]; then
+	export GENV_VOICE="Fred"
 fi
 
-#% 🔺 HARPOON_SPEECH_RATE %% Speech rate %% 200
-if [ ! -v HARPOON_SPEECH_RATE ]; then
-	export HARPOON_SPEECH_RATE=200
+#% 🔺 GENV_SPEECH_RATE %% Speech rate %% 200
+if [ ! -v GENV_SPEECH_RATE ]; then
+	export GENV_SPEECH_RATE=200
 fi
 
-#% 🔺 HARPOON_USE_EMOJI %% Use emoji for boolean indicators %% true
-if [ ! -v HARPOON_USE_EMOJI ]; then
-	export HARPOON_USE_EMOJI=true
+#% 🔺 GENV_USE_EMOJI %% Use emoji for boolean indicators %% true
+if [ ! -v GENV_USE_EMOJI ]; then
+	export GENV_USE_EMOJI=true
 fi
 
-if [[ ${HARPOON_USE_EMOJI} == true ]]; then
+if [[ ${GENV_USE_EMOJI} == true ]]; then
 	export UP="✅"
 	export DOWN="❌"
 else
@@ -51,21 +51,21 @@ else
 fi
 
 speak() {
-	if [[ $(uname) == 'Darwin' && ${HARPOON_SPEECH} == true ]]; then
+	if [[ $(uname) == 'Darwin' && ${GENV_SPEECH} == true ]]; then
 		local speech=$(echo -e "$1" | sed 's/\n//g')
-		say -v ${HARPOON_VOICE} -r ${HARPOON_SPEECH_RATE} "${speech}" &
+		say -v ${GENV_VOICE} -r ${GENV_SPEECH_RATE} "${speech}" &
 	fi
 }
 
 speakGreeting() {
 	if [[ -v GREETING && ! -v CI ]]; then
-		export HARPOON_SPEECH_RATE=225
+		export GENV_SPEECH_RATE=225
 		if [ -x "$(command -v finger)" ]; then
 			name=$(finger `whoami` | awk -F: '{ print $3 }' | head -n1 | sed 's/^ //' | cut -d " " -f 1)
 		fi
 		local msg="Hey ${name:-}! ${GREETING}"
 		$(sleep 5 && speak "${msg}") &
-		if [[ ${HARPOON_SPEECH} == false ]]; then
+		if [[ ${GENV_SPEECH} == false ]]; then
 			echo -e "\n${COLOR_LIGHT_PURPLE}${msg}${COLOR_NC}\n"
 		fi
 	fi
@@ -120,7 +120,7 @@ printPanic() {
 }
 
 printDebug() {
-	if [ ${HARPOON_DEBUG:-} ]; then
+	if [ ${GENV_DEBUG:-} ]; then
 		logDebug "$1"
 		echo -e "${COLOR_DIM}${1}${COLOR_NC}" >&2
 	fi
@@ -133,14 +133,14 @@ print_debug() {
 }
 
 logDebug() {
-	if [ ${HARPOON_DEBUG:-} ]; then
-		mkdir -p ${HARPOON_TEMP}
-		echo -e "[$(date)] ${1}" >> ${HARPOON_TEMP}/debug.log
+	if [ ${GENV_DEBUG:-} ]; then
+		mkdir -p ${GENV_TEMP}
+		echo -e "[$(date)] ${1}" >> ${GENV_TEMP}/debug.log
 	fi
 }
 
 printUsage() {
 	echo "Usage:"
-	echo "  harpoon <command> [<arg>...]"
-	echo "  harpoon -h|--help"
+	echo "  genv <command> [<arg>...]"
+	echo "  genv -h|--help"
 }

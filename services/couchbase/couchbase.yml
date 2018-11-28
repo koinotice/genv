@@ -2,8 +2,8 @@ version: '3.4'
 
 services:
   couchbase:
-    container_name: harpoon_couchbase
-    hostname: couchbase.${HARPOON_INT_DOMAIN}
+    container_name: genv_couchbase
+    hostname: couchbase.${GENV_INT_DOMAIN}
     image: couchbase:${COUCHBASE_VERSION}
     environment:
       - TERM=xterm
@@ -12,7 +12,7 @@ services:
       - "traefik.port=8091"
       - "traefik.frontend.rule=Host:${CB_HOSTS}"
       - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
-      - "traefik.docker.network=${HARPOON_DOCKER_NETWORK}"
+      - "traefik.docker.network=${GENV_DOCKER_NETWORK}"
       - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
       - "SERVICE_8091_NAME=couchbase"
     ports:
@@ -23,12 +23,12 @@ services:
     networks:
       default:
         aliases:
-          - couchbase.${HARPOON_INT_DOMAIN}
+          - couchbase.${GENV_INT_DOMAIN}
     volumes:
       - couchbase:/opt/couchbase/var
 
   couchbase-provisioner:
-    container_name: harpoon_couchbase-provisioner
+    container_name: genv_couchbase-provisioner
     image: koinotice/couchbase-provisioner:master
     environment:
       - TERM=xterm
@@ -37,7 +37,7 @@ services:
       - "traefik.port=8080"
       - "traefik.frontend.rule=Host:${CBPVR_HOSTS}"
       - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
-      - "traefik.docker.network=${HARPOON_DOCKER_NETWORK}"
+      - "traefik.docker.network=${GENV_DOCKER_NETWORK}"
       - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
       - "SERVICE_8080_NAME=cbpvr"
     ports:
@@ -45,15 +45,15 @@ services:
     networks:
       default:
         aliases:
-          - couchbase-provisioner.${HARPOON_INT_DOMAIN}
-          - cbpvr.${HARPOON_INT_DOMAIN}
+          - couchbase-provisioner.${GENV_INT_DOMAIN}
+          - cbpvr.${GENV_INT_DOMAIN}
     volumes:
       - ./provisioner_config.yaml:/etc/couchbase-provisioner/config.yaml
 
 networks:
   default:
     external:
-      name: ${HARPOON_DOCKER_NETWORK}
+      name: ${GENV_DOCKER_NETWORK}
 
 volumes:
   couchbase:

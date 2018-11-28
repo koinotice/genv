@@ -2,16 +2,16 @@
 
 set -euo pipefail
 
-if [ ! -v HARPOON_IMAGE ]; then
-	export HARPOON_IMAGE=koinotice/harpoon:master
+if [ ! -v GENV_IMAGE ]; then
+	export GENV_IMAGE=koinotice/genv:master
 fi
 
-harpoon uninstall all
+genv uninstall all
 
-docker rmi ${HARPOON_IMAGE}
+docker rmi ${GENV_IMAGE}
 
-rm -fr $HOME/harpoon
-sudo rm -f /usr/local/bin/harpoon
+rm -fr $HOME/genv
+sudo rm -f /usr/local/bin/genv
 
 echo -e "\nIf you enabled tab completion, remove the following from your .bashrc, .bash_profile, or .zshrc:"
-echo -e "\n\twhich harpoon > /dev/null && . \"\$(harpoon initpath)\"\n"
+echo -e "\n\twhich genv > /dev/null && . \"\$(genv initpath)\"\n"

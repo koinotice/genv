@@ -1,21 +1,21 @@
 #!/usr/bin/env bash
 
-if [ -f ${HARPOON_ROOT}/harpoon.env.sh ]; then
-	source ${HARPOON_ROOT}/harpoon.env.sh
+if [ -f ${GENV_ROOT}/genv.env.sh ]; then
+	source ${GENV_ROOT}/genv.env.sh
 fi
 
-if [ -f /etc/harpoon.env.sh ]; then
-	source /etc/harpoon.env.sh
+if [ -f /etc/genv.env.sh ]; then
+	source /etc/genv.env.sh
 fi
 
-if [ -f $PWD/harpoon.env.sh ]; then
-	source $PWD/harpoon.env.sh
+if [ -f $PWD/genv.env.sh ]; then
+	source $PWD/genv.env.sh
 fi
 
-if [ -f $PWD/../harpoon.env.sh ]; then
-	source $PWD/../harpoon.env.sh
+if [ -f $PWD/../genv.env.sh ]; then
+	source $PWD/../genv.env.sh
 fi
 
-if [ -f $HOME/harpoon.env.sh ]; then
-	source $HOME/harpoon.env.sh
+if [ -f $HOME/genv.env.sh ]; then
+	source $HOME/genv.env.sh
 fi

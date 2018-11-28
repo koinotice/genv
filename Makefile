@@ -11,10 +11,13 @@ docs-serve:
 	gitbook serve gitbook docs
 
 build:
-	docker build -t harpoon .
+	docker build -t genv .
 
+push:
+    docker tag genv:latest koinotice/genv:latest
+    docker push koinotice/genv:latest
 sh:
-	docker exec -ti harpoon bash
+	docker exec -ti genv bash
 
 test:
 	./build.sh test
@@ -30,12 +33,12 @@ show-metadata:
 	@echo "TAG: $$TAG"
 
 copy-local:
-	cp -a completion ~/harpoon/
-	cp -a core ~/harpoon/
-	cp -a lib ~/harpoon/
-	cp -a services ~/harpoon/
-	cp -a tasks ~/harpoon/
-	cp harpoon docker-compose.yml ~/harpoon/
+	cp -a completion ~/genv/
+	cp -a core ~/genv/
+	cp -a lib ~/genv/
+	cp -a services ~/genv/
+	cp -a tasks ~/genv/
+	cp genv docker-compose.yml ~/genv/
 
 push:
 	./build.sh push
@@ -46,4 +49,4 @@ hook-gitlab:
 deploy: show-metadata push hook-gitlab
 
 clean:
-	docker rmi harpoon
+	docker rmi genv

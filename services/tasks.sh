@@ -2,9 +2,9 @@
 
 serviceUsage() {
 	echo "Usage:"
-	echo -e "  harpoon service <command> [<arg>...]\n"
+	echo -e "  genv service <command> [<arg>...]\n"
 	echo "Commands:"
-	help=$(grep -E '^\s[a-zA-Z0-9:|_-]+\)\s##\s.*$' ${HARPOON_SERVICES_ROOT}/tasks.sh | sort | awk 'BEGIN {FS = "\\).*?## |%%"}; {gsub(/\t/,"  "); printf "\033[36m%-18s\033[0m%-20s%s\n", $1, $2, $3}')
+	help=$(grep -E '^\s[a-zA-Z0-9:|_-]+\)\s##\s.*$' ${GENV_SERVICES_ROOT}/tasks.sh | sort | awk 'BEGIN {FS = "\\).*?## |%%"}; {gsub(/\t/,"  "); printf "\033[36m%-18s\033[0m%-20s%s\n", $1, $2, $3}')
 	echo -e "$help"
 	echo ""
 }
@@ -14,7 +14,7 @@ if [[ "${#args_array[@]}" -gt 1 ]]; then
 fi
 
 case "${firstArg}" in
-	list) ## %% 👓  List services available in Harpoon
+	list) ## %% 👓  List services available in Genv
 		listServices ;;
 
 	ls) ## %% Alias for `list`

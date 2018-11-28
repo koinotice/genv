@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Introduction · A Whale of a Guide to Harpoon</title>
+        <title>Introduction · A Whale of a Guide to Genv</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -89,10 +89,10 @@
     
         <li class="chapter " data-level="1.1" >
             
-                <a target="_blank" href="https://github.com/koinotice/harpoon">
+                <a target="_blank" href="https://github.com/koinotice/genv">
             
                     
-                    Harpoon
+                    Genv
             
                 </a>
             
@@ -643,28 +643,28 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id=""><a href="http://koinotice.github.io/harpoon" target="_blank"><img src="https://cloud.githubusercontent.com/assets/202546/26421606/407b9eb8-408c-11e7-8fc4-9ed0c61afcc7.png" height="75"></a></h1>
+                                <h1 id=""><a href="http://koinotice.github.io/genv" target="_blank"><img src="https://cloud.githubusercontent.com/assets/202546/26421606/407b9eb8-408c-11e7-8fc4-9ed0c61afcc7.png" height="75"></a></h1>
 <p><strong>A lightweight toolkit for local development with
 <a href="https://www.docker.com/" target="_blank">Docker</a></strong></p>
-<p><a href="https://travis-ci.org/koinotice/harpoon" target="_blank"><img src="https://travis-ci.org/koinotice/harpoon.svg?branch=master" alt="Build Status"></a>
-<a href="https://coveralls.io/github/koinotice/harpoon?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/koinotice/harpoon/badge.svg?branch=master" alt="Coverage Status"></a>
-<a href="https://codecov.io/gh/koinotice/harpoon" target="_blank"><img src="https://codecov.io/gh/koinotice/harpoon/branch/master/graph/badge.svg" alt="codecov"></a></p>
-<p><em>Harpoon</em> makes it easy to run a local/offline development environment
+<p><a href="https://travis-ci.org/koinotice/genv" target="_blank"><img src="https://travis-ci.org/koinotice/genv.svg?branch=master" alt="Build Status"></a>
+<a href="https://coveralls.io/github/koinotice/genv?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/koinotice/genv/badge.svg?branch=master" alt="Coverage Status"></a>
+<a href="https://codecov.io/gh/koinotice/genv" target="_blank"><img src="https://codecov.io/gh/koinotice/genv/branch/master/graph/badge.svg" alt="codecov"></a></p>
+<p><em>Genv</em> makes it easy to run a local/offline development environment
 composed of Docker containers. It&apos;s an ideal choice for those that don&apos;t
 wish to run a full container management or orchestration platform on
 their workstation.</p>
-<p>At its core, <em>Harpoon</em> is a set of <code>bash</code> scripts that provide an
-interface for running project-related tasks. <em>Harpoon</em> includes a
+<p>At its core, <em>Genv</em> is a set of <code>bash</code> scripts that provide an
+interface for running project-related tasks. <em>Genv</em> includes a
 collection of common services, which are essentially wrappers around
 <a href="https://docs.docker.com/compose/" target="_blank">Docker Compose</a> configurations. All
-Harpoon services are designed to work together on a Docker network
-(named <code>harpoon</code> by default), with web-based services registering
+Genv services are designed to work together on a Docker network
+(named <code>genv</code> by default), with web-based services registering
 automatically with a proxy server (Traefik). The use of <code>dnsmasq</code>
 enables accessing services &quot;externally&quot; via one or more domains
-(<code>.harpoon</code> by default). Internal name resolution and service discovery
-(<code>.service.int.harpoon</code>) is supported with Consul and Registrator, as
+(<code>.genv</code> by default). Internal name resolution and service discovery
+(<code>.service.int.genv</code>) is supported with Consul and Registrator, as
 well as Docker&apos;s own internal DNS server.</p>
-<p><em>Harpoon</em> has been tested with:</p>
+<p><em>Genv</em> has been tested with:</p>
 <ul>
 <li><a href="https://www.docker.com/docker-mac" target="_blank">Docker for Mac</a></li>
 <li><a href="https://www.docker.com/products/docker-toolbox" target="_blank">Docker Toolbox</a> on
@@ -683,13 +683,13 @@ MacOS</li>
 <h2 id="quick-start">Quick Start</h2>
 <ol>
 <li>curl
-<a href="https://raw.githubusercontent.com/koinotice/harpoon/master/install.sh" target="_blank">https://raw.githubusercontent.com/koinotice/harpoon/master/install.sh</a>
+<a href="https://raw.githubusercontent.com/koinotice/genv/master/install.sh" target="_blank">https://raw.githubusercontent.com/koinotice/genv/master/install.sh</a>
 | bash</li>
-<li><em>Optional:</em> Load completion scripts by adding <code>which harpoon &gt;
-/dev/null &amp;&amp; . &quot;$(harpoon initpath)&quot;</code> to your profile (<code>~/.bashrc</code>,
+<li><em>Optional:</em> Load completion scripts by adding <code>which genv &gt;
+/dev/null &amp;&amp; . &quot;$(genv initpath)&quot;</code> to your profile (<code>~/.bashrc</code>,
 <code>~/.bash_profile</code>, <code>~/.zshrc</code>).</li>
 </ol>
-<h2 id="documentation"><a href="https://koinotice.github.io/harpoon/" target="_blank">Documentation</a></h2>
+<h2 id="documentation"><a href="https://koinotice.github.io/genv/" target="_blank">Documentation</a></h2>
 <h2 id="todo">TODO</h2>
 <ul>
 <li>Consul + Traefik tips</li>
@@ -701,7 +701,7 @@ MacOS</li>
 </ul>
 <h2 id="contributing">Contributing</h2>
 <ul>
-<li>If you experience an issue and are relatively certain that <code>harpoon</code>
+<li>If you experience an issue and are relatively certain that <code>genv</code>
 is the culprit, please report it.<ul>
 <li>Issues requesting support specifically for any of the core or
 supporting services will not be processed.</li>
@@ -748,7 +748,7 @@ supporting services will not be processed.</li>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Introduction","level":"2.1","depth":1,"next":{"title":"Requirements","level":"2.1.1","depth":2,"anchor":"#requirements","path":"README.md","ref":"README.md#requirements","articles":[]},"previous":{"title":"Harpoon","level":"1.1","depth":1,"url":"https://github.com/koinotice/harpoon","ref":"https://github.com/koinotice/harpoon","articles":[]},"dir":"ltr"},"config":{"plugins":[],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Ben Getsug","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"A Whale of a Guide to Harpoon","gitbook":"*"},"file":{"path":"README.md","mtime":"2018-01-01T19:41:02.271Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-01-01T19:42:30.112Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Introduction","level":"2.1","depth":1,"next":{"title":"Requirements","level":"2.1.1","depth":2,"anchor":"#requirements","path":"README.md","ref":"README.md#requirements","articles":[]},"previous":{"title":"Genv","level":"1.1","depth":1,"url":"https://github.com/koinotice/genv","ref":"https://github.com/koinotice/genv","articles":[]},"dir":"ltr"},"config":{"plugins":[],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Ben Getsug","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"A Whale of a Guide to Genv","gitbook":"*"},"file":{"path":"README.md","mtime":"2018-01-01T19:41:02.271Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-01-01T19:42:30.112Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>

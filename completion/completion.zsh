@@ -1,8 +1,8 @@
-_harpoon_complete() {
+_genv_complete() {
   local word completions
   word="$1"
-  completions="$(harpoon cmplt "${word}")"
+  completions="$(genv cmplt "${word}")"
   reply=( "${(ps:\n:)completions}" )
 }
 
-compctl -f -K _harpoon_complete harpoon
+compctl -f -K _genv_complete genv

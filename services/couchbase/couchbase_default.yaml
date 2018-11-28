@@ -1,8 +1,8 @@
 ---
 clusters:
-  - name: Harpoon
+  - name: Genv
     hosts:
-      - couchbase.service.int.harpoon
+      - couchbase.service.int.genv
     adminUsername: Administrator
     adminPassword: abc123
     clusterRamsize: 1024

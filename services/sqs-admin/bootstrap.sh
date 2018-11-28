@@ -15,9 +15,9 @@ if [ ! -v AWS_REGION ]; then
     export AWS_REGION=us-east-1
 fi
 
-#% 🔺 SQS_ENDPOINT %% SQS endpoint URL %% http://localstack.service.int.harpoon:4576 (LocalStack)
+#% 🔺 SQS_ENDPOINT %% SQS endpoint URL %% http://localstack.service.int.genv:4576 (LocalStack)
 if [ ! -v SQS_ENDPOINT ]; then
-	export SQS_ENDPOINT=http://localstack.service.int.harpoon:4576
+	export SQS_ENDPOINT=http://localstack.service.int.genv:4576
 fi
 
 #% 🔺 SQS_ADMIN_PORT %% SQS Admin Port %% 8002
@@ -28,7 +28,7 @@ fi
 
 # SQS Admin hostnames
 if [ ! -v TRAEFIK_ACME ]; then
-	export SQS_ADMIN_HOSTS=sqsadmin.harpoon,sqs-admin.harpoon
+	export SQS_ADMIN_HOSTS=sqsadmin.genv,sqs-admin.genv
 fi
 
 if [ -v CUSTOM_DOMAINS ]; then

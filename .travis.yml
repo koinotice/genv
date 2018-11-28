@@ -4,7 +4,7 @@ services:
   - docker
 
 env:
-  REPOSITORY=koinotice/harpoon
+  REPOSITORY=koinotice/genv
   BRANCH=${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH}
   REF=${TRAVIS_TAG:-$BRANCH}
   TAG=${REPOSITORY}:${REF}

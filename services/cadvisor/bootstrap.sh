@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 if [ ! -v TRAEFIK_ACME ]; then
-	export CADVISOR_HOSTS=cadvisor.harpoon
+	export CADVISOR_HOSTS=cadvisor.genv
 fi
 
 if [ -v CUSTOM_DOMAINS ]; then

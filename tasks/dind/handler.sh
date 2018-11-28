@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-#% 🔺 DIND_IMAGE %% Docker-in-Docker (dind) image %% koinotice/harpoon
+#% 🔺 DIND_IMAGE %% Docker-in-Docker (dind) image %% koinotice/genv
 if [ ! -v DIND_IMAGE ]; then
-	export DIND_IMAGE=koinotice/harpoon
+	export DIND_IMAGE=koinotice/genv
 fi
 
 #% 🔺 DIND_STORAGE_DRIVER %% DinD Storage Driver %% overlay2
@@ -28,21 +28,21 @@ case "${command}" in
 		docker run -e APP_IMAGE -e USER_UID -e USER_GID ${CI_ARGS} \
 		-v $PWD:$PWD -v ${DIND_HOME}/.docker:/root/.docker -v ${DIND_HOME}/.ssh:/root/.ssh \
 		--workdir $PWD --privileged --name ${COMPOSE_PROJECT_NAME}_dind -d ${DIND_IMAGE} \
-		--storage-driver=${DIND_STORAGE_DRIVER} --dns=${HARPOON_DNSMASQ_IP}
+		--storage-driver=${DIND_STORAGE_DRIVER} --dns=${GENV_DNSMASQ_IP}
 
-		${HARPOON_DIND_EXEC} harpoon docker:load
+		${GENV_DIND_EXEC} genv docker:load
 
-		${HARPOON_DIND_EXEC} harpoon install
+		${GENV_DIND_EXEC} genv install
 		;;
 
 	dind:stop) ## %% 🐳  Stop the docker-in-docker container
 		docker rm -f -v ${COMPOSE_PROJECT_NAME}_dind ;;
 
 	dind:exec) ## %% 🐳  Run a command inside the docker-in-docker container
-		${HARPOON_DIND_EXEC} ${args} ;;
+		${GENV_DIND_EXEC} ${args} ;;
 
 	dind:exec:it) ## %% 🐳  Run an interactive command inside the docker-in-docker container
-		${HARPOON_DIND_EXEC_IT} ${args} ;;
+		${GENV_DIND_EXEC_IT} ${args} ;;
 
 	*)
 		taskHelp

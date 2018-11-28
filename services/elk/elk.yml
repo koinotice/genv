@@ -3,13 +3,13 @@ version: '3.4'
 services:
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:${ES_VERSION}
-    container_name: harpoon_elasticsearch
+    container_name: genv_elasticsearch
     environment:
       - discovery.type=single-node
       - http.cors.enabled=true
       - http.cors.allow-origin=*
       - http.cors.allow-headers=Authorization
-      - cluster.name=harpoon
+      - cluster.name=genv
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
       - LOGSPOUT=ignore
@@ -25,7 +25,7 @@ services:
       - "traefik.port=9200"
       - "traefik.frontend.rule=Host:${ES_HOSTS}"
       - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
-      - "traefik.docker.network=${HARPOON_DOCKER_NETWORK}"
+      - "traefik.docker.network=${GENV_DOCKER_NETWORK}"
       - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
     ports:
       - 9200:9200
@@ -33,12 +33,12 @@ services:
     networks:
       default:
         aliases:
-          - elasticsearch.${HARPOON_INT_DOMAIN}
-          - es.${HARPOON_INT_DOMAIN}
+          - elasticsearch.${GENV_INT_DOMAIN}
+          - es.${GENV_INT_DOMAIN}
 
   logstash:
     image: docker.elastic.co/logstash/logstash:${LOGSTASH_VERSION}
-    container_name: harpoon_logstash
+    container_name: genv_logstash
     environment:
       - xpack.monitoring.elasticsearch.url=${ELASTICSEARCH_URL}
       - LOGSPOUT=ignore
@@ -49,7 +49,7 @@ services:
       - "traefik.port=9600"
       - "traefik.frontend.rule=Host:${LOGSTASH_HOSTS}"
       - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
-      - "traefik.docker.network=${HARPOON_DOCKER_NETWORK}"
+      - "traefik.docker.network=${GENV_DOCKER_NETWORK}"
       - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
     ports:
       - 5044
@@ -58,11 +58,11 @@ services:
     networks:
       default:
         aliases:
-          - logstash.${HARPOON_INT_DOMAIN}
+          - logstash.${GENV_INT_DOMAIN}
 
   kibana:
     image: docker.elastic.co/kibana/kibana:${KIBANA_VERSION}
-    container_name: harpoon_kibana
+    container_name: genv_kibana
     environment:
       SERVER_NAME: ${KIBANA_SERVER_NAME}
       ELASTICSEARCH_URL: ${ELASTICSEARCH_URL}
@@ -72,7 +72,7 @@ services:
       - "traefik.port=5601"
       - "traefik.frontend.rule=Host:${KIBANA_HOSTS}"
       - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
-      - "traefik.docker.network=${HARPOON_DOCKER_NETWORK}"
+      - "traefik.docker.network=${GENV_DOCKER_NETWORK}"
       - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
       - "SERVICE_5601_NAME=kibana"
     ports:
@@ -80,11 +80,11 @@ services:
     networks:
       default:
         aliases:
-          - kibana.${HARPOON_INT_DOMAIN}
+          - kibana.${GENV_INT_DOMAIN}
 
   filebeat:
     image: docker.elastic.co/beats/filebeat:${FILEBEAT_VERSION}
-    container_name: harpoon_filebeat
+    container_name: genv_filebeat
     restart: unless-stopped
     volumes:
       - ./usr/share/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml
@@ -97,12 +97,12 @@ services:
     networks:
       default:
         aliases:
-          - filebeat.${HARPOON_INT_DOMAIN}
+          - filebeat.${GENV_INT_DOMAIN}
 
 networks:
   default:
     external:
-      name: ${HARPOON_DOCKER_NETWORK}
+      name: ${GENV_DOCKER_NETWORK}
 
 volumes:
   esdata:

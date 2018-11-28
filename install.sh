@@ -2,24 +2,24 @@
 
 set -euo pipefail
 
-if [ ! -v HARPOON_IMAGE ]; then
-	export HARPOON_IMAGE=koinotice/harpoon:master
+if [ ! -v GENV_IMAGE ]; then
+	export GENV_IMAGE=koinotice/genv:latest
 fi
 
-docker pull ${HARPOON_IMAGE}
+docker pull ${GENV_IMAGE}
 
-CID=$(docker create ${HARPOON_IMAGE})
+CID=$(docker create ${GENV_IMAGE})
 
-docker cp ${CID}:/harpoon $HOME
+docker cp ${CID}:/genv $HOME
 docker rm -f ${CID}
 
-sudo ln -fs $HOME/harpoon/harpoon /usr/local/bin/harpoon
+sudo ln -fs $HOME/genv/genv /usr/local/bin/genv
 
-harpoon install
+genv install
 
-if [ -d $HOME/harpoon/images ]; then
-	harpoon docker:load
+if [ -d $HOME/genv/images ]; then
+	genv docker:load
 fi
 
 echo -e "\nIf you would like to enable tab completion, add the following to your .bashrc, .bash_profile, or .zshrc:"
-echo -e "\n\twhich harpoon > /dev/null && . \"\$(harpoon initpath)\"\n"
+echo -e "\n\twhich genv > /dev/null && . \"\$(genv initpath)\"\n"

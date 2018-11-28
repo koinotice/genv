@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   blackfire:
-    container_name: harpoon_blackfire
+    container_name: genv_blackfire
     image: blackfire/blackfire
     environment:
       - BLACKFIRE_LOG_LEVEL
@@ -11,7 +11,7 @@ services:
     networks:
       default:
         aliases:
-          - blackfire.${HARPOON_INT_DOMAIN}
+          - blackfire.${GENV_INT_DOMAIN}
     labels:
       - "SERVICE_8707_NAME=blackfire"
     ports:
@@ -21,4 +21,4 @@ services:
 networks:
   default:
     external:
-      name: ${HARPOON_DOCKER_NETWORK}
+      name: ${GENV_DOCKER_NETWORK}

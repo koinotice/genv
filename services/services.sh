@@ -2,16 +2,16 @@
 
 # $1 service name
 serviceRoot() {
-	if [ -d ${HARPOON_SERVICES_ROOT}/$1 ]; then
-		echo "${HARPOON_SERVICES_ROOT}/$1"
-	elif [ -d ${HARPOON_VENDOR_ROOT}/services/$1 ]; then
-		echo "${HARPOON_VENDOR_ROOT}/services/$1"
+	if [ -d ${GENV_SERVICES_ROOT}/$1 ]; then
+		echo "${GENV_SERVICES_ROOT}/$1"
+	elif [ -d ${GENV_VENDOR_ROOT}/services/$1 ]; then
+		echo "${GENV_VENDOR_ROOT}/services/$1"
 	fi
 }
 
 # $1 service name
 serviceDockerCompose() {
-	echo "${HARPOON_DOCKER_COMPOSE_CMD} -p $1 -f $(serviceRoot $1)/$1.yml"
+	echo "${GENV_DOCKER_COMPOSE_CMD} -p $1 -f $(serviceRoot $1)/$1.yml"
 }
 
 # $1 service name
@@ -36,7 +36,7 @@ serviceBootstrap() {
 listServices() {
 	local services=""
 
-	local svcs=$(ls ${HARPOON_SERVICES_ROOT})
+	local svcs=$(ls ${GENV_SERVICES_ROOT})
 	for f in ${svcs}; do
 		if [[ ${f} =~ services.sh|tasks.sh ]]; then
 			continue
@@ -45,8 +45,8 @@ listServices() {
 		local services+="$f\n"
 	done
 
-	if [ -d ${HARPOON_VENDOR_ROOT}/services ]; then
-		local svcs=$(ls ${HARPOON_VENDOR_ROOT}/services)
+	if [ -d ${GENV_VENDOR_ROOT}/services ]; then
+		local svcs=$(ls ${GENV_VENDOR_ROOT}/services)
 		for v in ${svcs}; do
 			local services+="$v\n"
 		done
@@ -90,7 +90,7 @@ checkServiceStatus() {
 }
 
 servicesStatus() {
-	local services=$(ls ${HARPOON_SERVICES_ROOT})
+	local services=$(ls ${GENV_SERVICES_ROOT})
 	for f in ${services}; do
 		if [[ ${f} =~ services.sh|tasks.sh ]]; then
 			continue
@@ -99,8 +99,8 @@ servicesStatus() {
 		serviceStatus ${f}
 	done
 
-	if [ -d ${HARPOON_VENDOR_ROOT}/services ]; then
-		local services=$(ls ${HARPOON_VENDOR_ROOT}/services)
+	if [ -d ${GENV_VENDOR_ROOT}/services ]; then
+		local services=$(ls ${GENV_VENDOR_ROOT}/services)
 		for v in ${services}; do
 			serviceStatus ${v}
 		done
@@ -112,8 +112,8 @@ servicesStatus() {
 # $1 service name
 printServiceHelp() {
 	printUsage
-	echo "  harpoon <service-name>:<command> [<arg>...]"
-	echo "  harpoon <service-name>:help"
+	echo "  genv <service-name>:<command> [<arg>...]"
+	echo "  genv <service-name>:help"
 	echo ""
 	echo "Commands:"
 

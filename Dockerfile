@@ -5,8 +5,8 @@ apk add bash make git openssh-client curl && \
 apk add --no-cache py-pip && \
 pip install docker-compose && \
 rm -rf /var/cache/apk/* /var/tmp/* /tmp/* && \
-touch /.harpoon-container
+touch /.genv-container
 
-COPY . /harpoon
+COPY . /genv
 
-ENV PATH /harpoon:$PATH
+ENV PATH /genv:$PATH
