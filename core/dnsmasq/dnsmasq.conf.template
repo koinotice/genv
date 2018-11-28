@@ -13,4 +13,4 @@ server=8.8.8.8
 # server=/company/10.0.0.1
 ## explicitly define host-ip mappings
 
-#listen-address=127.0.0.1
+listen-address=127.0.0.1

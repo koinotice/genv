@@ -13,7 +13,7 @@ up() {
 			echo -e "\t$i (resolves to Traefik container IP)"
 		done
 	fi
-	echo -e "\t.genv (resolves to Traefik container IP)"
+	echo -e "\t.${GENV_DOMAIN} (resolves to Traefik container IP)"
 	echo -e "\t${GENV_INT_DOMAIN} (resolves to container IPs)"
 	echo ""
 
@@ -93,7 +93,7 @@ configMacOS() {
 	printInfo "Configuring DNS..."
 
 	sudo mkdir -p /etc/resolver
-	echo "nameserver ${GENV_DNSMASQ_IP}" | sudo tee /etc/resolver/${GENV_DOMAIN}
+	echo -e "nameserver 127.0.0.1 \nnameserver ${GENV_DNSMASQ_IP}" | sudo tee /etc/resolver/${GENV_DOMAIN}
 	#echo "nameserver ${GENV_DNSMASQ_IP}" | sudo >> /etc/resolver/genv.com
 
 	if [ -v CUSTOM_DOMAINS ]; then
