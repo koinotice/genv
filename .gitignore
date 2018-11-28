@@ -13,3 +13,4 @@ vendor
 .genv/
 plugins.txt
 _kcov
+.env.sh
