@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   redis-commander:
-    container_name: genv_redis-commander
+    container_name: ${REPO_NAME}_redis-commander
     image: rediscommander/redis-commander:${REDIS_COMMANDER_VERSION}
     restart: always
     environment:

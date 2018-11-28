@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   mysql:
-    container_name: genv_mysql
+    container_name: ${REPO_NAME}_mysql
     image: mysql:${MYSQL_VERSION}
     environment:
       - TERM=xterm

@@ -16,13 +16,15 @@ fi
 
 #% 🔺 GENV_IMAGE %% Genv Docker image %% wheniwork/genv
 if [ ! -v GENV_IMAGE ]; then
-	export GENV_IMAGE=wheniwork/genv
+	export GENV_IMAGE=koinotice/genv
 fi
 
 printDebug "GENV_IMAGE: $GENV_IMAGE"
 
 #% 🔹 GENV_INT_DOMAIN %% Genv internal domain name %% service.int.genv
 export GENV_INT_DOMAIN=service.int.genv
+
+export GENV_DOMAIN=genv.com
 
 printDebug "GENV_IMAGE: $GENV_IMAGE"
 
@@ -80,9 +82,9 @@ fi
 
 # core service hostnames
 if [ ! -v TRAEFIK_ACME ]; then
-	export DNSMASQ_HOSTS=dnsmasq.genv
-	export CONSUL_HOSTS=consul.genv
-	export TRAEFIK_HOSTS=traefik.genv
+	export DNSMASQ_HOSTS=dnsmasq.${GENV_DOMAIN}
+	export CONSUL_HOSTS=consul.${GENV_DOMAIN}
+	export TRAEFIK_HOSTS=traefik.${GENV_DOMAIN}
 fi
 
 #% 🔺 CUSTOM_DOMAINS %% Array of custom domain names

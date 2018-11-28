@@ -12,7 +12,7 @@ fi
 
 #% 🔺 POSTGRES_PASSWORD %% Postgres password %% abc123
 if [ ! -v POSTGRES_PASSWORD ]; then
-	export POSTGRES_PASSWORD="abc123"
+	export POSTGRES_PASSWORD="root"
 fi
 
 #% 🔺 POSTGRES_PORT %% Postgres TCP port %% 5432
