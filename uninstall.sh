@@ -3,7 +3,7 @@
 set -euo pipefail
 
 if [ ! -v GENV_IMAGE ]; then
-	export GENV_IMAGE=koinotice/genv:master
+	export GENV_IMAGE=koinotice/genv:latest
 fi
 
 genv uninstall all

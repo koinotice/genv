@@ -116,6 +116,9 @@ case "${command}" in
 	install) ## %% Alias for `up`
 		up ;;
 
+	test) ## %% Alias for `up`
+		test ;;
+
 	down) ## [<all>] %% 🔽  Stop and remove Genv core, and optionally, supporting services
 		down ${args} ;;
 

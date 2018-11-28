@@ -14,9 +14,9 @@ if [ ! -v USER_GID ]; then
 	export USER_GID=$(id -g)
 fi
 
-#% 🔺 GENV_IMAGE %% Genv Docker image %% koinotice/genv
+#% 🔺 GENV_IMAGE %% Genv Docker image %% wheniwork/genv
 if [ ! -v GENV_IMAGE ]; then
-	export GENV_IMAGE=koinotice/genv
+	export GENV_IMAGE=wheniwork/genv
 fi
 
 printDebug "GENV_IMAGE: $GENV_IMAGE"
@@ -48,12 +48,15 @@ export GENV_DIND_DOCKER_SUBNET="10.254.252.0/24"
 
 #% 🔺 GENV_DOCKER_SUBNET %% Genv Docker subnet %% $GENV_DIND_DOCKER_SUBNET | 10.254.254.0/24
 if [ ! -v GENV_DOCKER_SUBNET ]; then
+
 	if [ -v RUNNING_IN_CONTAINER ]; then
 		export GENV_DOCKER_SUBNET=${GENV_DIND_DOCKER_SUBNET}
 	else
 		export GENV_DOCKER_SUBNET="10.254.254.0/24"
 	fi
 fi
+
+ echo 1${GENV_DOCKER_SUBNET}2
 
 printDebug "GENV_DOCKER_SUBNET: $GENV_DOCKER_SUBNET"
 
@@ -162,8 +165,8 @@ else
 	export DOCKER_RUN_WITH_ENV="${DOCKER_RUN} --env-file ${GENV_TASKS_ROOT}/docker/inherit.env"
 fi
 
-#% 🔹 GENV_DOCKER_COMPOSE_CFG %% Path to Genv core juppyter.yml %% ${GENV_ROOT}/juppyter.yml
-export GENV_DOCKER_COMPOSE_CFG="${GENV_ROOT}/juppyter.yml"
+#% 🔹 GENV_DOCKER_COMPOSE_CFG %% Path to Genv core docker-compose.yml %% ${GENV_ROOT}/docker-compose.yml
+export GENV_DOCKER_COMPOSE_CFG="${GENV_ROOT}/docker-compose.yml"
 
 #% 🔹 GENV_DOCKER_COMPOSE %% Genv Core Docker Compose command template
 export GENV_DOCKER_COMPOSE="docker-compose -p genv -f ${GENV_DOCKER_COMPOSE_CFG}"
@@ -174,7 +177,7 @@ export GENV_DOCKER_COMPOSE="docker-compose -p genv -f ${GENV_DOCKER_COMPOSE_CFG}
 if [ ! -v CI ]
 then
 	if [ -f "docker-compose.dev.yml" ]; then
-		export DOCKER_COMPOSE_DEV="docker-compose -f juppyter.yml -f docker-compose.dev.yml"
+		export DOCKER_COMPOSE_DEV="docker-compose -f docker-compose.yml -f docker-compose.dev.yml"
 	else
 		export DOCKER_COMPOSE_DEV="docker-compose"
 	fi

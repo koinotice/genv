@@ -28,6 +28,14 @@ install() {
 	configOS
 }
 
+test(){
+    generateDnsmasqConfig
+
+ 	configDocker
+#
+#	configOS
+}
+
 generateDnsmasqConfig() {
 	printInfo "Generating dnsmasq configuration..."
 
@@ -35,7 +43,7 @@ generateDnsmasqConfig() {
 
 	echo -e "\nserver=/${GENV_INT_DOMAIN}/${GENV_CONSUL_IP}#8600" >> ${GENV_ROOT}/core/dnsmasq/dnsmasq.conf
 
-	echo -e "\naddress=/genv/${GENV_TRAEFIK_IP}" >> ${GENV_ROOT}/core/dnsmasq/dnsmasq.conf
+	echo -e "\naddress=/genv.com/${GENV_TRAEFIK_IP}" >> ${GENV_ROOT}/core/dnsmasq/dnsmasq.conf
 
 	if [ -v CUSTOM_DOMAINS ]; then
 		for i in "${CUSTOM_DOMAINS[@]}"; do
@@ -54,9 +62,14 @@ configDocker() {
 }
 
 configDockerNetwork() {
+    echo 333
+    echo 555${GENV_DOCKER_NETWORK}444
 	docker network ls -f driver=bridge | grep ${GENV_DOCKER_NETWORK} >> /dev/null || DOCKER_NETWORK_MISSING=true
-
-	if [ -v DOCKER_NETWORK_MISSING ]; then
+	DOCKER_NETWORK_MISSING=true
+ 	if [ -v DOCKER_NETWORK_MISSING ]; then
+	    echo "leven"
+        echo "docker network create ${GENV_DOCKER_NETWORK} --subnet ${GENV_DOCKER_SUBNET} || true
+"
 		docker network create ${GENV_DOCKER_NETWORK} --subnet ${GENV_DOCKER_SUBNET} || true
 	fi
 }
