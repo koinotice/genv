@@ -1,7 +1,6 @@
 ## dnsmasq config, for a complete example, see:
 ## http://oss.segetech.com/intra/srv/dnsmasq.conf
 ## log all dns queries
-interface=eth0
 log-queries
 ## dont use hosts nameservers
 no-resolv

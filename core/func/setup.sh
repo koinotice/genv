@@ -46,15 +46,22 @@ generateDnsmasqConfig() {
 	#echo -e "\nserver=/${GENV_INT_DOMAIN}/${GENV_CONSUL_IP}#8600" >> ${GENV_ROOT}/core/dnsmasq/dnsmasq.conf
 
     #echo -e "\naddress=/${GENV_DOMAIN}/${GENV_TRAEFIK_IP}" >> ${GENV_ROOT}/core/dnsmasq/dnsmasq.conf
+    if [[ $(uname) == 'Darwin' ]]; then
+		GENV_IP=127.0.0.1
+		echo -e "\ninterface=eth0" >> ${GENV_ROOT}/core/dnsmasq/dnsmasq.conf
 
-    echo -e "\nserver=/${GENV_INT_DOMAIN}/127.0.0.1#8600" >> ${GENV_ROOT}/core/dnsmasq/dnsmasq.conf
+	elif [[ $(uname) == 'Linux' ]]; then
+		GENV_IP=${GENV_TRAEFIK_IP}
+	fi
 
-    echo -e "\naddress=/${GENV_DOMAIN}/127.0.0.1" >> ${GENV_ROOT}/core/dnsmasq/dnsmasq.conf
+    echo -e "\nserver=/${GENV_INT_DOMAIN}/${GENV_IP}#8600" >> ${GENV_ROOT}/core/dnsmasq/dnsmasq.conf
+
+    echo -e "\naddress=/${GENV_DOMAIN}/${GENV_IP}" >> ${GENV_ROOT}/core/dnsmasq/dnsmasq.conf
 
 
 	if [ -v CUSTOM_DOMAINS ]; then
 		for i in "${CUSTOM_DOMAINS[@]}"; do
-			echo -e "\naddress=/${i}/${GENV_TRAEFIK_IP}" >> ${GENV_ROOT}/core/dnsmasq/dnsmasq.conf
+			echo -e "\naddress=/${i}/${GENV_IP}" >> ${GENV_ROOT}/core/dnsmasq/dnsmasq.conf
 		done
 	fi
 }
