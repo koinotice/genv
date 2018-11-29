@@ -1,0 +1,34 @@
+version: '3.4'
+
+services:
+  superset:
+    container_name: genv_superset
+    build:
+      context: .
+      args:
+        SUPERSET_VERSION: 0.28.1
+    image: koinotice/superset
+    environment:
+      - TERM=xterm
+
+    ports:
+    - 8088:8088
+    labels:
+    - 'traefik.backend=superset'
+    - 'traefik.port=8088'
+    - 'traefik.frontend.rule=Host:superset.${GENV_DOMAIN}'
+    - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
+    - "traefik.docker.network=${GENV_DOCKER_NETWORK}"
+    - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
+    - "SERVICE_8088_NAME=superset"
+
+    networks:
+      default:
+        aliases:
+        - superset.${GENV_INT_DOMAIN}
+
+networks:
+      default:
+        external:
+          name: ${GENV_DOCKER_NETWORK}
+

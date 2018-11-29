@@ -70,7 +70,7 @@ services:
 
   consul:
     container_name: genv_consul
-    image: consul:1.0.2
+    image: consul:latest
     command: agent -dev -client 0.0.0.0 -datacenter=int -domain=genv
     ports:
     - "8400:8400"
@@ -109,7 +109,7 @@ services:
 
   traefik:
     container_name: genv_traefik
-    image: traefik:1.4-alpine
+    image: traefik:latest
     command: ${TRAEFIK_COMMAND}
     depends_on:
     - dnsmasq

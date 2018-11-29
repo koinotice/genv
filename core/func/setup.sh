@@ -107,12 +107,11 @@ configMacOS() {
 	printInfo "Configuring DNS..."
 
 	sudo mkdir -p /etc/resolver
-	echo -e "nameserver 127.0.0.1" | sudo tee /etc/resolver/${GENV_DOMAIN}
-	#echo "nameserver ${GENV_DNSMASQ_IP}" | sudo >> /etc/resolver/genv.com
-    #echo ${CUSTOM_DOMAINS}asdfdsfadf
+	echo -e "\nnameserver 127.0.0.1" | sudo tee /etc/resolver/${GENV_DOMAIN}
+
 	if [ -v CUSTOM_DOMAINS ]; then
 		for i in "${CUSTOM_DOMAINS[@]}"; do
-			echo "nameserver 127.0.0.1" | sudo tee /etc/resolver/${i}
+			echo -e "\nnameserver 127.0.0.1" | sudo tee /etc/resolver/${i}
 		done
 	fi
 

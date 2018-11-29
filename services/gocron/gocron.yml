@@ -1,0 +1,30 @@
+version: '3.4'
+
+services:
+  gocron:
+    container_name: genv_gocron
+    image: koinotice/gocron:latest
+    environment:
+      - TERM=xterm
+
+    ports:
+      - "5920:5920"
+    labels:
+    - 'traefik.backend=gocron'
+    - 'traefik.port=5920'
+    - 'traefik.frontend.rule=Host:gocron.${GENV_DOMAIN}'
+    - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
+    - "traefik.docker.network=${GENV_DOCKER_NETWORK}"
+    - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
+    - "SERVICE_5920_NAME=gocron"
+
+    networks:
+      default:
+        aliases:
+        - gocron.${GENV_INT_DOMAIN}
+
+networks:
+      default:
+        external:
+          name: ${GENV_DOCKER_NETWORK}
+
