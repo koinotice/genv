@@ -42,10 +42,15 @@ generateDnsmasqConfig() {
 
 	cp ${GENV_ROOT}/core/dnsmasq/dnsmasq.conf.template ${GENV_ROOT}/core/dnsmasq/dnsmasq.conf
 
-	echo -e "\nserver=/${GENV_INT_DOMAIN}/${GENV_CONSUL_IP}#8600" >> ${GENV_ROOT}/core/dnsmasq/dnsmasq.conf
 
-    echo -e "\naddress=/${GENV_DOMAIN}/${GENV_TRAEFIK_IP}" >> ${GENV_ROOT}/core/dnsmasq/dnsmasq.conf
-    #echo -e "\nserver=/${GENV_DOMAIN}/${GENV_TRAEFIK_IP_MAC}" >> ${GENV_ROOT}/core/dnsmasq/dnsmasq.conf
+	#echo -e "\nserver=/${GENV_INT_DOMAIN}/${GENV_CONSUL_IP}#8600" >> ${GENV_ROOT}/core/dnsmasq/dnsmasq.conf
+
+    #echo -e "\naddress=/${GENV_DOMAIN}/${GENV_TRAEFIK_IP}" >> ${GENV_ROOT}/core/dnsmasq/dnsmasq.conf
+
+    echo -e "\nserver=/${GENV_INT_DOMAIN}/127.0.0.1#8600" >> ${GENV_ROOT}/core/dnsmasq/dnsmasq.conf
+
+    echo -e "\naddress=/${GENV_DOMAIN}/127.0.0.1" >> ${GENV_ROOT}/core/dnsmasq/dnsmasq.conf
+
 
 	if [ -v CUSTOM_DOMAINS ]; then
 		for i in "${CUSTOM_DOMAINS[@]}"; do
@@ -95,12 +100,12 @@ configMacOS() {
 	printInfo "Configuring DNS..."
 
 	sudo mkdir -p /etc/resolver
-	echo -e "nameserver ${GENV_DNSMASQ_IP}" | sudo tee /etc/resolver/${GENV_DOMAIN}
+	echo -e "nameserver 127.0.0.1" | sudo tee /etc/resolver/${GENV_DOMAIN}
 	#echo "nameserver ${GENV_DNSMASQ_IP}" | sudo >> /etc/resolver/genv.com
     #echo ${CUSTOM_DOMAINS}asdfdsfadf
 	if [ -v CUSTOM_DOMAINS ]; then
 		for i in "${CUSTOM_DOMAINS[@]}"; do
-			echo "nameserver ${GENV_DNSMASQ_IP}" | sudo tee /etc/resolver/${i}
+			echo "nameserver 127.0.0.1" | sudo tee /etc/resolver/${i}
 		done
 	fi
 

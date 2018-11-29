@@ -16,7 +16,7 @@ services:
     labels:
     - 'traefik.backend=nuclio'
     - 'traefik.port=8070'
-    - 'traefik.frontend.rule=Host:nuclio.pmker.com'
+    - 'traefik.frontend.rule=Host:nuclio.${GENV_DOMAIN}'
     - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
     - "traefik.docker.network=${GENV_DOCKER_NETWORK}"
     - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"

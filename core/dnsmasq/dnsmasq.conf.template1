@@ -1,7 +1,19 @@
-## dnsmasq config, for a complete example, see:
-## http://oss.segetech.com/intra/srv/dnsmasq.conf
-## log all dns queries
+
+#listen on container interface
+listen-address=0.0.0.0
 interface=eth0
+#user=root
+
+#only use these namesservers
+no-resolv
+server=8.8.8.8
+server=8.8.4.4
+
+#static entries
+address=/leven.com/127.0.0.1
+
+
+
 log-queries
 ## dont use hosts nameservers
 no-resolv
@@ -14,4 +26,4 @@ server=8.8.8.8
 # server=/company/10.0.0.1
 ## explicitly define host-ip mappings
 
-#listen-address=127.0.0.1
+listen-address=127.0.0.1

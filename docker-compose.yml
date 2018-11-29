@@ -2,7 +2,39 @@ version: '3.4'
 
 services:
 
+#
+#  dnsmasq:
+#    image: andyshinn/dnsmasq
+#    container_name: genv_dnsmasq
+#    ports:
+#    - "53:53/tcp"
+#    - "53:53/udp"
+#    cap_add:
+#    - NET_ADMIN
+#    command: --log-facility=-
+#    dns:
+#        - ${GENV_DNSMASQ_IP}
+#    networks:
+#          default:
+#            ipv4_address: ${GENV_DNSMASQ_IP}
+#            aliases:
+#            - dnsmasq.${GENV_INT_DOMAIN}
+#    labels:
+#    - "traefik.port=8080"
+#    - "traefik.frontend.rule=Host:${DNSMASQ_HOSTS}"
+#    - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
+#    - "traefik.docker.network=${GENV_DOCKER_NETWORK}"
+#    - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
+#    - "SERVICE_8080_NAME=dnsmasq"
+#    - "SERVICE_8080_IP=${GENV_DNSMASQ_IP}"
+#    logging:
+#      options:
+#        max-size: 100m
+#    volumes:
+#    - ./core/dnsmasq/dnsmasq.conf:/etc/dnsmasq.conf
 
+#    - ./data/dnsmasq.conf:/etc/dnsmasq.conf
+#    - ./data/dnsmasq.d:/etc/dnsmasq.d
 
   dnsmasq:
     container_name: genv_dnsmasq

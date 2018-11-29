@@ -12,6 +12,10 @@ if [ ! -v MARIADB_PORT ]; then
     export MARIADB_PORT=3306
 fi
 
+if [ ! -v MARIADB_ROOT_PASSWORD ]; then
+    export MARIADB_ROOT_PASSWORD="root"
+fi
+
 export MARIADB_VOLUME_NAME=mariadb
 
 mariadb_pre_up() {
