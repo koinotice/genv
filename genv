@@ -8,6 +8,7 @@ firstArg="${2:-}"
 args=${@:2}
 args_array=( "${@:2}" )
 
+
 SOURCE="${BASH_SOURCE[0]}"
 while [ -h "$SOURCE" ]; do
 	GENV_ROOT="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
@@ -15,8 +16,11 @@ while [ -h "$SOURCE" ]; do
 	[[ ${SOURCE} != /* ]] && SOURCE="$GENV_ROOT/$SOURCE"
 done
 
+
 #% 🔹 GENV_ROOT %% Genv root directory %% $HOME/genv
 export GENV_ROOT="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+
+
 
 #% 🔹 GENV_TASKS_ROOT %% Tasks directory relative to Genv root %% $HOME/genv/tasks
 export GENV_TASKS_ROOT=${GENV_ROOT}/tasks
@@ -41,6 +45,7 @@ fi
 # functions
 func=$(ls ${GENV_ROOT}/core/func)
 for f in ${func}; do
+
 	source ${GENV_ROOT}/core/func/${f}
 done
 
@@ -64,9 +69,12 @@ fi
 # this should always be loaded AFTER core vars and func
 source ${GENV_ROOT}/core/boot.sh
 
+
 source ${GENV_TASKS_ROOT}/tasks.sh
 
 source ${GENV_SERVICES_ROOT}/services.sh
+
+echo ${GENV_DOMAIN}
 
 # setup temp directory
 mkdir -p ${GENV_TEMP}

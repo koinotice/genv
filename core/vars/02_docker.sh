@@ -24,7 +24,11 @@ printDebug "GENV_IMAGE: $GENV_IMAGE"
 #% 🔹 GENV_INT_DOMAIN %% Genv internal domain name %% service.int.genv
 export GENV_INT_DOMAIN=service.int.genv
 
-export GENV_DOMAIN=genv.com
+if [ ! -v GENV_DOMAIN ]; then
+
+	export GENV_DOMAIN="genv.com"
+fi
+
 
 printDebug "GENV_IMAGE: $GENV_IMAGE"
 

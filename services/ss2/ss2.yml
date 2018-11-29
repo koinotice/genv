@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   ss2:
-    container_name: ${REPO_NAME}_ss2
+    #container_name: ${REPO_NAME}_ss2
     image: koinotice/ss2:${SS2_VERSION}
     environment:
       - TERM=xterm

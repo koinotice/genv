@@ -17,5 +17,7 @@ if [ -f $PWD/../genv.env.sh ]; then
 fi
 
 if [ -f $HOME/genv.env.sh ]; then
+    echo "${HOME}/genv.env.sh"
 	source $HOME/genv.env.sh
+
 fi

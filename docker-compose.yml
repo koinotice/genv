@@ -1,62 +1,66 @@
 version: '3.4'
 
 services:
+
+
+
   dnsmasq:
     container_name: genv_dnsmasq
     image: jpillora/dnsmasq
     environment:
-      - USER=dev
-      - PASS=genv
+    - USER=dev
+    - PASS=genv
     dns:
-      - ${GENV_DNSMASQ_IP}
+    - ${GENV_DNSMASQ_IP}
     networks:
       default:
         ipv4_address: ${GENV_DNSMASQ_IP}
         aliases:
-          - dnsmasq.${GENV_INT_DOMAIN}
+        - dnsmasq.${GENV_INT_DOMAIN}
     ports:
-      - "53:53"
-      - "53:53/udp"
-      - "5380:8080"
+    - "53:53"
+    - "53:53/udp"
+    - "5380:8080"
     labels:
-      - "traefik.port=8080"
-      - "traefik.frontend.rule=Host:${DNSMASQ_HOSTS}"
-      - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
-      - "traefik.docker.network=${GENV_DOCKER_NETWORK}"
-      - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
-      - "SERVICE_8080_NAME=dnsmasq"
-      - "SERVICE_8080_IP=${GENV_DNSMASQ_IP}"
+    - "traefik.port=8080"
+    - "traefik.frontend.rule=Host:${DNSMASQ_HOSTS}"
+    - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
+    - "traefik.docker.network=${GENV_DOCKER_NETWORK}"
+    - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
+    - "SERVICE_8080_NAME=dnsmasq"
+    - "SERVICE_8080_IP=${GENV_DNSMASQ_IP}"
     logging:
       options:
         max-size: 100m
     volumes:
-      - ./core/dnsmasq/dnsmasq.conf:/etc/dnsmasq.conf
+    - ./core/dnsmasq/dnsmasq.conf:/etc/dnsmasq.conf
+
 
   consul:
     container_name: genv_consul
     image: consul:1.0.2
     command: agent -dev -client 0.0.0.0 -datacenter=int -domain=genv
     ports:
-      - "8400:8400"
-      - "8500:8500"
-      - "8600:8600/udp"
+    - "8400:8400"
+    - "8500:8500"
+    - "8600:8600/udp"
     labels:
-      - "traefik.backend=consul"
-      - "traefik.port=8500"
-      - "traefik.frontend.rule=Host:${CONSUL_HOSTS}"
-      - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
-      - "traefik.docker.network=${GENV_DOCKER_NETWORK}"
-      - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
-      - "SERVICE_8500_NAME=consul"
-      - "SERVICE_8500_NAME=consul-http"
-      - "SERVICE_8500_IP=${GENV_CONSUL_IP}"
+    - "traefik.backend=consul"
+    - "traefik.port=8500"
+    - "traefik.frontend.rule=Host:${CONSUL_HOSTS}"
+    - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
+    - "traefik.docker.network=${GENV_DOCKER_NETWORK}"
+    - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
+    - "SERVICE_8500_NAME=consul"
+    - "SERVICE_8500_NAME=consul-http"
+    - "SERVICE_8500_IP=${GENV_CONSUL_IP}"
     networks:
       default:
         ipv4_address: ${GENV_CONSUL_IP}
         aliases:
-          - consul.${GENV_INT_DOMAIN}
+        - consul.${GENV_INT_DOMAIN}
     dns:
-      - ${GENV_DNSMASQ_IP}
+    - ${GENV_DNSMASQ_IP}
 
   registrator:
     container_name: genv_registrator
@@ -64,90 +68,90 @@ services:
     command: -internal consul://genv_consul:8500
     restart: always
     depends_on:
-      - dnsmasq
-      - consul
+    - dnsmasq
+    - consul
     volumes:
-      - /var/run/docker.sock:/tmp/docker.sock
+    - /var/run/docker.sock:/tmp/docker.sock
     dns:
-      - ${GENV_DNSMASQ_IP}
+    - ${GENV_DNSMASQ_IP}
 
   traefik:
     container_name: genv_traefik
     image: traefik:1.4-alpine
     command: ${TRAEFIK_COMMAND}
     depends_on:
-      - dnsmasq
-      - consul
+    - dnsmasq
+    - consul
     environment:
     # cloudflare
-      - CLOUDFLARE_EMAIL
-      - CLOUDFLARE_API_KEY
+    - CLOUDFLARE_EMAIL
+    - CLOUDFLARE_API_KEY
     # digitalocean
-      - DO_AUTH_TOKEN
+    - DO_AUTH_TOKEN
     # dnsimple
-      - DNSIMPLE_EMAIL
-      - DNSIMPLE_API_KEY
+    - DNSIMPLE_EMAIL
+    - DNSIMPLE_API_KEY
     # dnsmadeeasy
-      - DNSMADEEASY_API_KEY
-      - DNSMADEEASY_API_SECRET
+    - DNSMADEEASY_API_KEY
+    - DNSMADEEASY_API_SECRET
     # exoscale
-      - EXOSCALE_API_KEY
-      - EXOSCALE_API_SECRET
+    - EXOSCALE_API_KEY
+    - EXOSCALE_API_SECRET
     # gandi
-      - GANDI_API_KEY
+    - GANDI_API_KEY
     # linode
-      - LINODE_API_KEY
+    - LINODE_API_KEY
     # namecheap
-      - NAMECHEAP_API_USER
-      - NAMECHEAP_API_KEY
+    - NAMECHEAP_API_USER
+    - NAMECHEAP_API_KEY
     # rfc2136
-      - RFC2136_TSIG_KEY
-      - RFC2136_TSIG_SECRET
-      - RFC2136_TSIG_ALGORITHM
-      - RFC2136_NAMESERVER
+    - RFC2136_TSIG_KEY
+    - RFC2136_TSIG_SECRET
+    - RFC2136_TSIG_ALGORITHM
+    - RFC2136_NAMESERVER
     # route53
-      - AWS_ACCESS_KEY_ID
-      - AWS_SECRET_ACCESS_KEY
-      - AWS_REGION
+    - AWS_ACCESS_KEY_ID
+    - AWS_SECRET_ACCESS_KEY
+    - AWS_REGION
     # dyn
-      - DYN_CUSTOMER_NAME
-      - DYN_USER_NAME
-      - DYN_PASSWORD
+    - DYN_CUSTOMER_NAME
+    - DYN_USER_NAME
+    - DYN_PASSWORD
     # vultr
-      - VULTR_API_KEY
+    - VULTR_API_KEY
     # ovh
-      - OVH_ENDPOINT
-      - OVH_APPLICATION_KEY
-      - OVH_APPLICATION_SECRET
-      - OVH_CONSUMER_KEY
+    - OVH_ENDPOINT
+    - OVH_APPLICATION_KEY
+    - OVH_APPLICATION_SECRET
+    - OVH_CONSUMER_KEY
     # pdns
-      - PDNS_API_KEY
-      - PDNS_API_URL
+    - PDNS_API_KEY
+    - PDNS_API_URL
     ports:
-      - "${TRAEFIK_HTTP_PORT}:80"
-      - "${TRAEFIK_HTTPS_PORT}:443"
-      - "8075"
+    - "${TRAEFIK_HTTP_PORT}:80"
+    - "${TRAEFIK_HTTPS_PORT}:443"
+    - "8075"
     labels:
-      - "traefik.backend=traefik"
-      - "traefik.port=8075"
-      - "traefik.frontend.rule=Host:${TRAEFIK_HOSTS}"
-      - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
-      - "traefik.docker.network=${GENV_DOCKER_NETWORK}"
-      - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
-      - "SERVICE_80_IGNORE=true"
-      - "SERVICE_443_IGNORE=true"
-      - "SERVICE_8075_NAME=traefik"
-      - "SERVICE_8075_IP=${GENV_TRAEFIK_IP}"
+    - "traefik.backend=traefik"
+    - "traefik.port=8075"
+    - "traefik.frontend.rule=Host:${TRAEFIK_HOSTS}"
+    - "traefik.frontend.entryPoints=${FRONTEND_ENTRYPOINTS}"
+    - "traefik.docker.network=${GENV_DOCKER_NETWORK}"
+    - "traefik.tags=${TRAEFIK_DOCKER_TAGS}"
+    - "SERVICE_80_IGNORE=true"
+    - "SERVICE_443_IGNORE=true"
+    - "SERVICE_8075_NAME=traefik"
+    - "SERVICE_8075_IP=${GENV_TRAEFIK_IP}"
     networks:
       default:
         ipv4_address: ${GENV_TRAEFIK_IP}
         aliases:
-          - traefik.${GENV_INT_DOMAIN}
+        - traefik.${GENV_INT_DOMAIN}
     dns:
-      - ${GENV_DNSMASQ_IP}
+    - ${GENV_DNSMASQ_IP}
     volumes:
-      - ./core/traefik/:/etc/traefik/
-      - /var/run/docker.sock:/var/run/docker.sock
+    - ./core/traefik/:/etc/traefik/
+    - /var/run/docker.sock:/var/run/docker.sock
 
 networks:
   default:
